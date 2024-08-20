@@ -17,3 +17,4 @@ Route::get('penerbit/isbn/masalah', [IsbnMasalahController::class, 'index']);
 Route::get('penerbit/isbn/masalah/datatable', [IsbnMasalahController::class, 'datatable']);
 Route::get('penerbit/isbn/permohonan', [IsbnPermohonanController::class, 'index']);
 Route::get('penerbit/isbn/permohonan/datatable', [IsbnPermohonanController::class, 'datatable']);
+Route::get('penerbit/isbn/permohonan/new', [IsbnPermohonanController::class, 'new']);

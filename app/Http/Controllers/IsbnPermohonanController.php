@@ -103,4 +103,9 @@ class IsbnPermohonanController extends Controller
 
         return response()->json($response);
     }
+
+    public function new()
+    {
+        return view('tambah_isbn');
+    }
 }
