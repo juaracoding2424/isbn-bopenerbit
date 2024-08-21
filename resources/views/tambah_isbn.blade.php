@@ -119,7 +119,7 @@
                                             <div class="col-lg-9">
                                                 <textarea row="3" type="text" name="title"
                                                     class="form-control form-control-lg form-control-solid"
-                                                    placeholder="Isi judul bukur"></textarea>
+                                                    placeholder="Isi judul buku"></textarea>
                                             </div>
                                             <!--end::Col-->
                                         </div>
@@ -165,6 +165,166 @@
                                             </div>
                                         </div>
                                         <!--end::Input group-->
+                                        <div class="row mb-8">
+                                            <!--begin::Col-->
+                                            <div class="col-xl-3">
+                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Jenis
+                                                        Permohonan ISBN </span>
+                                                    <span class="ms-1" data-bs-toggle="tooltip"
+                                                        title="Pilih jenis permohonan ISBN">
+                                                        <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!--end::Col-->
+                                            <!--begin::Col-->
+                                            <div class="col-xl-9">
+                                                <!--begin::Row-->
+                                                <div class="row g-9" data-kt-buttons="true"
+                                                    data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="status" value="lepas">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Lepas</span>
+                                                                <span class="fw-semibold fs-8 text-gray-600">Penerbit
+                                                                    akan mendapatkan 1 nomor ISBN untuk setiap judul
+                                                                    yang diminta.</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="status" value="jilid">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Jilid</span>
+                                                                <span class="fw-semibold fs-8 text-gray-600">Anda wajib
+                                                                    memasukan minimal 2 jilid untuk permohonan ISBN
+                                                                    berjilid.</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                </div>
+                                                <!--end::Row-->
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                        <!--end::Input group-->
+										<!--end::Input group-->
+                                        <div class="row mb-8">
+                                            <!--begin::Col-->
+                                            <div class="col-xl-3">
+                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Media Terbitan ISBN ISBN </span>
+                                                    <span class="ms-1" data-bs-toggle="tooltip"
+                                                        title="Pilih jenis media terbitan ISBN">
+                                                        <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!--end::Col-->
+                                            <!--begin::Col-->
+                                            <div class="col-xl-9">
+                                                <!--begin::Row-->
+                                                <div class="row g-9" data-kt-buttons="true"
+                                                    data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-3 col-lg-12 col-xxl-3">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="status" value="cetak">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Cetak</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-3 col-lg-12 col-xxl-3">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="status" value="digital-pdf">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Digital (PDF)</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+													<!--begin::Col-->
+                                                    <div class="col-md-3 col-lg-12 col-xxl-3">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="status" value="digital-epub">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Digital (EPUB)</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+													<!--begin::Col-->
+                                                    <div class="col-md-3 col-lg-12 col-xxl-3">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="status" value="digital-mp3">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Audio Book MP3</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                </div>
+                                                <!--end::Row-->
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                        <!--end::Input group-->
                                         <!--begin::Input group-->
                                         <div class="row mb-6">
                                             <!--begin::Label-->
@@ -206,50 +366,8 @@
                                             </div>
                                         </div>
                                         <!--end::Input group-->
-										<!--begin::Input group-->
-                                        <div class="row mb-6">
-                                            <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fw-semibold fs-8">Kategori Buku</label>
-                                            <!--end::Label-->
-                                            <!--begin::Col-->
-                                            <div class="col-lg-6 fv-row">
-                                                <select name="kategoriBuku" class="select2 form-select">
-                                                    <option>Lepas</option>
-                                                    <option>Jilid</option>
-                                                </select>
-                                            </div>
-                                            <!--end::Col-->
-                                            <!--begin::Col-->
-                                            <div class="col-lg-3 fv-row">
-                                                <input type="text" name="jenisFile"
-                                                    class="form-control form-control-lg form-control-solid"
-                                                    placeholder="PDF, Epub, WAV, dst" value="" />
-                                            </div>
-                                            <!--end::Col-->
-                                        </div>
-                                        <!--end::Input group-->
-                                        <!--begin::Input group-->
-                                        <div class="row mb-6">
-                                            <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fw-semibold fs-8">Jenis ISBN</label>
-                                            <!--end::Label-->
-                                            <!--begin::Col-->
-                                            <div class="col-lg-6 fv-row">
-                                                <select name="jenisKarya" class="select2 form-select">
-                                                    <option>Cetak</option>
-                                                    <option>Elektronik</option>
-                                                </select>
-                                            </div>
-                                            <!--end::Col-->
-                                            <!--begin::Col-->
-                                            <div class="col-lg-3 fv-row">
-                                                <input type="text" name="jenisFile"
-                                                    class="form-control form-control-lg form-control-solid"
-                                                    placeholder="PDF, Epub, WAV, dst" value="" />
-                                            </div>
-                                            <!--end::Col-->
-                                        </div>
-                                        <!--end::Input group-->
+
+                                        
                                         <!--begin::Input group-->
                                         <div class="row mb-6">
                                             <!--begin::Label-->

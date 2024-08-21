@@ -106,6 +106,9 @@ class IsbnPermohonanController extends Controller
 
     public function new()
     {
+        $data = [
+            'nama_penerbit' => $this->penerbit["NAME"]
+        ];
         return view('tambah_isbn');
     }
 }
