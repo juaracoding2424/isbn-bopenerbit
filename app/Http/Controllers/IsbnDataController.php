@@ -116,4 +116,13 @@ class IsbnDataController extends Controller
 
         return response()->json($response);
     }
+
+    public function detail($noresi)
+    {
+        $data =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=getlistraw&sql=" . urlencode('SELECT * FROM PENERBIT_TERBITAN WHERE NORESI=' . $noresi));
+        return response()->json([
+            'status' => 'Success',
+            'data' => $data,
+        ], 200);
+    }
 }

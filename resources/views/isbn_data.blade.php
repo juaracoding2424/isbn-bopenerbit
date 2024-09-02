@@ -106,8 +106,7 @@
 							<!--begin::Card toolbar-->
 							<div class="card-toolbar flex-row-fluid justify-content-end gap-5">
 								<!--begin::Add product-->
-								<span id="unduhExcel"></span>
-								<a href="tambah_isbn.php" class="btn btn-primary">Tambah Permohonan ISBN</a>
+								<a href="{{ url('/penerbit/isbn/permohonan/new') }}" class="btn btn-primary">Tambah Permohonan ISBN</a>
 								<!--end::Add product-->
 							</div>
 							<!--end::Card toolbar-->

@@ -180,128 +180,7 @@
 								<!--begin::Body-->
 								<div class="card-body pt-0">
 									<!--begin::Items-->
-									<div class="m-0 hover-scroll-overlay-y " style="height: 350px">
-										<!--begin::Item-->
-										<div class="d-flex flex-stack">
-											<!--begin::Section-->
-											<div class="d-flex flex-stack flex-row-fluid d-grid gap-2">
-												<!--begin::Content-->
-												<div class="me-5">
-													<!--begin::Title-->
-													<span class="fs-8 fw-bolder text-success text-uppercase">23 April
-														2024</span>
-													<a href="#" class="text-gray-800 fw-bold text-hover-primary fs-6">
-														Layanan kembali normal </a>
-													<!--end::Title-->
-													<!--begin::Desc-->
-													<span
-														class="text-gray-500 fw-semibold fs-7 d-block text-start ps-0">Diinformasikan
-														bahwa Layanan ISBN Online sudah kembali normal. Penerbit yang
-														masih belum bisa akses pada pendaftaran ISBN atau terkendala
-														upload lampiran,
-														silahkan lakukan clear cache terlebih dahulu. Salam sehat dan
-														salam literasi</span>
-													<!--end::Desc-->
-												</div>
-												<!--end::Content-->
-											</div>
-											<!--end::Section-->
-										</div>
-										<!--end::Item-->
-										<!--begin::Separator-->
-										<div class="separator separator-dashed my-3"></div>
-										<!--end::Separator-->
-										<!--begin::Item-->
-										<div class="d-flex flex-stack">
-											<!--begin::Section-->
-											<div class="d-flex flex-stack flex-row-fluid d-grid gap-2">
-												<!--begin::Content-->
-												<div class="me-5">
-													<!--begin::Title-->
-													<span class="fs-8 fw-bolder text-success text-uppercase">21 April
-														2024</span>
-													<a href="#" class="text-gray-800 fw-bold text-hover-primary fs-6">
-														Kendala layanan </a>
-													<!--end::Title-->
-													<!--begin::Desc-->
-													<span
-														class="text-gray-500 fw-semibold fs-7 d-block text-start ps-0">Diberitahukan
-														bahwa saat ini sedang terjadi kendala pada layanan pendaftaran
-														ISBN.
-														Tim teknis kami sedang bekerja keras untuk mengidentifikasi dan
-														memperbaiki masalah ini secepat mungkin.</span>
-													<!--end::Desc-->
-												</div>
-												<!--end::Content-->
-											</div>
-											<!--end::Section-->
-										</div>
-										<!--end::Item-->
-										<!--begin::Separator-->
-										<div class="separator separator-dashed my-3"></div>
-										<!--end::Separator-->
-										<!--begin::Item-->
-										<div class="d-flex flex-stack">
-											<!--begin::Section-->
-											<div class="d-flex flex-stack flex-row-fluid d-grid gap-2">
-												<!--begin::Content-->
-												<div class="me-5">
-													<!--begin::Title-->
-													<span class="fs-8 fw-bolder text-success text-uppercase">5 Maret
-														2024</span>
-													<a href="#" class="text-gray-800 fw-bold text-hover-primary fs-6">
-														Maintenance selesai, layanan kembali normal </a>
-													<!--end::Title-->
-													<!--begin::Desc-->
-													<span
-														class="text-gray-500 fw-semibold fs-7 d-block text-start ps-0">Kami
-														dengan senang hati menginformasikan bahwa proses
-														maintenance sistem yang dijadwalkan padaTanggal: 3 - 5 Maret
-														2024
-
-														telah selesai dengan sukses. Seluruh sistem kini kembali
-														beroperasi dengan normal dan siap digunakan.</span>
-													<!--end::Desc-->
-												</div>
-												<!--end::Content-->
-											</div>
-											<!--end::Section-->
-										</div>
-										<!--end::Item-->
-										<!--begin::Separator-->
-										<div class="separator separator-dashed my-3"></div>
-										<!--end::Separator-->
-										<!--begin::Item-->
-										<div class="d-flex flex-stack">
-											<!--begin::Section-->
-											<div class="d-flex flex-stack flex-row-fluid d-grid gap-2">
-												<!--begin::Content-->
-												<div class="me-5">
-													<!--begin::Title-->
-													<span class="fs-8 fw-bolder text-success text-uppercase">1 Maret
-														2024</span>
-													<a href="#" class="text-gray-800 fw-bold text-hover-primary fs-6">
-														Maintenance Aplikasi </a>
-													<!--end::Title-->
-													<!--begin::Desc-->
-													<span
-														class="text-gray-500 fw-semibold fs-7 d-block text-start ps-0">
-														Kami ingin memberitahukan bahwa akan dilakukan maintenance
-														sistem yang dijadwalkan pada:
-														<b>Tanggal 3 - 5 Maret 2024, pukul: 00:00 - 06:00 WIB</b>.
-														Selama periode ini, sistem kami akan mengalami downtime
-														sementara untuk pemeliharaan dan peningkatan performa.
-														Hal ini dilakukan guna memastikan bahwa layanan kami tetap
-														berjalan optimal dan
-														dapat memberikan pengalaman terbaik bagi seluruh
-														pengguna.</span>
-													<!--end::Desc-->
-												</div>
-												<!--end::Content-->
-											</div>
-											<!--end::Section-->
-										</div>
-										<!--end::Item-->
+									<div class="m-0 hover-scroll-overlay-y " style="height: 350px" id="divBerita">
 									</div>
 									<!--end::Items-->
 								</div>
@@ -346,85 +225,85 @@
 <script>
 //$(document).ready(function(){
 	function chart_isbn_month() {
-	var e = document.getElementById("chart_isbn_month");
+		var e = document.getElementById("chart_isbn_month");
 
-	if (e) {
-		var t, a = function () {
-				var dataChart = generateData('2024');
-				(t = am5.Root.new(e)).setThemes([am5themes_Animated.new(t)]);
-				var a = t.container.children.push(am5xy.XYChart.new(t, {
-					panX: !1,
-					panY: !1,
-					layout: t.verticalLayout
-				})),
-					l = (a.get("colors"), dataChart),
-					r = a.xAxes.push(am5xy.CategoryAxis.new(t, {
-						categoryField: "month",
-						renderer: am5xy.AxisRendererX.new(t, {
-							minGridDistance: 30
-						}),
-						bullet: function (e, t, a) {
-							return am5xy.AxisBullet.new(e, {
-								location: .5,
-								sprite: am5.Picture.new(e, {
-									width: 24,
-									height: 24,
-									centerY: am5.p50,
-									centerX: am5.p50,
+		if (e) {
+			var t, a = function () {
+					var dataChart = generateData('2024');
+					(t = am5.Root.new(e)).setThemes([am5themes_Animated.new(t)]);
+					var a = t.container.children.push(am5xy.XYChart.new(t, {
+						panX: !1,
+						panY: !1,
+						layout: t.verticalLayout
+					})),
+						l = (a.get("colors"), dataChart),
+						r = a.xAxes.push(am5xy.CategoryAxis.new(t, {
+							categoryField: "month",
+							renderer: am5xy.AxisRendererX.new(t, {
+								minGridDistance: 30
+							}),
+							bullet: function (e, t, a) {
+								return am5xy.AxisBullet.new(e, {
+									location: .5,
+									sprite: am5.Picture.new(e, {
+										width: 24,
+										height: 24,
+										centerY: am5.p50,
+										centerX: am5.p50,
+									})
 								})
-							})
-						}
+							}
+						}));
+					r.get("renderer").labels.template.setAll({
+						paddingTop: 20,
+						fontWeight: "400",
+						fontSize: 10,
+						fill: am5.color(KTUtil.getCssVariableValue("--bs-gray-500"))
+					}), r.get("renderer").grid.template.setAll({
+						disabled: !0,
+						strokeOpacity: 0
+					}), r.data.setAll(l);
+					var o = a.yAxes.push(am5xy.ValueAxis.new(t, {
+						renderer: am5xy.AxisRendererY.new(t, {})
 					}));
-				r.get("renderer").labels.template.setAll({
-					paddingTop: 20,
-					fontWeight: "400",
-					fontSize: 10,
-					fill: am5.color(KTUtil.getCssVariableValue("--bs-gray-500"))
-				}), r.get("renderer").grid.template.setAll({
-					disabled: !0,
-					strokeOpacity: 0
-				}), r.data.setAll(l);
-				var o = a.yAxes.push(am5xy.ValueAxis.new(t, {
-					renderer: am5xy.AxisRendererY.new(t, {})
-				}));
-				o.get("renderer").grid.template.setAll({
-					stroke: am5.color(KTUtil.getCssVariableValue("--bs-gray-300")),
-					strokeWidth: 1,
-					strokeOpacity: 1,
-					strokeDasharray: [3]
-				}), o.get("renderer").labels.template.setAll({
-					fontWeight: "400",
-					fontSize: 10,
-					fill: am5.color(KTUtil.getCssVariableValue("--bs-gray-500"))
-				});
-				var i = a.series.push(am5xy.ColumnSeries.new(t, {
-					xAxis: r,
-					yAxis: o,
-					valueYField: "counts",
-					categoryXField: "month"
-				}));
-				i.columns.template.setAll({
-					tooltipText: "{categoryX}: {valueY}",
-					tooltipY: 0,
-					strokeOpacity: 0,
-					templateField: "columnSettings"
-				}), i.columns.template.setAll({
-					strokeOpacity: 0,
-					cornerRadiusBR: 0,
-					cornerRadiusTR: 6,
-					cornerRadiusBL: 0,
-					cornerRadiusTL: 6
-				}), i.data.setAll(l), i.appear(), a.appear(1e3, 100)
-			};
-			am5.ready((function () {
-				a()
-			})), KTThemeMode.on("kt.thememode.change", (function () {
-				t.dispose(), a()
-			}))
-		}
+					o.get("renderer").grid.template.setAll({
+						stroke: am5.color(KTUtil.getCssVariableValue("--bs-gray-300")),
+						strokeWidth: 1,
+						strokeOpacity: 1,
+						strokeDasharray: [3]
+					}), o.get("renderer").labels.template.setAll({
+						fontWeight: "400",
+						fontSize: 10,
+						fill: am5.color(KTUtil.getCssVariableValue("--bs-gray-500"))
+					});
+					var i = a.series.push(am5xy.ColumnSeries.new(t, {
+						xAxis: r,
+						yAxis: o,
+						valueYField: "counts",
+						categoryXField: "month"
+					}));
+					i.columns.template.setAll({
+						tooltipText: "{categoryX}: {valueY}",
+						tooltipY: 0,
+						strokeOpacity: 0,
+						templateField: "columnSettings"
+					}), i.columns.template.setAll({
+						strokeOpacity: 0,
+						cornerRadiusBR: 0,
+						cornerRadiusTR: 6,
+						cornerRadiusBL: 0,
+						cornerRadiusTL: 6
+					}), i.data.setAll(l), i.appear(), a.appear(1e3, 100)
+				};
+				am5.ready((function () {
+					a()
+				})), KTThemeMode.on("kt.thememode.change", (function () {
+					t.dispose(), a()
+				}))
+			}
 	}
 	chart_isbn_month();
-
+	getBerita();
 	function getRandom(min, max) {
 		return Math.floor(Math.random() * (max - min) + min);
 	};
@@ -515,6 +394,30 @@
             });
         }
     });
+	function getBerita(){
+		$.ajax({
+            url: '{{ url('penerbit/dashboard/berita') }}',
+            type: 'GET',
+            contentType: false,
+            processData: false,
+            success: function(response) {
+				for(var i = 0; i < response.length; i++) {
+					var date = new Date(response[i]['TANGGAL']);
+					var newDate =Intl.DateTimeFormat('id', { dateStyle: 'full' }).format(date);
+					$('#divBerita').append('<div class="d-flex flex-stack"><div class="d-flex flex-stack flex-row-fluid d-grid gap-2"><div class="me-5"><span class="fs-8 fw-bolder text-success text-uppercase">'+ newDate+'</span>');
+					$('#divBerita').append('<a href="#" class="text-gray-800 fw-bold text-hover-primary fs-6">'+ response[i]['JUDUL']+'</a>');
+					$('#divBerita').append('<span class="text-gray-500 fw-semibold fs-7 d-block text-start ps-0">'+ response[i]['BERITA']+'</span></div></div></div>');
+					$('#divBerita').append('<div class="separator separator-dashed my-3"></div>');
+				}
+            },
+            error: function() {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Server Error!'
+                });
+            }
+        });
+	}
 //})
 </script>
 @stop

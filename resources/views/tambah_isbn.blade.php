@@ -1,5 +1,10 @@
 @extends('index')
 @section('content')
+<style>
+    swal-height {
+height: 100vh !important;
+}
+</style>
 <div class="d-flex flex-column flex-column-fluid">
     <div id="kt_app_toolbar" class="app-toolbar pt-7 pt-lg-10">
         <!--begin::Toolbar container-->
@@ -47,14 +52,15 @@
                         <div class="card min-w-full">
                             <div class="card-header">
                                 <h3 class="card-title text-gray-800 text-hover-primary fs-2 fw-bold me-3">
-                                    General Info
+                                    General Info <span id="noresi"></span>
                                 </h3>
                             </div>
 
                             <!--begin::Content-->
                             <div id="kt_account_settings_profile_details" class="collapse show">
                                 <!--begin::Form-->
-                                <form id="kt_account_profile_details_form" class="form">
+                                <form id="form_isbn" class="form" enctype="multipart/form-data">
+                                @csrf
                                     <!--begin::Card body-->
                                     <div class="card-body border-top p-9">
                                         <!--begin::Input group-->
@@ -63,13 +69,13 @@
                                             <label class="col-lg-3 col-form-label fw-semibold fs-8">Cover Buku</label>
                                             <!--end::Label-->
                                             <!--begin::Col-->
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-4">
                                                 <!--begin::Image input-->
                                                 <div class="image-input image-input-outline" data-kt-image-input="true"
                                                     style="background-image: url('assets/media/svg/avatars/blank.svg')">
                                                     <!--begin::Preview existing avatar-->
                                                     <div class="image-input-wrapper w-150px h-225px"
-                                                        style="background-image: url('https://m.media-amazon.com/images/I/41CSLTOp7LL._AC_SF480,480_.jpg')">
+                                                        style="background-image: url('assets/media/svg/avatars/blank.svg')">
                                                     </div>
                                                     <!--end::Preview existing avatar-->
                                                     <!--begin::Label-->
@@ -79,8 +85,8 @@
                                                         title="Change cover">
                                                         <i class="ki-outline ki-pencil fs-7"></i>
                                                         <!--begin::Inputs-->
-                                                        <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
-                                                        <input type="hidden" name="avatar_remove" />
+                                                        <input type="file" name="cover" accept=".png, .jpg, .jpeg" />
+                                                        <input type="hidden" name="cover_remove" />
                                                         <!--end::Inputs-->
                                                     </label>
                                                     <!--end::Label-->
@@ -165,76 +171,12 @@
                                             </div>
                                         </div>
                                         <!--end::Input group-->
+                                        
+										<!--begin::Input group-->
                                         <div class="row mb-8">
                                             <!--begin::Col-->
                                             <div class="col-xl-3">
-                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Jenis
-                                                        Permohonan ISBN </span>
-                                                    <span class="ms-1" data-bs-toggle="tooltip"
-                                                        title="Pilih jenis permohonan ISBN">
-                                                        <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <!--end::Col-->
-                                            <!--begin::Col-->
-                                            <div class="col-xl-9">
-                                                <!--begin::Row-->
-                                                <div class="row g-9" data-kt-buttons="true"
-                                                    data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
-                                                    <!--begin::Col-->
-                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
-                                                        <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
-                                                            data-kt-button="true">
-                                                            <!--begin::Radio button-->
-                                                            <span
-                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-                                                                <input class="form-check-input" type="radio"
-                                                                    name="status" value="lepas">
-                                                            </span>
-                                                            <!--end::Radio button-->
-                                                            <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Lepas</span>
-                                                                <span class="fw-semibold fs-8 text-gray-600">Penerbit
-                                                                    akan mendapatkan 1 nomor ISBN untuk setiap judul
-                                                                    yang diminta.</span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                    <!--end::Col-->
-                                                    <!--begin::Col-->
-                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
-                                                        <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
-                                                            data-kt-button="true">
-                                                            <!--begin::Radio button-->
-                                                            <span
-                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-                                                                <input class="form-check-input" type="radio"
-                                                                    name="status" value="jilid">
-                                                            </span>
-                                                            <!--end::Radio button-->
-                                                            <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Jilid</span>
-                                                                <span class="fw-semibold fs-8 text-gray-600">Anda wajib
-                                                                    memasukan minimal 2 jilid untuk permohonan ISBN
-                                                                    berjilid.</span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                    <!--end::Col-->
-                                                </div>
-                                                <!--end::Row-->
-                                            </div>
-                                            <!--end::Col-->
-                                        </div>
-                                        <!--end::Input group-->
-										<!--end::Input group-->
-                                        <div class="row mb-8">
-                                            <!--begin::Col-->
-                                            <div class="col-xl-3">
-                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Media Terbitan ISBN ISBN </span>
+                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Media Terbitan ISBN </span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
                                                         title="Pilih jenis media terbitan ISBN">
                                                         <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
@@ -248,7 +190,7 @@
                                                 <div class="row g-9" data-kt-buttons="true"
                                                     data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
                                                     <!--begin::Col-->
-                                                    <div class="col-md-3 col-lg-12 col-xxl-3">
+                                                    <div class="col-md-4 col-lg-12 col-xxl-4 hoverEvent">
                                                         <label
                                                             class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
                                                             data-kt-button="true">
@@ -256,17 +198,75 @@
                                                             <span
                                                                 class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
                                                                 <input class="form-check-input" type="radio"
-                                                                    name="status" value="cetak">
+                                                                    name="jenis_media" value="1">
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
                                                                 <span class="fs-6 fw-bold mb-1 d-block">Cetak</span>
+                                                                <span class="fw-semibold fs-8 text-gray-600 onhover">Sesuai UU 13.th 2018: Penerbit wajib mengirimkan sebanyak 2 eks buku cetak kepada Perpusnas, dan 1 eks buku cetak kepada Perpustakaan Provinsi sesuai domisili</span>
+                                                             </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-4 col-lg-12 col-xxl-4 hoverEvent">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jenis_media" value="2">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Digital (PDF)</span>
+                                                                <span class="fw-semibold fs-8 text-gray-600 onhover">Sesuai UU 13.th 2018: Penerbit wajib serah simpan dengan cara mengunggah mandiri file PDF melalui https://edeposit.perpusnas.go.id</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+													<!--begin::Col-->
+                                                    <div class="col-md-4 col-lg-12 col-xxl-4 hoverEvent">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jenis_media" value="3">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Digital (EPUB)</span>
+                                                                <span class="fw-semibold fs-8 text-gray-600 onhover">Sesuai UU 13.th 2018: Penerbit wajib serah simpan dengan cara mengunggah mandiri file EPUB melalui https://edeposit.perpusnas.go.id</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+													<!--begin::Col-->
+                                                    <div class="col-md-4 col-lg-12 col-xxl-4 hoverEvent">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jenis_media" value="4">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Audio Book</span>
+                                                                <span class="fw-semibold fs-8 text-gray-600 onhover">Sesuai UU 13.th 2018: Penerbit wajib serah simpan dengan cara mengunggah mandiri file MP3/WAV melalui https://edeposit.perpusnas.go.id</span>
                                                             </span>
                                                         </label>
                                                     </div>
                                                     <!--end::Col-->
                                                     <!--begin::Col-->
-                                                    <div class="col-md-3 col-lg-12 col-xxl-3">
+                                                    <div class="col-md-4 col-lg-12 col-xxl-4 hoverEvent">
                                                         <label
                                                             class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
                                                             data-kt-button="true">
@@ -274,17 +274,78 @@
                                                             <span
                                                                 class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
                                                                 <input class="form-check-input" type="radio"
-                                                                    name="status" value="digital-pdf">
+                                                                    name="jenis_media" value="5">
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Digital (PDF)</span>
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Audio Visual</span> 
+                                                                <span class="fw-semibold fs-8 text-gray-600 onhover">Sesuai UU 13.th 2018: Penerbit wajib serah simpan dengan cara mengunggah mandiri file MP4/MPEG melalui https://edeposit.perpusnas.go.id</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                    <span class="fw-semibold fs-7 text-gray-600" id="notes_jenis_media"></span>
+                                                </div>
+                                                <!--end::Row-->
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
+                                        <div class="row mb-8">
+                                            <!--begin::Col-->
+                                            <div class="col-xl-3">
+                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Kelompok Pembaca</span>
+                                                    <span class="ms-1" data-bs-toggle="tooltip"
+                                                        title="Pilih kelompok pembaca">
+                                                        <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!--end::Col-->
+                                            <!--begin::Col-->
+                                            <div class="col-xl-9">
+                                                <!--begin::Row-->
+                                                <div class="row g-9" data-kt-buttons="true"
+                                                    data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-4 col-lg-12 col-xxl-4">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jenis_kelompok" value="1">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Anak</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-4 col-lg-12 col-xxl-4">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jenis_kelompok" value="2">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Dewasa</span>
                                                             </span>
                                                         </label>
                                                     </div>
                                                     <!--end::Col-->
 													<!--begin::Col-->
-                                                    <div class="col-md-3 col-lg-12 col-xxl-3">
+                                                    <div class="col-md-4 col-lg-12 col-xxl-4">
                                                         <label
                                                             class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
                                                             data-kt-button="true">
@@ -292,17 +353,195 @@
                                                             <span
                                                                 class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
                                                                 <input class="form-check-input" type="radio"
-                                                                    name="status" value="digital-epub">
+                                                                    name="jenis_kelompok" value="3">
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Digital (EPUB)</span>
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Semua Umur (SU)</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+													
+                                                </div>
+                                                <!--end::Row-->
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
+                                         <div class="row mb-8">
+                                            <!--begin::Col-->
+                                            <div class="col-xl-3">
+                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Jenis Pustaka</span>
+                                                    <span class="ms-1" data-bs-toggle="tooltip"
+                                                        title="Pilih jenis pustaka">
+                                                        <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!--end::Col-->
+                                            <!--begin::Col-->
+                                            <div class="col-xl-9">
+                                                <!--begin::Row-->
+                                                <div class="row g-9" data-kt-buttons="true"
+                                                    data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jenis_pustaka" value="1">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Fiksi</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jenis_pustaka" value="2">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Non Fiksi</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->													
+                                                </div>
+                                                <!--end::Row-->
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
+                                        <div class="row mb-8">
+                                            <!--begin::Col-->
+                                            <div class="col-xl-3">
+                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Kategori Jenis Pustaka</span>
+                                                    <span class="ms-1" data-bs-toggle="tooltip"
+                                                        title="Pilih jenis pustaka">
+                                                        <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!--end::Col-->
+                                            <!--begin::Col-->
+                                            <div class="col-xl-9">
+                                                <!--begin::Row-->
+                                                <div class="row g-9" data-kt-buttons="true"
+                                                    data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jenis_kategori" value="1">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Terjemahan</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jenis_kategori" value="2">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Non Terjemahan</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->													
+                                                </div>
+                                                <!--end::Row-->
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
+                                        <div class="row mb-8">
+                                            <!--begin::Col-->
+                                            <div class="col-xl-3">
+                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Golongan Terbitan ISBN </span>
+                                                    <span class="ms-1" data-bs-toggle="tooltip"
+                                                        title="Pilih golongan terbitan ISBN">
+                                                        <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!--end::Col-->
+                                            <!--begin::Col-->
+                                            <div class="col-xl-9">
+                                                <!--begin::Row-->
+                                                <div class="row g-9" data-kt-buttons="true"
+                                                    data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-4 col-lg-12 col-xxl-4">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jenis_terbitan" value="1">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Pemerintah</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-4 col-lg-12 col-xxl-4">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jenis_terbitan" value="2">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Perguruan Tinggi</span>
                                                             </span>
                                                         </label>
                                                     </div>
                                                     <!--end::Col-->
 													<!--begin::Col-->
-                                                    <div class="col-md-3 col-lg-12 col-xxl-3">
+                                                    <div class="col-md-4 col-lg-12 col-xxl-4">
                                                         <label
                                                             class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
                                                             data-kt-button="true">
@@ -310,15 +549,72 @@
                                                             <span
                                                                 class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
                                                                 <input class="form-check-input" type="radio"
-                                                                    name="status" value="digital-mp3">
+                                                                    name="jenis_terbitan" value="3">
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Audio Book MP3</span>
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Swasta</span>
                                                             </span>
                                                         </label>
                                                     </div>
                                                     <!--end::Col-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
+                                        <div class="row mb-8">
+                                            <!--begin::Col-->
+                                            <div class="col-xl-3">
+                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Apakah termasuk penelitian? </span>
+                                                    <span class="ms-1" data-bs-toggle="tooltip"
+                                                        title="Pilih golongan terbitan ISBN">
+                                                        <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!--end::Col-->
+                                            <!--begin::Col-->
+                                            <div class="col-xl-9">
+                                                <!--begin::Row-->
+                                                <div class="row g-9" data-kt-buttons="true"
+                                                    data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jenis_penelitian" value="1">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Penelitian</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jenis_penelitian" value="2">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Non Penelitian</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->													
                                                 </div>
                                                 <!--end::Row-->
                                             </div>
@@ -340,23 +636,23 @@
                                                 <div class="row">
                                                     <!--begin::Col-->
                                                     <div class="col-lg-4 fv-row">
-                                                        <select name="bulanTerbit" class="select2 form-select">
-                                                            <option>Januari</option>
-                                                            <option>Februari</option>
-                                                            <option>Maret</option>
-                                                            <option>Aprit</option>
-                                                            <option>Mei</option>
-                                                            <option>Juni</option>
-                                                            <option>Juli</option>
-                                                            <option>Agustus</option>
-                                                            <option>September</option>
-                                                            <option>Oktober</option>
-                                                            <option>November</option>
-                                                            <option>Desember</option>
+                                                        <select name="bulan_terbit" class="select2 form-select">
+                                                            <option value="01">Januari</option>
+                                                            <option value="02">Februari</option>
+                                                            <option value="03">Maret</option>
+                                                            <option value="04">Aprit</option>
+                                                            <option value="05">Mei</option>
+                                                            <option value="06">Juni</option>
+                                                            <option value="07">Juli</option>
+                                                            <option value="08">Agustus</option>
+                                                            <option value="09">September</option>
+                                                            <option value="10">Oktober</option>
+                                                            <option value="11">November</option>
+                                                            <option value="12">Desember</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-lg-4 fv-row">
-                                                        <select name="tahunTerbit" class="select2 form-select">
+                                                        <select name="tahun_terbit" class="select2 form-select">
                                                             <option>2024</option>
                                                             <option>2025</option>
                                                         </select>
@@ -453,135 +749,216 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                        <div class="row mb-6">
-                                            <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label required fw-semibold fs-8">Jumlah
-                                                Halaman</label>
-                                            <!--end::Label-->
+                                        <div class="row mb-8">
                                             <!--begin::Col-->
-                                            <div class="col-lg-2 fv-row">
-                                                <input type="text" name="jml_hlm"
-                                                    class="form-control form-control-lg form-control-solid"
-                                                    placeholder="Jumlah Halaman" value="148" />
-                                            </div>
-                                            <label class="col-lg-1 col-form-label fw-semibold fs-8">halaman</label>
-                                            <!--end::Col-->
-                                            <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fw-semibold fs-8">Tinggi Buku</label>
-                                            <!--end::Label-->
-                                            <!--begin::Col-->
-                                            <div class="col-lg-2 fv-row">
-                                                <input type="text" name="dimensi"
-                                                    class="form-control form-control-lg form-control-solid"
-                                                    placeholder="tinggi buku" value="22" />
-                                            </div>
-                                            <!--end::Col-->
-                                            <label class="col-lg-1 col-form-label fw-semibold fs-8">cm</label>
-                                        </div>
-                                        <!--end::Input group-->
-                                        <!--begin::Input group-->
-                                        <div class="row mb-6">
-                                            <!--begin::Label-->
-                                            <label
-                                                class="col-lg-3 col-form-label required fw-semibold fs-8">Kategori</label>
-                                            <!--end::Label-->
-                                            <!--begin::Col-->
-                                            <div class="col-lg-9 fv-row">
-                                                <!--begin::Options-->
-                                                <div class="d-flex align-items-center mt-3">
-                                                    <!--begin::Option-->
-                                                    <label
-                                                        class="form-check form-check-custom form-check-inline form-check-solid me-5">
-                                                        <input class="form-check-input" name="categories[]"
-                                                            type="checkbox" value="1" />
-                                                        <span class="fw-semibold ps-2 fs-8">Buku Anak</span>
-                                                    </label>
-                                                    <!--end::Option-->
-                                                    <!--begin::Option-->
-                                                    <label
-                                                        class="form-check form-check-custom form-check-inline form-check-solid me-5">
-                                                        <input class="form-check-input" name="categories[]"
-                                                            type="checkbox" value="2" />
-                                                        <span class="fw-semibold ps-2 fs-8">Fiksi</span>
-                                                    </label>
-                                                    <!--end::Option-->
-                                                    <!--begin::Option-->
-                                                    <label
-                                                        class="form-check form-check-custom form-check-inline form-check-solid">
-                                                        <input class="form-check-input" name="categories[]"
-                                                            type="checkbox" value="3" />
-                                                        <span class="fw-semibold ps-2 fs-8">Non Fiksi</span>
-                                                    </label>
-                                                    <!--end::Option-->
+                                            <div class="col-xl-3">
+                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Jenis
+                                                        Permohonan ISBN </span>
+                                                    <span class="ms-1" data-bs-toggle="tooltip"
+                                                        title="Pilih jenis permohonan ISBN">
+                                                        <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+                                                    </span>
                                                 </div>
-                                                <!--end::Options-->
                                             </div>
                                             <!--end::Col-->
-                                        </div>
-                                        <!--end::Input group-->
-                                        <div class="row mb-6">
-                                            <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fw-semibold fs-8">Dummy Buku yang akan
-                                                terbit</label>
-                                            <div class="col-lg-3 col-form-label ">
-                                                <a><i class="bi bi-filetype-pdf fs-1"></i> DummyBuku.pdf</a>
-                                            </div>
-                                            <!--end:: Label-->
-                                            <div class="col-lg-6 d-flex align-items-center">
-                                                <!--begin::Dropzone-->
-                                                <div class="dropzone" id="dummy">
-                                                    <!--begin::Message-->
-                                                    <div class="dz-message needsclick align-items-center">
-                                                        <!--begin::Icon-->
-                                                        <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
-                                                        <!--end::Icon-->
-                                                        <!--begin::Info-->
-                                                        <div class="ms-4">
-                                                            <h3 class="fs-5 fw-bold text-gray-900 mb-1">Masukan file
-                                                                dummy buku</h3>
-                                                            <span class="fw-semibold fs-7 text-gray-500">Max:
-                                                                100MB</span>
-                                                        </div>
-                                                        <!--end::Info-->
+                                            <!--begin::Col-->
+                                            <div class="col-xl-9">
+                                                <!--begin::Row-->
+                                                <div class="row g-9" data-kt-buttons="true"
+                                                    data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="status" value="lepas">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Lepas</span>
+                                                                <span class="fw-semibold fs-8 text-gray-600">Penerbit
+                                                                    akan mendapatkan 1 nomor ISBN untuk setiap judul
+                                                                    yang diminta.</span>
+                                                            </span>
+                                                        </label>
                                                     </div>
+                                                    <!--end::Col-->
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="status" value="jilid">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Jilid</span>
+                                                                <span class="fw-semibold fs-8 text-gray-600">Anda wajib
+                                                                    memasukan minimal 2 jilid untuk permohonan ISBN
+                                                                    berjilid.</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
                                                 </div>
-                                                <!--end::Dropzone-->
+                                                <!--end::Row-->
                                             </div>
-                                            <!--begin::Label-->
+                                            <!--end::Col-->
                                         </div>
                                         <!--end::Input group-->
-                                        <!--begin::Input group-->
-                                        <div class="row mb-6">
-                                            <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fw-semibold fs-8">File
-                                                Attachment</label>
-                                            <div class="col-lg-3 col-form-label ">
-                                                <a><i class="bi bi-filetype-pdf fs-1"></i> SuratPernyataan.pdf</a>
-                                                <br />
-                                                <a><i class="bi bi-filetype-pdf fs-1"></i> SuratKeaslianKarya.pdf</a>
-                                            </div>
-                                            <!--end:: Label-->
-                                            <div class="col-lg-6 d-flex align-items-center">
-                                                <!--begin::Dropzone-->
-                                                <div class="dropzone" id="attachments" style="width:100%">
-                                                    <!--begin::Message-->
-                                                    <div class="dz-message needsclick align-items-center">
-                                                        <!--begin::Icon-->
-                                                        <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
-                                                        <!--end::Icon-->
-                                                        <!--begin::Info-->
-                                                        <div class="ms-4">
-                                                            <h3 class="fs-5 fw-bold text-gray-900 mb-1">Masukan
-                                                                attachment</h3>
-                                                            <span class="fw-semibold fs-7 text-gray-500">Upload up to 10
-                                                                files, Max:150MB</span>
-                                                        </div>
-                                                        <!--end::Info-->
-                                                    </div>
+                                        <div id="isbn_detail">
+                                            <span id="judul_buku_1"><h4>Data Buku 1 </h4><hr/></span>
+                                            <!--begin::Input group-->
+                                            <div class="row mb-6">
+                                                <!--begin::Label-->
+                                                <label class="col-lg-3 col-form-label required fw-semibold fs-8">Jumlah
+                                                    Halaman</label>
+                                                <!--end::Label-->
+                                                <!--begin::Col-->
+                                                <div class="col-lg-2 fv-row">
+                                                    <input type="number" name="jml_hlm[]"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="Jumlah Halaman" value="" />
                                                 </div>
-                                                <!--end::Dropzone-->
+                                                <label class="col-lg-1 col-form-label fw-semibold fs-8">halaman</label>
+                                                <!--end::Col-->
+                                                <!--begin::Label-->
+                                                <label class="col-lg-3 col-form-label fw-semibold fs-8" style="text-align:right">Tinggi Buku</label>
+                                                <!--end::Label-->
+                                                <!--begin::Col-->
+                                                <div class="col-lg-2 fv-row">
+                                                    <input type="number" name="ketebalan[]"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="tinggi buku" value="" />
+                                                </div>
+                                                <!--end::Col-->
+                                                <label class="col-lg-1 col-form-label fw-semibold fs-8">cm</label>
                                             </div>
+                                            <!--end::Input group-->
+                                            <!--begin::Input group-->
+                                            <div class="row mb-6">
+                                                <!--begin::Label-->
+                                                <label class="col-lg-3 col-form-label fw-semibold fs-8">Edisi Buku</label>
+                                                <!--end::Label-->
+                                                <!--begin::Col-->
+                                                <div class="col-lg-2 fv-row">
+                                                    <input type="text" name="edisi[]"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="Edisi buku" value="" />
+                                                </div>
+                                                <label class="col-lg-1 col-form-label fw-semibold fs-8"></label>
+                                                <!--end::Col-->
+                                                <!--begin::Label-->
+                                                <label class="col-lg-3 col-form-label fw-semibold fs-8" style="text-align:right">Seri buku</label>
+                                                <!--end::Label-->
+                                                <!--begin::Col-->
+                                                <div class="col-lg-2 fv-row">
+                                                    <input type="text" name="seri[]"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="seri buku" value="" />
+                                                </div>
+                                                <!--end::Col-->
+                                            </div>
+
+                                            <!--end::Input group-->
+                                            <div class="row mb-6">
+                                                <!--begin::Label-->
+                                                <label class="col-lg-3 col-form-label fw-semibold fs-8">Dummy Buku yang akan
+                                                    terbit</label>
+                                            <!-- <div class="col-lg-3 col-form-label ">
+                                                    <a><i class="bi bi-filetype-pdf fs-1"></i> DummyBuku.pdf</a>
+                                                </div>-->
+                                                <!--end:: Label-->
+                                                <div class="col-lg-6 d-flex align-items-center">
+                                                    <!--begin::Dropzone-->
+                                                    <div class="dropzone" id="dummy">
+                                                        <!--begin::Message-->
+                                                        <div class="dz-message needsclick align-items-center">
+                                                            <!--begin::Icon-->
+                                                            <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
+                                                            <!--end::Icon-->
+                                                            <!--begin::Info-->
+                                                            <div class="ms-4">
+                                                                <h3 class="fs-5 fw-bold text-gray-900 mb-1">Masukan file
+                                                                    dummy buku</h3>
+                                                                <span class="fw-semibold fs-7 text-gray-500">Max:
+                                                                    100MB</span>
+                                                            </div>
+                                                            <!--end::Info-->
+                                                        </div>
+                                                    </div>
+                                                    <!--end::Dropzone-->
+                                                </div>
+                                                <!--begin::Label-->
+                                            </div>
+                                            <!--end::Input group-->
+                                            <!--begin::Input group-->
+                                            <div class="row mb-6">
+                                                <!--begin::Label-->
+                                                
+                                                <label class="col-lg-3 col-form-label fw-semibold fs-8">File
+                                                    Attachment</label>
+                                                    <!--
+                                                <div class="col-lg-3 col-form-label ">
+                                                    <a><i class="bi bi-filetype-pdf fs-1"></i> SuratPernyataan.pdf</a>
+                                                    <br />
+                                                    <a><i class="bi bi-filetype-pdf fs-1"></i> SuratKeaslianKarya.pdf</a>
+                                                </div>-->
+                                                <!--end:: Label-->
+                                                <div class="col-lg-6 d-flex align-items-center">
+                                                    <!--begin::Dropzone-->
+                                                    <div class="dropzone" id="attachments" style="width:100%">
+                                                        <!--begin::Message-->
+                                                        <div class="dz-message needsclick align-items-center">
+                                                            <!--begin::Icon-->
+                                                            <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
+                                                            <!--end::Icon-->
+                                                            <!--begin::Info-->
+                                                            <div class="ms-4">
+                                                                <h3 class="fs-5 fw-bold text-gray-900 mb-1">Masukan
+                                                                    attachment</h3>
+                                                                <span class="fw-semibold fs-7 text-gray-500">Upload up to 10
+                                                                    files, Max:150MB</span>
+                                                            </div>
+                                                            <!--end::Info-->
+                                                        </div>
+                                                    </div>
+                                                    <!--end::Dropzone-->
+                                                </div>
+                                            </div>
+                                            <!--end::Input group-->
+                                            <!--begin::Input group-->
+                                            <div class="row mb-6">
+                                                <!--begin::Label-->
+                                                <label class="col-lg-3 col-form-label fw-semibold fs-8">
+                                                    <span class="required">URL / LINK publikasi buku</span>
+                                                    <span class="ms-1" data-bs-toggle="tooltip" title="url">
+                                                        <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+                                                    </span>
+                                                </label>
+                                                <!--end::Label-->
+                                                <!--begin::Col-->
+                                                <div class="col-lg-6 fv-row">
+                                                <input type="text" name="url[]"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="url/link buku"/>
+                                                </div>
+                                                <div class="col-lg-3 fv-row" id="btnTambahJilid">
+                                                    <span class="btn btn-success">Tambah Jilid</span>
+                                                </div>
+                                                <!--end::Col-->
+                                            </div>
+                                            <!--end::Input group-->
                                         </div>
+
                                     </div>
                                     <!--end::Card body-->
                                     <!--begin::Actions-->
@@ -610,8 +987,8 @@
 @section('script')
 <!--end::Custom Javascript-->
 <!--begin::Custom Javascript(used for this page only)-->
-<script src="assets/js/widgets.bundle.js"></script>
-<script src="assets/js/custom/widgets.js"></script>
+<script src="{{ asset('assets/js/widgets.bundle.js') }}"></script>
+<script src="{{ asset('assets/js/custom/widgets.js') }}"></script>
 <!--end::Custom Javascript-->
 <!--end::Javascript-->
 </body>
@@ -648,6 +1025,118 @@ $.getJSON(urlProvinsi, function(res) {
     })
 });
 var selectProv = $('#select2-provinsi');
+$('#btnTambahJilid').on('click', function(){
+    jumlah_buku +=1;
+    let html = 
+`<div class='jilidbaru'><span><h4>Data Buku `+ jumlah_buku + `</h4><hr/></span>
+<div class="row mb-6">
+    <label class="col-lg-3 col-form-label required fw-semibold fs-8">Jumlah
+        Halaman</label>
+    <div class="col-lg-2 fv-row">
+        <input type="number" name="jml_hlm[]" class="form-control form-control-lg form-control-solid"
+            placeholder="Jumlah Halaman" value="" />
+    </div>
+    <label class="col-lg-1 col-form-label fw-semibold fs-8">halaman</label>
+    <label class="col-lg-3 col-form-label fw-semibold fs-8" style="text-align:right">Tinggi Buku</label>
+
+    <div class="col-lg-2 fv-row">
+        <input type="number" name="ketebalan" class="form-control form-control-lg form-control-solid"
+            placeholder="tinggi buku" value="" />
+    </div>
+    <label class="col-lg-1 col-form-label fw-semibold fs-8">cm</label>
+</div>
+<div class="row mb-6">
+    <label class="col-lg-3 col-form-label fw-semibold fs-8">Edisi Buku</label>
+    <div class="col-lg-2 fv-row">
+        <input type="text" name="edisi" class="form-control form-control-lg form-control-solid" placeholder="Edisi buku"
+            value="" />
+    </div>
+    <label class="col-lg-1 col-form-label fw-semibold fs-8"></label>
+    <label class="col-lg-3 col-form-label fw-semibold fs-8" style="text-align:right">Seri buku</label>
+    <div class="col-lg-2 fv-row">
+        <input type="text" name="seri[]" class="form-control form-control-lg form-control-solid" placeholder="seri buku"
+            value="" />
+    </div>
+</div>
+<div class="row mb-6">
+    <label class="col-lg-3 col-form-label fw-semibold fs-8">Dummy Buku yang akan
+        terbit</label>
+<div class="col-lg-6 d-flex align-items-center">
+    <div class="dropzone" id="dummy">
+        <div class="dz-message needsclick align-items-center">
+            <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
+            <div class="ms-4">
+                <h3 class="fs-5 fw-bold text-gray-900 mb-1">Masukan file
+                    dummy buku</h3>
+                <span class="fw-semibold fs-7 text-gray-500">Max:
+                    100MB</span>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="row mb-6">
+    <label class="col-lg-3 col-form-label fw-semibold fs-8">File
+        Attachment</label>
+    <div class="col-lg-6 d-flex align-items-center">
+        <div class="dropzone" id="attachments" style="width:100%">
+            <div class="dz-message needsclick align-items-center">
+                <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
+                <div class="ms-4">
+                    <h3 class="fs-5 fw-bold text-gray-900 mb-1">Masukan
+                        attachment</h3>
+                    <span class="fw-semibold fs-7 text-gray-500">Upload up to 10
+                        files, Max:150MB</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mb-6">
+    <label class="col-lg-3 col-form-label fw-semibold fs-8">
+        <span class="required">URL / LINK publikasi buku</span>
+        <span class="ms-1" data-bs-toggle="tooltip" title="url">
+            <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+        </span>
+    </label>
+    <div class="col-lg-6 fv-row">
+        <input type="text" name="url[]" class="form-control form-control-lg form-control-solid"
+            placeholder="url/link buku" />
+    </div>
+    <div class="col-lg-3 fv-row hapusJilid">
+        <span class="btn btn-danger active">Hapus Jilid</span>
+    </div>
+</div></div>`;
+    $('#isbn_detail').append(html);
+    if(jumlah_buku > 2){
+        var objJilids = $('.jilidbaru').find();
+        for(var i = 0; i <= objJilids.prevObject.length; i++){
+            if(i < jumlah_buku -2){
+                var btnHapus = $(objJilids.prevObject[i]).find('.btn-danger').first();
+                btnHapus.removeClass("active");
+                btnHapus.addClass('disabled');
+            }
+        }
+    }
+    $('.btn.btn-danger.active').on('click', function(){
+        $(this).parent().parent().parent().remove();
+        jumlah_buku-=1;
+        var objJilids = $('.jilidbaru').find();
+        for(var i = 0; i <= objJilids.prevObject.length; i++){
+            var btnHapus = $(objJilids.prevObject[i]).find('.btn-danger').first();
+            if(i < jumlah_buku -2){
+                btnHapus.removeClass("active");
+                btnHapus.addClass('disabled');
+            }
+            if(i == jumlah_buku -2){
+                btnHapus.addClass('active');
+                btnHapus.removeClass("disabled");
+            }
+        }
+    });
+   
+                                            
+});
 $(selectProv).change(function() {
     var value = $(selectProv).val();
     clearOptions('select2-kabupaten');
@@ -691,7 +1180,34 @@ $('input[type=radio][name="status"]').on("change", function() {
         $('textarea[name="problem"]').val('');
     }
 });
+
+$('.onhover').css('display', 'none');
+$('.hoverEvent').hover(function () {
+    var objSpan = $(this).find('.onhover').first();
+    objSpan.css('display', 'block');
+}, function () {
+    var objSpan = $(this).find('.onhover').first();
+    objSpan.css('display', 'none');
+    //stuff to do on mouse leave
+});
+$('input[type=radio][name="jenis_media"]').on('change', function() {
+        var objSpan = $(this).parent().parent().find('.onhover').first();
+        var notes = objSpan[0].innerHTML;
+        $('#notes_jenis_media').html(notes);
+    });
+$('input[type=radio][name="status"]').on('change', function() {
+    if($(this).val() == 'lepas'){
+        $('#judul_buku_1').css('display', 'none');
+        $('#btnTambahJilid').css('display', 'none');
+    } else {
+        $('#judul_buku_1').css('display', 'block');
+        $('#btnTambahJilid').css('display', 'block');
+    }
+    });
+    $('#judul_buku_1').css('display', 'none');
+    $('#btnTambahJilid').css('display', 'none');
 var kepengarangan = 1;
+var jumlah_buku = 1;
 $('#btnTambahPengarang').on("click", function() {
     let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
         '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select">';
@@ -706,6 +1222,75 @@ $('#btnTambahPengarang').on("click", function() {
         kepengarangan + ')"><i class="ki-outline ki-trash" ></i></span></div></div>';
     $('#kepengarangan').append(htmlAppend);
     kepengarangan += 1;
+});
+$('form#form_isbn').submit(function(e){
+    e.preventDefault();
+    let form = document.getElementById('form_isbn');
+    let formData = new FormData(form); 
+    formData.append('jumlah_jilid', jumlah_buku);
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+        }
+    });
+    $.ajax({
+                url :'{{ url('penerbit/isbn/permohonan/new/submit') }}',
+                type: 'post',
+                dataType: 'json',
+                processData: false,
+                contentType:  false,
+                data: formData,
+                statusCode: {
+                    422: function(xhr) {
+                        var error = '<div class="alert alert-danger d-flex align-items-center p-5 mb-10"><div class="d-flex flex-column" style="text-align: left;"><ul>';
+                        $.each(xhr.responseJSON.err, function(key, value){
+                            error+='<li>'+value[0]+'</li>';
+                        }); 
+                        error+='</ul></div></div>';
+                        Swal.fire({
+                                title: "Validation Error!",
+                                html: error,
+                                buttonsStyling: !1,
+                                confirmButtonText: "Ok!",
+                                width: '800px',
+                                heightAuto:false,
+                                height: '800px',
+                                customClass: { 
+                                    confirmButton: "btn fw-bold btn-primary",
+                                    content: "swal-height"
+                                }
+                            });
+                    },
+                    200: function(xhr) {
+                        Swal.fire({
+                                title: "Permohonan ISBN berhasil disimpan!",
+                                text: xhr.message,
+                                html: 'NOMOR RESI : <b>' + xhr.noresi + '</b>',
+                                icon: "success",
+                                buttonsStyling: !1,
+                                confirmButtonText: "Ok!",
+                                customClass: {
+                                    confirmButton: "btn fw-bold btn-primary"
+                                    }
+                            }).then(function(isConfirm){
+                                if (isConfirm){
+                                    window.location.href = "/penerbit/isbn/data/detail/" + xhr.noresi 
+                                }
+                            });
+                    },
+                    500: function(xhr) {
+                        Swal.fire({
+                                text: xhr.responseJSON.message,
+                                icon: "failed",
+                                buttonsStyling: !1,
+                                confirmButtonText: "Ok!",
+                                customClass: {
+                                    confirmButton: "btn fw-bold btn-primary"
+                                    }
+                            });
+                    },
+                }
+        });
 });
 var deleteKepengarangan = function(numb) {
     $('#kepengarangan_' + numb).remove();
@@ -729,7 +1314,7 @@ new Dropzone("#dummy", {
     accept: function(t, e) {
         "justinbieber.jpg" == t.name ? e("Naha, you don't.") : e()
     }
-})
+});
 </script>
 
 @stop

@@ -111,4 +111,129 @@ class IsbnPermohonanController extends Controller
         ];
         return view('tambah_isbn');
     }
+
+    public function submit(Request $request)
+    {
+        //\Log::info(request()->all());
+        try{   
+            $validator = \Validator::make(request()->all(),[
+            'title' => 'required',
+            'namaPengarang' => 'required|array|min:1',
+            'namaPengarang.0' => 'required',
+            'provinsi' => 'required',
+            'kabkot' => 'required',
+            'jenis_media' => 'required',
+            'jenis_terbitan' => 'required',
+            'jenis_kelompok' => 'required',
+            'jenis_penelitian' => 'required',
+            'jenis_kategori' => 'required',
+            'jenis_pustaka' => 'required',
+            'deskripsi' => 'required|min:100',
+            'status' => 'required',
+            'url.0' => 'required',
+            ],[
+                'title.required' => 'Anda belum mengisi judul buku',
+                'namaPengarang.0.required' => 'Anda belum mengisi nama pengarang/penulis pertama',
+                'provinsi.required' => 'Anda belum mengisi provinsi terbit buku',
+                'kabkot.required' => 'Anda belum mengisi kota terbit buku',
+                'jenis_media.required' => 'Anda belum mengisi jenis media terbitan buku',
+                'jenis_terbitan.required' => 'Anda belum mengisi jenis terbitan buku',
+                'jenis_kelompok.required' => 'Anda belum mengisi kelompok pembaca buku',
+                'jenis_penelitian.required' => 'Anda belum mengisi jenis penilitian',
+                'jenis_kategori.required' => 'Anda belum mengisi kategori buku terjemahan/non terjemahan',
+                'jenis_pustaka.required' => 'Anda belum mengisi jenis pustaka (fiksi/non fiksi)',
+                'deskripsi.required' => 'Anda belum mengisi abstrak/deskripsi buku',
+                'deskripsi.min' => 'Abstrak/deskripsi buku minimal terdiri dari 100 karakter',
+                'status.required' => 'Anda belum memilih jenis permintaan ISBN (Lepas/Jilid)',
+                'url.0.required' => 'Anda belum mengisi URL/Link publikasi buku',
+            ]);
+
+            if($validator->fails()){
+                return response()->json([
+                    'status' => 'Failed',
+                    'message'   => 'Gagal menyimpan data. Cek kembali data yang Anda masukan!',
+                    'err' => $validator->errors(),
+                ], 422);
+            } else {
+                $authors = "";
+                for($i = 0; $i < count(request('namaPengarang')); $i++) {
+                    $authors .= request('authorRole')[$i] .", " . request('namaPengarang')[$i];
+                    if(isset(request('authorRole')[$i+1])){
+                        $authors .= ";";
+                    }
+                }
+                $noresi = now()->format('YmdHis') . strtoupper(str()->random(5));
+                if(request('status') == 'lepas') {
+                    $addData = [
+                        [ "name"=>"NORESI", "Value"=> $noresi ], // example : 202409020449131FPI3
+                        [ "name"=>"TITLE", "Value"=> request('title') ],
+                        [ "name"=>"KEPENG", "Value"=> $authors ],
+                        [ "name"=>"EDISI", "Value"=> request('edisi')[0] ],
+                        [ "name"=>"SERI", "Value"=> request('seri')[0]],
+                        [ "name"=>"SINOPSIS", "Value"=> request('deskripsi') ],
+                        [ "name"=>"JML_HLM", "Value"=> request('jml_hlm')[0] ],
+                        [ "name"=>"KETEBALAN", "Value"=> request('ketebalan')[0] ],
+                        [ "name"=>"TAHUN_TERBIT", "Value"=> request('tahun_terbit') ],
+                        [ "name"=>"BULAN_TERBIT", "Value"=> request('bulan_terbit') ],
+                        [ "name"=>"JENIS_KELOMPOK", "Value"=> request('jenis_kelompok') ],
+                        [ "name"=>"JENIS_MEDIA", "Value"=> request('jenis_media') ],
+                        [ "name"=>"JENIS_TERBITAN", "Value"=> request('jenis_terbitan') ],
+                        [ "name"=>"JENIS_PENELITIAN", "Value"=> request('jenis_penelitian') ],
+                        [ "name"=>"JENIS_PUSTAKA", "Value"=> request('jenis_pustaka') ],
+                        [ "name"=>"JENIS_KATEGORI", "Value"=> request('jenis_kategori') ],
+                        [ "name"=>"MOHON_DATE", "Value"=> now()->format('Y-m-d H:i:s') ],
+                        [ "name"=>"LINK_BUKU", "Value"=> request('url')[0] ],
+                        [ "name"=>"PENERBIT_ID", "Value"=> '2159312' ], //erlangga
+                        [ "name"=>"IS_KDT_VALID", "Value"=> '0' ],
+                        [ "name"=>"CREATEBY", "Value"=> 'erlanggamahmeru'], //nama user penerbit
+                        [ "name"=>"CREATEDATE", "Value"=> now()->format('Y-m-d H:i:s') ],
+                        [ "name"=>"CREATETERMINAL", "Value"=> \Request::ip()],
+                    ];
+                    $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=add&table=PENERBIT_TERBITAN&issavehistory=1&ListAddItem=" . urlencode(json_encode($addData)));
+                } else {
+                    $jumlah_jilid = intval(request('jumlah_jilid'));
+                    for($i = 0; $i < $jumlah_jilid; $i++){
+                        $addData = [
+                            [ "name"=>"NORESI", "Value"=> $noresi ], // example : 202409020449131FPI3
+                            [ "name"=>"TITLE", "Value"=> request('title') . ' Jilid ('.$i. ')' ],
+                            [ "name"=>"KEPENG", "Value"=> $authors ],
+                            [ "name"=>"EDISI", "Value"=> request('edisi')[$i] ],
+                            [ "name"=>"SERI", "Value"=> request('seri')[$i]],
+                            [ "name"=>"SINOPSIS", "Value"=> request('deskripsi') ],
+                            [ "name"=>"JML_HLM", "Value"=> request('jml_hlm')[$i] ],
+                            [ "name"=>"KETEBALAN", "Value"=> request('ketebalan')[$i] ],
+                            [ "name"=>"TAHUN_TERBIT", "Value"=> request('tahun_terbit') ],
+                            [ "name"=>"BULAN_TERBIT", "Value"=> request('bulan_terbit') ],
+                            [ "name"=>"JENIS_KELOMPOK", "Value"=> request('jenis_kelompok') ],
+                            [ "name"=>"JENIS_MEDIA", "Value"=> request('jenis_media') ],
+                            [ "name"=>"JENIS_TERBITAN", "Value"=> request('jenis_terbitan') ],
+                            [ "name"=>"JENIS_PENELITIAN", "Value"=> request('jenis_penelitian') ],
+                            [ "name"=>"JENIS_PUSTAKA", "Value"=> request('jenis_pustaka') ],
+                            [ "name"=>"JENIS_KATEGORI", "Value"=> request('jenis_kategori') ],
+                            [ "name"=>"MOHON_DATE", "Value"=> now()->format('Y-m-d H:i:s') ],
+                            [ "name"=>"LINK_BUKU", "Value"=> request('url')[$i] ],
+                            [ "name"=> "JML_JILID", "Value" => $jumlah_jilid],
+                            [ "name"=>"PENERBIT_ID", "Value"=> '2159312' ], //erlangga
+                            [ "name"=>"IS_KDT_VALID", "Value"=> '0' ],
+                            [ "name"=>"CREATEBY", "Value"=> 'erlanggamahmeru'], //nama user penerbit
+                            [ "name"=>"CREATEDATE", "Value"=> now()->format('Y-m-d H:i:s') ],
+                            [ "name"=>"CREATETERMINAL", "Value"=> \Request::ip()],
+                        ];
+                        $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=add&table=PENERBIT_TERBITAN&issavehistory=1&ListAddItem=" . urlencode(json_encode($addData)));
+                    }
+                }
+                return response()->json([
+                    'status' => 'Success',
+                    'message' => 'Data permohonan berhasil disimpan.',
+                    'noresi' => $noresi
+                ], 200);
+            }
+        } catch(\Exception $e){
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Data permohonan gagal disimpan. Server Error!',
+                'noresi' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
