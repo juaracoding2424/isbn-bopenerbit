@@ -5,7 +5,7 @@
 <head>
 	<title>ISBN - Back Office Penerbit</title>
 	<meta charset="utf-8" />
-
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="canonical" href="http://isbn.perpusnas.go.id" />
 	<link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
@@ -103,10 +103,9 @@
 											<!--end::Avatar-->
 											<!--begin::Username-->
 											<div class="d-flex flex-column">
-												<div class="fw-bold d-flex align-items-center fs-5">Gramedia Pustaka
-													Utama</div>
+												<div class="fw-bold d-flex align-items-center fs-5">{{ session('penerbit')['NAME'] }}</div>
 												<a href="#"
-													class="fw-semibold text-muted text-hover-primary fs-7">gramediabooks@mail.com</a>
+													class="fw-semibold text-muted text-hover-primary fs-7">{{ session('penerbit')['EMAIL'] }}</a>
 											</div>
 											<!--end::Username-->
 										</div>
@@ -117,7 +116,7 @@
 									<!--end::Menu separator-->
 									<!--begin::Menu item-->
 									<div class="menu-item px-5">
-										<a href="profile.php" class="menu-link px-5">Akun</a>
+										<a href="{{url('penerbit/profile')}}" class="menu-link px-5">Akun</a>
 									</div>
 									<!--end::Menu item-->
 									<!--begin::Menu separator-->
@@ -176,12 +175,12 @@
 
 									<!--begin::Menu item-->
 									<div class="menu-item px-5 my-1">
-										<a href="ubah_password.php" class="menu-link px-5">Ubah Password</a>
+										<a href="{{url('auth/change-password')}}" class="menu-link px-5">Ubah Password</a>
 									</div>
 									<!--end::Menu item-->
 									<!--begin::Menu item-->
 									<div class="menu-item px-5">
-										<a href="sign-in.php" class="menu-link px-5">Sign Out</a>
+										<a href="{{url('auth/logout')}}" class="menu-link px-5">Sign Out</a>
 									</div>
 									<!--end::Menu item-->
 								</div>

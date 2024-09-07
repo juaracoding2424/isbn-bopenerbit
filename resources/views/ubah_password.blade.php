@@ -1,85 +1,205 @@
-<?php include 'header.php';?>
-<!--begin::Wrapper-->
-<div class="app-wrapper d-flex" id="kt_app_wrapper">
-	<!--begin::Sidebar-->
-	<?php include 'sidebar.php';?>
-	<!--end::Sidebar-->
-	<!--begin::Main-->
-	<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
-		<!--begin::Content wrapper-->
-		<div class="d-flex flex-column flex-column-fluid">
-			<!--begin::Content-->
-			<div id="kt_app_content" class="app-content">
-				<!--begin::Content container-->
-				<div id="kt_app_content_container" class="app-container container-fluid">
-					<!--begin::Row-->
-					<div class="row g-5 gx-xl-10">
+@extends('index')
+@section('content')
 
+<!--begin::Content wrapper-->
+<div class="d-flex flex-column flex-column-fluid">
+	<!--begin::Content-->
+	<div id="kt_app_content" class="app-content">
+		<!--begin::Content container-->
+		<div id="kt_app_content_container" class="app-container container-fluid">
+			<!--begin::Row-->
+			<div class="row g-5 gx-xl-10">
+				<div class="card min-w-full">
+                    <div class="card-header">
+                        <h3 class="card-title text-gray-800 text-hover-primary fs-2 fw-bold me-3">
+                            Ubah Password
+                        </h3>
+                    </div>
+					<div id="change_password" class="collapse show">
+                        <!--begin::Form-->
+                        <form id="form_change_password" class="form">
+							@csrf
+							<div class="card-body border-top p-9">
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                	<!--begin::Label-->
+									<label class="col-lg-3 col-form-label fw-semibold fs-8">Password Saat Ini</label>
+									<!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-9">
+                                        <input type="password" name="current_password" id="current_password"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    placeholder="Isi password lama">
+                                    </div>
+                                    <!--end::Col-->	
+								</div>
+								<!--end::Input group-->
+								<!--begin::Input group-->
+                                <div class="row mb-6">
+                                	<!--begin::Label-->
+									<label class="col-lg-3 col-form-label fw-semibold fs-8">Password Baru</label>
+									<!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-9">
+                                        <input type="password" name="new_password" id="new_password"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    placeholder="Isi password baru">
+                                    </div>
+                                    <!--end::Col-->	
+								</div>
+								<!--end::Input group-->
+								<!--begin::Input group-->
+                                <div class="row mb-6">
+                                	<!--begin::Label-->
+									<label class="col-lg-3 col-form-label fw-semibold fs-8">Konfirmasi Password Baru</label>
+									<!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-9">
+                                        <input type="password" name="confirm_password" id="confirm_password"
+                                                    class="form-control form-control-lg form-control-solid"
+                                                    placeholder="Isi konfirmasi password">
+                                    </div>
+                                    <!--end::Col-->	
+								</div>
+								<!--end::Input group-->
+								<!--begin::Actions-->
+								<div class="card-footer d-flex py-6 px-9">
+                                    <button type="submit" class="btn btn-primary" id="btnSubmit" >Simpan</button>
+                                </div>
+                                <!--end::Actions-->
+							</div>
+						</form>
 					</div>
-					<!--end::Row-->
+				</div>
+			</div>
+			<!--end::Row-->
 
-				</div>
-				<!--end::Content container-->
-			</div>
-			<!--end::Content-->
 		</div>
-		<!--end::Content wrapper-->
-		<!--begin::Footer-->
-		<div id="kt_app_footer" class="app-footer">
-			<!--begin::Footer container-->
-			<div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
-				<!--begin::Copyright-->
-				<div class="text-gray-900 order-2 order-md-1">
-					<span class="text-muted fw-semibold me-1">2024&copy;</span>
-					<a href="https://perpusnas.go.id" target="_blank"
-						class="text-gray-800 text-hover-primary">Perpustakaan Nasional RI</a>
-				</div>
-				<!--end::Copyright-->
-				<!--begin::Menu-->
-				<ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
-					<li class="menu-item">
-						<a href="faq.php" target="_blank" class="menu-link px-2">FAQ</a>
-					</li>
-					<li class="menu-item">
-						<a href="template.php" target="_blank" class="menu-link px-2">Template Surat</a>
-					</li>
-					<li class="menu-item">
-						<a href="berita.php" target="_blank" class="menu-link px-2">Berita</a>
-					</li>
-				</ul>
-				<!--end::Menu-->
-			</div>
-			<!--end::Footer container-->
-		</div>
-		<!--end::Footer-->
+		<!--end::Content container-->
 	</div>
-	<!--end:::Main-->
-	<?php include 'sidebar_aside.php';?>
+	<!--end::Content-->
 </div>
-<!--end::Wrapper-->
-</div>
-<!--end::Page-->
-</div>
-<!--end::App-->
-<?php include 'log_aktifitas.php';?>
-<!--begin::Scrolltop-->
-<div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
-	<i class="ki-outline ki-arrow-up"></i>
-</div>
-<!--end::Scrolltop-->
+<!--end::Content wrapper-->
+@stop
+@section('script')
 
-<!--begin::Javascript-->
-<script>var hostUrl = "assets/";</script>
-<!--begin::Global Javascript Bundle(mandatory for all pages)-->
-<script src="assets/plugins/global/plugins.bundle.js"></script>
-<script src="assets/js/scripts.bundle.js"></script>
-<!--end::Global Javascript Bundle-->
-
-<!--end::Javascript-->
-</body>
-<!--end::Body-->
 <script>
-
+	document.addEventListener('DOMContentLoaded', function(e) {
+		FormValidation.formValidation(
+			document.getElementById('form_change_password'),
+			{
+                    fields: {
+                        current_password: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Password lama diperlukan. Tidak boleh kosong!"
+                                }
+                            }
+                        },
+                        new_password: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Password baru diperlukan. Tidak boleh kosong!"
+                                }
+                            }
+                        },
+                        confirm_password: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Konfirmasi password baru diperlukan. Tidak boleh kosong!"
+                                },
+                                identical: {
+                                    compare: function() {
+                                        return $('input[name="new_password"]').val()
+                                    },
+                                    message: "Password baru dan konfirmasi password tidak sama"
+                                }
+                            }
+                        }
+                    },
+					
+                    plugins: {
+                        trigger: new FormValidation.plugins.Trigger,
+                        bootstrap: new FormValidation.plugins.Bootstrap5({
+                            rowSelector: ".col-lg-9"
+                        }),
+						submitButton: new FormValidation.plugins.SubmitButton(),
+						icon: new FormValidation.plugins.Icon({
+                            valid: 'fa fa-check',
+                            invalid: 'fa fa-times',
+                            validating: 'fa fa-refresh',
+                        }),
+                    }
+                }
+			).on('core.form.valid', function() {
+				let form = document.getElementById('form_change_password');
+				let formData = new FormData(form); 
+			
+				$.ajaxSetup({
+					headers: {
+						'X-CSRF-TOKEN': $('input[name="_token"]').val()
+					}
+				});
+				$.ajax({
+							url :'{{ url('/auth/change-password/submit') }}',
+							type: 'post',
+							dataType: 'json',
+							processData: false,
+							contentType:  false,
+							async:false,
+							data: formData,
+							statusCode: {
+								422: function(xhr) {
+									var error = '<div class="alert alert-danger d-flex align-items-center p-5 mb-10"><div class="d-flex flex-column" style="text-align: left;"><ul>';
+									$.each(xhr.responseJSON.err, function(key, value){
+										error+='<li>'+value[0]+'</li>';
+									}); 
+									error+='</ul></div></div>';
+									Swal.fire({
+											title: "Validation Error!",
+											html: error,
+											buttonsStyling: !1,
+											confirmButtonText: "Ok!",
+											width: '800px',
+											heightAuto:false,
+											height: '800px',
+											customClass: { 
+												confirmButton: "btn fw-bold btn-primary",
+												content: "swal-height"
+											}
+										});
+								},
+								200: function(xhr) {
+									Swal.fire({
+											title: "Berhasil Ubah Password!",
+											html: xhr.message,
+											icon: "success",
+											buttonsStyling: !1,
+											confirmButtonText: "Ok!",
+											customClass: {
+												confirmButton: "btn fw-bold btn-primary"
+												}
+										}).then(function(isConfirm){
+											if (isConfirm){
+												$('#new_password').val(''),$('#current_password').val(''), $('#confirm_password').val('')
+											}
+										});
+								},
+								500: function(xhr) {
+									Swal.fire({
+											text: xhr.responseJSON.message,
+											icon: "failed",
+											buttonsStyling: !1,
+											confirmButtonText: "Ok!",
+											customClass: {
+												confirmButton: "btn fw-bold btn-danger"
+												}
+										});
+								},
+							}
+					});
+			
+				})
+			})
 </script>
-
-</html>
+@stop

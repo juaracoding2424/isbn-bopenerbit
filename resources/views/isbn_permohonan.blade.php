@@ -67,6 +67,7 @@
 										<select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectParameter">
 											<option value="title">Judul</option>
 											<option value="kepeng">Kepengarangan</option>
+											<option value="no_resi">Nomor Resi</option>
 											<option value="tahun_terbit">Tahun Terbit</option>
 										</select>
 										<input type="text" id="txtAdvanceSearch_0" class="form-control w-400px fs-8 p-2 m-0" 
@@ -99,6 +100,7 @@
 								<thead>
 									<tr class="text-start text-gray-500 fw-bold fs-8 text-uppercase gs-0">
 										<th class="text-start min-w-60px pe-2">ID</th>
+										<th class="min-w-150px">NORESI</th>
 										<th class="min-w-200px">Judul</th>
 										<th class="min-w-200px">Kepengarangan</th>
 										<th class="min-w-175px">Bulan/Tahun Terbit</th>
@@ -137,15 +139,14 @@
 </body>
 <!--end::Body-->
 <script>
-	var extractColumn = function(arr, column) {
-		return arr.map(x => x[column]);
-	}
-	var batalkanPermohonan = function(i){
-		let arrNomor = extractColumn(dataSet, 0);
-		let position = arrNomor.indexOf((i+1).toString());
-		r = dataSet[position][1];
-		Swal.fire({
-                    html: "Anda yakin akan membatalkan permohonan ISBN, dengan <b>judul</b>: <span class='badge badge-info'> "+r+" </span>?",
+	var batalkanPermohonan = function(id){
+		$.ajax({
+            url: '/penerbit/isbn/permohonan/detail/'+id+'/get',
+            type: 'GET',
+			async:false,
+			success: function(response){
+				Swal.fire({
+                    html: "Anda yakin akan membatalkan permohonan ISBN, dengan <b>judul</b>: <span class='badge badge-info'> "+response['detail']['TITLE']+" </span>?",
 					icon: "warning",
                     showCancelButton: !0,
                     buttonsStyling: !1,
@@ -155,23 +156,28 @@
                         confirmButton: "btn fw-bold btn-danger",
                         cancelButton: "btn fw-bold btn-active-light-primary"
                     }
-            }).then(function(e) {
+            	}).then(function(e) {
 						if(e.isConfirmed == true) {
-							Swal.fire({
-								html: "Anda membatalkan permohonan ISBN, dengan <b>judul</b>: <span class='badge badge-info'>" + r + "</span>!.",
-								icon: "success",
-								buttonsStyling: !1,
-								confirmButtonText: "Ok, got it!",
-								customClass: {
-									confirmButton: "btn fw-bold btn-primary"
+							$.ajax({
+								url: '/penerbit/isbn/permohonan/delete/'+id,
+								type: 'GET',
+								async:false,
+								success: function(response){
+									Swal.fire({
+										html: "Anda membatalkan permohonan ISBN, dengan <b>judul</b>: <span class='badge badge-info'>" + response['detail']['TITLE'] + "</span>!.",
+										icon: "success",
+										buttonsStyling: !1,
+										confirmButtonText: "Ok, got it!",
+										customClass: {
+											confirmButton: "btn fw-bold btn-primary"
+										}
+									})
 								}
-							})
-							dataSet.splice(position,1);
-							t.destroy();
-							loadDataTable();
+							});
+							
 						} else {
 							Swal.fire({
-								html: "<span class='badge badge-info'>" + r + "</span> tidak jadi dibatalkan.",
+								html: "<span class='badge badge-info'>" + response['detail']['TITLE'] + "</span> tidak jadi dibatalkan.",
 								icon: "error",
 								buttonsStyling: !1,
 								confirmButtonText: "Ok, got it!",
@@ -180,9 +186,10 @@
 								}
                         	});
 						}
-            });
+           	 	});
+			}
+		})
 	}
-
 
 	var loadDataTable = function(){
 		let selectParameter = $('select[name="selectParameter"] option:selected').map(function() {
@@ -220,7 +227,7 @@
 	var advSearch = 1;
 	$('#btnTambahFilter').on("click", function(){
 		let htmlAppend = '<div id="advanceSearch_'+advSearch+'" class="d-flex align-items-center position-relative my-0"><select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectParameter">';
-		htmlAppend +='<option value="title">Judul</option><option value="kepeng">Kepengarangan</option><option value="tahun_terbit">Tahun Terbit</option></select>';
+		htmlAppend +='<option value="title">Judul</option><option value="kepeng">Kepengarangan</option><option value="no_resi">Nomor Resi</option><option value="tahun_terbit">Tahun Terbit</option></select>';
 		htmlAppend +='<input type="text" id="txtAdvanceSearch_0" name="searchValue[]" class="form-control w-400px p-2 m-0 fs-8" placeholder="Masukan kata kunci pencarian" />';
 		htmlAppend +='<span class="btn btn-light-danger p-1 m-0"><i class="ki-outline ki-trash fs-2" onclick="deleteFilter('+advSearch+')" id="btnDeleteFilter"></i></span></div>';
 		$('#advanceSearch').append(htmlAppend);

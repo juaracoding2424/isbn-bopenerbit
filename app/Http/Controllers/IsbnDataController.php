@@ -10,7 +10,7 @@ class IsbnDataController extends Controller
     public function index()
     {
         $data = [
-            'nama_penerbit' => $this->penerbit["NAME"]
+            'nama_penerbit' => session('penerbit')["NAME"]
         ];
         return view('isbn_data', $data);
     }
@@ -34,7 +34,7 @@ class IsbnDataController extends Controller
         $order  = $whereLike[$request->input('order.0.column')];
         $dir    = $request->input('order.0.dir');
         $search = $request->input('search.value');
-        $id = $this->penerbit['ID'];
+        $id = session('penerbit')['ID'];
         
         $start = $start;
         $end = $start + $length;
@@ -119,10 +119,8 @@ class IsbnDataController extends Controller
 
     public function detail($noresi)
     {
-        $data =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=getlistraw&sql=" . urlencode('SELECT * FROM PENERBIT_TERBITAN WHERE NORESI=' . $noresi));
-        return response()->json([
-            'status' => 'Success',
-            'data' => $data,
-        ], 200);
+        $data =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=getlistraw&sql=" . "SELECT * FROM PENERBIT_TERBITAN WHERE NORESI='" . $noresi ."'");
+
+        return view('edit_isbn', $data);
     }
 }

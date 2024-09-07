@@ -1,11 +1,5 @@
-<?php include 'header.php';?>
-<!--begin::Wrapper-->
-<div class="app-wrapper d-flex" id="kt_app_wrapper">
-	<!--begin::Sidebar-->
-	<?php include 'sidebar.php';?>
-	<!--end::Sidebar-->
-	<!--begin::Main-->
-	<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+@extends('index')
+@section('content')
 		<!--begin::Content wrapper-->
 		<div class="d-flex flex-column flex-column-fluid">
 			<!--begin::Toolbar-->
@@ -576,49 +570,6 @@
 			<!--end::Content-->
 		</div>
 		<!--end::Content wrapper-->
-		<!--begin::Footer-->
-		<div id="kt_app_footer" class="app-footer">
-			<!--begin::Footer container-->
-			<div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
-				<!--begin::Copyright-->
-				<div class="text-gray-900 order-2 order-md-1">
-					<span class="text-muted fw-semibold me-1">2024&copy;</span>
-					<a href="https://perpusnas.go.id" target="_blank"
-						class="text-gray-800 text-hover-primary">Perpustakaan Nasional RI</a>
-				</div>
-				<!--end::Copyright-->
-				<!--begin::Menu-->
-				<ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
-					<li class="menu-item">
-						<a href="faq.php" target="_blank" class="menu-link px-2">FAQ</a>
-					</li>
-					<li class="menu-item">
-						<a href="template.php" target="_blank" class="menu-link px-2">Template Surat</a>
-					</li>
-					<li class="menu-item">
-						<a href="berita.php" target="_blank" class="menu-link px-2">Berita</a>
-					</li>
-				</ul>
-				<!--end::Menu-->
-			</div>
-			<!--end::Footer container-->
-		</div>
-		<!--end::Footer-->
-	</div>
-	<!--end:::Main-->
-	<?php include 'sidebar_aside.php';?>
-</div>
-<!--end::Wrapper-->
-</div>
-<!--end::Page-->
-</div>
-<!--end::App-->
-<?php include 'log_aktifitas.php';?>
-<!--begin::Scrolltop-->
-<div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
-	<i class="ki-outline ki-arrow-up"></i>
-</div>
-<!--end::Scrolltop-->
 		<!--begin::Modal - Two-factor authentication-->
 		<div class="modal fade" id="kt_modal_two_factor_authentication" tabindex="-1" aria-hidden="true">
 			<!--begin::Modal header-->
@@ -765,12 +716,10 @@
 			<!--end::Modal header-->
 		</div>
 		<!--end::Modal - Two-factor authentication-->
+@stop
+		
 <!--begin::Javascript-->
-<script>var hostUrl = "assets/";</script>
-<!--begin::Global Javascript Bundle(mandatory for all pages)-->
-<script src="assets/plugins/global/plugins.bundle.js"></script>
-<script src="assets/js/scripts.bundle.js"></script>
-<!--end::Global Javascript Bundle-->
+@section('script')
 <!--begin::Custom Javascript(used for this page only)-->
 <script src="assets/js/custom/account/settings/signin-methods.js"></script>
 		<script src="assets/js/custom/account/settings/profile-details.js"></script>
@@ -790,13 +739,27 @@
 		<script src="assets/js/custom/utilities/modals/users-search.js"></script>
 		<!--end::Custom Javascript-->
 <!--begin::Custom Javascript(used for this page only)-->
-<script src="assets/js/widgets.bundle.js"></script>
-<script src="assets/js/custom/widgets.js"></script>
-<!--end::Custom Javascript-->
-<!--end::Javascript-->
-</body>
+
 <!--end::Body-->
 <script>
+	function getData(penerbit_id){
+	$.ajax({
+            url: '{{ url('penerbit/profile/detail') }}' + '/' + penerbit_id,
+            type: 'GET',
+            contentType: false,
+            processData: false,
+            success: function(response) {
+				console.log(response)
+            },
+            error: function() {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Server Error!'
+                });
+            }
+        });
+	}
+	getData("{{session('penerbit')['ID']}}");
 		var urlProvinsi = "https://ibnux.github.io/data-indonesia/provinsi.json";
 		var urlKabupaten = "https://ibnux.github.io/data-indonesia/kabupaten/";
 		var urlKecamatan = "https://ibnux.github.io/data-indonesia/kecamatan/";
@@ -947,4 +910,4 @@
         });
 </script>
 
-</html>
+@stop

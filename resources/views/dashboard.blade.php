@@ -117,31 +117,8 @@
 										</button>
 										<!--begin::Menu-->
 										<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold w-100px py-4"
-											data-kt-menu="true">
-											<!--begin::Menu item-->
-											<div class="menu-item px-3">
-												<a href="#chart_isbn_month" class="menu-link px-3"
-													onclick="changeChart(2021)">2021</a>
-											</div>
-											<!--end::Menu item-->
-											<!--begin::Menu item-->
-											<div class="menu-item px-3">
-												<a href="#chart_isbn_month" class="menu-link px-3"
-													onclick="changeChart(2022)">2022</a>
-											</div>
-											<!--end::Menu item-->
-											<!--begin::Menu item-->
-											<div class="menu-item px-3">
-												<a href="#chart_isbn_month" class="menu-link px-3"
-													onclick="changeChart(2023)">2023</a>
-											</div>
-											<!--end::Menu item-->
-											<!--begin::Menu item-->
-											<div class="menu-item px-3">
-												<a href="#chart_isbn_month" class="menu-link px-3"
-													onclick="changeChart(2024)">2024</a>
-											</div>
-											<!--end::Menu item-->
+											data-kt-menu="true" id="isbn_year">
+											
 										</div>
 										<!--end::Menu-->
 										<!--end::Menu-->
@@ -201,7 +178,7 @@
 @stop
 @section('script')
 <!--begin::Vendors Javascript(used for this page only)-->
-<script src="assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
+<script src="{{ url('assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') }}"></script>
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
@@ -213,23 +190,24 @@
 <script src="https://cdn.amcharts.com/lib/5/geodata/usaLow.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZonesLow.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZoneAreasLow.js"></script>
-<script src="assets/plugins/custom/datatables/datatables.bundle.js"></script>
+<script src="{{ url('assets/plugins/custom/datatables/datatables.bundle.js ') }}"></script>
 <!--end::Vendors Javascript-->
 <!--begin::Custom Javascript(used for this page only)-->
-<script src="assets/js/widgets.bundle.js"></script>
-<script src="assets/js/custom/widgets.js"></script>
+<script src="{{ url('assets/js/widgets.bundle.js') }}"></script>
+<script src="{{ url('assets/js/custom/widgets.js') }}"></script>
 <!--end::Custom Javascript-->
 <!--end::Javascript-->
 </body>
 <!--end::Body-->
 <script>
 //$(document).ready(function(){
+	var dataChart = [];
 	function chart_isbn_month() {
 		var e = document.getElementById("chart_isbn_month");
 
 		if (e) {
 			var t, a = function () {
-					var dataChart = generateData('2024');
+					//var dataChart = generateData('2024');
 					(t = am5.Root.new(e)).setThemes([am5themes_Animated.new(t)]);
 					var a = t.container.children.push(am5xy.XYChart.new(t, {
 						panX: !1,
@@ -302,6 +280,7 @@
 				}))
 			}
 	}
+	getYear();
 	chart_isbn_month();
 	getBerita();
 	function getRandom(min, max) {
@@ -309,7 +288,7 @@
 	};
 	function changeChart(year) {
 		$('#title_chart').html("Data ISBN " + year + ' {{$nama_penerbit}} ');
-		var dataChart = generateData(year);
+		dataChart = generateData(year);
 		am5.array.each(am5.registry.rootElements,
 			function (root) {
 				if (root.dom.id == "chart_isbn_month") {
@@ -321,7 +300,7 @@
 
 	};
 	function generateData(year) {
-		var dataChart = [];
+		dataChart = [];
 		$.ajax({
             url: '{{ url('penerbit/dashboard/statistik-isbn') }}' + '?year=' + year,
             type: 'GET',
@@ -331,7 +310,7 @@
             success: function(response) {
                 for (var d = 0; d < response.length; d++) {
 					dataChart = dataChart.concat({
-						month: Intl.DateTimeFormat('en', { month: 'short' }).format(new Date(response[d]['MONTH_NUMB'])),
+						month: Intl.DateTimeFormat('id', { month: 'short' }).format(new Date(response[d]['MONTH_NUMB'])),
 						counts: parseInt(response[d]['JUMLAH']),
 						columnSettings: {
 							fill: am5.color(KTUtil.getCssVariableValue("--bs-primary"))
@@ -349,6 +328,27 @@
         });
 		return dataChart;
 	};
+	function getYear(){
+	$.ajax({
+            url: '{{ url('penerbit/dashboard/year') }}',
+            type: 'GET',
+            contentType: false,
+            processData: false,
+            success: function(response) {
+				for(var i=0; i< response.length; i++){
+					$('#isbn_year').append('<div class="menu-item px-3"><a href="#chart_isbn_month" class="menu-link px-3"onclick="changeChart('+response[i]['YEAR']+')">'+response[i]['YEAR']+'</a></div>');
+				}
+				let lenRes = response.length - 2;
+				changeChart(response[lenRes]['YEAR']);
+            },
+            error: function() {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Server Error!'
+                });
+            }
+        });
+	}
 	$.ajax({
             url: '{{ url('penerbit/dashboard/total-isbn') }}' + '?status=diterima',
             type: 'GET',

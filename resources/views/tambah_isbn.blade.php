@@ -52,7 +52,7 @@ height: 100vh !important;
                         <div class="card min-w-full">
                             <div class="card-header">
                                 <h3 class="card-title text-gray-800 text-hover-primary fs-2 fw-bold me-3">
-                                    General Info <span id="noresi"></span>
+                                    General Info
                                 </h3>
                             </div>
 
@@ -123,7 +123,7 @@ height: 100vh !important;
                                             <!--end::Label-->
                                             <!--begin::Col-->
                                             <div class="col-lg-9">
-                                                <textarea row="3" type="text" name="title"
+                                                <textarea row="3" type="text" name="title" id="title"
                                                     class="form-control form-control-lg form-control-solid"
                                                     placeholder="Isi judul buku"></textarea>
                                             </div>
@@ -816,6 +816,8 @@ height: 100vh !important;
                                         <!--end::Input group-->
                                         <div id="isbn_detail">
                                             <span id="judul_buku_1"><h4>Data Buku 1 </h4><hr/></span>
+                                            <input type="hidden" name="file_lampiran[]" id="file_lampiran1">
+                                            <input type="hidden" name="file_dummy[]" id="file_dummy1">
                                             <!--begin::Input group-->
                                             <div class="row mb-6">
                                                 <!--begin::Label-->
@@ -1029,6 +1031,8 @@ $('#btnTambahJilid').on('click', function(){
     jumlah_buku +=1;
     let html = 
 `<div class='jilidbaru'><span><h4>Data Buku `+ jumlah_buku + `</h4><hr/></span>
+<input type='hidden' id='file_dummy`+jumlah_buku+`' name='file_dummy[]'>
+<input type='hidden' id='file_lampiran`+jumlah_buku+`' name='file_lampiran[]'>
 <div class="row mb-6">
     <label class="col-lg-3 col-form-label required fw-semibold fs-8">Jumlah
         Halaman</label>
@@ -1062,7 +1066,7 @@ $('#btnTambahJilid').on('click', function(){
     <label class="col-lg-3 col-form-label fw-semibold fs-8">Dummy Buku yang akan
         terbit</label>
 <div class="col-lg-6 d-flex align-items-center">
-    <div class="dropzone" id="dummy">
+    <div class="dropzone" id="dummy`+jumlah_buku+`">
         <div class="dz-message needsclick align-items-center">
             <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
             <div class="ms-4">
@@ -1079,7 +1083,7 @@ $('#btnTambahJilid').on('click', function(){
     <label class="col-lg-3 col-form-label fw-semibold fs-8">File
         Attachment</label>
     <div class="col-lg-6 d-flex align-items-center">
-        <div class="dropzone" id="attachments" style="width:100%">
+        <div class="dropzone" id="attachments`+jumlah_buku+`" style="width:100%">
             <div class="dz-message needsclick align-items-center">
                 <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
                 <div class="ms-4">
@@ -1133,9 +1137,138 @@ $('#btnTambahJilid').on('click', function(){
                 btnHapus.removeClass("disabled");
             }
         }
+    });  
+    new Dropzone("#attachments"+jumlah_buku, {
+        url: '/penerbit/dropzone/store',
+        paramName: "file",
+        maxFiles: 1,
+        maxFilesize: 2, // MB
+        acceptedFiles: ".pdf",
+        autoProcessQueue: false,
+        addRemoveLinks: true, // Option to remove files from the dropzone
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')// CSRF token for Laravel
+        },
+        init: function() {
+            this.on("addedfile", function(file) {
+                // Automatically process the file when it is added
+                if (this.files.length > 1) {
+                    this.removeFile(this.files[0]);
+                }
+                
+                this.processFile(file);
+            });
+            this.on("sending", function(file, xhr, formData) {
+                // Additional data can be sent here if required
+                console.log('Sending file:', file);
+            });
+            this.on("success", function(file, response) {
+                $('#file_lampiran'+jumlah_buku).val(response[0]['name']);
+                // Handle the response from the server after the file is uploaded
+                console.log('File uploaded successfully', response);
+            });
+            this.on("error", function(file, response) {
+                // Handle the errors
+                console.error('Upload error', response);
+            });
+            this.on("queuecomplete", function() {
+                // Called when all files in the queue have been processed
+                console.log('All files have been uploaded');
+            });
+            this.on("removedfile", function(file) {
+                console.log(file, 'hakim delete', file.serverFileName)
+                if (file.serverFileName) {
+                    $.ajax({
+                        url: '/penerbit/dropzone/delete',
+                        type: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        data: { 
+                            filename: file.serverFileName[0]['name']
+                        },
+                        success: function(data) {
+                            $('#file_lampiran'+jumlah_buku).val('');
+                            console.log("File deleted successfully");
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            console.error('Failed to delete file:', errorThrown);
+                        }
+                    });
+                }
+            });
+            this.on("success", function(file, response) {
+                // Store the server file name for deletion purposes
+                file.serverFileName = response;
+            });
+        }
+       
     });
-   
-                                            
+    //upload file  dummy
+    new Dropzone("#dummy"+jumlah_buku, {
+        url: '/penerbit/dropzone/store',
+        paramName: "file",
+        maxFiles: 1,
+        maxFilesize: 2, // MB
+        acceptedFiles: ".pdf",
+        autoProcessQueue: false,
+        addRemoveLinks: true, // Option to remove files from the dropzone
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // CSRF token for Laravel
+        },
+        init: function() {
+            this.on("addedfile", function(file) {
+                // Automatically process the file when it is added
+                if (this.files.length > 1) {
+                    this.removeFile(this.files[0]);
+                }
+                
+                this.processFile(file);
+            });
+            this.on("sending", function(file, xhr, formData) {
+                // Additional data can be sent here if required
+                console.log('Sending file:', file);
+            });
+            this.on("success", function(file, response) {
+                $('#file_dummy'+jumlah_buku).val(response[0]['name']);
+                // Handle the response from the server after the file is uploaded
+                console.log('File uploaded successfully', response);
+            });
+            this.on("error", function(file, response) {
+                // Handle the errors
+                console.error('Upload error', response);
+            });
+            this.on("queuecomplete", function() {
+                // Called when all files in the queue have been processed
+                console.log('All files have been uploaded');
+            });
+            this.on("removedfile", function(file) {
+                if (file.serverFileName) {
+                    $.ajax({
+                        url: '/penerbit/dropzone/delete',
+                        type: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        data: { 
+                            filename: file.serverFileName[0]['name']
+                        },
+                        success: function(data) {
+                            $('#file_dummy'+jumlah_buku).val('');
+                            console.log("File deleted successfully");
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            console.error('Failed to delete file:', errorThrown);
+                        }
+                    });
+                }
+            });
+            this.on("success", function(file, response) {
+                // Store the server file name for deletion purposes
+                file.serverFileName = response;
+            });
+        }
+    });
 });
 $(selectProv).change(function() {
     var value = $(selectProv).val();
@@ -1230,7 +1363,7 @@ $('form#form_isbn').submit(function(e){
     formData.append('jumlah_jilid', jumlah_buku);
     $.ajaxSetup({
         headers: {
-            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            'X-CSRF-TOKEN': $('input[name="_token"]').val()
         }
     });
     $.ajax({
@@ -1295,26 +1428,140 @@ $('form#form_isbn').submit(function(e){
 var deleteKepengarangan = function(numb) {
     $('#kepengarangan_' + numb).remove();
 };
-new Dropzone("#attachments", {
-    url: "https://keenthemes.com/scripts/void.php",
-    paramName: "file",
-    maxFiles: 10,
-    maxFilesize: 150,
-    addRemoveLinks: !0,
-    accept: function(t, e) {
-        "justinbieber.jpg" == t.name ? e("Naha, you don't.") : e()
-    }
-});
-new Dropzone("#dummy", {
-    url: "https://keenthemes.com/scripts/void.php",
-    paramName: "file",
-    maxFiles: 1,
-    maxFilesize: 100,
-    addRemoveLinks: !0,
-    accept: function(t, e) {
-        "justinbieber.jpg" == t.name ? e("Naha, you don't.") : e()
-    }
-});
 </script>
-
+<script>
+    //upload file  lampiran
+    Dropzone.autoDiscover = false;
+    new Dropzone("#attachments", {
+        url: '/penerbit/dropzone/store',
+        paramName: "file",
+        maxFiles: 1,
+        maxFilesize: 2, // MB
+        acceptedFiles: ".pdf",
+        autoProcessQueue: false,
+        addRemoveLinks: true, // Option to remove files from the dropzone
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')// CSRF token for Laravel
+        },
+        init: function() {
+            this.on("addedfile", function(file) {
+                // Automatically process the file when it is added
+                if (this.files.length > 1) {
+                    this.removeFile(this.files[0]);
+                }
+                
+                this.processFile(file);
+            });
+            this.on("sending", function(file, xhr, formData) {
+                // Additional data can be sent here if required
+                console.log('Sending file:', file);
+            });
+            this.on("success", function(file, response) {
+                $('#file_lampiran1').val(response[0]['name']);
+                // Handle the response from the server after the file is uploaded
+                console.log('File uploaded successfully', response);
+            });
+            this.on("error", function(file, response) {
+                // Handle the errors
+                console.error('Upload error', response);
+            });
+            this.on("queuecomplete", function() {
+                // Called when all files in the queue have been processed
+                console.log('All files have been uploaded');
+            });
+            this.on("removedfile", function(file) {
+                console.log(file, 'hakim delete', file.serverFileName)
+                if (file.serverFileName) {
+                    $.ajax({
+                        url: '/penerbit/dropzone/delete',
+                        type: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        data: { 
+                            filename: file.serverFileName[0]['name']
+                        },
+                        success: function(data) {
+                            $('#file_lampiran1').val('');
+                            console.log("File deleted successfully");
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            console.error('Failed to delete file:', errorThrown);
+                        }
+                    });
+                }
+            });
+            this.on("success", function(file, response) {
+                // Store the server file name for deletion purposes
+                file.serverFileName = response;
+            });
+        }
+       
+    });
+    //upload file  dummy
+    new Dropzone("#dummy", {
+        url: '/penerbit/dropzone/store',
+        paramName: "file",
+        maxFiles: 1,
+        maxFilesize: 2, // MB
+        acceptedFiles: ".pdf",
+        autoProcessQueue: false,
+        addRemoveLinks: true, // Option to remove files from the dropzone
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // CSRF token for Laravel
+        },
+        init: function() {
+            this.on("addedfile", function(file) {
+                // Automatically process the file when it is added
+                if (this.files.length > 1) {
+                    this.removeFile(this.files[0]);
+                }
+                
+                this.processFile(file);
+            });
+            this.on("sending", function(file, xhr, formData) {
+                // Additional data can be sent here if required
+                console.log('Sending file:', file);
+            });
+            this.on("success", function(file, response) {
+                $('#file_dummy1').val(response[0]['name']);
+                // Handle the response from the server after the file is uploaded
+                console.log('File uploaded successfully', response);
+            });
+            this.on("error", function(file, response) {
+                // Handle the errors
+                console.error('Upload error', response);
+            });
+            this.on("queuecomplete", function() {
+                // Called when all files in the queue have been processed
+                console.log('All files have been uploaded');
+            });
+            this.on("removedfile", function(file) {
+                if (file.serverFileName) {
+                    $.ajax({
+                        url: '/penerbit/dropzone/delete',
+                        type: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        data: { 
+                            filename: file.serverFileName[0]['name']
+                        },
+                        success: function(data) {
+                            $('#file_akta').remove();
+                            console.log("File deleted successfully");
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            console.error('Failed to delete file:', errorThrown);
+                        }
+                    });
+                }
+            });
+            this.on("success", function(file, response) {
+                // Store the server file name for deletion purposes
+                file.serverFileName = response;
+            });
+        }
+    });
+</script>
 @stop

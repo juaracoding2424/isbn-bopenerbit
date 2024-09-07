@@ -10,7 +10,7 @@ class DashboardController extends Controller
     public function index()
     {
         $data = [
-            'nama_penerbit' => $this->penerbit["NAME"]
+            'nama_penerbit' => session('penerbit')["NAME"]
         ];
         return view('dashboard', $data);
     }
@@ -18,19 +18,39 @@ class DashboardController extends Controller
     public function getTotalIsbn()
     {
         $status = request('status'); 
-        $id = $this->penerbit['ID'];
+        if($status == 'permohonan'){
+            $status = "AND (pt.status='' OR pt.status='permohonan' OR pt.status is NULL)";
+        } else {
+            $status = "AND pt.status='$status'";
+        }
+        $id = session('penerbit')['ID'];
         $data = Http::get(config('app.inlis_api_url'), [
             "token" => config('app.inlis_api_token'),
             "op" => "getlistraw",
-            "sql" => "SELECT count(*) JUMLAH FROM PENERBIT_ISBN pi JOIN PENERBIT_TERBITAN pt ON pt.id = pi.penerbit_terbitan_id WHERE pi.PENERBIT_ID='$id' AND pt.status='$status'"
+            "sql" => "SELECT count(*) JUMLAH FROM PENERBIT_ISBN pi JOIN PENERBIT_TERBITAN pt ON pt.id = pi.penerbit_terbitan_id WHERE pi.PENERBIT_ID='$id' " . $status
         ])->json()["Data"]["Items"][0]["JUMLAH"];
+        return $data;
+    }
+
+    public function getYear()
+    {
+        $id = session('penerbit')['ID'];   
+        $data = Http::get(config('app.inlis_api_url'), [
+            "token" => config('app.inlis_api_token'),
+            "op" => "getlistraw",
+            "sql" => "SELECT to_char(VALIDATION_DATE, 'YYYY') year
+                    FROM PENERBIT_TERBITAN 
+                    WHERE PENERBIT_ID = '$id'
+                    GROUP BY to_char(VALIDATION_DATE, 'YYYY')
+                    ORDER BY to_char(VALIDATION_DATE, 'YYYY')"
+        ])->json()["Data"]["Items"];
         return $data;
     }
 
     public function getStatistikIsbn()
     {
         $year = request('year');   
-        $id = $this->penerbit['ID'];    
+        $id = session('penerbit')['ID'];  
         $data = Http::get(config('app.inlis_api_url'), [
             "token" => config('app.inlis_api_token'),
             "op" => "getlistraw",
