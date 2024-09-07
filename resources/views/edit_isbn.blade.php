@@ -1335,10 +1335,10 @@ function getFile(penerbit_terbitan_id){
             success: function(response) {
 				for(var i = 0; i<response.length; i++){
                     if(response[i]['JENIS'] == 'lampiran_permohonan') {
-                        $('#lampiran_1').append('<a><i class="bi bi-filetype-pdf fs-1"></i> '+response[i]["FILE_NAME"]+'</a>');
+                        $('#lampiran_1').append('<a href="http://demo321.online/ISBN_Back_Office/files/isbn/lampiran/'+response[i]["FILE_NAME"]+'"><i class="bi bi-filetype-pdf fs-1"></i> '+response[i]["FILE_NAME"]+'</a></br>');
                     }  
                     if(response[i]['JENIS'] == 'dummy_buku') {
-                        $('#dummy_1').append('<a><i class="bi bi-filetype-pdf fs-1"></i> '+response[i]["FILE_NAME"]+'</a>');
+                        $('#dummy_1').append('<a href="http://demo321.online/ISBN_Back_Office/files/isbn/dummy/'+response[i]["FILE_NAME"]+'"><i class="bi bi-filetype-pdf fs-1"></i> '+response[i]["FILE_NAME"]+'</a></br>');
                     }
                 }
             },

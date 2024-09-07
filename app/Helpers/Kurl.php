@@ -26,7 +26,6 @@ function kurl($method, $action, $table, $data, $kategori, $params = null) {
     if (!empty($params)) {
         $form_data = array_merge($form_data, $params);
     }
-
     $response = Http::asForm()->$method(config('app.inlis_api_url'), $form_data);
 
     if ($response->successful()) {
@@ -56,10 +55,10 @@ function kurl_upload($method, $penerbit, $terbitan_id, $jenis, $file, $ip_user) 
             'name'     => 'jenis',
             'contents' => $jenis,
         ],
-        [
+        /*[
             'name'     => 'penerbitisbnid',
             'contents' => $penerbit['ID'],
-        ],
+        ],*/
         [
             'name'     => 'penerbitterbitanid',
             'contents' => $terbitan_id,

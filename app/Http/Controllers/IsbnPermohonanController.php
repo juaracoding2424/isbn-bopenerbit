@@ -38,9 +38,7 @@ class IsbnPermohonanController extends Controller
         $start = $start;
         $end = $start + $length;
 
-        $sql  = "SELECT *
-                    FROM PENERBIT_TERBITAN pt
-                    WHERE pt.PENERBIT_ID='$id' AND (pt.status='' OR pt.status='permohonan' OR pt.status is NULL) ";
+        $sql  = "SELECT *  FROM PENERBIT_TERBITAN pt  WHERE pt.PENERBIT_ID='$id' AND (pt.status='' OR pt.status='permohonan' OR pt.status is NULL) ";
         $sqlFiltered = "SELECT count(*) JUMLAH FROM PENERBIT_TERBITAN pt WHERE pt.PENERBIT_ID='$id' AND (pt.status='' OR pt.status='permohonan' OR pt.status is NULL) ";
 
         foreach($request->input('advSearch') as $advSearch){
@@ -72,10 +70,18 @@ class IsbnPermohonanController extends Controller
             foreach ($queryData as $val) {
                 $id = $val['ID'];
                 $noresi = $val['NORESI'] ? $val['NORESI'] : $val['ID'];
+                //$jilid_lepas = "tes";
+                $jml_jilid = $val['JML_JILID'];
+                if($jml_jilid){
+                    //\Log::info($jml_jilid);
+                    $jilid_lepas = intval($jml_jilid) > 1 ? "terbitan jilid" : "terbitan lepas";
+                }else {
+                    $jilid_lepas = "terbitan lepas";
+                }
                 $response['data'][] = [
                     $nomor,
                     $val['NORESI'],
-                    $val['TITLE'],
+                    $val['TITLE'] . "<br/><span class='badge badge-light-success'>$jilid_lepas</span>",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
                     $val['TAHUN_TERBIT'],
                     $val['MOHON_DATE'],
@@ -176,6 +182,7 @@ class IsbnPermohonanController extends Controller
                         [ "name"=>"SERI", "Value"=> request('seri')[0]],
                         [ "name"=>"SINOPSIS", "Value"=> request('deskripsi') ],
                         [ "name"=>"JML_HLM", "Value"=> request('jml_hlm')[0] ],
+                        [ "name"=>"JML_JILID", "Value" => 1],
                         [ "name"=>"KETEBALAN", "Value"=> request('ketebalan')[0] ],
                         [ "name"=>"TAHUN_TERBIT", "Value"=> request('tahun_terbit') ],
                         [ "name"=>"BULAN_TERBIT", "Value"=> request('bulan_terbit') ],
@@ -196,7 +203,7 @@ class IsbnPermohonanController extends Controller
                         );
                         
                         $id = request('penerbit_terbitan_id');
-                        \Log::info(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=PENERBIT_TERBITAN&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
+                        //\Log::info(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=PENERBIT_TERBITAN&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
                         $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=PENERBIT_TERBITAN&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
                     } else{
                         array_push($ListData, 
@@ -207,7 +214,7 @@ class IsbnPermohonanController extends Controller
                             [ "name"=>"CREATEDATE", "Value"=> now()->format('Y-m-d H:i:s') ],
                             [ "name"=>"CREATETERMINAL", "Value"=> \Request::ip()]
                         );
-                        \Log::info(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=add&table=PENERBIT_TERBITAN&issavehistory=1&ListAddItem=" . urlencode(json_encode($ListData)));
+                        //\Log::info(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=add&table=PENERBIT_TERBITAN&issavehistory=1&ListAddItem=" . urlencode(json_encode($ListData)));
                         $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=add&table=PENERBIT_TERBITAN&issavehistory=1&ListAddItem=" . urlencode(json_encode($ListData)));
                         $id = $res['Data']['ID'];
                     }
@@ -230,7 +237,7 @@ class IsbnPermohonanController extends Controller
                     for($i = 0; $i < $jumlah_jilid; $i++){
                         $ListData = [
                             [ "name"=>"NORESI", "Value"=> $noresi ], // example : 202409020449131FPI3
-                            [ "name"=>"TITLE", "Value"=> request('title') . ' Jilid ('.$i. ')' ],
+                            [ "name"=>"TITLE", "Value"=> request('title') ],
                             [ "name"=>"KEPENG", "Value"=> $authors ],
                             [ "name"=>"EDISI", "Value"=> request('edisi')[$i] ],
                             [ "name"=>"SERI", "Value"=> request('seri')[$i]],
@@ -248,6 +255,7 @@ class IsbnPermohonanController extends Controller
                             [ "name"=>"MOHON_DATE", "Value"=> now()->format('Y-m-d H:i:s') ],
                             [ "name"=>"LINK_BUKU", "Value"=> request('url')[$i] ],
                             [ "name"=>"JML_JILID", "Value" => $jumlah_jilid],
+                            [ "name" =>"JILID_VOLUME", "VALUE" => ($i+1)],
                             [ "name"=>"STATUS", "Value"=> 'permohonan'],
                             [ "name"=>"PENERBIT_ID", "Value"=> session('penerbit')["ID"] ],
                             [ "name"=>"IS_KDT_VALID", "Value"=> '0' ],
@@ -308,9 +316,7 @@ class IsbnPermohonanController extends Controller
         //file lampiran
         if ($file['file_lampiran']) {
             $filePath_one = public_path('file_tmp_upload/'.$file['file_lampiran']);
-            \Log::info($filePath_one);
             if (File::exists($filePath_one)) {
-                \Log::info($filePath_one . " " . " ada");
                 $file_one = new UploadedFile(
                     $filePath_one,
                     $file['file_lampiran'],
@@ -327,17 +333,15 @@ class IsbnPermohonanController extends Controller
         //file dummy
         if ($file['file_dummy']) {
             $filePath_two = public_path('file_tmp_upload/'.$file['file_dummy']);
-            \Log::info($filePath_two);
             if (File::exists($filePath_two)) {
-                \Log::info($filePath_two . " " . " ada ada");
-                $file_one = new UploadedFile(
+                $file_two = new UploadedFile(
                     $filePath_two,
                     $file['file_dummy'],
                     File::mimeType($filePath_two),
                     null,
                     true
                 );
-                $post_akte_notaris = kurl_upload('post', $penerbit, $terbitan_id, "dummy_buku", $file_one, $ip);
+                $post_akte_notaris = kurl_upload('post', $penerbit, $terbitan_id, "dummy_buku", $file_two, $ip);
                 $res_akte = $post_akte_notaris;
                 //res status
                 $gagal['dummy']  = $res_akte['Status'] == "Success" ? 0 : 1;
@@ -366,10 +370,11 @@ class IsbnPermohonanController extends Controller
 
     function detail($noresi)
     {
-        $detail =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=getlistraw&sql=SELECT * FROM PENERBIT_TERBITAN WHERE NORESI='$noresi'");
+        $detail = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_TERBITAN WHERE NORESI='$noresi'", 'sql', '');
         if(!isset($detail["Data"]["Items"][0])) {
-            $detail =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=getlistraw&sql=SELECT * FROM PENERBIT_TERBITAN WHERE ID='$noresi'");
+            $detail = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_TERBITAN WHERE ID=$noresi", 'sql', '');
         }
+       
         if(intval($detail["Data"]["Items"][0]["JML_JILID"]) > 1){
             $status = "jilid";
         } else {
@@ -385,7 +390,8 @@ class IsbnPermohonanController extends Controller
 
     function getDetail($id)
     {
-        $detail =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=getlistraw&sql=SELECT * FROM PENERBIT_TERBITAN WHERE ID='$id'");
+        //$detail =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=getlistraw&sql=SELECT * FROM PENERBIT_TERBITAN WHERE ID='$id'");
+        $detail = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_TERBITAN WHERE ID='$id'", 'sql', '');
         if(intval($detail["Data"]["Items"][0]["JML_JILID"]) > 1){
             $status = "jilid";
         } else {
