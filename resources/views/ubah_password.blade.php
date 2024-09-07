@@ -100,7 +100,15 @@
                             validators: {
                                 notEmpty: {
                                     message: "Password baru diperlukan. Tidak boleh kosong!"
-                                }
+                                },
+								stringLength: {
+									min: 8,
+									message: 'Password baru minimal terdiri dari 8 karakter'
+								},
+								regexp: {
+									regexp: /^[a-zA-Z0-9_]+$/,
+									message: 'Password hanya dapat berisi huruf, angka dan underscore'
+								}
                             }
                         },
                         confirm_password: {
@@ -113,7 +121,15 @@
                                         return $('input[name="new_password"]').val()
                                     },
                                     message: "Password baru dan konfirmasi password tidak sama"
-                                }
+                                },
+								stringLength: {
+									min: 8,
+									message: 'Password baru minimal terdiri dari 8 karakter'
+								},
+								regexp: {
+									regexp: /^[a-zA-Z0-9_]+$/,
+									message: 'Password hanya dapat berisi huruf, angka dan underscore'
+								}
                             }
                         }
                     },
@@ -141,7 +157,7 @@
 					}
 				});
 				$.ajax({
-							url :'{{ url('/auth/change-password/submit') }}',
+							url :'{{ url('/penerbit/change-password/submit') }}',
 							type: 'post',
 							dataType: 'json',
 							processData: false,

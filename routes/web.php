@@ -9,6 +9,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DropZoneController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Middleware\PenerbitMiddleware;
+use App\Http\Controllers\ChangePasswordController;
 
 Route::group(['middleware' => PenerbitMiddleware::class], function () {
     Route::get('/', [DashboardController::class, 'index']);
@@ -41,8 +42,9 @@ Route::group(['middleware' => PenerbitMiddleware::class], function () {
     Route::get('penerbit/profile/detail', [ProfilController::class, 'getDetail']);
 
     Route::get('auth/logout', [AuthController::class, 'logout']);
-    Route::get('auth/change-password', [AuthController::class, 'changePasswordIndex']);
-    Route::post('auth/change-password/submit', [AuthController::class, 'changePasswordSubmit']);
+    
+    Route::get('penerbit/change-password', [ChangePasswordController::class, 'index']);
+    Route::post('penerbit/change-password/submit', [ChangePasswordController::class, 'submit']);
 });
 Route::get('login', [AuthController::class, 'login']);
 Route::post('auth/submit', [AuthController::class, 'submit']);

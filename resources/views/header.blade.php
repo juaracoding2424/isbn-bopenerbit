@@ -175,7 +175,7 @@
 
 									<!--begin::Menu item-->
 									<div class="menu-item px-5 my-1">
-										<a href="{{url('auth/change-password')}}" class="menu-link px-5">Ubah Password</a>
+										<a href="{{url('penerbit/change-password')}}" class="menu-link px-5">Ubah Password</a>
 									</div>
 									<!--end::Menu item-->
 									<!--begin::Menu item-->

@@ -66,23 +66,10 @@ class IsbnDataController extends Controller
                 }
             }
         }
-        $queryData = Http::get(config('app.inlis_api_url'), [
-                "token" => config('app.inlis_api_token'),
-                "op" => "getlistraw",
-                "sql" => "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end"
-            ])->json()["Data"]["Items"];
+        $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
+        $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM PENERBIT_ISBN WHERE PENERBIT_ID='$id' AND (status='diterima' OR status is null)", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
+        $totalFiltered = kurl("get","getlistraw", "", $sqlFiltered, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
 
-        $totalData = Http::get(config('app.inlis_api_url'), [
-                "token" => config('app.inlis_api_token'),
-                "op" => "getlistraw",
-                "sql" => "SELECT count(*) JUMLAH FROM PENERBIT_ISBN WHERE PENERBIT_ID='$id' AND (status='diterima' OR status is null)"
-            ])->json()["Data"]["Items"][0]["JUMLAH"];
-        $totalFiltered = Http::get(config('app.inlis_api_url'), [
-                "token" => config('app.inlis_api_token'),
-                "op" => "getlistraw",
-                "sql" => $sqlFiltered
-            ])->json()["Data"]["Items"][0]['JUMLAH'];
-        
         $response['data'] = [];
         if ($queryData <> FALSE) {
             $nomor = $start + 1;

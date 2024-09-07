@@ -1407,7 +1407,7 @@ $('form#form_isbn').submit(function(e){
                                     }
                             }).then(function(isConfirm){
                                 if (isConfirm){
-                                    window.location.href = "/penerbit/isbn/data/detail/" + xhr.noresi 
+                                    window.location.href = "/penerbit/isbn/permohonan/detail/" + xhr.noresi 
                                 }
                             });
                     },

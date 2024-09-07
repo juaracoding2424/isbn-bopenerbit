@@ -24,26 +24,20 @@ class DashboardController extends Controller
             $status = "AND pt.status='$status'";
         }
         $id = session('penerbit')['ID'];
-        $data = Http::get(config('app.inlis_api_url'), [
-            "token" => config('app.inlis_api_token'),
-            "op" => "getlistraw",
-            "sql" => "SELECT count(*) JUMLAH FROM PENERBIT_ISBN pi JOIN PENERBIT_TERBITAN pt ON pt.id = pi.penerbit_terbitan_id WHERE pi.PENERBIT_ID='$id' " . $status
-        ])->json()["Data"]["Items"][0]["JUMLAH"];
+        $sql = "SELECT count(*) JUMLAH FROM PENERBIT_ISBN pi JOIN PENERBIT_TERBITAN pt ON pt.id = pi.penerbit_terbitan_id WHERE pi.PENERBIT_ID='$id' " . $status;
+        $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         return $data;
     }
 
     public function getYear()
     {
         $id = session('penerbit')['ID'];   
-        $data = Http::get(config('app.inlis_api_url'), [
-            "token" => config('app.inlis_api_token'),
-            "op" => "getlistraw",
-            "sql" => "SELECT to_char(VALIDATION_DATE, 'YYYY') year
+        $sql = "SELECT to_char(VALIDATION_DATE, 'YYYY') year
                     FROM PENERBIT_TERBITAN 
                     WHERE PENERBIT_ID = '$id'
                     GROUP BY to_char(VALIDATION_DATE, 'YYYY')
-                    ORDER BY to_char(VALIDATION_DATE, 'YYYY')"
-        ])->json()["Data"]["Items"];
+                    ORDER BY to_char(VALIDATION_DATE, 'YYYY')";
+        $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"];
         return $data;
     }
 
@@ -51,26 +45,20 @@ class DashboardController extends Controller
     {
         $year = request('year');   
         $id = session('penerbit')['ID'];  
-        $data = Http::get(config('app.inlis_api_url'), [
-            "token" => config('app.inlis_api_token'),
-            "op" => "getlistraw",
-            "sql" => "SELECT count(*) jumlah, to_char(VALIDATION_DATE, 'MON') month, to_char(VALIDATION_DATE, 'MM') month_numb
+        $sql = "SELECT count(*) jumlah, to_char(VALIDATION_DATE, 'MON') month, to_char(VALIDATION_DATE, 'MM') month_numb
                     FROM PENERBIT_TERBITAN 
                     WHERE PENERBIT_ID = '$id'
                     AND VALIDATION_DATE BETWEEN TO_DATE('01-01-$year','dd-mm-yyyy') AND TO_DATE('31-12-$year','dd-mm-yyyy')
                     GROUP BY to_char(VALIDATION_DATE, 'MON'), to_char(VALIDATION_DATE, 'MM')
-                    ORDER BY to_char(VALIDATION_DATE, 'MM')"
-        ])->json()["Data"]["Items"];
+                    ORDER BY to_char(VALIDATION_DATE, 'MM')";
+        $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"];
         return $data;
     }
 
     public function getBerita()
     {   
-        $data = Http::get(config('app.inlis_api_url'), [
-            "token" => config('app.inlis_api_token'),
-            "op" => "getlistraw",
-            "sql" => "SELECT * FROM ISBN_MST_BERITA WHERE ROWNUM <= 5 ORDER BY TANGGAL DESC"
-        ])->json()["Data"]["Items"];
+        $sql = "SELECT * FROM ISBN_MST_BERITA WHERE ROWNUM <= 5 ORDER BY TANGGAL DESC";
+        $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"];
         return $data;
     }
     

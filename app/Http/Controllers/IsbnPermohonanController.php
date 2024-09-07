@@ -63,24 +63,9 @@ class IsbnPermohonanController extends Controller
                 }
             }
         }
-        $queryData = Http::get(config('app.inlis_api_url'), [
-                "token" => config('app.inlis_api_token'),
-                "op" => "getlistraw",
-                "sql" => "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end"
-            ])->json()["Data"]["Items"];
-
-        $totalData = Http::get(config('app.inlis_api_url'), [
-                "token" => config('app.inlis_api_token'),
-                "op" => "getlistraw",
-                "sql" => "SELECT count(*) JUMLAH FROM PENERBIT_TERBITAN WHERE PENERBIT_ID='$id' AND (status='' OR status='permohonan' OR status is NULL) "
-            ])->json()["Data"]["Items"][0]["JUMLAH"];
-
-        $totalFiltered = Http::get(config('app.inlis_api_url'), [
-                "token" => config('app.inlis_api_token'),
-                "op" => "getlistraw",
-                "sql" => $sqlFiltered
-            ])->json()["Data"]["Items"][0]['JUMLAH'];
-        
+        $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
+        $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM PENERBIT_TERBITAN WHERE PENERBIT_ID='$id' AND (status='' OR status='permohonan' OR status is NULL)", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
+        $totalFiltered = kurl("get","getlistraw", "", $sqlFiltered, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         $response['data'] = [];
         if (count($queryData) > 0) {
             $nomor = $start + 1;
@@ -122,7 +107,7 @@ class IsbnPermohonanController extends Controller
     {
         $penerbit = session('penerbit');
         //\Log::info(request()->all());
-        try{   
+        //try{   
             $validator = \Validator::make(request()->all(),[
             'title' => 'required',
             'namaPengarang' => 'required|array|min:1',
@@ -222,19 +207,19 @@ class IsbnPermohonanController extends Controller
                             [ "name"=>"CREATEDATE", "Value"=> now()->format('Y-m-d H:i:s') ],
                             [ "name"=>"CREATETERMINAL", "Value"=> \Request::ip()]
                         );
-                        //\Log::info($ListData);
+                        \Log::info(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=add&table=PENERBIT_TERBITAN&issavehistory=1&ListAddItem=" . urlencode(json_encode($ListData)));
                         $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=add&table=PENERBIT_TERBITAN&issavehistory=1&ListAddItem=" . urlencode(json_encode($ListData)));
                         $id = $res['Data']['ID'];
                     }
                     //\Log::info($res);
                     $file = [
-                        'file_dummy' => $request->input('file_dummy') ?? null,
-                        'file_lampiran' => $request->input('file_lampiran') ?? null
+                        'file_dummy' => $request->input('file_dummy')[0] ?? null,
+                        'file_lampiran' => $request->input('file_lampiran')[0] ?? null
                     ];
                     $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip());
                     //jika upload doc gagal maka akan rollback (hapus data)
                     if ($call_func['status'] == 0 ) {
-                        $hapus_data = $this->rollback_permohonan($id);
+                        //$hapus_data = $this->rollback_permohonan($id);
                         $sts_ket = 'error';
                         $ket = 'gagal upload file';
                         //masukkan kedalam log untuk kegunaan tracking data
@@ -270,12 +255,16 @@ class IsbnPermohonanController extends Controller
                             [ "name"=>"CREATEDATE", "Value"=> now()->format('Y-m-d H:i:s') ],
                             [ "name"=>"CREATETERMINAL", "Value"=> \Request::ip()],
                         ];
-                        $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=add&table=PENERBIT_TERBITAN&issavehistory=1&ListAddItem=" . urlencode(json_encode($addData)));
+                        $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=add&table=PENERBIT_TERBITAN&issavehistory=1&ListAddItem=" . urlencode(json_encode($ListData)));
                         $id = $res['Data']['ID'];
+                        $file = [
+                            'file_dummy' => $request->input('file_dummy')[$i] ?? null,
+                            'file_lampiran' => $request->input('file_lampiran')[$i] ?? null
+                        ];
                         $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip());
                         //jika upload doc gagal maka akan rollback (hapus data)
                         if ($call_func['status'] == 0 ) {
-                            $hapus_data = $this->rollback_permohonan($id);
+                            //$hapus_data = $this->rollback_permohonan($id);
                             $sts_ket = 'error';
                             $ket = 'gagal upload file';
                             //masukkan kedalam log untuk kegunaan tracking data
@@ -289,13 +278,13 @@ class IsbnPermohonanController extends Controller
                     'noresi' => $noresi
                 ], 200);
             }
-        } catch(\Exception $e){
+        /*} catch(\Exception $e){
             return response()->json([
                 'status' => 'Failed',
                 'message' => 'Data permohonan gagal disimpan. Server Error!',
                 'noresi' => $e->getMessage()
             ], 500);
-        }
+        }*/
     }
 
     function cancel($noresi)
@@ -319,7 +308,9 @@ class IsbnPermohonanController extends Controller
         //file lampiran
         if ($file['file_lampiran']) {
             $filePath_one = public_path('file_tmp_upload/'.$file['file_lampiran']);
+            \Log::info($filePath_one);
             if (File::exists($filePath_one)) {
+                \Log::info($filePath_one . " " . " ada");
                 $file_one = new UploadedFile(
                     $filePath_one,
                     $file['file_lampiran'],
@@ -336,7 +327,9 @@ class IsbnPermohonanController extends Controller
         //file dummy
         if ($file['file_dummy']) {
             $filePath_two = public_path('file_tmp_upload/'.$file['file_dummy']);
+            \Log::info($filePath_two);
             if (File::exists($filePath_two)) {
+                \Log::info($filePath_two . " " . " ada ada");
                 $file_one = new UploadedFile(
                     $filePath_two,
                     $file['file_dummy'],

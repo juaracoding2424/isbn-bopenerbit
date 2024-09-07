@@ -1300,7 +1300,7 @@ if("{{$detail[0]['JENIS_PUSTAKA']}}" != ''){
 if("{{$detail[0]['JENIS_KELOMPOK']}}" != ''){
     $('input[type=radio][name="jenis_kelompok"][value={{$detail[0]['JENIS_KELOMPOK']}}]').prop('checked', true);
 }
-$('textarea[name="deskripsi"]').val('{!!$detail[0]['SINOPSIS']!!}');
+$('textarea[name="deskripsi"]').val(`{!!$detail[0]['SINOPSIS']!!}`);
 for(var i = 1; i < kepengs.length; i++){
     let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
         '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select id="authorRole'+i+'">';
@@ -1479,7 +1479,7 @@ $('form#form_isbn').submit(function(e){
                                     }
                             }).then(function(isConfirm){
                                 if (isConfirm){
-                                    window.location.href = "/penerbit/isbn/data/detail/" + xhr.noresi 
+                                    window.location.href = "/penerbit/isbn/permohonan/detail/" + xhr.noresi 
                                 }
                             });
                     },
