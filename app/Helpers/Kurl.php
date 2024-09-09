@@ -40,8 +40,10 @@ function kurl($method, $action, $table, $data, $kategori, $params = null) {
     }
 }
 
-function kurl_upload($method, $penerbit, $terbitan_id, $jenis, $file, $ip_user) {
+function kurl_upload($method, $penerbit, $terbitan_id, $jenis, $file, $ip_user, $keterangan, $url) {
     //$jenis : lampiran_permohonan, dummy_buku, lampiran_pending
+    //\Log::info($url);
+    //\Log::info($keterangan);
     $response = Http::asMultipart()->$method(config('app.inlis_api_url'), [
         [
             'name'     => 'token',
@@ -55,10 +57,14 @@ function kurl_upload($method, $penerbit, $terbitan_id, $jenis, $file, $ip_user) 
             'name'     => 'jenis',
             'contents' => $jenis,
         ],
-        /*[
-            'name'     => 'penerbitisbnid',
-            'contents' => $penerbit['ID'],
-        ],*/
+        [
+            'name'     => 'keterangan',
+            'contents' => $keterangan
+        ],
+        [
+            'name'     => 'linkbuku',
+            'contents' => $url
+        ],
         [
             'name'     => 'penerbitterbitanid',
             'contents' => $terbitan_id,
@@ -77,7 +83,48 @@ function kurl_upload($method, $penerbit, $terbitan_id, $jenis, $file, $ip_user) 
             'filename' => $file->getClientOriginalName(),
         ],
     ]);
-    \Log::info($response);
+    //\Log::info($response);
+    if ($response->successful()) {
+        $data = $response->json();
+        return $data;
+
+    } else {
+        // Handle the error
+        $status = $response->status();
+        $error = $response->body();
+        return $status;
+    }
+}
+
+function kurl_cover($method, $penerbit, $terbitan_id, $file, $ip_user) {
+    $response = Http::asMultipart()->$method(config('app.inlis_api_url'), [
+        [
+            'name'     => 'token',
+            'contents' => config('app.inlis_api_token'),
+        ],
+        [
+            'name'     => 'op',
+            'contents' => 'uploadfilecover',
+        ],
+        [
+            'name'     => 'penerbitterbitanid',
+            'contents' => $terbitan_id,
+        ],
+        [
+            'name'     => 'actionby',
+            'contents' => $penerbit['USERNAME'],
+        ],
+        [
+            'name'     => 'terminal',
+            'contents' => $ip_user,
+        ],
+        [
+            'name'     => 'file',
+            'contents' => fopen($file->getRealPath(), 'r'),
+            'filename' => $file->getClientOriginalName(),
+        ],
+    ]);
+    //\Log::info($response);
     if ($response->successful()) {
         $data = $response->json();
         return $data;

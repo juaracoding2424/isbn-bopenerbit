@@ -164,6 +164,12 @@
 							contentType:  false,
 							async:false,
 							data: formData,
+							beforeSend: function(){
+								$('.loader').css('display','block');
+							},
+							complete: function(){
+								$('.loader').css('display','none');
+							},
 							statusCode: {
 								422: function(xhr) {
 									var error = '<div class="alert alert-danger d-flex align-items-center p-5 mb-10"><div class="d-flex flex-column" style="text-align: left;"><ul>';

@@ -1,12 +1,12 @@
 	<div id="kt_app_aside" class="app-aside flex-column" data-kt-drawer="true" data-kt-drawer-name="app-aside"
 		data-kt-drawer-activate="true" data-kt-drawer-overlay="true" data-kt-drawer-width="auto"
-		data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_aside_toggle">
+		data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_aside_toggle" >
 		<!--begin::Aside wrapper-->
 		<div id="kt_app_aside_wrapper" class="app-aside-wrapper hover-scroll-y my-4" data-kt-scroll="true"
 			data-kt-scroll-activate="true" data-kt-scroll-height="auto" data-kt-scroll-offset="5px">
 			<!--begin::Primary menu-->
 			<div id="kt_app_aside_menu" class="menu menu-sub-indention menu-rounded menu-column fw-semibold fs-6 px-2"
-				data-kt-menu="true">
+				data-kt-menu="true" @php if(session('penerbit')['STATUS'] == "notvalid") { echo "style='display:none;'"; } @endphp>
 				<!--begin:Menu item-->
 				<div data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
 					<!--begin:Menu link-->

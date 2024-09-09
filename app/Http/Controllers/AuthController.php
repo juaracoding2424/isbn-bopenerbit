@@ -39,13 +39,14 @@ class AuthController extends Controller
                 //encript password
                 $encryptedPassword = urlencode($this->getMd5Hash($request->input('password')));
                 $encryptedPassword2 = urlencode($this->rijndaelEncryptPassword($request->input('password')));
-                //\Log::info(config('app.inlis_api_url'). "?token=". config('app.inlis_api_token') ."&op=getlistraw&sql=". urlencode("SELECT * FROM PENERBIT WHERE ISBN_USER_NAME='" . $request->input('username') . "' AND ISBN_PASSWORD='$encryptedPassword'"));
-                $penerbit = Http::post(config('app.inlis_api_url') ."?token=". config('app.inlis_api_token') ."&op=getlistraw&sql=". urlencode("SELECT * FROM PENERBIT WHERE ISBN_USER_NAME='" . $request->input('username'). "' AND ISBN_PASSWORD1='$encryptedPassword'"));
+                //\Log::info(config('app.inlis_api_url') ."?token=". config('app.inlis_api_token') ."&op=getlistraw&sql=". "SELECT * FROM PENERBIT WHERE ISBN_USER_NAME='" . $request->input('username'). "' AND (ISBN_PASSWORD1='$encryptedPassword' OR ISBN_PASSWORD2='$encryptedPassword2' OR ISBN_PASSWORD='$encryptedPassword')");
+                $penerbit = Http::post(config('app.inlis_api_url') ."?token=". config('app.inlis_api_token') ."&op=getlistraw&sql=". urlencode("SELECT * FROM PENERBIT WHERE ISBN_USER_NAME='" . $request->input('username'). "' AND (ISBN_PASSWORD1='$encryptedPassword' OR ISBN_PASSWORD2='$encryptedPassword2' OR ISBN_PASSWORD='$encryptedPassword')"));
                 if(isset($penerbit["Data"]['Items'][0])){
                     $penerbit = $penerbit["Data"]['Items'][0];
                     //\Log::info($penerbit);
                     session([
                         'penerbit' => [
+                            'STATUS' => 'valid',
                             'ID' => $penerbit['ID'],
                             'USERNAME' => $penerbit['ISBN_USER_NAME'],
                             'EMAIL' => $penerbit['EMAIL1'],
@@ -59,10 +60,32 @@ class AuthController extends Controller
                         'status' => 'Success',
                     ], 200);
                 } else {
-                    return response()->json([
-                        'status' => 'Failed',
-                        'message'   => 'Username atau password salah!',
-                    ], 500);
+                    //cari di tabel registrasi isbn
+                    $penerbit_belum_verifikasi = Http::post(config('app.inlis_api_url') ."?token=". config('app.inlis_api_token') ."&op=getlistraw&sql=". urlencode("SELECT * FROM ISBN_REGISTRASI_PENERBIT WHERE USERNAME='" . $request->input('username'). "' AND (PASSWORD1='$encryptedPassword' OR PASSWORD2='$encryptedPassword2')"));
+                    if(isset($penerbit_belum_verifikasi["Data"]['Items'][0])){
+                        $penerbit_belum_verifikasi = $penerbit_belum_verifikasi["Data"]['Items'][0];
+                        //\Log::info($penerbit_belum_verifikasi);
+                        session([
+                            'penerbit' => [
+                                'STATUS' => 'notvalid',
+                                'ID' => $penerbit_belum_verifikasi['ID'],
+                                'USERNAME' => $penerbit_belum_verifikasi['USERNAME'],
+                                'EMAIL' => $penerbit_belum_verifikasi['ADMIN_EMAIL'],
+                                'NAME' => $penerbit_belum_verifikasi['NAMA_PENERBIT'],
+                                'PROVINCE_ID' => $penerbit_belum_verifikasi['PROVINCE_ID'],
+                                'CITY_ID' => $penerbit_belum_verifikasi['CITY_ID'],
+                                'DISTRICT_ID' => $penerbit_belum_verifikasi['DISTRICT_ID'],
+                                'VILLAGE_ID' => $penerbit_belum_verifikasi['VILLAGE_ID'],
+                            ]]);
+                        return response()->json([
+                            'status' => 'Success',
+                        ], 200);
+                    } else {
+                        return response()->json([
+                            'status' => 'Failed',
+                            'message'   => 'Username atau password salah!',
+                        ], 500);
+                    }
                 }
             }
         }
@@ -114,8 +137,5 @@ class AuthController extends Controller
         return $hexHash;
     }
 
-    function checkPenerbit($input)
-    {
 
-    }
 }

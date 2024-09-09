@@ -147,11 +147,19 @@
 <!--end::Body-->
 <script>
 	var batalkanPermohonan = function(id){
+		var title = '';
 		$.ajax({
             url: '/penerbit/isbn/permohonan/detail/'+id+'/get',
             type: 'GET',
 			async:false,
+			beforeSend: function(){
+                $('.loader').css('display','block');
+            },
+            complete: function(){
+                $('.loader').css('display','none');
+            },
 			success: function(response){
+				title = response['detail']['TITLE'];
 				Swal.fire({
                     html: "Anda yakin akan membatalkan permohonan ISBN, dengan <b>judul</b>: <span class='badge badge-info'> "+response['detail']['TITLE']+" </span>?",
 					icon: "warning",
@@ -169,9 +177,15 @@
 								url: '/penerbit/isbn/permohonan/delete/'+id,
 								type: 'GET',
 								async:false,
+								beforeSend: function(){
+									$('.loader').css('display','block');
+								},
+								complete: function(){
+									$('.loader').css('display','none');
+								},
 								success: function(response){
 									Swal.fire({
-										html: "Anda membatalkan permohonan ISBN, dengan <b>judul</b>: <span class='badge badge-info'>" + response['detail']['TITLE'] + "</span>!.",
+										html: "Anda membatalkan permohonan ISBN, dengan <b>judul</b>: <span class='badge badge-info'>" + title + "</span>!.",
 										icon: "success",
 										buttonsStyling: !1,
 										confirmButtonText: "Ok, got it!",
@@ -184,7 +198,7 @@
 							
 						} else {
 							Swal.fire({
-								html: "<span class='badge badge-info'>" + response['detail']['TITLE'] + "</span> tidak jadi dibatalkan.",
+								html: "<span class='badge badge-info'>" + title + "</span> tidak jadi dibatalkan.",
 								icon: "error",
 								buttonsStyling: !1,
 								confirmButtonText: "Ok, got it!",

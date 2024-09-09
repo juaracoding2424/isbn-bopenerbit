@@ -63,61 +63,9 @@ height: 100vh !important;
                                 <form id="form_isbn" class="form" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name='noresi' value="{{$noresi}}">
-                                <input type="hidden" name='penerbit_terbitan_id' value="{{$detail[0]['ID']}}">
+                                <input type="hidden" name='penerbit_terbitan_id' value="{{$detail['ID']}}">
                                     <!--begin::Card body-->
                                     <div class="card-body border-top p-9">
-                                        <!--begin::Input group-->
-                                        <div class="row mb-6">
-                                            <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fw-semibold fs-8">Cover Buku</label>
-                                            <!--end::Label-->
-                                            <!--begin::Col-->
-                                            <div class="col-lg-4">
-                                                <!--begin::Image input-->
-                                                <div class="image-input image-input-outline" data-kt-image-input="true"
-                                                    style="background-image: url('assets/media/svg/avatars/blank.svg')">
-                                                    <!--begin::Preview existing avatar-->
-                                                    <div class="image-input-wrapper w-150px h-225px"
-                                                        style="background-image: url('assets/media/svg/avatars/blank.svg')">
-                                                    </div>
-                                                    <!--end::Preview existing avatar-->
-                                                    <!--begin::Label-->
-                                                    <label
-                                                        class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                                        data-kt-image-input-action="change" data-bs-toggle="tooltip"
-                                                        title="Change cover">
-                                                        <i class="ki-outline ki-pencil fs-7"></i>
-                                                        <!--begin::Inputs-->
-                                                        <input type="file" name="cover" accept=".png, .jpg, .jpeg" />
-                                                        <input type="hidden" name="cover_remove" />
-                                                        <!--end::Inputs-->
-                                                    </label>
-                                                    <!--end::Label-->
-                                                    <!--begin::Cancel-->
-                                                    <span
-                                                        class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                                        data-kt-image-input-action="cancel" data-bs-toggle="tooltip"
-                                                        title="Cancel cover">
-                                                        <i class="ki-outline ki-cross fs-2"></i>
-                                                    </span>
-                                                    <!--end::Cancel-->
-                                                    <!--begin::Remove-->
-                                                    <span
-                                                        class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                                        data-kt-image-input-action="remove" data-bs-toggle="tooltip"
-                                                        title="Remove cover">
-                                                        <i class="ki-outline ki-cross fs-2"></i>
-                                                    </span>
-                                                    <!--end::Remove-->
-                                                </div>
-                                                <!--end::Image input-->
-                                                <!--begin::Hint-->
-                                                <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
-                                                <!--end::Hint-->
-                                            </div>
-                                            <!--end::Col-->
-                                        </div>
-                                        <!--end::Input group-->
                                         <!--begin::Input group-->
                                         <div class="row mb-6">
                                             <!--begin::Label-->
@@ -751,6 +699,58 @@ height: 100vh !important;
                                             <!--end::Col-->
                                         </div>
                                         <!--end::Input group-->
+                                            <!--begin::Input group-->
+                                            <div class="row mb-6">
+                                                <!--begin::Label-->
+                                                <label class="col-lg-3 col-form-label required fw-semibold fs-8">Jumlah
+                                                    Halaman</label>
+                                                <!--end::Label-->
+                                                <!--begin::Col-->
+                                                <div class="col-lg-2 fv-row">
+                                                    <input type="number" name="jml_hlm" id="jml_hlm"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="Jumlah Halaman" value="" />
+                                                </div>
+                                                <label class="col-lg-1 col-form-label fw-semibold fs-8">halaman</label>
+                                                <!--end::Col-->
+                                                <!--begin::Label-->
+                                                <label class="col-lg-3 col-form-label fw-semibold fs-8" style="text-align:right">Tinggi Buku</label>
+                                                <!--end::Label-->
+                                                <!--begin::Col-->
+                                                <div class="col-lg-2 fv-row">
+                                                    <input type="number" name="ketebalan" id="ketebalan"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="tinggi buku" value="" />
+                                                </div>
+                                                <!--end::Col-->
+                                                <label class="col-lg-1 col-form-label fw-semibold fs-8">cm</label>
+                                            </div>
+                                            <!--end::Input group-->
+                                            <!--begin::Input group-->
+                                            <div class="row mb-6">
+                                                <!--begin::Label-->
+                                                <label class="col-lg-3 col-form-label fw-semibold fs-8">Edisi Buku</label>
+                                                <!--end::Label-->
+                                                <!--begin::Col-->
+                                                <div class="col-lg-2 fv-row">
+                                                    <input type="text" name="edisi" id="edisi"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="Edisi buku" value="" />
+                                                </div>
+                                                <label class="col-lg-1 col-form-label fw-semibold fs-8"></label>
+                                                <!--end::Col-->
+                                                <!--begin::Label-->
+                                                <label class="col-lg-3 col-form-label fw-semibold fs-8" style="text-align:right">Seri buku</label>
+                                                <!--end::Label-->
+                                                <!--begin::Col-->
+                                                <div class="col-lg-2 fv-row">
+                                                    <input type="text" name="seri" id="seri"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="seri buku" value="" />
+                                                </div>
+                                                <!--end::Col-->
+                                            </div>
+
                                         <!--begin::Input group-->
                                         <div class="row mb-8">
                                             <!--begin::Col-->
@@ -821,70 +821,54 @@ height: 100vh !important;
                                             <span id="judul_buku_1"><h4>Data Buku 1 </h4><hr/></span>
                                             <input type="hidden" name="file_lampiran[]" id="file_lampiran1">
                                             <input type="hidden" name="file_dummy[]" id="file_dummy1">
+                                            <input type="hidden" name="file_cover[]" id="file_cover1">
+
                                             <!--begin::Input group-->
                                             <div class="row mb-6">
                                                 <!--begin::Label-->
-                                                <label class="col-lg-3 col-form-label required fw-semibold fs-8">Jumlah
-                                                    Halaman</label>
-                                                <!--end::Label-->
-                                                <!--begin::Col-->
-                                                <div class="col-lg-2 fv-row">
-                                                    <input type="number" name="jml_hlm[]" id="jml_hlm0"
-                                                        class="form-control form-control-lg form-control-solid"
-                                                        placeholder="Jumlah Halaman" value="" />
+                                                
+                                                <label class="col-lg-3 col-form-label fw-semibold fs-8">File
+                                                    Attachment</label>
+                                                <div class="col-lg-3 col-form-label " id="viewlampiran_1">
+                                                    <!--<a><i class="bi bi-filetype-pdf fs-1"></i> SuratPernyataan.pdf</a>
+                                                    <br />
+                                                    <a><i class="bi bi-filetype-pdf fs-1"></i> SuratKeaslianKarya.pdf</a>-->
                                                 </div>
-                                                <label class="col-lg-1 col-form-label fw-semibold fs-8">halaman</label>
-                                                <!--end::Col-->
-                                                <!--begin::Label-->
-                                                <label class="col-lg-3 col-form-label fw-semibold fs-8" style="text-align:right">Tinggi Buku</label>
-                                                <!--end::Label-->
-                                                <!--begin::Col-->
-                                                <div class="col-lg-2 fv-row">
-                                                    <input type="number" name="ketebalan[]" id="ketebalan0"
-                                                        class="form-control form-control-lg form-control-solid"
-                                                        placeholder="tinggi buku" value="" />
+                                                <!--end:: Label-->
+                                                <div class="col-lg-6 d-flex align-items-center">
+                                                    <!--begin::Dropzone-->
+                                                    <div class="dropzone" id="attachments1" style="width:100%">
+                                                        <!--begin::Message-->
+                                                        <div class="dz-message needsclick align-items-center">
+                                                            <!--begin::Icon-->
+                                                            <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
+                                                            <!--end::Icon-->
+                                                            <!--begin::Info-->
+                                                            <div class="ms-4">
+                                                                <h3 class="fs-5 fw-bold text-gray-900 mb-1">Masukan
+                                                                    attachment</h3>
+                                                                <span class="fw-semibold fs-7 text-gray-500">Upload up to 10
+                                                                    files, Max:150MB</span>
+                                                            </div>
+                                                            <!--end::Info-->
+                                                        </div>
+                                                    </div>
+                                                    <!--end::Dropzone-->
                                                 </div>
-                                                <!--end::Col-->
-                                                <label class="col-lg-1 col-form-label fw-semibold fs-8">cm</label>
                                             </div>
                                             <!--end::Input group-->
-                                            <!--begin::Input group-->
-                                            <div class="row mb-6">
-                                                <!--begin::Label-->
-                                                <label class="col-lg-3 col-form-label fw-semibold fs-8">Edisi Buku</label>
-                                                <!--end::Label-->
-                                                <!--begin::Col-->
-                                                <div class="col-lg-2 fv-row">
-                                                    <input type="text" name="edisi[]" id="edisi0"
-                                                        class="form-control form-control-lg form-control-solid"
-                                                        placeholder="Edisi buku" value="" />
-                                                </div>
-                                                <label class="col-lg-1 col-form-label fw-semibold fs-8"></label>
-                                                <!--end::Col-->
-                                                <!--begin::Label-->
-                                                <label class="col-lg-3 col-form-label fw-semibold fs-8" style="text-align:right">Seri buku</label>
-                                                <!--end::Label-->
-                                                <!--begin::Col-->
-                                                <div class="col-lg-2 fv-row">
-                                                    <input type="text" name="seri[]" id="seri0"
-                                                        class="form-control form-control-lg form-control-solid"
-                                                        placeholder="seri buku" value="" />
-                                                </div>
-                                                <!--end::Col-->
-                                            </div>
-
                                             <!--end::Input group-->
                                             <div class="row mb-6">
                                                 <!--begin::Label-->
                                                 <label class="col-lg-3 col-form-label fw-semibold fs-8">Dummy Buku yang akan
                                                     terbit</label>
-                                                <div class="col-lg-3 col-form-label " id="dummy_1">
+                                                <div class="col-lg-3 col-form-label " id="viewdummy_1">
                                                     <!--<a><i class="bi bi-filetype-pdf fs-1"></i> DummyBuku.pdf</a>-->
                                                 </div>
                                                 <!--end:: Label-->
                                                 <div class="col-lg-6 d-flex align-items-center">
                                                     <!--begin::Dropzone-->
-                                                    <div class="dropzone" id="dummy">
+                                                    <div class="dropzone" id="dummy1">
                                                         <!--begin::Message-->
                                                         <div class="dz-message needsclick align-items-center">
                                                             <!--begin::Icon-->
@@ -905,22 +889,17 @@ height: 100vh !important;
                                                 <!--begin::Label-->
                                             </div>
                                             <!--end::Input group-->
-                                            <!--begin::Input group-->
-                                            <div class="row mb-6">
+                                             <!--end::Input group-->
+                                             <div class="row mb-6">
                                                 <!--begin::Label-->
-                                                
-                                                <label class="col-lg-3 col-form-label fw-semibold fs-8">File
-                                                    Attachment</label>
-                                                    
-                                                <div class="col-lg-3 col-form-label " id="lampiran_1">
-                                                    <!--<a><i class="bi bi-filetype-pdf fs-1"></i> SuratPernyataan.pdf</a>
-                                                    <br />
-                                                    <a><i class="bi bi-filetype-pdf fs-1"></i> SuratKeaslianKarya.pdf</a>-->
+                                                <label class="col-lg-3 col-form-label fw-semibold fs-8">File Cover Buku </label>
+                                                <div class="col-lg-3 col-form-label " id="viewcover_1">
+                                                    <!--<a><i class="bi bi-filetype-pdf fs-1"></i> DummyBuku.pdf</a>-->
                                                 </div>
                                                 <!--end:: Label-->
                                                 <div class="col-lg-6 d-flex align-items-center">
                                                     <!--begin::Dropzone-->
-                                                    <div class="dropzone" id="attachments" style="width:100%">
+                                                    <div class="dropzone" id="cover1">
                                                         <!--begin::Message-->
                                                         <div class="dz-message needsclick align-items-center">
                                                             <!--begin::Icon-->
@@ -928,16 +907,17 @@ height: 100vh !important;
                                                             <!--end::Icon-->
                                                             <!--begin::Info-->
                                                             <div class="ms-4">
-                                                                <h3 class="fs-5 fw-bold text-gray-900 mb-1">Masukan
-                                                                    attachment</h3>
-                                                                <span class="fw-semibold fs-7 text-gray-500">Upload up to 10
-                                                                    files, Max:150MB</span>
+                                                                <h3 class="fs-5 fw-bold text-gray-900 mb-1">Masukan file
+                                                                    cover buku</h3>
+                                                                <span class="fw-semibold fs-7 text-gray-500">Max:
+                                                                    100MB</span>
                                                             </div>
                                                             <!--end::Info-->
                                                         </div>
                                                     </div>
                                                     <!--end::Dropzone-->
                                                 </div>
+                                                <!--begin::Label-->
                                             </div>
                                             <!--end::Input group-->
                                             <!--begin::Input group-->
@@ -952,7 +932,7 @@ height: 100vh !important;
                                                 <!--end::Label-->
                                                 <!--begin::Col-->
                                                 <div class="col-lg-6 fv-row">
-                                                <input type="text" name="url[]" id="url0"
+                                                <input type="text" name="url[]" id="url1"
                                                         class="form-control form-control-lg form-control-solid"
                                                         placeholder="url/link buku"/>
                                                 </div>
@@ -1000,640 +980,523 @@ height: 100vh !important;
 <!--end::Body-->
 <script>
 
-var urlProvinsi = "https://ibnux.github.io/data-indonesia/provinsi.json";
-var urlKabupaten = "https://ibnux.github.io/data-indonesia/kabupaten/";
+    var urlProvinsi = "https://ibnux.github.io/data-indonesia/provinsi.json";
+    var urlKabupaten = "https://ibnux.github.io/data-indonesia/kabupaten/";
 
-function clearOptions(id) {
-    console.log("on clearOptions :" + id);
-    //$('#' + id).val(null);
-    $('#' + id).empty().trigger('change');
-}
+    function clearOptions(id) {
+        console.log("on clearOptions :" + id);
+        //$('#' + id).val(null);
+        $('#' + id).empty().trigger('change');
+    }
 
-console.log('Load Provinsi...');
-$.getJSON(urlProvinsi, function(res) {
+    console.log('Load Provinsi...');
+    $.getJSON(urlProvinsi, function(res) {
 
-    res = $.map(res, function(obj) {
-        obj.text = obj.nama
-        return obj;
+        res = $.map(res, function(obj) {
+            obj.text = obj.nama
+            return obj;
+        });
+
+        data = [{
+            id: "",
+            nama: "- Pilih Provinsi -",
+            text: "- Pilih Provinsi -"
+        }].concat(res);
+
+        //implemen data ke select provinsi
+        $("#select2-provinsi").select2({
+            dropdownAutoWidth: true,
+            width: '100%',
+            data: data
+        })
     });
+    var selectProv = $('#select2-provinsi');
+    var dropZoneJilid = function(jilid_ke, file_type){
+        let dropzoneId = "", inputFileId ="", acceptedFiles = "", maxFilesize = 5;
+        switch(file_type){
+            case "lampiran": 
+                dropzoneId = "#attachments"+jilid_ke; 
+                inputFileId = "#file_lampiran"+jilid_ke; 
+                acceptedFiles = ".pdf";
+                maxFilesize = 150;
+                break;
+            case "cover": 
+                dropzoneId = "#cover"+jilid_ke; 
+                inputFileId = "#file_cover"+jilid_ke; 
+                acceptedFiles = ".jpg,.png,.jpeg";
+                maxFilesize = 5;
+                break;
+            case "dummy": 
+                dropzoneId = "#dummy"+jilid_ke; 
+                inputFileId = "#file_dummy"+jilid_ke; 
+                acceptedFiles = ".pdf,.epub,.mp3,.mp4,.wav";
+                maxFilesize = 100;
+                break;
+            default:break;
+        }
+        new Dropzone(dropzoneId, {
+            url: '/penerbit/dropzone/store',
+            paramName: "file",
+            maxFiles: 1,
+            maxFilesize: maxFilesize, // MB
+            acceptedFiles: acceptedFiles,
+            autoProcessQueue: false,
+            addRemoveLinks: true, // Option to remove files from the dropzone
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')// CSRF token for Laravel
+            },
+            init: function () {
+                this.on("addedfile", function (file) {
+                    // Automatically process the file when it is added
+                    if (this.files.length > 1) {
+                        this.removeFile(this.files[0]);
+                    }
 
-    data = [{
-        id: "",
-        nama: "- Pilih Provinsi -",
-        text: "- Pilih Provinsi -"
-    }].concat(res);
+                    this.processFile(file);
+                });
+                this.on("sending", function (file, xhr, formData) {
+                    // Additional data can be sent here if required
+                    console.log('Sending file:', file);
+                });
+                this.on("success", function (file, response) {
+                    $(inputFileId).val(response[0]['name']);
+                    // Handle the response from the server after the file is uploaded
+                    console.log('File uploaded successfully', response);
+                });
+                this.on("error", function (file, response) {
+                    // Handle the errors
+                    console.error('Upload error', response);
+                });
+                this.on("queuecomplete", function () {
+                    // Called when all files in the queue have been processed
+                    console.log('All files have been uploaded');
+                });
+                this.on("removedfile", function (file) {
+                    console.log(file, 'hakim delete', file.serverFileName)
+                    if (file.serverFileName) {
+                        $.ajax({
+                            url: '/penerbit/dropzone/delete',
+                            type: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            data: {
+                                filename: file.serverFileName[0]['name']
+                            },
+                            success: function (data) {
+                                $(inputFileId).val('');
+                                console.log("File deleted successfully");
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                console.error('Failed to delete file:', errorThrown);
+                            }
+                        });
+                    }
+                });
+                this.on("success", function (file, response) {
+                    // Store the server file name for deletion purposes
+                    file.serverFileName = response;
+                });
+            }
 
-    //implemen data ke select provinsi
-    $("#select2-provinsi").select2({
-        dropdownAutoWidth: true,
-        width: '100%',
-        data: data
-    })
-});
-var selectProv = $('#select2-provinsi');
-$('#btnTambahJilid').on('click', function(){
-    jumlah_buku +=1;
-    let html = 
-    `<div class='jilidbaru'><span><h4>Data Buku `+ jumlah_buku + `</h4><hr/></span>
-    <input type='hidden' id='file_dummy`+jumlah_buku+`' name='file_dummy[]'>
-    <input type='hidden' id='file_lampiran`+jumlah_buku+`' name='file_lampiran[]'>
-    <div class="row mb-6">
-        <label class="col-lg-3 col-form-label required fw-semibold fs-8">Jumlah
-            Halaman</label>
-        <div class="col-lg-2 fv-row">
-            <input type="number" name="jml_hlm[]" class="form-control form-control-lg form-control-solid"
-                placeholder="Jumlah Halaman" value="" />
-        </div>
-        <label class="col-lg-1 col-form-label fw-semibold fs-8">halaman</label>
-        <label class="col-lg-3 col-form-label fw-semibold fs-8" style="text-align:right">Tinggi Buku</label>
-
-        <div class="col-lg-2 fv-row">
-            <input type="number" name="ketebalan" class="form-control form-control-lg form-control-solid"
-                placeholder="tinggi buku" value="" />
-        </div>
-        <label class="col-lg-1 col-form-label fw-semibold fs-8">cm</label>
-    </div>
-    <div class="row mb-6">
-        <label class="col-lg-3 col-form-label fw-semibold fs-8">Edisi Buku</label>
-        <div class="col-lg-2 fv-row">
-            <input type="text" name="edisi" class="form-control form-control-lg form-control-solid" placeholder="Edisi buku"
-                value="" />
-        </div>
-        <label class="col-lg-1 col-form-label fw-semibold fs-8"></label>
-        <label class="col-lg-3 col-form-label fw-semibold fs-8" style="text-align:right">Seri buku</label>
-        <div class="col-lg-2 fv-row">
-            <input type="text" name="seri[]" class="form-control form-control-lg form-control-solid" placeholder="seri buku"
-                value="" />
-        </div>
-    </div>
-    <div class="row mb-6">
-        <label class="col-lg-3 col-form-label fw-semibold fs-8">Dummy Buku yang akan
-            terbit</label>
-    <div class="col-lg-6 d-flex align-items-center">
-        <div class="dropzone" id="dummy`+jumlah_buku+`">
-            <div class="dz-message needsclick align-items-center">
-                <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
-                <div class="ms-4">
-                    <h3 class="fs-5 fw-bold text-gray-900 mb-1">Masukan file
-                        dummy buku</h3>
-                    <span class="fw-semibold fs-7 text-gray-500">Max:
-                        100MB</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-    <div class="row mb-6">
-        <label class="col-lg-3 col-form-label fw-semibold fs-8">File
-            Attachment</label>
-        <div class="col-lg-6 d-flex align-items-center">
-            <div class="dropzone" id="attachments`+jumlah_buku+`" style="width:100%">
-                <div class="dz-message needsclick align-items-center">
-                    <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
-                    <div class="ms-4">
-                        <h3 class="fs-5 fw-bold text-gray-900 mb-1">Masukan
-                            attachment</h3>
-                        <span class="fw-semibold fs-7 text-gray-500">Upload up to 10
-                            files, Max:150MB</span>
+        });
+    }
+    var tambahJilid = function(){
+        jumlah_buku +=1;
+        let html = 
+        `<div class='jilidbaru'><span><h4>Data Buku `+ jumlah_buku + `</h4><hr/></span>
+        <input type='hidden' id='file_dummy`+jumlah_buku+`' name='file_dummy[]'>
+        <input type='hidden' id='file_lampiran`+jumlah_buku+`' name='file_lampiran[]'>
+        <input type='hidden' id='file_cover`+jumlah_buku+`' name='file_cover[]'>  
+        <div class="row mb-6">
+            <label class="col-lg-3 col-form-label fw-semibold fs-8">File
+                Attachment</label>
+            <div class="col-lg-3 col-form-label " id="viewlampiran_`+jumlah_buku+`"></div>
+            <div class="col-lg-6 d-flex align-items-center">
+                <div class="dropzone" id="attachments`+jumlah_buku+`" style="width:100%">
+                    <div class="dz-message needsclick align-items-center">
+                        <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
+                        <div class="ms-4">
+                            <h3 class="fs-5 fw-bold text-gray-900 mb-1">Masukan
+                                attachment</h3>
+                            <span class="fw-semibold fs-7 text-gray-500">Max:150MB</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row mb-6">
-        <label class="col-lg-3 col-form-label fw-semibold fs-8">
-            <span class="required">URL / LINK publikasi buku</span>
-            <span class="ms-1" data-bs-toggle="tooltip" title="url">
-                <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
-            </span>
-        </label>
-        <div class="col-lg-6 fv-row">
-            <input type="text" name="url[]" class="form-control form-control-lg form-control-solid"
-                placeholder="url/link buku" />
+        <div class="row mb-6">
+            <label class="col-lg-3 col-form-label fw-semibold fs-8">Dummy Buku yang akan
+                terbit</label>
+            <div class="col-lg-3 col-form-label " id="viewdummy_`+jumlah_buku+`"></div>
+            <div class="col-lg-6 d-flex align-items-center">
+                <div class="dropzone" id="dummy`+jumlah_buku+`">
+                    <div class="dz-message needsclick align-items-center">
+                        <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
+                        <div class="ms-4">
+                            <h3 class="fs-5 fw-bold text-gray-900 mb-1">Masukan file
+                                dummy buku</h3>
+                            <span class="fw-semibold fs-7 text-gray-500">Max:
+                                100MB</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-lg-3 fv-row hapusJilid">
-            <span class="btn btn-danger active">Hapus Jilid</span>
+        <div class="row mb-6">
+            <label class="col-lg-3 col-form-label fw-semibold fs-8">File
+                Cover Buku</label>
+            <div class="col-lg-3 col-form-label " id="viewcover_`+jumlah_buku+`"></div>
+            <div class="col-lg-6 d-flex align-items-center">
+                <div class="dropzone" id="cover`+jumlah_buku+`" style="width:100%">
+                    <div class="dz-message needsclick align-items-center">
+                        <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
+                        <div class="ms-4">
+                            <h3 class="fs-5 fw-bold text-gray-900 mb-1">Masukan
+                                file cover buku</h3>
+                            <span class="fw-semibold fs-7 text-gray-500">Max:5MB</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div></div>`;
-   
-    $('#isbn_detail').append(html);
-    if(jumlah_buku > 2){
-        var objJilids = $('.jilidbaru').find();
-        for(var i = 0; i <= objJilids.prevObject.length; i++){
-            if(i < jumlah_buku -2){
-                var btnHapus = $(objJilids.prevObject[i]).find('.btn-danger').first();
-                btnHapus.removeClass("active");
-                btnHapus.addClass('disabled');
-            }
-        }
-    }
-    $('.btn.btn-danger.active').on('click', function(){
-        $(this).parent().parent().parent().remove();
-        jumlah_buku-=1;
-        var objJilids = $('.jilidbaru').find();
-        for(var i = 0; i <= objJilids.prevObject.length; i++){
-            var btnHapus = $(objJilids.prevObject[i]).find('.btn-danger').first();
-            if(i < jumlah_buku -2){
-                btnHapus.removeClass("active");
-                btnHapus.addClass('disabled');
-            }
-            if(i == jumlah_buku -2){
-                btnHapus.addClass('active');
-                btnHapus.removeClass("disabled");
-            }
-        }
-    });  
-    new Dropzone("#attachments"+jumlah_buku, {
-        url: '/penerbit/dropzone/store',
-        paramName: "file",
-        maxFiles: 1,
-        maxFilesize: 2, // MB
-        acceptedFiles: ".pdf",
-        autoProcessQueue: false,
-        addRemoveLinks: true, // Option to remove files from the dropzone
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')// CSRF token for Laravel
-        },
-        init: function() {
-            this.on("addedfile", function(file) {
-                // Automatically process the file when it is added
-                if (this.files.length > 1) {
-                    this.removeFile(this.files[0]);
-                }
-                
-                this.processFile(file);
-            });
-            this.on("sending", function(file, xhr, formData) {
-                // Additional data can be sent here if required
-                console.log('Sending file:', file);
-            });
-            this.on("success", function(file, response) {
-                $('#file_lampiran'+jumlah_buku).val(response[0]['name']);
-                // Handle the response from the server after the file is uploaded
-                console.log('File uploaded successfully', response);
-            });
-            this.on("error", function(file, response) {
-                // Handle the errors
-                console.error('Upload error', response);
-            });
-            this.on("queuecomplete", function() {
-                // Called when all files in the queue have been processed
-                console.log('All files have been uploaded');
-            });
-            this.on("removedfile", function(file) {
-                console.log(file, 'hakim delete', file.serverFileName)
-                if (file.serverFileName) {
-                    $.ajax({
-                        url: '/penerbit/dropzone/delete',
-                        type: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        },
-                        data: { 
-                            filename: file.serverFileName[0]['name']
-                        },
-                        success: function(data) {
-                            $('#file_lampiran'+jumlah_buku).val('');
-                            console.log("File deleted successfully");
-                        },
-                        error: function(xhr, textStatus, errorThrown) {
-                            console.error('Failed to delete file:', errorThrown);
-                        }
-                    });
-                }
-            });
-            this.on("success", function(file, response) {
-                // Store the server file name for deletion purposes
-                file.serverFileName = response;
-            });
-        }
-       
-    });
-    //upload file  dummy
-    new Dropzone("#dummy"+jumlah_buku, {
-        url: '/penerbit/dropzone/store',
-        paramName: "file",
-        maxFiles: 1,
-        maxFilesize: 2, // MB
-        acceptedFiles: ".pdf",
-        autoProcessQueue: false,
-        addRemoveLinks: true, // Option to remove files from the dropzone
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // CSRF token for Laravel
-        },
-        init: function() {
-            this.on("addedfile", function(file) {
-                // Automatically process the file when it is added
-                if (this.files.length > 1) {
-                    this.removeFile(this.files[0]);
-                }
-                
-                this.processFile(file);
-            });
-            this.on("sending", function(file, xhr, formData) {
-                // Additional data can be sent here if required
-                console.log('Sending file:', file);
-            });
-            this.on("success", function(file, response) {
-                $('#file_dummy'+jumlah_buku).val(response[0]['name']);
-                // Handle the response from the server after the file is uploaded
-                console.log('File uploaded successfully', response);
-            });
-            this.on("error", function(file, response) {
-                // Handle the errors
-                console.error('Upload error', response);
-            });
-            this.on("queuecomplete", function() {
-                // Called when all files in the queue have been processed
-                console.log('All files have been uploaded');
-            });
-            this.on("removedfile", function(file) {
-                if (file.serverFileName) {
-                    $.ajax({
-                        url: '/penerbit/dropzone/delete',
-                        type: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        },
-                        data: { 
-                            filename: file.serverFileName[0]['name']
-                        },
-                        success: function(data) {
-                            $('#file_dummy'+jumlah_buku).val('');
-                            console.log("File deleted successfully");
-                        },
-                        error: function(xhr, textStatus, errorThrown) {
-                            console.error('Failed to delete file:', errorThrown);
-                        }
-                    });
-                }
-            });
-            this.on("success", function(file, response) {
-                // Store the server file name for deletion purposes
-                file.serverFileName = response;
-            });
-        }
-    });
-});
-$('textarea[name=title]').val("{{ $detail[0]['TITLE'] }}");
-var kepeng ="{{ $detail[0]['KEPENG'] }}";
-var kepengs = kepeng.split(";");
-$('#authorRole0').val(kepengs[0].split(',')[0]);
-$('#namaPengarang0').val(kepengs[0].split(',')[1]);
-if("{{$detail[0]['JENIS_MEDIA']}}" != ''){
-    $('input[type=radio][name="jenis_media"][value={{$detail[0]['JENIS_MEDIA']}}]').prop('checked', true);
-}
-
-$('input[type=radio][name="status"][value="{{$status}}"]').prop("checked", true);
-if("{{$detail[0]['JENIS_TERBITAN']}}" != ''){
-    $('input[type=radio][name="jenis_terbitan"][value={{$detail[0]['JENIS_TERBITAN']}}]').prop('checked', true);
-}
-if("{{$detail[0]['JENIS_PENELITIAN']}}" != ''){
-    $('input[type=radio][name="jenis_penelitian"][value={{$detail[0]['JENIS_PENELITIAN']}}]').prop('checked', true);
-}
-if("{{$detail[0]['JENIS_KATEGORI']}}" != ''){
-    $('input[type=radio][name="jenis_kategori"][value={{$detail[0]['JENIS_KATEGORI']}}]').prop('checked', true);
-}
-if("{{$detail[0]['JENIS_PUSTAKA']}}" != ''){
-    $('input[type=radio][name="jenis_pustaka"][value={{$detail[0]['JENIS_PUSTAKA']}}]').prop('checked', true);
-}
-if("{{$detail[0]['JENIS_KELOMPOK']}}" != ''){
-    $('input[type=radio][name="jenis_kelompok"][value={{$detail[0]['JENIS_KELOMPOK']}}]').prop('checked', true);
-}
-$('textarea[name="deskripsi"]').val(`{!!$detail[0]['SINOPSIS']!!}`);
-for(var i = 1; i < kepengs.length; i++){
-    let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
-        '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select id="authorRole'+i+'">';
-    htmlAppend +=
-        '<option selected="">penulis</option><option>penyunting</option><option>penyusun</option><option>editor</option>';
-    htmlAppend +=
-        '<option>alih bahasa</option><option>ilustrator</option><option>desain sampul</option></select></div>';
-    htmlAppend +=
-        '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control form-control-lg form-control-solid" placeholder="Nama orang" value="'+kepengs[i].split(',')[1]+'" /></div>';
-    htmlAppend +=
-        '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger" onclick="deleteKepengarangan(' +
-        kepengarangan + ')"><i class="ki-outline ki-trash" ></i></span></div></div>';
+        <div class="row mb-6">
+            <label class="col-lg-3 col-form-label fw-semibold fs-8">
+                <span class="required">URL / LINK publikasi buku</span>
+                <span class="ms-1" data-bs-toggle="tooltip" title="url">
+                    <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+                </span>
+            </label>
+            <div class="col-lg-6 fv-row">
+                <input type="text" name="url[]" class="form-control form-control-lg form-control-solid" id="url`+jumlah_buku+`"
+                    placeholder="url/link buku" />
+            </div>
+            <div class="col-lg-3 fv-row hapusJilid">
+                <span class="btn btn-danger active">Hapus Jilid</span>
+            </div>
+        </div></div>`;
     
-    $('#kepengarangan').append(htmlAppend);
-    $('#authorRole'+i).val(kepengs[i].split(',')[0]);
-    //set option
-}
-$('select[name="bulan_terbit"]').val('{{$detail[0]['BULAN_TERBIT']}}');
-$('select[name="tahun_terbit"]').val('{{$detail[0]['TAHUN_TERBIT']}}');
-$('#jml_hlm0').val("{{$detail[0]['JML_HLM']}}");
-$('#edisi0').val("{{$detail[0]['EDISI']}}");
-$('#seri0').val("{{$detail[0]['SERI']}}");
-$('#url0').val("{{$detail[0]['LINK_BUKU']}}");
-$('#ketebalan0').val("{{$detail[0]['KETEBALAN']}}");
-getFile("{{$detail[0]['ID']}}");
-function getFile(penerbit_terbitan_id){
-	$.ajax({
-            url: '{{ url('penerbit/isbn/permohonan/file') }}' + '/' + penerbit_terbitan_id,
-            type: 'GET',
-            contentType: false,
-            processData: false,
-            success: function(response) {
-				for(var i = 0; i<response.length; i++){
-                    if(response[i]['JENIS'] == 'lampiran_permohonan') {
-                        $('#lampiran_1').append('<a href="http://demo321.online/ISBN_Back_Office/files/isbn/lampiran/'+response[i]["FILE_NAME"]+'"><i class="bi bi-filetype-pdf fs-1"></i> '+response[i]["FILE_NAME"]+'</a></br>');
-                    }  
-                    if(response[i]['JENIS'] == 'dummy_buku') {
-                        $('#dummy_1').append('<a href="http://demo321.online/ISBN_Back_Office/files/isbn/dummy/'+response[i]["FILE_NAME"]+'"><i class="bi bi-filetype-pdf fs-1"></i> '+response[i]["FILE_NAME"]+'</a></br>');
-                    }
+        $('#isbn_detail').append(html);
+        if(jumlah_buku > 2){
+            var objJilids = $('.jilidbaru').find();
+            for(var i = 0; i <= objJilids.prevObject.length; i++){
+                if(i < jumlah_buku -2){
+                    var btnHapus = $(objJilids.prevObject[i]).find('.btn-danger').first();
+                    btnHapus.removeClass("active");
+                    btnHapus.addClass('disabled');
                 }
-            },
-            error: function() {
-                Toast.fire({
-                    icon: 'error',
-                    title: 'Server Error!'
-                });
             }
-        });
-}
-$(selectProv).change(function() {
-    var value = $(selectProv).val();
-    clearOptions('select2-kabupaten');
-
-    if (value) {
-        console.log("on change selectProv");
-
-        var text = $('#select2-provinsi :selected').text();
-        console.log("value = " + value + " / " + "text = " + text);
-
-        console.log('Load Kabupaten di ' + text + '...')
-        $.getJSON(urlKabupaten + value + ".json", function(res) {
-
-            res = $.map(res, function(obj) {
-                obj.text = obj.nama
-                return obj;
-            });
-
-            data = [{
-                id: "",
-                nama: "- Pilih Kabupaten -",
-                text: "- Pilih Kabupaten -"
-            }].concat(res);
-
-            //implemen data ke select provinsi
-            $("#select2-kabupaten").select2({
-                dropdownAutoWidth: true,
-                width: '100%',
-                data: data
-            })
-        })
+        }
+        $('.btn.btn-danger.active').on('click', function(){
+            $(this).parent().parent().parent().remove();
+            jumlah_buku-=1;
+            var objJilids = $('.jilidbaru').find();
+            for(var i = 0; i <= objJilids.prevObject.length; i++){
+                var btnHapus = $(objJilids.prevObject[i]).find('.btn-danger').first();
+                if(i < jumlah_buku -2){
+                    btnHapus.removeClass("active");
+                    btnHapus.addClass('disabled');
+                }
+                if(i == jumlah_buku -2){
+                    btnHapus.addClass('active');
+                    btnHapus.removeClass("disabled");
+                }
+            }
+        });  
+        dropZoneJilid(jumlah_buku, "lampiran");
+        dropZoneJilid(jumlah_buku, "dummy");
+        dropZoneJilid(jumlah_buku, "cover");
     }
-});
-
-var selectKab = $('#select2-kabupaten');
-
-$('.onhover').css('display', 'none');
-$('.hoverEvent').hover(function () {
-    var objSpan = $(this).find('.onhover').first();
-    objSpan.css('display', 'block');
-}, function () {
-    var objSpan = $(this).find('.onhover').first();
-    objSpan.css('display', 'none');
-    //stuff to do on mouse leave
-});
-$('input[type=radio][name="jenis_media"]').on('change', function() {
-        var objSpan = $(this).parent().parent().find('.onhover').first();
-        var notes = objSpan[0].innerHTML;
-        $('#notes_jenis_media').html(notes);
+    $('#btnTambahJilid').on('click', function(){
+        tambahJilid();
     });
-$('input[type=radio][name="status"]').on('change', function() {
-    if($(this).val() == 'lepas'){
+    var jumlah_buku = 1;
+    dropZoneJilid(jumlah_buku, "lampiran");
+    dropZoneJilid(jumlah_buku, "dummy");
+    dropZoneJilid(jumlah_buku, "cover");
+    var jilid_lepas = '{{$status}}';
+    $('textarea[name=title]').val("{{ $detail['TITLE'] }}");
+    var kdt_valid = "{{ $detail['IS_KDT_VALID']}}";
+    var kepeng ="{{ $detail['KEPENG'] }}";
+    var kepengs = kepeng.split(";");
+    if(kepengs[0].includes(',')){
+        $('#authorRole0').val(kepengs[0].split(',')[0]);
+        $('#namaPengarang0').val(kepengs[0].split(',')[1]);
+    }else {
+        $('#authorRole0').val('penulis');
+        $('#namaPengarang0').val(kepengs[0]);
+    }
+    for(var i = 1; i < kepengs.length; i++){
+        if(kepengs[i].includes(',')){
+            let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
+                '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select id="authorRole'+i+'">';
+            htmlAppend +=
+                '<option selected="">penulis</option><option>penyunting</option><option>penyusun</option><option>editor</option>';
+            htmlAppend +=
+                '<option>alih bahasa</option><option>ilustrator</option><option>desain sampul</option></select></div>';
+            htmlAppend +=
+                '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control form-control-lg form-control-solid" placeholder="Nama orang" value="'+kepengs[i].split(',')[1]+'" /></div>';
+            htmlAppend +=
+                '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger" onclick="deleteKepengarangan(' +
+                kepengarangan + ')"><i class="ki-outline ki-trash" ></i></span></div></div>';
+            $('#kepengarangan').append(htmlAppend);
+            $('#authorRole'+i).val('penulis');
+        }else {
+            let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
+                '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select id="authorRole'+i+'">';
+            htmlAppend +=
+                '<option selected="">penulis</option><option>penyunting</option><option>penyusun</option><option>editor</option>';
+            htmlAppend +=
+                '<option>alih bahasa</option><option>ilustrator</option><option>desain sampul</option></select></div>';
+            htmlAppend +=
+                '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control form-control-lg form-control-solid" placeholder="Nama orang" value="'+kepengs[i]+'" /></div>';
+            htmlAppend +=
+                '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger" onclick="deleteKepengarangan(' +
+                kepengarangan + ')"><i class="ki-outline ki-trash" ></i></span></div></div>';
+            $('#kepengarangan').append(htmlAppend);
+            $('#authorRole'+i).val(kepengs[i].split(',')[0]);
+        } 
+    }
+    var jenis_media = "{{$detail['JENIS_MEDIA']}}";
+    var jenis_terbitan = "{{$detail['JENIS_TERBITAN']}}";
+    var jenis_penelitian = "{{$detail['JENIS_PENELITIAN']}}";
+    var jenis_kategori = "{{$detail['JENIS_KATEGORI']}}";
+    var jenis_pustaka = "{{$detail['JENIS_PUSTAKA']}}";
+    var jenis_kelompok = "{{$detail['JENIS_KELOMPOK']}}";
+    if(jenis_media != ''){
+        $('input[type=radio][name="jenis_media"][value="'+jenis_media+'"]').prop('checked', true);
+    }
+    $('input[type=radio][name="status"][value="{{$status}}"]').prop("checked", true);
+    if(jenis_terbitan != ''){
+        $('input[type=radio][name="jenis_terbitan"][value="'+jenis_terbitan+'"]').prop('checked', true);
+    }
+    if(jenis_penelitian != ''){
+        $('input[type=radio][name="jenis_penelitian"][value="'+jenis_penelitian+'"]').prop('checked', true);
+    }
+    if(jenis_kategori != ''){
+        $('input[type=radio][name="jenis_kategori"][value="'+jenis_kategori+'"]').prop('checked', true);
+    }
+    if(jenis_pustaka != ''){
+        $('input[type=radio][name="jenis_pustaka"][value="'+jenis_pustaka+'"]').prop('checked', true);
+    }
+    if(jenis_kelompok != ''){
+        $('input[type=radio][name="jenis_kelompok"][value="'+jenis_kelompok+'"]').prop('checked', true);
+    }
+    $('textarea[name="deskripsi"]').val(`{!!$detail['SINOPSIS']!!}`);
+    $('select[name="bulan_terbit"]').val('{{$detail['BULAN_TERBIT']}}');
+    $('select[name="tahun_terbit"]').val('{{$detail['TAHUN_TERBIT']}}');
+    $('#jml_hlm').val("{{$detail['JML_HLM']}}");
+    $('#edisi').val("{{$detail['EDISI']}}");
+    $('#seri').val("{{$detail['SERI']}}");
+    var ketebalan = "{{$detail['KETEBALAN']}}";
+    ketebalan = ketebalan.replace(' cm', '');
+    $('#ketebalan').val(ketebalan);
+    if(jilid_lepas == 'jilid') {
+        var jml_jilid = parseInt("{{$detail['JML_JILID']}}");
+        for(var j = 1; j< jml_jilid; j++){
+
+        }
+    }
+    getFile("{{$detail['ID']}}");
+    function getFile(penerbit_terbitan_id){
+        jumlah_jilid = parseInt("{{$detail['JML_JILID']}}");
+        $.ajax({
+                url: '{{ url('penerbit/isbn/permohonan/file') }}' + '/' + penerbit_terbitan_id,
+                type: 'GET',
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    for(var j = 1; j < jumlah_jilid; j++){
+                        tambahJilid();
+                    }
+                    for(var i = 0; i<response.length; i++){
+                        if(response[i]['JENIS'] == 'lampiran_permohonan') {
+                            $('#viewlampiran_'+ jumlah_buku).append(`<a href="http://demo321.online/ISBN_Back_Office/files/isbn/lampiran/`+response[i]["FILE_NAME"]+`">
+                            <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
+                            <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span> 
+                            <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`)"></a></br>`);
+                            $('#url' +jumlah_buku).val(response[i]["LINK_BUKU"]);
+                        }  
+                        if(response[i]['JENIS'] == 'dummy_buku') {
+                            $('#viewdummy_'+ jumlah_buku).append(`<a href="http://demo321.online/ISBN_Back_Office/files/isbn/dummy/`+response[i]["FILE_NAME"]+`">
+                            <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
+                            <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`)"></a></br>`);
+                        }
+                        if(response[i]['JENIS'] == 'cover') {
+                            $('#viewcover_'+ jumlah_buku).append(`<a href="http://demo321.online/ISBN_Back_Office/files/cover/`+response[i]["FILE_NAME"]+`">
+                            <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
+                            <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`)"></a></br>`);
+                        }
+                    }
+                },
+                error: function() {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Server Error!'
+                    });
+                }
+            });
+    }
+    $(selectProv).change(function() {
+        var value = $(selectProv).val();
+        clearOptions('select2-kabupaten');
+
+        if (value) {
+            console.log("on change selectProv");
+
+            var text = $('#select2-provinsi :selected').text();
+            console.log("value = " + value + " / " + "text = " + text);
+
+            console.log('Load Kabupaten di ' + text + '...')
+            $.getJSON(urlKabupaten + value + ".json", function(res) {
+
+                res = $.map(res, function(obj) {
+                    obj.text = obj.nama
+                    return obj;
+                });
+
+                data = [{
+                    id: "",
+                    nama: "- Pilih Kabupaten -",
+                    text: "- Pilih Kabupaten -"
+                }].concat(res);
+
+                //implemen data ke select provinsi
+                $("#select2-kabupaten").select2({
+                    dropdownAutoWidth: true,
+                    width: '100%',
+                    data: data
+                })
+            })
+        }
+    });
+    var removeFile = function(id){
+
+    };
+    var selectKab = $('#select2-kabupaten');
+
+    $('.onhover').css('display', 'none');
+    $('.hoverEvent').hover(function () {
+        var objSpan = $(this).find('.onhover').first();
+        objSpan.css('display', 'block');
+    }, function () {
+        var objSpan = $(this).find('.onhover').first();
+        objSpan.css('display', 'none');
+        //stuff to do on mouse leave
+    });
+    $('input[type=radio][name="jenis_media"]').on('change', function() {
+            var objSpan = $(this).parent().parent().find('.onhover').first();
+            var notes = objSpan[0].innerHTML;
+            $('#notes_jenis_media').html(notes);
+        });
+    $('input[type=radio][name="status"]').on('change', function() {
+        if($(this).val() == 'lepas'){
+            $('#judul_buku_1').css('display', 'none');
+            $('#btnTambahJilid').css('display', 'none');
+        } else {
+            $('#judul_buku_1').css('display', 'block');
+            $('#btnTambahJilid').css('display', 'block');
+        }
+        });
         $('#judul_buku_1').css('display', 'none');
         $('#btnTambahJilid').css('display', 'none');
-    } else {
-        $('#judul_buku_1').css('display', 'block');
-        $('#btnTambahJilid').css('display', 'block');
-    }
+    var kepengarangan = 1;
+    
+    $('#btnTambahPengarang').on("click", function() {
+        let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
+            '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select">';
+        htmlAppend +=
+            '<option selected="selected">penulis</option><option>penyunting</option><option>penyusun</option><option>editor</option>';
+        htmlAppend +=
+            '<option>alih bahasa</option><option>ilustrator</option><option>desain sampul</option></select></div>';
+        htmlAppend +=
+            '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control form-control-lg form-control-solid" placeholder="Nama orang" /></div>';
+        htmlAppend +=
+            '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger" onclick="deleteKepengarangan(' +
+            kepengarangan + ')"><i class="ki-outline ki-trash" ></i></span></div></div>';
+        $('#kepengarangan').append(htmlAppend);
+        kepengarangan += 1;
     });
-    $('#judul_buku_1').css('display', 'none');
-    $('#btnTambahJilid').css('display', 'none');
-var kepengarangan = 1;
-var jumlah_buku = parseInt("{{$detail[0]['JML_JILID']}}");
-$('#btnTambahPengarang').on("click", function() {
-    let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
-        '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select">';
-    htmlAppend +=
-        '<option selected="selected">penulis</option><option>penyunting</option><option>penyusun</option><option>editor</option>';
-    htmlAppend +=
-        '<option>alih bahasa</option><option>ilustrator</option><option>desain sampul</option></select></div>';
-    htmlAppend +=
-        '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control form-control-lg form-control-solid" placeholder="Nama orang" /></div>';
-    htmlAppend +=
-        '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger" onclick="deleteKepengarangan(' +
-        kepengarangan + ')"><i class="ki-outline ki-trash" ></i></span></div></div>';
-    $('#kepengarangan').append(htmlAppend);
-    kepengarangan += 1;
-});
-$('form#form_isbn').submit(function(e){
-    e.preventDefault();
-    let form = document.getElementById('form_isbn');
-    let formData = new FormData(form); 
-    formData.append('jumlah_jilid', jumlah_buku);
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-        }
-    });
-    $.ajax({
-                url :'{{ url('penerbit/isbn/permohonan/new/submit') }}',
-                type: 'post',
-                dataType: 'json',
-                processData: false,
-                contentType:  false,
-                data: formData,
-                statusCode: {
-                    422: function(xhr) {
-                        var error = '<div class="alert alert-danger d-flex align-items-center p-5 mb-10"><div class="d-flex flex-column" style="text-align: left;"><ul>';
-                        $.each(xhr.responseJSON.err, function(key, value){
-                            error+='<li>'+value[0]+'</li>';
-                        }); 
-                        error+='</ul></div></div>';
-                        Swal.fire({
-                                title: "Validation Error!",
-                                html: error,
-                                buttonsStyling: !1,
-                                confirmButtonText: "Ok!",
-                                width: '800px',
-                                heightAuto:false,
-                                height: '800px',
-                                customClass: { 
-                                    confirmButton: "btn fw-bold btn-primary",
-                                    content: "swal-height"
-                                }
-                            });
-                    },
-                    200: function(xhr) {
-                        Swal.fire({
-                                title: "Permohonan ISBN berhasil disimpan!",
-                                text: xhr.message,
-                                html: 'NOMOR RESI : <b>' + xhr.noresi + '</b>',
-                                icon: "success",
-                                buttonsStyling: !1,
-                                confirmButtonText: "Ok!",
-                                customClass: {
-                                    confirmButton: "btn fw-bold btn-primary"
-                                    }
-                            }).then(function(isConfirm){
-                                if (isConfirm){
-                                    window.location.href = "/penerbit/isbn/permohonan/detail/" + xhr.noresi 
-                                }
-                            });
-                    },
-                    500: function(xhr) {
-                        Swal.fire({
-                                text: xhr.responseJSON.message,
-                                icon: "failed",
-                                buttonsStyling: !1,
-                                confirmButtonText: "Ok!",
-                                customClass: {
-                                    confirmButton: "btn fw-bold btn-primary"
-                                    }
-                            });
-                    },
-                }
+    $('#btnSubmit').on('click', function(){
+        $('form#form_isbn').submit();
+    })
+    $('form#form_isbn').submit(function(e){
+        e.preventDefault();
+        let form = document.getElementById('form_isbn');
+        let formData = new FormData(form); 
+        formData.append('jumlah_jilid', jumlah_buku);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
         });
-});
-var deleteKepengarangan = function(numb) {
-    $('#kepengarangan_' + numb).remove();
-};
-</script>
-<script>
-    //upload file  lampiran
-    Dropzone.autoDiscover = false;
-    new Dropzone("#attachments", {
-        url: '/penerbit/dropzone/store',
-        paramName: "file",
-        maxFiles: 1,
-        maxFilesize: 2, // MB
-        acceptedFiles: ".pdf",
-        autoProcessQueue: false,
-        addRemoveLinks: true, // Option to remove files from the dropzone
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')// CSRF token for Laravel
-        },
-        init: function() {
-            this.on("addedfile", function(file) {
-                // Automatically process the file when it is added
-                if (this.files.length > 1) {
-                    this.removeFile(this.files[0]);
-                }
-                
-                this.processFile(file);
-            });
-            this.on("sending", function(file, xhr, formData) {
-                // Additional data can be sent here if required
-                console.log('Sending file:', file);
-            });
-            this.on("success", function(file, response) {
-                $('#file_lampiran1').val(response[0]['name']);
-                // Handle the response from the server after the file is uploaded
-                console.log('File uploaded successfully', response);
-            });
-            this.on("error", function(file, response) {
-                // Handle the errors
-                console.error('Upload error', response);
-            });
-            this.on("queuecomplete", function() {
-                // Called when all files in the queue have been processed
-                console.log('All files have been uploaded');
-            });
-            this.on("removedfile", function(file) {
-                console.log(file, 'hakim delete', file.serverFileName)
-                if (file.serverFileName) {
-                    $.ajax({
-                        url: '/penerbit/dropzone/delete',
-                        type: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        $.ajax({
+                    url :'{{ url('penerbit/isbn/permohonan/new/submit') }}',
+                    type: 'post',
+                    dataType: 'json',
+                    processData: false,
+                    contentType:  false,
+                    data: formData,
+                    statusCode: {
+                        422: function(xhr) {
+                            var error = '<div class="alert alert-danger d-flex align-items-center p-5 mb-10"><div class="d-flex flex-column" style="text-align: left;"><ul>';
+                            $.each(xhr.responseJSON.err, function(key, value){
+                                error+='<li>'+value[0]+'</li>';
+                            }); 
+                            error+='</ul></div></div>';
+                            Swal.fire({
+                                    title: "Validation Error!",
+                                    html: error,
+                                    buttonsStyling: !1,
+                                    confirmButtonText: "Ok!",
+                                    width: '800px',
+                                    heightAuto:false,
+                                    height: '800px',
+                                    customClass: { 
+                                        confirmButton: "btn fw-bold btn-primary",
+                                        content: "swal-height"
+                                    }
+                                });
                         },
-                        data: { 
-                            filename: file.serverFileName[0]['name']
+                        200: function(xhr) {
+                            Swal.fire({
+                                    title: "Permohonan ISBN berhasil disimpan!",
+                                    text: xhr.message,
+                                    html: 'NOMOR RESI : <b>' + xhr.noresi + '</b>',
+                                    icon: "success",
+                                    buttonsStyling: !1,
+                                    confirmButtonText: "Ok!",
+                                    customClass: {
+                                        confirmButton: "btn fw-bold btn-primary"
+                                        }
+                                }).then(function(isConfirm){
+                                    if (isConfirm){
+                                        window.location.href = "/penerbit/isbn/permohonan/detail/" + xhr.noresi 
+                                    }
+                                });
                         },
-                        success: function(data) {
-                            $('#file_lampiran1').val('');
-                            console.log("File deleted successfully");
+                        500: function(xhr) {
+                            Swal.fire({
+                                    text: xhr.responseJSON.message,
+                                    icon: "failed",
+                                    buttonsStyling: !1,
+                                    confirmButtonText: "Ok!",
+                                    customClass: {
+                                        confirmButton: "btn fw-bold btn-primary"
+                                        }
+                                });
                         },
-                        error: function(xhr, textStatus, errorThrown) {
-                            console.error('Failed to delete file:', errorThrown);
-                        }
-                    });
-                }
+                    },
+                    beforeSend: function(){
+                        $('.loader').css('display','block');
+                    },
+                    complete: function(){
+                        $('.loader').css('display','none');
+                    },
             });
-            this.on("success", function(file, response) {
-                // Store the server file name for deletion purposes
-                file.serverFileName = response;
-            });
-        }
-       
     });
-    //upload file  dummy
-    new Dropzone("#dummy", {
-        url: '/penerbit/dropzone/store',
-        paramName: "file",
-        maxFiles: 1,
-        maxFilesize: 2, // MB
-        acceptedFiles: ".pdf",
-        autoProcessQueue: false,
-        addRemoveLinks: true, // Option to remove files from the dropzone
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // CSRF token for Laravel
-        },
-        init: function() {
-            this.on("addedfile", function(file) {
-                // Automatically process the file when it is added
-                if (this.files.length > 1) {
-                    this.removeFile(this.files[0]);
-                }
-                
-                this.processFile(file);
-            });
-            this.on("sending", function(file, xhr, formData) {
-                // Additional data can be sent here if required
-                console.log('Sending file:', file);
-            });
-            this.on("success", function(file, response) {
-                $('#file_dummy1').val(response[0]['name']);
-                // Handle the response from the server after the file is uploaded
-                console.log('File uploaded successfully', response);
-            });
-            this.on("error", function(file, response) {
-                // Handle the errors
-                console.error('Upload error', response);
-            });
-            this.on("queuecomplete", function() {
-                // Called when all files in the queue have been processed
-                console.log('All files have been uploaded');
-            });
-            this.on("removedfile", function(file) {
-                if (file.serverFileName) {
-                    $.ajax({
-                        url: '/penerbit/dropzone/delete',
-                        type: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        },
-                        data: { 
-                            filename: file.serverFileName[0]['name']
-                        },
-                        success: function(data) {
-                            $('#file_akta').remove();
-                            console.log("File deleted successfully");
-                        },
-                        error: function(xhr, textStatus, errorThrown) {
-                            console.error('Failed to delete file:', errorThrown);
-                        }
-                    });
-                }
-            });
-            this.on("success", function(file, response) {
-                // Store the server file name for deletion purposes
-                file.serverFileName = response;
-            });
-        }
-    });
+    var deleteKepengarangan = function(numb) {
+        $('#kepengarangan_' + numb).remove();
+    };
 </script>
 @stop

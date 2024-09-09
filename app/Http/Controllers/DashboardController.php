@@ -10,9 +10,16 @@ class DashboardController extends Controller
     public function index()
     {
         $data = [
-            'nama_penerbit' => session('penerbit')["NAME"]
+            'nama_penerbit' => session('penerbit')["NAME"],
         ];
         return view('dashboard', $data);
+    }
+    public function notValid()
+    {
+        $data = [
+            'nama_penerbit' => session('penerbit')["NAME"],
+        ];
+        return view('perlu_verifikasi', $data);
     }
 
     public function getTotalIsbn()

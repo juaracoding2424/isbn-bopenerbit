@@ -11,7 +11,18 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        
+        /*$middleware->redirectGuestsTo(function (Request $request) {
+            //if ($request->is('api/*')) {
+            return route('login');
+            //} else {
+            //    return route('...');
+            //}
+        });
+        /*$middleware->alias([
+            //'penerbit' => \App\Http\Middleware\PenerbitMiddleware::class,
+            //'guest'    => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        ]);*/
+        //$middleware->append(\App\Http\Middleware\PenerbitMiddleware::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

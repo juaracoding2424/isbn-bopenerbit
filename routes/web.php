@@ -9,6 +9,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DropZoneController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Middleware\PenerbitMiddleware;
+use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Controllers\ChangePasswordController;
 
 Route::group(['middleware' => PenerbitMiddleware::class], function () {
@@ -18,7 +19,7 @@ Route::group(['middleware' => PenerbitMiddleware::class], function () {
     Route::get('penerbit/dashboard/total-isbn', [DashboardController::class, 'getTotalIsbn']);
     Route::get('penerbit/dashboard/statistik-isbn', [DashboardController::class, 'getStatistikIsbn']);
     Route::get('penerbit/dashboard/berita', [DashboardController::class, 'getBerita']);
-
+    
     Route::get('penerbit/isbn/data', [IsbnDataController::class, 'index']);
     Route::get('penerbit/isbn/data/datatable', [IsbnDataController::class, 'datatable']);
     Route::get('penerbit/isbn/data/detail/{noresi}', [IsbnDataController::class, 'detail']);
@@ -45,7 +46,9 @@ Route::group(['middleware' => PenerbitMiddleware::class], function () {
     
     Route::get('penerbit/change-password', [ChangePasswordController::class, 'index']);
     Route::post('penerbit/change-password/submit', [ChangePasswordController::class, 'submit']);
+    Route::get('penerbit/dashboard/notvalid', [DashboardController::class, 'notValid']);
 });
+
 Route::get('login', [AuthController::class, 'login']);
 Route::post('auth/submit', [AuthController::class, 'submit']);
 

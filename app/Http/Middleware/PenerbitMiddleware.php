@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-
 class PenerbitMiddleware
 {
     /**
@@ -16,10 +15,13 @@ class PenerbitMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        //\Log::info(session('penerbit')['STATUS']);
         if (session('penerbit') == null) {
             return redirect('/login');
         }
+        /*if(session('penerbit')['STATUS'] == 'valid') {
+            return redirect('penerbit/dashboard/notvalid');
+        } */
         return $next($request);
-
     }
 }

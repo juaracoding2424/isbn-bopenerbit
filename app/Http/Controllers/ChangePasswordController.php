@@ -47,6 +47,7 @@ class ChangePasswordController extends Controller
                     $id = session('penerbit')['ID'];
                     $updated = [
                         ["name" => "ISBN_PASSWORD1", "Value"=> $encryptedPassword],
+                        ["name" => "ISBN_PASSWORD", "Value"=> $encryptedPassword],
                         ["name" => "ISBN_PASSWORD2", "Value"=> $encryptedPassword2],
                     ];
                     $old = Http::post(config('app.inlis_api_url') ."?token=". config('app.inlis_api_token') ."&issavehistory=1&id=$id&op=update&table=PENERBIT&ListUpdateItem=". urlencode(json_encode($updated)));

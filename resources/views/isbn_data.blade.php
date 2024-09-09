@@ -95,10 +95,15 @@
 											<span class="btn btn-primary p-1 m-0"><i class="ki-outline ki-plus fs-2" ></i></span>
 										</div>
 										<div id="btnSearch">
-											<span class="btn btn-success p-1 m-0 py-1">search</span>
+											<span class="btn btn-success p-1 m-0 py-1 me-2">search</span>
 										</div>
 									</div>
 								</div>
+								<select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectJenis" id="selectJenis">
+											<option value="">--pilih jenis terbitan--</option>
+											<option value="lepas">terbitan lepas</option>
+											<option value="jilid">terbitan berjilid</option>
+								</select>
 								
 								<!--end::Search-->
 							</div>
@@ -106,6 +111,7 @@
 							<!--begin::Card toolbar-->
 							<div class="card-toolbar flex-row-fluid justify-content-end gap-5">
 								<!--begin::Add product-->
+								<span id="unduhExcel"></span>
 								<a href="{{ url('/penerbit/isbn/permohonan/new') }}" class="btn btn-primary">Tambah Permohonan ISBN</a>
 								<!--end::Add product-->
 							</div>
@@ -119,7 +125,8 @@
 							<table class="table table-row-dashed table-hover no-wrap fs-8 gy-5" id="example" style="width:100%">
 								<thead>
 									<tr class="text-start text-gray-500 fw-bold fs-8 text-uppercase gs-0">
-										<th class="text-start min-w-60px pe-2">ID</th>
+										<th class="text-start min-w-60px pe-2">No</th>
+										<th class="text-inline min-w-150px">Actions</th>
 										<th class="min-w-150px">ISBN</th>
 										<th class="min-w-200px">Judul</th>
 										<th class="min-w-200px">Kepengarangan</th>
@@ -127,7 +134,6 @@
 										<th class="min-w-200px">Status Penerbitan</th>
 										<th class="min-w-200px">Tanggal Permohonan</th>
 										<th class="min-w-200px">Tanggal Verifikasi</th>
-										<th class="text-inline min-w-150px">Actions</th>
 										<th class="min-w-200px">Penyerahan Perpusnas</th>
 										<th class="min-w-200px">Penyerahan Provinsi</th>
 										
@@ -192,9 +198,16 @@
                         }
                 })
 	};
-	var cetakKDT = function(){
-		Swal.fire({
-                    text: "Kami sudah mengirimkan KDT melalui email Anda!",
+	var cetakKDT = function(id){
+		$.ajax({
+            url: '{{ url('penerbit/isbn/data/detail/') }}' + '/' + id,
+            type: 'GET',
+            contentType: false,
+            processData: false,
+            success: function(response) {
+				Swal.fire({
+                    text: "Perpustakaan Nasional RI. Data Katalog dalam Terbitan (KDT)",
+					html: "",
                     icon: "success",
                     buttonsStyling: !1,
                     confirmButtonText: "Ok, got it!",
@@ -202,6 +215,14 @@
                     	confirmButton: "btn fw-bold btn-primary"
                         }
                 })
+            },
+            error: function() {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Server Error!'
+                });
+            }
+        });
 	}
 
 	
@@ -325,7 +346,8 @@
 			ajax: {
 				url: '{{ url("penerbit/isbn/data/datatable") }}',
 				data: {
-					advSearch : advSearch
+					advSearch : advSearch,
+					jenisTerbitan: $('#selectJenis').val()
 				}
 			},
 		});
@@ -360,6 +382,12 @@
 		$('#advanceSearch_' + numb).remove();
 	};
 	$('#btnSearch').on("click", function(){
+		loadDataTable();
+	});
+	$('#selectJenis').on("change", function(){
+		loadDataTable();
+	});
+	$('input[type="text"][name="searchValue[]"]').on("focusout", function(){
 		loadDataTable();
 	})
 </script>
