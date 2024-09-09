@@ -22,6 +22,12 @@
 		top:50%;
 		left:50%;
 	}
+    .swal2-container.swal2-center>.swal2-popup {
+        height: 80vh !important;
+    }
+    .swal2-container .swal2-html-container{
+        max-height: 700px !important;
+    }
 </style>
 	<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
 		<!--begin::Content wrapper-->
@@ -169,6 +175,7 @@
 <script src="{{ asset('/assets/js/custom/apps/chat/chat.js') }}"></script>
 <script src="{{ asset('/assets/js/custom/randomtitle.js') }}"></script>
 <script src="{{ asset('/assets/js/custom/randomname.js') }}"></script>
+<script src="{{ asset('/assets/js/html2pdf.bundle.min.js') }}" ></script>
 <!--end::Custom Javascript-->
 <!--end::Javascript-->
 </body>
@@ -200,21 +207,34 @@
 	};
 	var cetakKDT = function(id){
 		$.ajax({
-            url: '{{ url('penerbit/isbn/data/detail/') }}' + '/' + id,
+            url: "{{ url('penerbit/isbn/data/kdt/') }}" + '/' + id,
             type: 'GET',
             contentType: false,
             processData: false,
+			beforeSend: function(){
+                $('.loader').css('display','block');
+            },
+            complete: function(){
+                $('.loader').css('display','none');
+            },
             success: function(response) {
 				Swal.fire({
-                    text: "Perpustakaan Nasional RI. Data Katalog dalam Terbitan (KDT)",
-					html: "",
+					html: `<div id='kdt'><pre style="overflow-y:scroll; max-width:700px; height:300px; border:0.5px solid lightgray; padding:5px; white-space:pre-wrap;text-align:left; font-size:10pt;">`+response + `</pre></div>
+							<div>
+							<button class="btn btn-primary" onclick="onBtnClicked('print',`+ id + `)">Print KDT</button>
+							<button class="btn btn-danger" onclick="onBtnClicked('copy',`+ id + `)">Copy</button>
+							<button class="btn btn-secondary" onclick="onBtnClicked('view',`+ id + `)">View on Web</button>
+							</div>`,
                     icon: "success",
+					width: "800px",
                     buttonsStyling: !1,
-                    confirmButtonText: "Ok, got it!",
-                    customClass: {
-                    	confirmButton: "btn fw-bold btn-primary"
-                        }
-                })
+					showConfirmButton: false,
+  					showCloseButton: true,
+                    //confirmButtonText: "Ok, got it!",
+                    //customClass: {
+                    //	confirmButton: "btn fw-bold btn-primary"
+                    //    }
+                });
             },
             error: function() {
                 Toast.fire({
@@ -225,7 +245,17 @@
         });
 	}
 
-	
+	var onBtnClicked = function(ev, id){
+		switch(ev) {
+			case 'print' : 
+				location.href = '/penerbit/isbn/data/generate-pdf/' + id;
+				break;
+			case 'copy' : break;
+			case 'view' : 
+				location.href = '/penerbit/isbn/data/view-kdt/' + id;
+				break;
+			}
+	}
 	var extractColumn = function(arr, column) {
 		return arr.map(x => x[column]);
 	}

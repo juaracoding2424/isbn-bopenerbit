@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Barryvdh\DomPDF\Facade\PDF;
+use Milon\Barcode\DNS1D;
 
 class IsbnDataController extends Controller
 {
@@ -40,7 +42,7 @@ class IsbnDataController extends Controller
         $end = $start + $length;
 
         $sql  = "SELECT pi.id, pt.title, pi.keterangan, pi.isbn_no, pi.prefix_element, pi.publisher_element, pi.item_element, pi.check_digit, pi.keterangan_jilid,
-                    pt.kepeng, pt.author, pt.tahun_terbit, pi.received_date_kckr, pi.received_date_prov, pt.jml_jilid, pt.jilid_volume, pt.bulan_terbit,
+                    pt.kepeng, pt.author, pt.tahun_terbit, pi.received_date_kckr, pi.received_date_prov, pt.jml_jilid, pt.jilid_volume, pt.bulan_terbit, pi.penerbit_terbitan_id,
                     pt.validation_date, pt.mohon_date, pt.validator_by, pt.is_kdt_valid FROM PENERBIT_ISBN pi 
                     JOIN PENERBIT_TERBITAN pt ON pt.ID = pi.PENERBIT_TERBITAN_ID WHERE pi.PENERBIT_ID='$id'";
         $sqlFiltered = "SELECT count(*) JUMLAH FROM PENERBIT_ISBN pi JOIN PENERBIT_TERBITAN pt ON pt.ID = pi.PENERBIT_TERBITAN_ID 
@@ -91,7 +93,7 @@ class IsbnDataController extends Controller
                 }else {
                     $jilid_lepas = "terbitan lepas";
                 }
-                $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="badge badge-success h-30px m-1" onClick="cetakKDT('.$val['ID'].')">Cetak KDT</a>' : '<a class="badge badge-primary h-30px m-1" onClick="reqKDT('.$val['ID'].')">Permohonan KDT</a>';
+                $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="badge badge-success h-30px m-1" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : '<a class="badge badge-primary h-30px m-1" onClick="reqKDT('.$val['PENERBIT_TERBITAN_ID'].')">Permohonan KDT</a>';
                 $response['data'][] = [
                     $nomor,
                     '<a class="badge badge-info h-30px m-1" onclick="cetakBarcode('.$val['ID'].')">Barcode</a>' .$kdt, //<a class="badge badge-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',
@@ -122,10 +124,71 @@ class IsbnDataController extends Controller
         return response()->json($response);
     }
 
-    public function detail($noresi)
+    public function detail($id)
     {
-        $data =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=getlistraw&sql=" . "SELECT * FROM PENERBIT_TERBITAN WHERE NORESI='" . $noresi ."'");
+        //$data =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=getlistraw&sql=" . "SELECT * FROM PENERBIT_TERBITAN WHERE NORESI='" . $noresi ."'");
+        $data = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_ISBN pi JOIN PENERBIT_TERBITAN pt ON pi.PENERBIT_TERBITAN_ID = pt.ID WHERE pi.ID='" . $id ."' ", 'sql', '')["Data"]["Items"];
+        return response()->json($data);
+    }
 
-        return view('edit_isbn', $data);
+    public function getKDT($id){
+        $query = "SELECT TITLE || (CASE WHEN LENGTH(TRIM(KEPENG)) > 0 THEN (' / ' || TRIM(KEPENG) || '.') ELSE '' END) || 
+        (CASE WHEN LENGTH(TRIM(EDISI)) > 0 THEN (' -- ' || TRIM(EDISI) || '.') ELSE '' END)|| 
+        (CASE WHEN LENGTH(TRIM((CASE WHEN LENGTH(TRIM(TEMPAT_TERBIT)) > 0 THEN (' -- ' || TRIM(TEMPAT_TERBIT) || ' : ' || PENERBIT.NAME || 
+        (CASE WHEN LENGTH(TRIM(TAHUN_TERBIT)) > 0 THEN (', ' || TRIM(TAHUN_TERBIT)) ELSE (' -- ' || PENERBIT.NAME || 
+        (CASE WHEN LENGTH(TRIM(TAHUN_TERBIT)) > 0 THEN (', ' || TRIM(TAHUN_TERBIT)) ELSE (' -- ' || PENERBIT.NAME) END)) END)) 
+        ELSE (' -- ' || PENERBIT.NAME || (CASE WHEN LENGTH(TRIM(TAHUN_TERBIT)) > 0 THEN (', ' || TRIM(TAHUN_TERBIT)) 
+        ELSE (' -- ' || PENERBIT.NAME || (CASE WHEN LENGTH(TRIM(TAHUN_TERBIT)) > 0 THEN (', ' || TRIM(TAHUN_TERBIT)) 
+        ELSE (' -- ' || PENERBIT.NAME) END)) END)) END))) > 0 THEN ((CASE WHEN LENGTH(TRIM(TEMPAT_TERBIT)) > 0 THEN 
+        (' -- ' || TRIM(TEMPAT_TERBIT) || ' : ' || PENERBIT.NAME || (CASE WHEN LENGTH(TRIM(TAHUN_TERBIT)) > 0 THEN 
+        (', ' || TRIM(TAHUN_TERBIT)) ELSE (' -- ' || PENERBIT.NAME || (CASE WHEN LENGTH(TRIM(TAHUN_TERBIT)) > 0 THEN   
+        (', ' || TRIM(TAHUN_TERBIT)) ELSE (' -- ' || PENERBIT.NAME) END)) END)) ELSE (' -- ' || PENERBIT.NAME ||
+         (CASE WHEN LENGTH(TRIM(TAHUN_TERBIT)) > 0 THEN (', ' || TRIM(TAHUN_TERBIT)) ELSE (' -- ' || PENERBIT.NAME || 
+         (CASE WHEN LENGTH(TRIM(TAHUN_TERBIT)) > 0 THEN (', ' || TRIM(TAHUN_TERBIT)) ELSE (' -- ' || PENERBIT.NAME) END)) END)) END) || '.') ELSE '' END) || 
+         REPLACE((CASE  WHEN LENGTH(TRIM((CASE WHEN LENGTH(TRIM(JML_HLM)) > 0 THEN ('\n' || TRIM(JML_HLM) || ' hlm.' || 
+         (CASE WHEN LENGTH(TRIM(KETEBALAN)) > 0 THEN (' ; ' || TRIM(KETEBALAN) || ' cm.') ELSE '' END)) ELSE 
+         ((CASE WHEN LENGTH(TRIM(KETEBALAN)) > 0 THEN ('\n' || TRIM(KETEBALAN) || ' cm.') ELSE '' END)) END))) > 0 THEN 
+         ((CASE WHEN LENGTH(TRIM(JML_HLM)) > 0 THEN ('\n' || TRIM(JML_HLM) || ' hlm.' || (CASE WHEN LENGTH(TRIM(KETEBALAN)) > 0 
+         THEN (' ; ' || TRIM(KETEBALAN) || ' cm.') ELSE '' END)) ELSE ((CASE WHEN LENGTH(TRIM(KETEBALAN)) > 0 THEN ('\n' || TRIM(KETEBALAN) || ' cm.') ELSE '' END)) 
+         END)) ELSE '' END),'jil hlm','jil') || '\n' || (CASE WHEN LENGTH(TRIM(CATATAN)) > 0 THEN 
+         ('\n' || TRIM(CATATAN)) ELSE '' END) || (CASE WHEN LENGTH(TRIM((SELECT LISTAGG((PREFIX_ELEMENT || '-' || PUBLISHER_ELEMENT || '-' || ITEM_ELEMENT || '-' || CHECK_DIGIT), '\n') WITHIN 
+         GROUP (ORDER BY ITEM_ELEMENT) FROM PENERBIT_ISBN WHERE PENERBIT_TERBITAN_ID = PENERBIT_TERBITAN.ID))) > 0 THEN ('\n' || (SELECT (LISTAGG('ISBN ' || (PREFIX_ELEMENT || '-' || PUBLISHER_ELEMENT || '-' || ITEM_ELEMENT || '-' || CHECK_DIGIT) || (CASE WHEN LENGTH(TRIM(KETERANGAN)) > 0 THEN (' (' || TRIM(KETERANGAN) || ')') ELSE '' END), '\n') WITHIN GROUP (ORDER BY ITEM_ELEMENT)) FROM PENERBIT_ISBN WHERE PENERBIT_TERBITAN_ID = PENERBIT_TERBITAN.ID)) ELSE '' END) as ISI 
+        FROM PENERBIT_TERBITAN INNER JOIN PENERBIT ON PENERBIT_TERBITAN.PENERBIT_ID = PENERBIT.ID WHERE 1=1 
+        AND PENERBIT_TERBITAN.ID =$id";
+        $data = kurl("post","getlistraw", "", $query, 'sql', '')["Data"]["Items"][0];
+        $isi = $data["ISI"];
+        return $isi;
+    }
+
+    function generatePDF($id)
+    {   
+        //$data = $this->getKDT($id);
+        $data = [
+            'title' => 'domPDF in Laravel 10', 
+            'data'=> $this->getKDT($id)
+        ];
+        $pdf = PDF::loadView('kdt_pdf', $data);
+        return $pdf->download('kdt'.$id.now()->format('Ymd').'.pdf');
+
+    }
+
+    function viewPDF($id)
+    {   
+        date_default_timezone_set('Asia/Jakarta');
+        //$data = $this->getKDT($id);
+        $data = [
+            'title' => 'domPDF in Laravel 10', 
+            'data'=> $this->getKDT($id)
+        ];
+        $pdf = PDF::loadView('kdt_pdf', $data);
+        return view('kdt_pdf', $data);
+
+    }
+
+    function generateBarcode($id)
+    {
+        $d = new DNS1D();
+        //$d->setStorPath(__DIR__.'/cache/');
+        return view('barcode') ;//, $d->getBarcodeHTML('9780691147727', 'EAN13')); 
     }
 }

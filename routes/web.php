@@ -22,7 +22,11 @@ Route::group(['middleware' => PenerbitMiddleware::class], function () {
     
     Route::get('penerbit/isbn/data', [IsbnDataController::class, 'index']);
     Route::get('penerbit/isbn/data/datatable', [IsbnDataController::class, 'datatable']);
-    Route::get('penerbit/isbn/data/detail/{noresi}', [IsbnDataController::class, 'detail']);
+    Route::get('penerbit/isbn/data/detail/{id}', [IsbnDataController::class, 'detail']);
+    Route::get('penerbit/isbn/data/kdt/{id}', [IsbnDataController::class, 'getKDT']);
+    Route::get('penerbit/isbn/data/generate-pdf/{id}', [IsbnDataController::class, 'generatePDF']);
+    Route::get('penerbit/isbn/data/generate-barcode/{id}', [IsbnDataController::class, 'generateBarcode']);
+
 
     Route::get('penerbit/isbn/masalah', [IsbnMasalahController::class, 'index']);
     Route::get('penerbit/isbn/masalah/datatable', [IsbnMasalahController::class, 'datatable']);
@@ -51,5 +55,6 @@ Route::group(['middleware' => PenerbitMiddleware::class], function () {
 
 Route::get('login', [AuthController::class, 'login']);
 Route::post('auth/submit', [AuthController::class, 'submit']);
+Route::get('penerbit/isbn/data/view-kdt/{id}', [IsbnDataController::class, 'viewPDF']);
 
 

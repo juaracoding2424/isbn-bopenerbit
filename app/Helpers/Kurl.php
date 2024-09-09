@@ -62,10 +62,6 @@ function kurl_upload($method, $penerbit, $terbitan_id, $jenis, $file, $ip_user, 
             'contents' => $keterangan
         ],
         [
-            'name'     => 'linkbuku',
-            'contents' => $url
-        ],
-        [
             'name'     => 'penerbitterbitanid',
             'contents' => $terbitan_id,
         ],

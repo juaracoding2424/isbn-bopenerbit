@@ -226,6 +226,16 @@ class IsbnPermohonanController extends Controller
                             'err' => ["jumlah_jilid" => ["Wajib memasukan minimal 2 data buku jika merupakan terbitan jilid"]],
                         ], 422);
                     }
+                    $jml_hlm = $jumlah_jilid . " jil";
+                } else {
+                    $jml_hlm = request('jml_hlm');
+                }
+                $urls = "";
+                for($i = 0; $i < count(request('url')); $i++) {
+                    $urls .= request('url')[$i] ."¦";
+                    if(isset(request('url')[$i+1])){
+                        $authors .= ";";
+                    }
                 }
                 
                 $ListData = [
@@ -235,7 +245,7 @@ class IsbnPermohonanController extends Controller
                         [ "name"=>"EDISI", "Value"=> request('edisi')],
                         [ "name"=>"SERI", "Value"=> request('seri')],
                         [ "name"=>"SINOPSIS", "Value"=> request('deskripsi') ],
-                        [ "name"=>"JML_HLM", "Value"=> request('jml_hlm') ],
+                        [ "name"=>"JML_HLM", "Value"=> $jml_hlm ],
                         [ "name"=>"JML_JILID", "Value" => $jumlah_jilid],
                         [ "name"=>"TAHUN_TERBIT", "Value"=> request('tahun_terbit') ],
                         [ "name"=>"BULAN_TERBIT", "Value"=> request('bulan_terbit') ],
@@ -245,12 +255,10 @@ class IsbnPermohonanController extends Controller
                         [ "name"=>"JENIS_PENELITIAN", "Value"=> request('jenis_penelitian') ],
                         [ "name"=>"JENIS_PUSTAKA", "Value"=> request('jenis_pustaka') ],
                         [ "name"=>"JENIS_KATEGORI", "Value"=> request('jenis_kategori') ],
-                        //[ "name"=>"LINK_BUKU", "Value"=> request('url')[0] ],
+                        [ "name"=>"KETEBALAN", "Value"=> request('ketebalan')],
+                        [ "name"=>"LINK_BUKU", "Value"=> $urls ],
                         [ "name"=>"STATUS", "Value"=> 'permohonan']
                 ];
-                if(request('ketebalan') != ''){
-                    array_push($ListData, [ "name"=>"KETEBALAN", "Value"=> request('ketebalan') . " cm"]);
-                }
                 if(request('penerbit_terbitan_id') != ''){
                     array_push($ListData, 
                             [ "name"=>"UPDATEBY", "Value"=> session('penerbit')["USERNAME"]], //nama user penerbit
@@ -276,16 +284,13 @@ class IsbnPermohonanController extends Controller
                     $id = $res['Data']['ID'];
                 }
                 /* --------------------- simpan file -------------------------*/
-                //\Log::info($request->all());
-                //\Log::info($request->input('file_cover'));
                 if(request('status') == 'lepas') {
                     $file = [
                         'file_dummy' => $request->input('file_dummy')[0] ?? null,
                         'file_lampiran' => $request->input('file_lampiran')[0] ?? null,
                         'file_cover' => $request->input('file_cover')[0] ?? null,
                     ];
-                        $url = $request->input('url')[0];
-                        $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), '', $url);    
+                        $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), '');    
                         //\Log::info(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=add&table=PENERBIT_TERBITAN&issavehistory=1&ListAddItem=" . json_encode($addData));
                 } else {     
                     //upload file jilid               
@@ -295,10 +300,8 @@ class IsbnPermohonanController extends Controller
                             'file_lampiran' => $request->input('file_lampiran')[$i] ?? null,
                             'file_cover' => $request->input('file_cover')[$i] ?? null
                         ];
-                        $keterangan = "Jilid ke- " . $i + 1;
-                        $url = $request->input('url')[$i];
-                        
-                        $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), $keterangan, $url);
+                        $keterangan = "Jilid ke- " . $i + 1;                        
+                        $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), $keterangan);
 
                     }
                 }
@@ -334,7 +337,7 @@ class IsbnPermohonanController extends Controller
     }
 
     //send file lampiran, dummy, cover
-    function upload_file($file, $penerbit, $terbitan_id, $ip, $keterangan, $url) 
+    function upload_file($file, $penerbit, $terbitan_id, $ip, $keterangan) 
     {
         $gagal = [];
         //file lampiran
@@ -348,7 +351,7 @@ class IsbnPermohonanController extends Controller
                     null,
                     true
                 );
-                kurl_upload('post', $penerbit, $terbitan_id, "lampiran_permohonan", $file_one, $ip, $keterangan, $url);
+                kurl_upload('post', $penerbit, $terbitan_id, "lampiran_permohonan", $file_one, $ip, $keterangan);
             }
         }
         //file dummy
@@ -362,7 +365,7 @@ class IsbnPermohonanController extends Controller
                     null,
                     true
                 );
-                kurl_upload('post', $penerbit, $terbitan_id, "dummy_buku", $file_two, $ip, $keterangan, $url);
+                kurl_upload('post', $penerbit, $terbitan_id, "dummy_buku", $file_two, $ip, $keterangan);
             }
         }
         //file cover
@@ -376,7 +379,7 @@ class IsbnPermohonanController extends Controller
                     null,
                     true
                 );
-                kurl_upload('post', $penerbit, $terbitan_id, "cover", $file_3, $ip, '','');
+                kurl_upload('post', $penerbit, $terbitan_id, "cover", $file_3, $ip, $keterangan);
             }
         }
     }
@@ -402,7 +405,6 @@ class IsbnPermohonanController extends Controller
             'noresi' => $noresi,
             'file' => $file,
         ];
-        \Log::info($data);
         return view('edit_isbn', $data);
     }
 

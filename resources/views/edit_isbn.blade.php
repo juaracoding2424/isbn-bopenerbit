@@ -1315,7 +1315,6 @@ height: 100vh !important;
                             <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
                             <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span> 
                             <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`)"></a></br>`);
-                            $('#url' +jumlah_buku).val(response[i]["LINK_BUKU"]);
                         }  
                         if(response[i]['JENIS'] == 'dummy_buku') {
                             $('#viewdummy_'+ jumlah_buku).append(`<a href="http://demo321.online/ISBN_Back_Office/files/isbn/dummy/`+response[i]["FILE_NAME"]+`">
@@ -1327,6 +1326,11 @@ height: 100vh !important;
                             <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
                             <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`)"></a></br>`);
                         }
+                    }
+                    let urls = "{{$detail['LINK_BUKU']}}";
+                    let link_buku = urls.split('¦');
+                    for(var k=1; k<= jumlah_jilid; k++){
+                        $('#url'+k).val(link_buku[k-1]);
                     }
                 },
                 error: function() {
