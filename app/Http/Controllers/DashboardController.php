@@ -25,13 +25,21 @@ class DashboardController extends Controller
     public function getTotalIsbn()
     {
         $status = request('status'); 
-        if($status == 'permohonan'){
-            $status = "AND (pt.status='' OR pt.status='permohonan' OR pt.status is NULL)";
-        } else {
-            $status = "AND pt.status='$status'";
-        }
         $id = session('penerbit')['ID'];
-        $sql = "SELECT count(*) JUMLAH FROM PENERBIT_ISBN pi JOIN PENERBIT_TERBITAN pt ON pt.id = pi.penerbit_terbitan_id WHERE pi.PENERBIT_ID='$id' " . $status;
+        if($status == 'permohonan'){
+            $sql = "SELECT count(*) JUMLAH FROM PENERBIT_TERBITAN pt  WHERE pt.PENERBIT_ID='$id' AND (pt.status='' OR pt.status='permohonan' OR pt.status is NULL) ";
+        } 
+        if($status == 'pending') {
+            $sql = "SELECT count(*) JUMLAH
+                FROM PENERBIT_ISBN_MASALAH m JOIN PENERBIT_TERBITAN pt
+                ON m.PENERBIT_TERBITAN_ID = pt.ID 
+                WHERE m.IS_SOLVE = 0 AND pt.PENERBIT_ID='$id' AND pt.status='pending'";
+        }
+        if($status == 'diterima'){
+            $sql  = "SELECT count(*) JUMLAH FROM PENERBIT_ISBN pi 
+                    JOIN PENERBIT_TERBITAN pt ON pt.ID = pi.PENERBIT_TERBITAN_ID WHERE pi.PENERBIT_ID='$id'";
+        }
+        
         $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         return $data;
     }

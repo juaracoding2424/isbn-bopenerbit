@@ -131,4 +131,45 @@ function kurl_cover($method, $penerbit, $terbitan_id, $file, $ip_user) {
         $error = $response->body();
         return $status;
     }
+    
+}
+function rijndaelEncryptPassword($password)
+{
+    // Key Size: Ensure the key is 32 bytes long for AES-256.
+    // IV Size: Ensure the IV is 16 bytes long for AES-256-CBC
+
+    $key = 'isbn_2021$'; 
+    $cipher = 'aes-256-cbc';
+    $iv = random_bytes(16);
+
+    $encrypted = openssl_encrypt($password, $cipher, $key, OPENSSL_RAW_DATA, $iv);
+    // Combine IV and encrypted data for storage
+    return base64_encode($iv . $encrypted);
+}
+
+function rinjdaelEncryptedPasswordCheck($password)
+{
+    // Key Size: The same key used for encryption
+    $key = 'isbn_2021$'; 
+    $cipher = 'aes-256-cbc';
+
+    // Decode the base64-encoded encrypted data
+    $decodedData = base64_decode($password);
+
+    // Extract the IV (first 16 bytes) and the encrypted data
+    $iv = substr($decodedData, 0, 16);
+    $encryptedData = substr($decodedData, 16);
+
+    // Decrypt the data using the same cipher, key, and IV
+    $decrypted = openssl_decrypt($encryptedData, $cipher, $key, OPENSSL_RAW_DATA, $iv);
+
+    return $decrypted;
+}
+
+function getMd5Hash($input) {
+    // Compute the MD5 hash
+    $hash = md5($input, true); // true to get raw binary format
+    // Convert the binary hash to hexadecimal representation
+    $hexHash = bin2hex($hash);
+    return $hexHash;
 }
