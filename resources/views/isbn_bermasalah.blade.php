@@ -104,13 +104,13 @@
 								<thead>
 									<tr class="text-start text-gray-500 fw-bold fs-8 text-uppercase gs-0">
 										<th class="text-start min-w-60px pe-2">ID</th>
+										<th class="text-inline min-w-150px">Actions</th>		
 										<th class="min-w-150px">Nomor Resi</th>
 										<th class="min-w-200px">Judul</th>
 										<th class="min-w-200px">Kepengarangan</th>
-										<th class="min-w-200px">Bulan/Tahun Terbit</th>
-										<th class="min-w-200px">Tanggal Permohonan</th>
 										<th class="min-w-200px bg-light-danger">Masalah</th>
-										<th class="text-inline min-w-150px">Actions</th>										
+										<th class="min-w-200px">Bulan/Tahun Terbit</th>
+										<th class="min-w-200px">Tanggal Permohonan</th>									
 									</tr>
 								</thead>
 

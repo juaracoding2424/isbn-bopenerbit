@@ -77,15 +77,16 @@ class IsbnMasalahController extends Controller
             $nomor = $start + 1;
             foreach ($queryData as $val) {
                 $id = $val['ID'];
+                $noresi = $val['NORESI'] ? $val['NORESI'] : $val['ID'];
                 $response['data'][] = [
                     $nomor,
+                    '<a class="badge badge-primary h-30px m-1" href="/penerbit/isbn/permohonan/data/'.$noresi.'" target="_self">Perbaiki permohonan</a><a class="badge badge-danger h-30px m-1" onclick="batalkanPermohonan('.$id.')">Batalkan Permohonan</a>',
                     $val['NORESI'],
                     $val['TITLE'],
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
                     $val['TAHUN_TERBIT'],
                     $val['MOHON_DATE'],
-                    $val['ISI'],
-                    '<a class="badge badge-primary h-30px m-1" onClick="perbaikiPermohonan('.$id.')">Perbaiki permohonan</a><a class="badge badge-danger h-30px m-1" onclick="batalkanPermohonan('.$id.')">Batalkan Permohonan</a>',
+                    $val['ISI'],        
                 ];
                 $nomor++;
             }
