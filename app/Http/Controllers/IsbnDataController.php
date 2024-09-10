@@ -56,16 +56,16 @@ class IsbnDataController extends Controller
                     $sql .= " AND pi.ISBN_NO like '%".$isbn."%'";
                 }
                 if($advSearch["param"] == 'title'){
-                    $sqlFiltered .= " AND (lower(pt.TITLE) like '%".strtolower($advSearch["value"])."%' OR lower(pi.KETERANGAN_JILID) like '%".strtolower($advSearch["value"]) ."%')";
-                    $sql .= " AND (lower(pt.TITLE) like '%".strtolower($advSearch["value"])."%' OR lower(pi.KETERANGAN_JILID) like '%".strtolower($advSearch["value"]) ."%')";
+                    $sqlFiltered .= " AND (upper(pt.TITLE) like '%".strtoupper($advSearch["value"])."%' OR upper(pi.KETERANGAN_JILID) like '%".strtoupper($advSearch["value"]) ."%')";
+                    $sql .= " AND (upper(pt.TITLE) like '%".strtoupper($advSearch["value"])."%' OR upper(pi.KETERANGAN_JILID) like '%".strtoupper($advSearch["value"]) ."%')";
                 }
                 if($advSearch["param"] == 'tahun_terbit'){
                     $sqlFiltered .= " AND pt.TAHUN_TERBIT like '%".$advSearch["value"]."%'";
                     $sql .= " AND pt.TAHUN_TERBIT like '%".$advSearch["value"]."%'";
                 }
                 if($advSearch["param"] == 'kepeng'){
-                    $sqlFiltered .= " AND (lower(pt.kepeng) like '%".strtolower($advSearch["value"])."%' OR lower(pt.author) like '%".strtolower($advSearch["value"])."%') ";
-                    $sql .= " AND (lower(pt.kepeng) like '%".strtolower($advSearch["value"])."%' OR lower(pt.author) like '%".strtolower($advSearch["value"])."%') ";
+                    $sqlFiltered .= " AND (upper(pt.kepeng) like '%".strtoupper($advSearch["value"])."%' OR upper(pt.author) like '%".strtoupper($advSearch["value"])."%') ";
+                    $sql .= " AND (upper(pt.kepeng) like '%".strtoupper($advSearch["value"])."%' OR upper(pt.author) like '%".strtoupper($advSearch["value"])."%') ";
                 }
             }
         }

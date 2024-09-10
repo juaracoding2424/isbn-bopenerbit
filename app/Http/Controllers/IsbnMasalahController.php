@@ -47,24 +47,24 @@ class IsbnMasalahController extends Controller
         foreach($request->input('advSearch') as $advSearch){
             if($advSearch["value"] != '') {
                 if($advSearch["param"] == 'title'){
-                    $sqlFiltered .= " AND lower(pt.TITLE) like '%".strtolower($advSearch["value"])."%'";
-                    $sql .= " AND lower(pt.TITLE) like '%".strtolower($advSearch["value"])."%'";
+                    $sqlFiltered .= " AND upper(pt.TITLE) like '%".strtoupper($advSearch["value"])."%'";
+                    $sql .= " AND upper(pt.TITLE) like '%".strtoupper($advSearch["value"])."%'";
                 }
                 if($advSearch["param"] == 'tahun_terbit'){
                     $sqlFiltered .= " AND pt.TAHUN_TERBIT like '%".$advSearch["value"]."%'";
                     $sql .= " AND pt.TAHUN_TERBIT like '%".$advSearch["value"]."%'";
                 }
                 if($advSearch["param"] == 'kepeng'){
-                    $sqlFiltered .= " AND (lower(pt.kepeng) like '%".strtolower($advSearch["value"])."%' OR lower(pt.author) like '%".strtolower($advSearch["value"])."%') ";
-                    $sql .= " AND (lower(pt.kepeng) like '%".strtolower($advSearch["value"])."%' OR lower(pt.author) like '%".strtolower($advSearch["value"])."%') ";
+                    $sqlFiltered .= " AND (upper(pt.kepeng) like '%".strtoupper($advSearch["value"])."%' OR upper(pt.author) like '%".strtoupper($advSearch["value"])."%') ";
+                    $sql .= " AND (upper(pt.kepeng) like '%".strtoupper($advSearch["value"])."%' OR upper(pt.author) like '%".strtoupper($advSearch["value"])."%') ";
                 }
                 if($advSearch["param"] == 'masalah'){
-                    $sqlFiltered .= " AND lower(m.isi) like '%".strtolower($advSearch["value"])."%'";
-                    $sql .= " AND lower(m.isi) like '%".strtolower($advSearch["value"])."%'";
+                    $sqlFiltered .= " AND upper(m.isi) like '%".strtoupper($advSearch["value"])."%'";
+                    $sql .= " AND upper(m.isi) like '%".strtoupper($advSearch["value"])."%'";
                 }
                 if($advSearch["param"] == 'no_resi'){
-                    $sqlFiltered .= " AND lower(pt.noresi) like '%".strtolower($advSearch["value"])."%'";
-                    $sql .= " AND lower(pt.noresi) like '%".strtolower($advSearch["value"])."%'";
+                    $sqlFiltered .= " AND upper(pt.noresi) like '%".strtoupper($advSearch["value"])."%'";
+                    $sql .= " AND upper(pt.noresi) like '%".strtoupper($advSearch["value"])."%'";
                 }
             }
         }

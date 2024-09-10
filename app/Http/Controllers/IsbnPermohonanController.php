@@ -44,20 +44,20 @@ class IsbnPermohonanController extends Controller
         foreach($request->input('advSearch') as $advSearch){
             if($advSearch["value"] != '') {
                 if($advSearch["param"] == 'title'){
-                    $sqlFiltered .= " AND lower(pt.TITLE) like '%".strtolower($advSearch["value"])."%'";
-                    $sql .= " AND lower(pt.TITLE) like '%".strtolower($advSearch["value"])."%'";
+                    $sqlFiltered .= " AND UPPER(pt.TITLE) like '%".strtoupper($advSearch["value"])."%'";
+                    $sql .= " AND UPPER(pt.TITLE) like '%".strtoupper($advSearch["value"])."%'";
                 }
                 if($advSearch["param"] == 'tahun_terbit'){
                     $sqlFiltered .= " AND pt.TAHUN_TERBIT like '%".$advSearch["value"]."%'";
                     $sql .= " AND pt.TAHUN_TERBIT like '%".$advSearch["value"]."%'";
                 }
                 if($advSearch["param"] == 'kepeng'){
-                    $sqlFiltered .= " AND (lower(pt.kepeng) like '%".strtolower($advSearch["value"])."%' OR lower(pt.author) like '%".strtolower($advSearch["value"])."%') ";
-                    $sql .= " AND (lower(pt.kepeng) like '%".strtolower($advSearch["value"])."%' OR lower(pt.author) like '%".strtolower($advSearch["value"])."%') ";
+                    $sqlFiltered .= " AND (upper(pt.kepeng) like '%".strtoupper($advSearch["value"])."%' OR upper(pt.author) like '%".strtoupper($advSearch["value"])."%') ";
+                    $sql .= " AND (upper(pt.kepeng) like '%".strtoupper($advSearch["value"])."%' OR upper(pt.author) like '%".strtoupper($advSearch["value"])."%') ";
                 }
                 if($advSearch["param"] == 'no_resi'){
-                    $sqlFiltered .= " AND lower(pt.noresi) like '%".strtolower($advSearch["value"])."%'";
-                    $sql .= " AND lower(pt.noresi) like '%".strtolower($advSearch["value"])."%'";
+                    $sqlFiltered .= " AND upper(pt.noresi) like '%".strtoupper($advSearch["value"])."%'";
+                    $sql .= " AND upper(pt.noresi) like '%".strtoupper($advSearch["value"])."%'";
                 }
             }
         }
@@ -123,7 +123,16 @@ class IsbnPermohonanController extends Controller
         $penerbit = session('penerbit');
         \Log::info(request()->all());
         //try{   
-        if(request('penerbit_terbitan_id') == ''){
+        if(request('penerbit_terbitan_id') == ''){ //form baru
+            if(request('title') != ''){
+                if($this->checkTitle(request('title'), $penerbit['ID']) > 0) {
+                    return response()->json([
+                        'status' => 'Failed',
+                        'message'   => 'Gagal menyimpan data. Cek kembali data yang Anda masukan!',
+                        'err' => ['title' => ['Judul buku sudah ada, Anda tidak dapat memohon ISBN baru dengan judul yang sama.']],
+                    ], 422);
+                };
+            }
             $validator = \Validator::make(request()->all(),[
                 'title' => 'required',
                 'namaPengarang' => 'required|array|min:1',
@@ -429,5 +438,13 @@ class IsbnPermohonanController extends Controller
     {
         $file = Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=getlistraw&sql=" . urlencode('SELECT * FROM PENERBIT_ISBN_FILE WHERE PENERBIT_TERBITAN_ID=' . $id))["Data"]["Items"];
         return response()->json($file);
+    }
+
+    function checkTitle($title, $id)
+    {
+        $title = strtoupper(preg_replace("/[^a-zA-Z0-9]/", "", $title));
+        //\Log::info("SELECT count(*) JML FROM PENERBIT_TERBITAN WHERE  REGEXP_REPLACE(UPPER(TITLE), '[^[:alnum:]]', '') = '$title' AND penerbit_id='$id'");
+        $count = kurl("get","getlistraw", "", "SELECT count(*) JML FROM PENERBIT_TERBITAN WHERE  REGEXP_REPLACE(UPPER(TITLE), '[^[:alnum:]]', '') = '$title' AND penerbit_id='$id'", 'sql', '')["Data"]["Items"][0]["JML"];
+        return intval($count);
     }
 }
