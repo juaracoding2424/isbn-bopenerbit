@@ -55,6 +55,18 @@ height: 100vh !important;
                                     General Info 
                                 </h3>
                                 <h4 class="card-title"><span id="noresi">{{$noresi}}</span></h4>
+                                @if(isset($masalah["Data"]["Items"][0]))
+                                <div class="d-flex align-items-center p-5 mb-10">
+                                    <i class="ki-solid ki-shield-cross fs-4hx text-danger me-4"><span
+                                            class="path1"></span><span class="path2"></span></i>
+                                    <div class="rounded border p-10  d-flex flex-column">
+                                        <div class="d-flex flex-column">
+                                            <h2 class="mb-1 text-danger">Detail masalah</h2>
+                                                <span>Judul tidak sama seperti info dalam halaman judul. Penerbit atau pengarang tidak memenuhi kriteria yang ditetapkan oleh Perpustakaan Nasional RI</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
 
                             <!--begin::Content-->

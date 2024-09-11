@@ -44,8 +44,8 @@ class IsbnPermohonanController extends Controller
         foreach($request->input('advSearch') as $advSearch){
             if($advSearch["value"] != '') {
                 if($advSearch["param"] == 'title'){
-                    $sqlFiltered .= " AND UPPER(pt.TITLE) like '%".strtoupper($advSearch["value"])."%'";
-                    $sql .= " AND UPPER(pt.TITLE) like '%".strtoupper($advSearch["value"])."%'";
+                    $sqlFiltered .= " AND CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%'";
+                    $sql .= " AND CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%'";
                 }
                 if($advSearch["param"] == 'tahun_terbit'){
                     $sqlFiltered .= " AND pt.TAHUN_TERBIT like '%".$advSearch["value"]."%'";
@@ -56,8 +56,8 @@ class IsbnPermohonanController extends Controller
                     $sql .= " AND (upper(pt.kepeng) like '%".strtoupper($advSearch["value"])."%' OR upper(pt.author) like '%".strtoupper($advSearch["value"])."%') ";
                 }
                 if($advSearch["param"] == 'no_resi'){
-                    $sqlFiltered .= " AND upper(pt.noresi) like '%".strtoupper($advSearch["value"])."%'";
-                    $sql .= " AND upper(pt.noresi) like '%".strtoupper($advSearch["value"])."%'";
+                    $sqlFiltered .= " AND (CONCAT('WIN',upper(pt.noresi))) like 'WIN%".strtoupper($advSearch["value"])."%'";
+                    $sql .= " AND (CONCAT('WIN',upper(pt.noresi))) like 'WIN%".strtoupper($advSearch["value"])."%'";
                 }
             }
         }
@@ -408,11 +408,13 @@ class IsbnPermohonanController extends Controller
         }       
         $id = $detail['Data']['Items'][0]['ID'];
         $file = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_ISBN_FILE WHERE PENERBIT_TERBITAN_ID='$id'", 'sql', '');
+        $masalah = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_ISBN_MASALAH WHERE PENERBIT_TERBITAN_ID='$id' AND IS_SOLVE=0 ", 'sql', '');
         $data = [
             'status' => $status,
             'detail' => $detail["Data"]["Items"][0],
             'noresi' => $noresi,
             'file' => $file,
+            'masalah' => $masalah,
         ];
         return view('edit_isbn', $data);
     }

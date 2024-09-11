@@ -52,12 +52,12 @@ class IsbnDataController extends Controller
             if($advSearch["value"] != '') {
                 if($advSearch["param"] == 'isbn'){
                     $isbn = str_replace("-","",$advSearch["value"]);
-                    $sqlFiltered .= " AND pi.ISBN_NO like '%".$isbn."%'";
-                    $sql .= " AND pi.ISBN_NO like '%".$isbn."%'";
+                    $sqlFiltered .= " AND CONCAT('WIN',(upper(pi.ISBN_NO))) like 'WIN%".$isbn."%'";
+                    $sql .= " AND CONCAT('WIN',(upper(pi.ISBN_NO))) like 'WIN%".$isbn."%'";
                 }
                 if($advSearch["param"] == 'title'){
-                    $sqlFiltered .= " AND (upper(pt.TITLE) like '%".strtoupper($advSearch["value"])."%' OR upper(pi.KETERANGAN_JILID) like '%".strtoupper($advSearch["value"]) ."%')";
-                    $sql .= " AND (upper(pt.TITLE) like '%".strtoupper($advSearch["value"])."%' OR upper(pi.KETERANGAN_JILID) like '%".strtoupper($advSearch["value"]) ."%')";
+                    $sqlFiltered .= " AND (CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%' OR CONCAT('WIN',upper(pi.KETERANGAN_JILID)) like 'WIN%".strtoupper($advSearch["value"]) ."%')";
+                    $sql .= " AND (CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%' OR CONCAT('WIN',upper(pi.KETERANGAN_JILID)) like 'WIN%".strtoupper($advSearch["value"]) ."%')";
                 }
                 if($advSearch["param"] == 'tahun_terbit'){
                     $sqlFiltered .= " AND pt.TAHUN_TERBIT like '%".$advSearch["value"]."%'";
@@ -79,6 +79,7 @@ class IsbnDataController extends Controller
                 $sql .= " AND pt.JML_JILID > 1";
             }
         }
+        \Log::info("SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end");
         $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
         $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM PENERBIT_ISBN WHERE PENERBIT_ID='$id' AND (status='diterima' OR status is null)", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         $totalFiltered = kurl("get","getlistraw", "", $sqlFiltered, 'sql', '')["Data"]["Items"][0]["JUMLAH"];

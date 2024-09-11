@@ -39,35 +39,63 @@ class ChangePasswordController extends Controller
                         'message' => "Password baru tidak boleh sama dengan password lama!",
                 ], 500);
             } else {
-                $encryptedPassword = urlencode($this->getMd5Hash($request->input('new_password')));
-                $encryptedPasswordOld = urlencode($this->getMd5Hash($request->input('current_password')));
-                $encryptedPassword2 = urlencode($this->rijndaelEncryptPassword($request->input('new_password')));
-                $old = Http::post(config('app.inlis_api_url') ."?token=". config('app.inlis_api_token') ."&op=getlistraw&sql=". urlencode("SELECT * FROM PENERBIT WHERE ID='".session('penerbit')['ID']."' AND ISBN_PASSWORD1='$encryptedPasswordOld'"))["Data"]["Items"];
-                if(isset($old[0])){
-                    $id = session('penerbit')['ID'];
-                    $updated = [
-                        ["name" => "ISBN_PASSWORD1", "Value"=> $encryptedPassword],
-                        ["name" => "ISBN_PASSWORD", "Value"=> $encryptedPassword],
-                        ["name" => "ISBN_PASSWORD2", "Value"=> $encryptedPassword2],
-                    ];
-                    $old = Http::post(config('app.inlis_api_url') ."?token=". config('app.inlis_api_token') ."&issavehistory=1&id=$id&op=update&table=PENERBIT&ListUpdateItem=". urlencode(json_encode($updated)));
-                    if($old["Status"] == "Success") {
-                        return response()->json([
-                                'status' => 'Success',
-                                'message' => 'Password sudah diganti menjadi : <b>' . $request->input('new_password') .'</b>',
-                        ], 200);
+                $encryptedPassword = urlencode(getMd5Hash($request->input('new_password')));
+                $encryptedPasswordOld = urlencode(getMd5Hash($request->input('current_password')));
+                $encryptedPassword2 = urlencode(rijndaelEncryptPassword($request->input('new_password')));
+                $penerbit = session('penerbit')['ID'];
+                if($penerbit['STATUS'] == 'valid') {
+                    $old = Http::post(config('app.inlis_api_url') ."?token=". config('app.inlis_api_token') ."&op=getlistraw&sql=". urlencode("SELECT * FROM PENERBIT WHERE ID='".$id."' AND ISBN_PASSWORD1='$encryptedPasswordOld'"))["Data"]["Items"];
+                    if(isset($old[0])){
+                        
+                        $updated = [
+                            ["name" => "ISBN_PASSWORD1", "Value"=> $encryptedPassword],
+                            ["name" => "ISBN_PASSWORD", "Value"=> $encryptedPassword],
+                            ["name" => "ISBN_PASSWORD2", "Value"=> $encryptedPassword2],
+                        ];
+                        $old = Http::post(config('app.inlis_api_url') ."?token=". config('app.inlis_api_token') ."&issavehistory=1&id=$id&op=update&table=PENERBIT&ListUpdateItem=". urlencode(json_encode($updated)));
+                        if($old["Status"] == "Success") {
+                            return response()->json([
+                                    'status' => 'Success',
+                                    'message' => 'Password sudah diganti menjadi : <b>' . $request->input('new_password') .'</b>',
+                            ], 200);
+                        } else {
+                            return response()->json([
+                                'status' => 'Failed',
+                                'message' => $old["Message"],
+                            ], 500);
+                        }
                     } else {
                         return response()->json([
                             'status' => 'Failed',
-                            'message' => $old["Message"],
+                            'message' => "Password lama salah!",
                         ], 500);
-                    }
+                    }  
                 } else {
-                    return response()->json([
-                        'status' => 'Failed',
-                        'message' => "Password lama salah!",
-                    ], 500);
-                }  
+                    $old = Http::post(config('app.inlis_api_url') ."?token=". config('app.inlis_api_token') ."&op=getlistraw&sql=". urlencode("SELECT * FROM ISBN_REGISTRASI_PENERBIT WHERE ID='".$id."' AND PASSWORD='$encryptedPasswordOld'"))["Data"]["Items"];
+                    if(isset($old[0])){
+                        $updated = [
+                            ["name" => "PASSWORD", "Value"=> $encryptedPassword],
+                            ["name" => "PASSWORD2", "Value"=> $encryptedPassword2],
+                        ];
+                        $old = Http::post(config('app.inlis_api_url') ."?token=". config('app.inlis_api_token') ."&issavehistory=1&id=$id&op=update&table=ISBN_REGISTRASI_PENERBIT&ListUpdateItem=". urlencode(json_encode($updated)));
+                        if($old["Status"] == "Success") {
+                            return response()->json([
+                                    'status' => 'Success',
+                                    'message' => 'Password sudah diganti menjadi : <b>' . $request->input('new_password') .'</b>',
+                            ], 200);
+                        } else {
+                            return response()->json([
+                                'status' => 'Failed',
+                                'message' => $old["Message"],
+                            ], 500);
+                        }
+                    } else {
+                        return response()->json([
+                            'status' => 'Failed',
+                            'message' => "Password lama salah!",
+                        ], 500);
+                    }  
+                }
             }
         } else {
             return response()->json([

@@ -47,8 +47,8 @@ class IsbnMasalahController extends Controller
         foreach($request->input('advSearch') as $advSearch){
             if($advSearch["value"] != '') {
                 if($advSearch["param"] == 'title'){
-                    $sqlFiltered .= " AND upper(pt.TITLE) like '%".strtoupper($advSearch["value"])."%'";
-                    $sql .= " AND upper(pt.TITLE) like '%".strtoupper($advSearch["value"])."%'";
+                    $sqlFiltered .= " AND (CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%' OR CONCAT('WIN',upper(pi.KETERANGAN_JILID)) like 'WIN%".strtoupper($advSearch["value"]) ."%')";
+                    $sql .= " AND (CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%' OR CONCAT('WIN',upper(pi.KETERANGAN_JILID)) like 'WIN%".strtoupper($advSearch["value"]) ."%')";
                 }
                 if($advSearch["param"] == 'tahun_terbit'){
                     $sqlFiltered .= " AND pt.TAHUN_TERBIT like '%".$advSearch["value"]."%'";
@@ -63,8 +63,8 @@ class IsbnMasalahController extends Controller
                     $sql .= " AND upper(m.isi) like '%".strtoupper($advSearch["value"])."%'";
                 }
                 if($advSearch["param"] == 'no_resi'){
-                    $sqlFiltered .= " AND upper(pt.noresi) like '%".strtoupper($advSearch["value"])."%'";
-                    $sql .= " AND upper(pt.noresi) like '%".strtoupper($advSearch["value"])."%'";
+                    $sqlFiltered .= " AND (CONCAT('WIN',upper(pt.noresi))) like 'WIN%".strtoupper($advSearch["value"])."%'";
+                    $sql .= " AND (CONCAT('WIN',upper(pt.noresi))) like 'WIN%".strtoupper($advSearch["value"])."%'";
                 }
             }
         }
@@ -80,7 +80,7 @@ class IsbnMasalahController extends Controller
                 $noresi = $val['NORESI'] ? $val['NORESI'] : $val['ID'];
                 $response['data'][] = [
                     $nomor,
-                    '<a class="badge badge-primary h-30px m-1" href="/penerbit/isbn/permohonan/data/'.$noresi.'" target="_self">Perbaiki permohonan</a><a class="badge badge-danger h-30px m-1" onclick="batalkanPermohonan('.$id.')">Batalkan Permohonan</a>',
+                    '<a class="badge badge-primary h-30px m-1" href="/penerbit/isbn/permohonan/detail/'.$noresi.'" target="_self">Perbaiki permohonan</a><a class="badge badge-danger h-30px m-1" onclick="batalkanPermohonan('.$id.')">Batalkan Permohonan</a>',
                     $val['NORESI'],
                     $val['TITLE'],
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],

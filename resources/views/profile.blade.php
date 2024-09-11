@@ -52,7 +52,7 @@
 								<!--begin: Pic-->
 								<div class="me-7 mb-4">
 									<div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-										<img src="assets/media/avatars/300-1.jpg" alt="image" />
+										<img src="/assets/media/avatars/300-1.jpg" alt="image" />
 										<div
 											class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-body h-20px w-20px">
 										</div>
@@ -68,10 +68,9 @@
 											<!--begin::Name-->
 											<div class="d-flex align-items-center mb-2">
 												<a href="#"
-													class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">Gramedia
-													Pustaka Utama</a>
-												<a href="#">
-													<i class="ki-outline ki-verify fs-1 text-primary"></i>
+													class="text-gray-900 text-hover-primary fs-2 fw-bold me-1" id="aName"></a>
+												<a href="#" id="aStatus">
+													
 												</a>
 											</div>
 											<!--end::Name-->
@@ -79,11 +78,13 @@
 											<div class="d-flex flex-wrap fw-semibold fs-6 mb-4 pe-2">
 												<a href="#"
 													class="d-flex align-items-center text-gray-500 text-hover-primary me-5 mb-2">
-													<i class="ki-outline ki-geolocation fs-4 me-1"></i>Jakarta Pusat,
-													DKI Jakarta</a>
+													<i class="ki-outline ki-geolocation fs-4 me-1"></i><span id="spanLocation"></span></a>
 												<a href="#"
-													class="d-flex align-items-center text-gray-500 text-hover-primary mb-2">
-													<i class="ki-outline ki-sms fs-4"></i>gramediabooks@mail.com</a>
+													class="d-flex align-items-center text-gray-500 text-hover-primary me-5 mb-2">
+													<i class="ki-outline ki-sms fs-4" id="aEmail"></i></a>
+												<a href="#"
+													class="d-flex align-items-center text-gray-500 text-hover-primary me-5 mb-2">
+													<i class="fa fa-phone fs-4 me-1"></i><span id="spanPhone"></span></a>
 											</div>
 											<!--end::Info-->
 										</div>
@@ -106,18 +107,18 @@
 									</div>
 									<!--end::Title-->
 									<!--begin::Stats-->
-									<div class="d-flex flex-wrap flex-stack">
+									<div class="d-flex flex-wrap flex-stack" id="divIsbnStat" style="display:none !important">
 										<!--begin::Wrapper-->
 										<div class="d-flex flex-column flex-grow-1 pe-8">
 											<!--begin::Stats-->
-											<div class="d-flex flex-wrap">
+											<div class="d-flex flex-wrap" >
 												<!--begin::Stat-->
 												<div
 													class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
 													<!--begin::Number-->
 													<div class="d-flex align-items-center">
 														<div class="fs-2 fw-bold" data-kt-countup="true"
-															data-kt-countup-value="1205" data-kt-countup-prefix="">0
+															data-kt-countup-value="0" data-kt-countup-prefix="" id="divIsbn">0
 														</div>
 													</div>
 													<!--end::Number-->
@@ -132,7 +133,7 @@
 													<!--begin::Number-->
 													<div class="d-flex align-items-center">
 														<div class="fs-2 fw-bold" data-kt-countup="true"
-															data-kt-countup-value="502">0</div>
+															data-kt-countup-value="0" id="divKckrPerpusnas">0</div>
 													</div>
 													<!--end::Number-->
 													<!--begin::Label-->
@@ -146,7 +147,7 @@
 													<!--begin::Number-->
 													<div class="d-flex align-items-center">
 														<div class="fs-2 fw-bold" data-kt-countup="true"
-															data-kt-countup-value="60" data-kt-countup-prefix="">0
+															data-kt-countup-value="0" data-kt-countup-prefix="" id="divKckrProvinsi">0
 														</div>
 													</div>
 													<!--end::Number-->
@@ -163,12 +164,12 @@
 										<div class="d-flex align-items-center w-200px w-sm-300px flex-column mt-3">
 											<div class="d-flex justify-content-between w-100 mt-auto mb-2">
 												<span class="fw-semibold fs-6 text-gray-500">Kepatuhan Penerbit</span>
-												<span class="fw-bold fs-6">35%</span>
+												<span class="fw-bold fs-6" id="divKepatuhan">35%</span>
 											</div>
 											<div class="h-5px mx-3 w-100 bg-light mb-3">
 												<div class="bg-success rounded h-5px" role="progressbar"
 													style="width: 35%;" aria-valuenow="35" aria-valuemin="0"
-													aria-valuemax="100"></div>
+													aria-valuemax="100" id="progressKepatuhan"></div>
 											</div>
 										</div>
 										<!--end::Progress-->
@@ -248,7 +249,7 @@
 															<div class="row">
 																<!--begin::Col-->
 																<div class="col-lg-8 fv-row">
-																	<input type="text" name="name" class="form-control form-control-lg form-control-solid" placeholder="Nama Penerbit" value="Gramedia Pustaka Utama" />
+																	<input type="text" name="name" class="form-control form-control-lg form-control-solid" placeholder="Nama Penerbit" value="" />
 																</div>
 																<!--end::Col-->
 															</div>
@@ -264,7 +265,7 @@
 														<!--end::Label-->
 														<!--begin::Col-->
 														<div class="col-lg-8 fv-row">
-															<input type="text" name="username" class="form-control form-control-lg form-control-solid" placeholder="username" value="grampustaka" />
+															<input type="text" name="username" class="form-control form-control-lg form-control-solid" placeholder="username" value="" />
 														</div>
 														<!--end::Col-->
 													</div>
@@ -281,7 +282,7 @@
 														<!--end::Label-->
 														<!--begin::Col-->
 														<div class="col-lg-8 fv-row">
-															<input type="tel" name="phone" class="form-control form-control-lg form-control-solid" placeholder="Phone number" value="+62 3276 454 935" />
+															<input type="tel" name="phone" class="form-control form-control-lg form-control-solid" placeholder="Phone number" value="" />
 														</div>
 														<!--end::Col-->
 													</div>
@@ -289,11 +290,23 @@
 													<!--begin::Input group-->
 													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label fw-semibold fs-6">Website</label>
+														<label class="col-lg-4 col-form-label fw-semibold fs-6">Alamat</label>
 														<!--end::Label-->
 														<!--begin::Col-->
 														<div class="col-lg-8 fv-row">
-															<input type="text" name="website" class="form-control form-control-lg form-control-solid" placeholder="Website" value="website.com" />
+															<input type="text" name="alamat_penerbit" class="form-control form-control-lg form-control-solid" placeholder="Alamat / Nama Jalan" />
+														</div>
+														<!--end::Col-->
+													</div>
+													<!--end::Input group-->
+													<!--begin::Input group-->
+													<div class="row mb-6">
+														<!--begin::Label-->
+														<label class="col-lg-4 col-form-label fw-semibold fs-6">Nama Gedung</label>
+														<!--end::Label-->
+														<!--begin::Col-->
+														<div class="col-lg-8 fv-row">
+															<input type="text" name="nama_gedung" class="form-control form-control-lg form-control-solid" placeholder="Nama Gedung" />
 														</div>
 														<!--end::Col-->
 													</div>
@@ -374,48 +387,6 @@
 														<!--end::Col-->
 													</div>
 													<!--end::Input group-->
-													<!--begin::Input group-->
-													<div class="row mb-6">
-														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label required fw-semibold fs-6">Communication</label>
-														<!--end::Label-->
-														<!--begin::Col-->
-														<div class="col-lg-8 fv-row">
-															<!--begin::Options-->
-															<div class="d-flex align-items-center mt-3">
-																<!--begin::Option-->
-																<label class="form-check form-check-custom form-check-inline form-check-solid me-5">
-																	<input class="form-check-input" name="communication[]" type="checkbox" value="1" />
-																	<span class="fw-semibold ps-2 fs-6">Email</span>
-																</label>
-																<!--end::Option-->
-																<!--begin::Option-->
-																<label class="form-check form-check-custom form-check-inline form-check-solid">
-																	<input class="form-check-input" name="communication[]" type="checkbox" value="2" />
-																	<span class="fw-semibold ps-2 fs-6">Phone</span>
-																</label>
-																<!--end::Option-->
-															</div>
-															<!--end::Options-->
-														</div>
-														<!--end::Col-->
-													</div>
-													<!--end::Input group-->
-													<!--begin::Input group-->
-													<div class="row mb-0">
-														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label fw-semibold fs-6">Allow Marketing</label>
-														<!--begin::Label-->
-														<!--begin::Label-->
-														<div class="col-lg-8 d-flex align-items-center">
-															<div class="form-check form-check-solid form-switch form-check-custom fv-row">
-																<input class="form-check-input w-45px h-30px" type="checkbox" id="allowmarketing" checked="checked" />
-																<label class="form-check-label" for="allowmarketing"></label>
-															</div>
-														</div>
-														<!--begin::Label-->
-													</div>
-													<!--end::Input group-->
 												</div>
 												<!--end::Card body-->
 												<!--begin::Actions-->
@@ -430,12 +401,12 @@
 										<!--end::Content-->
 								</div>
 							</div>
-																<!--begin::Sign-in Method-->
-																<div class="card mb-5 mb-xl-10">
+							<!--begin::Sign-in Method-->
+							<div class="card mb-5 mb-xl-10">
 										<!--begin::Card header-->
 										<div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_signin_method">
 											<div class="card-title m-0">
-												<h3 class="fw-bold m-0">Sign-in Method</h3>
+												<h3 class="fw-bold m-0">Akun Email</h3>
 											</div>
 										</div>
 										<!--end::Card header-->
@@ -443,23 +414,33 @@
 										<div id="kt_account_settings_signin_method" class="collapse show">
 											<!--begin::Card body-->
 											<div class="card-body border-top p-9">
+												<!--begin::Alternate Email Address-->
+												<div class="d-flex flex-wrap align-items-center">
+													<div id="alternateemail">
+														<div class="fs-6 fw-bold mb-1">Primary Email</div>
+														<div class="fw-semibold text-gray-600" id="email1"></div>
+													</div>
+												</div>
+												<!--end::Alternate Email Address-->
+												<div class="separator separator-dashed my-6"></div>
 												<!--begin::Email Address-->
 												<div class="d-flex flex-wrap align-items-center">
 													<!--begin::Label-->
 													<div id="kt_signin_email">
-														<div class="fs-6 fw-bold mb-1">Email Address</div>
-														<div class="fw-semibold text-gray-600">support@keenthemes.com</div>
+														<div class="fs-6 fw-bold mb-1">Alternate Email</div>
+														<div class="fw-semibold text-gray-600" id="email2"></div>
 													</div>
+													
 													<!--end::Label-->
 													<!--begin::Edit-->
 													<div id="kt_signin_email_edit" class="flex-row-fluid d-none">
 														<!--begin::Form-->
-														<form id="kt_signin_change_email" class="form" novalidate="novalidate">
+														<form id="change_email" class="form" novalidate="novalidate">
 															<div class="row mb-6">
 																<div class="col-lg-6 mb-4 mb-lg-0">
 																	<div class="fv-row mb-0">
-																		<label for="emailaddress" class="form-label fs-6 fw-bold mb-3">Enter New Email Address</label>
-																		<input type="email" class="form-control form-control-lg form-control-solid" id="emailaddress" placeholder="Email Address" name="emailaddress" value="support@keenthemes.com" />
+																		<label for="emailaddress" class="form-label fs-6 fw-bold mb-3">Enter New Alternate Email Address</label>
+																		<input type="email" class="form-control form-control-lg form-control-solid" id="alternateemailaddress" placeholder="Email Address" name="alternateemailaddress" value="" />
 																	</div>
 																</div>
 																<div class="col-lg-6">
@@ -484,77 +465,9 @@
 													<!--end::Action-->
 												</div>
 												<!--end::Email Address-->
-												<!--begin::Separator-->
+												
 												<div class="separator separator-dashed my-6"></div>
-												<!--end::Separator-->
-												<!--begin::Password-->
-												<div class="d-flex flex-wrap align-items-center mb-10">
-													<!--begin::Label-->
-													<div id="kt_signin_password">
-														<div class="fs-6 fw-bold mb-1">Password</div>
-														<div class="fw-semibold text-gray-600">************</div>
-													</div>
-													<!--end::Label-->
-													<!--begin::Edit-->
-													<div id="kt_signin_password_edit" class="flex-row-fluid d-none">
-														<!--begin::Form-->
-														<form id="kt_signin_change_password" class="form" novalidate="novalidate">
-															<div class="row mb-1">
-																<div class="col-lg-4">
-																	<div class="fv-row mb-0">
-																		<label for="currentpassword" class="form-label fs-6 fw-bold mb-3">Current Password</label>
-																		<input type="password" class="form-control form-control-lg form-control-solid" name="currentpassword" id="currentpassword" />
-																	</div>
-																</div>
-																<div class="col-lg-4">
-																	<div class="fv-row mb-0">
-																		<label for="newpassword" class="form-label fs-6 fw-bold mb-3">New Password</label>
-																		<input type="password" class="form-control form-control-lg form-control-solid" name="newpassword" id="newpassword" />
-																	</div>
-																</div>
-																<div class="col-lg-4">
-																	<div class="fv-row mb-0">
-																		<label for="confirmpassword" class="form-label fs-6 fw-bold mb-3">Confirm New Password</label>
-																		<input type="password" class="form-control form-control-lg form-control-solid" name="confirmpassword" id="confirmpassword" />
-																	</div>
-																</div>
-															</div>
-															<div class="form-text mb-5">Password must be at least 8 character and contain symbols</div>
-															<div class="d-flex">
-																<button id="kt_password_submit" type="button" class="btn btn-primary me-2 px-6">Update Password</button>
-																<button id="kt_password_cancel" type="button" class="btn btn-color-gray-500 btn-active-light-primary px-6">Cancel</button>
-															</div>
-														</form>
-														<!--end::Form-->
-													</div>
-													<!--end::Edit-->
-													<!--begin::Action-->
-													<div id="kt_signin_password_button" class="ms-auto">
-														<button class="btn btn-light btn-active-light-primary">Reset Password</button>
-													</div>
-													<!--end::Action-->
-												</div>
-												<!--end::Password-->
-												<!--begin::Notice-->
-												<div class="notice d-flex bg-light-primary rounded border-primary border border-dashed p-6">
-													<!--begin::Icon-->
-													<i class="ki-outline ki-shield-tick fs-2tx text-primary me-4"></i>
-													<!--end::Icon-->
-													<!--begin::Wrapper-->
-													<div class="d-flex flex-stack flex-grow-1 flex-wrap flex-md-nowrap">
-														<!--begin::Content-->
-														<div class="mb-3 mb-md-0 fw-semibold">
-															<h4 class="text-gray-900 fw-bold">Secure Your Account</h4>
-															<div class="fs-6 text-gray-700 pe-7">Two-factor authentication adds an extra layer of security to your account. To log in, in addition you'll need to provide a 6 digit code</div>
-														</div>
-														<!--end::Content-->
-														<!--begin::Action-->
-														<a href="#" class="btn btn-primary px-6 align-self-center text-nowrap" data-bs-toggle="modal" data-bs-target="#kt_modal_two_factor_authentication">Enable</a>
-														<!--end::Action-->
-													</div>
-													<!--end::Wrapper-->
-												</div>
-												<!--end::Notice-->
+												
 											</div>
 											<!--end::Card body-->
 										</div>
@@ -721,193 +634,229 @@
 <!--begin::Javascript-->
 @section('script')
 <!--begin::Custom Javascript(used for this page only)-->
-<script src="assets/js/custom/account/settings/signin-methods.js"></script>
-		<script src="assets/js/custom/account/settings/profile-details.js"></script>
-		<script src="assets/js/custom/account/settings/deactivate-account.js"></script>
-		<script src="assets/js/custom/pages/user-profile/general.js"></script>
-		<script src="assets/js/widgets.bundle.js"></script>
-		<script src="assets/js/custom/widgets.js"></script>
-		<script src="assets/js/custom/apps/chat/chat.js"></script>
-		<script src="assets/js/custom/utilities/modals/upgrade-plan.js"></script>
-		<script src="assets/js/custom/utilities/modals/create-campaign.js"></script>
-		<script src="assets/js/custom/utilities/modals/offer-a-deal/type.js"></script>
-		<script src="assets/js/custom/utilities/modals/offer-a-deal/details.js"></script>
-		<script src="assets/js/custom/utilities/modals/offer-a-deal/finance.js"></script>
-		<script src="assets/js/custom/utilities/modals/offer-a-deal/complete.js"></script>
-		<script src="assets/js/custom/utilities/modals/offer-a-deal/main.js"></script>
-		<script src="assets/js/custom/utilities/modals/two-factor-authentication.js"></script>
-		<script src="assets/js/custom/utilities/modals/users-search.js"></script>
+<script src="/assets/js/custom/account/settings/signin-methods.js"></script>
+		<script src="/assets/js/custom/account/settings/profile-details.js"></script>
+		<script src="/assets/js/custom/account/settings/deactivate-account.js"></script>
+		<script src="/assets/js/custom/pages/user-profile/general.js"></script>
+		<script src="/assets/js/widgets.bundle.js"></script>
+		<script src="/assets/js/custom/widgets.js"></script>
+		<script src="/assets/js/custom/apps/chat/chat.js"></script>
+		<script src="/assets/js/custom/utilities/modals/upgrade-plan.js"></script>
+		<script src="/assets/js/custom/utilities/modals/create-campaign.js"></script>
+		<script src="/assets/js/custom/utilities/modals/offer-a-deal/type.js"></script>
+		<script src="/assets/js/custom/utilities/modals/offer-a-deal/details.js"></script>
+		<script src="/assets/js/custom/utilities/modals/offer-a-deal/finance.js"></script>
+		<script src="/assets/js/custom/utilities/modals/offer-a-deal/complete.js"></script>
+		<script src="/assets/js/custom/utilities/modals/offer-a-deal/main.js"></script>
+		<script src="/assets/js/custom/utilities/modals/two-factor-authentication.js"></script>
+		<script src="/assets/js/custom/utilities/modals/users-search.js"></script>
 		<!--end::Custom Javascript-->
 <!--begin::Custom Javascript(used for this page only)-->
 
 <!--end::Body-->
 <script>
-	function getData(penerbit_id){
+	var status = "{{session('penerbit')['STATUS']}}";
+	function getData(){
 	$.ajax({
-            url: '{{ url('penerbit/profile/detail') }}' + '/' + penerbit_id,
+            url: "{{ url('penerbit/profile/detail') }}",
             type: 'GET',
             contentType: false,
             processData: false,
             success: function(response) {
-				console.log(response)
+				$('#aName').text(response['NAMA_PENERBIT']);
+				$('#aEmail').text(response['ADMIN_EMAIL']);
+				$('#spanLocation').html(response['NAMAPROPINSI'] + ', ' + response['NAMAKAB'] + " | " + response['ALAMAT_PENERBIT'] + ' ' + response['NAMA_GEDUNG']);
+				$('#spanPhone').html(response['ADMIN_PHONE']);
+				if(response['STATUS'] == 'VALID'){
+					$('#aStatus').html('<i class="ki-outline ki-verify fs-1 text-primary"></i>');
+					$('#divIsbnStat').attr('style', 'display: block !important');
+					
+				} else {
+					$('#aStatus').html('<i class="ki-outline ki-cross-circle fs-1 text-danger"></i>');
+					$('#divIsbnStat').attr('style', 'display:none !important');
+				}
+				$('input[name="name"]').val(response['NAMA_PENERBIT']);
+				$('input[name="username"]').val(response['USER_NAME']);
+				$('input[name="phone"]').val(response['ADMIN_PHONE']);
+				$('input[name="alamat_penerbit"]').val(response['ALAMAT_PENERBIT']);
+				$('input[name="nama_gedung"]').val(response['NAMA_GEDUNG']);
+				$('#email1').text(response['ADMIN_EMAIL']);
+				$('#email2').text(response['ALTERNATE_EMAIL']);
+				$('#alternateemailaddress').val(response['ALTERNATE_EMAIL']);
+				$.getJSON(urlProvinsi, function (res) {
+					data = [{
+						id: "",
+						nama: "- Pilih Provinsi -",
+						text: "- Pilih Provinsi -"
+					}].concat(res);
+
+					//implemen data ke select provinsi
+					$("#select2-provinsi").select2({
+						dropdownAutoWidth: true,
+						width: '100%',
+						data: data
+					}) ;
+					$('#select2-provinsi').val(response['PROVINCE_ID']).trigger('change'); 
+				});
+
+				var selectProv = $('#select2-provinsi');
+				$(selectProv).change(function () {
+					var value = $(selectProv).val();
+					clearOptions('select2-kabupaten');
+					if (value) {
+
+						var text = $('#select2-provinsi :selected').text();
+						$.getJSON(urlKabupaten + value, function(res) {
+							data = [{
+								id: "",
+								nama: "- Pilih Kabupaten -",
+								text: "- Pilih Kabupaten -"
+							}].concat(res);
+
+							//implemen data ke select provinsi
+							$("#select2-kabupaten").select2({
+								dropdownAutoWidth: true,
+								width: '100%',
+								data: data,
+								async : false,
+							});
+							$('#select2-kabupaten').val(response['CITY_ID']).trigger('change');
+							
+						})
+					}
+				});
+				var selectKab = $('#select2-kabupaten');
+				$(selectKab).change(function () {
+					var value = $(selectKab).val();
+					clearOptions('select2-kecamatan');
+
+					if (value) {
+						var text = $('#select2-kabupaten :selected').text();
+						$.getJSON(urlKecamatan + value, function(res) {
+							data = [{
+								id: "",
+								nama: "- Pilih Kecamatan -",
+								text: "- Pilih Kecamatan -"
+							}].concat(res);
+
+							//implemen data ke select provinsi
+							$("#select2-kecamatan").select2({
+								dropdownAutoWidth: true,
+								width: '100%',
+								data: data
+							});
+							console.log(response['CODEKEC']);
+							$('#select2-kecamatan').val(response['DISTRICT_ID']).trigger('change');
+						})
+					}
+				});
+				var selectKec = $('#select2-kecamatan');
+				$(selectKec).change(function () {
+					var value = $(selectKec).val();
+					clearOptions('select2-kelurahan');
+
+					if (value) {
+						var text = $('#select2-kecamatan :selected').text();
+						$.getJSON(urlKelurahan + value, function(res) {
+
+							data = [{
+								id: "",
+								nama: "- Pilih Kelurahan -",
+								text: "- Pilih Kelurahan -"
+							}].concat(res);
+
+							//implemen data ke select provinsi
+							$("#select2-kelurahan").select2({
+								dropdownAutoWidth: true,
+								width: '100%',
+								data: data
+							})
+							$('#select2-kelurahan').val(response['VILLAGE_ID']).trigger('change');
+						})
+					}
+				});
+
+				var selectKel = $('#select2-kelurahan');
+				$(selectKel).change(function () {
+					var value = $(selectKel).val();
+					if (value) {
+						var text = $('#select2-kelurahan :selected').text();
+						console.log("value = " + value + " / " + "text = " + text);
+					}
+				});
             },
             error: function() {
-                Toast.fire({
-                    icon: 'error',
+                //Toast.fire({
+                //    icon: 'error',
                     title: 'Server Error!'
-                });
+                //});
             }
         });
+	
 	}
+
+	if(status == 'valid'){
+		$.ajax({
+				url: "{{ url('penerbit/dashboard/total-isbn') }}" + '?status=diterima',
+				type: 'GET',
+				contentType: false,
+				processData: false,
+				success: function(response) {
+					$('#divIsbn').text(response);
+					$('#divIsbn').attr('data-kt-countup-value',response );
+				},
+				error: function() {
+					Toast.fire({
+						icon: 'error',
+						title: 'Server Error!'
+					});
+				}
+		});
+		$.ajax({
+				url: "{{ url('penerbit/dashboard/kckr-perpusnas') }}",
+				type: 'GET',
+				contentType: false,
+				processData: false,
+				success: function(response) {
+					$('#divKckrPerpusnas').text(response);
+					$('#divKckrPerpusnas').attr('data-kt-countup-value',response );
+				},
+				error: function() {
+					Toast.fire({
+						icon: 'error',
+						title: 'Server Error!'
+					});
+				}
+		});
+		$.ajax({
+				url: "{{ url('penerbit/dashboard/kckr-provinsi') }}",
+				type: 'GET',
+				contentType: false,
+				processData: false,
+				success: function(response) {
+					$('#divKckrProvinsi').text(response);
+					$('#divKckrProvinsi').attr('data-kt-countup-value',response );
+				},
+				error: function() {
+					Toast.fire({
+						icon: 'error',
+						title: 'Server Error!'
+					});
+				}
+		});
+	}
+	
 	getData("{{session('penerbit')['ID']}}");
-		var urlProvinsi = "https://ibnux.github.io/data-indonesia/provinsi.json";
-		var urlKabupaten = "https://ibnux.github.io/data-indonesia/kabupaten/";
-		var urlKecamatan = "https://ibnux.github.io/data-indonesia/kecamatan/";
-		var urlKelurahan = "https://ibnux.github.io/data-indonesia/kelurahan/";
-
-		function clearOptions(id) {
-			console.log("on clearOptions :" + id);
+	var urlProvinsi = "{{url('location/province')}}" + "/";
+	var urlKabupaten = "{{url('location/kabupaten')}}" + "/";
+	var urlKecamatan = "{{url('location/kecamatan')}}" + "/";
+	var urlKelurahan = "{{url('location/kelurahan')}}" + "/";
+	function clearOptions(id) {
+		console.log("on clearOptions :" + id);
 			//$('#' + id).val(null);
-			$('#' + id).empty().trigger('change');
-		}
+		$('#' + id).empty().trigger('change');
+	}
 
-		console.log('Load Provinsi...');
-		$.getJSON(urlProvinsi, function (res) {
-
-		res = $.map(res, function (obj) {
-			obj.text = obj.nama
-			return obj;
-		});
-
-		data = [{
-			id: "",
-			nama: "- Pilih Provinsi -",
-			text: "- Pilih Provinsi -"
-		}].concat(res);
-
-		//implemen data ke select provinsi
-		$("#select2-provinsi").select2({
-			dropdownAutoWidth: true,
-			width: '100%',
-			data: data
-		})
-		});
-		var selectProv = $('#select2-provinsi');
-        $(selectProv).change(function () {
-            var value = $(selectProv).val();
-            clearOptions('select2-kabupaten');
-
-            if (value) {
-                console.log("on change selectProv");
-
-                var text = $('#select2-provinsi :selected').text();
-                console.log("value = " + value + " / " + "text = " + text);
-
-                console.log('Load Kabupaten di '+text+'...')
-                $.getJSON(urlKabupaten + value + ".json", function(res) {
-
-                    res = $.map(res, function (obj) {
-                        obj.text = obj.nama
-                        return obj;
-                    });
-
-                    data = [{
-                        id: "",
-                        nama: "- Pilih Kabupaten -",
-                        text: "- Pilih Kabupaten -"
-                    }].concat(res);
-
-                    //implemen data ke select provinsi
-                    $("#select2-kabupaten").select2({
-                        dropdownAutoWidth: true,
-                        width: '100%',
-                        data: data
-                    })
-                })
-            }
-        });
-
-        var selectKab = $('#select2-kabupaten');
-        $(selectKab).change(function () {
-            var value = $(selectKab).val();
-            clearOptions('select2-kecamatan');
-
-            if (value) {
-                console.log("on change selectKab");
-
-                var text = $('#select2-kabupaten :selected').text();
-                console.log("value = " + value + " / " + "text = " + text);
-
-                console.log('Load Kecamatan di '+text+'...')
-                $.getJSON(urlKecamatan + value + ".json", function(res) {
-
-                    res = $.map(res, function (obj) {
-                        obj.text = obj.nama
-                        return obj;
-                    });
-
-                    data = [{
-                        id: "",
-                        nama: "- Pilih Kecamatan -",
-                        text: "- Pilih Kecamatan -"
-                    }].concat(res);
-
-                    //implemen data ke select provinsi
-                    $("#select2-kecamatan").select2({
-                        dropdownAutoWidth: true,
-                        width: '100%',
-                        data: data
-                    })
-                })
-            }
-        });
-
-        var selectKec = $('#select2-kecamatan');
-        $(selectKec).change(function () {
-            var value = $(selectKec).val();
-            clearOptions('select2-kelurahan');
-
-            if (value) {
-                console.log("on change selectKec");
-
-                var text = $('#select2-kecamatan :selected').text();
-                console.log("value = " + value + " / " + "text = " + text);
-
-                console.log('Load Kelurahan di '+text+'...')
-                $.getJSON(urlKelurahan + value + ".json", function(res) {
-
-                    res = $.map(res, function (obj) {
-                        obj.text = obj.nama
-                        return obj;
-                    });
-
-                    data = [{
-                        id: "",
-                        nama: "- Pilih Kelurahan -",
-                        text: "- Pilih Kelurahan -"
-                    }].concat(res);
-
-                    //implemen data ke select provinsi
-                    $("#select2-kelurahan").select2({
-                        dropdownAutoWidth: true,
-                        width: '100%',
-                        data: data
-                    })
-                })
-            }
-        });
-
-        var selectKel = $('#select2-kelurahan');
-        $(selectKel).change(function () {
-            var value = $(selectKel).val();
-
-            if (value) {
-                console.log("on change selectKel");
-
-                var text = $('#select2-kelurahan :selected').text();
-                console.log("value = " + value + " / " + "text = " + text);
-            }
-        });
 </script>
 
 @stop

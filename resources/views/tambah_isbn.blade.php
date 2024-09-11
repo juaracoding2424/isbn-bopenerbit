@@ -1023,8 +1023,8 @@
 </body>
 <!--end::Body-->
 <script>
-    var urlProvinsi = "https://ibnux.github.io/data-indonesia/provinsi.json";
-    var urlKabupaten = "https://ibnux.github.io/data-indonesia/kabupaten/";
+    var urlProvinsi = "{{url('location/province')}}" + "/";
+    var urlKabupaten = "{{url('location/kabupaten')}}" + "/";
 
     function clearOptions(id) {
         console.log("on clearOptions :" + id);
@@ -1246,49 +1246,46 @@
         dropZoneJilid(jumlah_buku, "dummy");
     });
 
-    $(selectProv).change(function () {
-        var value = $(selectProv).val();
-        clearOptions('select2-kabupaten');
+    $.getJSON(urlProvinsi, function (res) {
+		data = [{
+				id: "",
+				nama: "- Pilih Provinsi -",
+				text: "- Pilih Provinsi -"
+		}].concat(res);
 
-        if (value) {
-            console.log("on change selectProv");
+			//implemen data ke select provinsi
+		$("#select2-provinsi").select2({
+				dropdownAutoWidth: true,
+				width: '100%',
+				data: data
+		}) ;
+	});
 
-            var text = $('#select2-provinsi :selected').text();
-            console.log("value = " + value + " / " + "text = " + text);
+	var selectProv = $('#select2-provinsi');
+	$(selectProv).change(function () {
+		var value = $(selectProv).val();
+		clearOptions('select2-kabupaten');
+		if (value) {
 
-            console.log('Load Kabupaten di ' + text + '...')
-            $.getJSON(urlKabupaten + value + ".json", function (res) {
+			var text = $('#select2-provinsi :selected').text();
+			$.getJSON(urlKabupaten + value, function(res) {
+				data = [{
+						id: "",
+						nama: "- Pilih Kabupaten -",
+						text: "- Pilih Kabupaten -"
+				}].concat(res);
 
-                res = $.map(res, function (obj) {
-                    obj.text = obj.nama
-                    return obj;
-                });
+						//implemen data ke select provinsi
+				$("#select2-kabupaten").select2({
+						dropdownAutoWidth: true,
+						width: '100%',
+						data: data,
+						async : false,
+				});
+			})
+		}
+	});
 
-                data = [{
-                    id: "",
-                    nama: "- Pilih Kabupaten -",
-                    text: "- Pilih Kabupaten -"
-                }].concat(res);
-
-                //implemen data ke select provinsi
-                $("#select2-kabupaten").select2({
-                    dropdownAutoWidth: true,
-                    width: '100%',
-                    data: data
-                })
-            })
-        }
-    });
-
-    var selectKab = $('#select2-kabupaten');
-    $('input[type=radio][name="status"]').on("change", function () {
-        if ($(this).val() == "masalah") {
-            $('#divMasalah').css('display', '');
-        } else {
-            $('#divMasalah').css('display', 'none');
-            $('textarea[name="problem"]').val('');
-        }
-    });
 
     $('.onhover').css('display', 'none');
     $('.hoverEvent').hover(function () {

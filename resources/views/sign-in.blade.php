@@ -191,7 +191,13 @@
                                     }
                             });
                     },
-					200: location.href = '{{url('penerbit/dashboard')}}'
+					200: function(response) {
+						if(response.penerbitstatus == 'valid'){
+							location.href = '{{url('penerbit/dashboard')}}';
+						} else {
+							location.href = '{{url('penerbit/dashboard/notvalid')}}';
+						}
+					}
                 }
         	});
 		})

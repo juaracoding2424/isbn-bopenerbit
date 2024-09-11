@@ -57,11 +57,12 @@ class AuthController extends Controller
                             'VILLAGE_ID' => $penerbit['VILLAGE_ID'],
                         ]]);
                     return response()->json([
+                        'penerbitstatus' => 'valid',
                         'status' => 'Success',
                     ], 200);
                 } else {
                     //cari di tabel registrasi isbn
-                    $penerbit_belum_verifikasi = Http::post(config('app.inlis_api_url') ."?token=". config('app.inlis_api_token') ."&op=getlistraw&sql=". urlencode("SELECT * FROM ISBN_REGISTRASI_PENERBIT WHERE USERNAME='" . $request->input('username'). "' AND (PASSWORD1='$encryptedPassword' OR PASSWORD2='$encryptedPassword2')"));
+                    $penerbit_belum_verifikasi = Http::post(config('app.inlis_api_url') ."?token=". config('app.inlis_api_token') ."&op=getlistraw&sql=". urlencode("SELECT * FROM ISBN_REGISTRASI_PENERBIT WHERE USER_NAME='" . $request->input('username'). "' AND (PASSWORD='$encryptedPassword' OR PASSWORD2='$encryptedPassword2')"));
                     if(isset($penerbit_belum_verifikasi["Data"]['Items'][0])){
                         $penerbit_belum_verifikasi = $penerbit_belum_verifikasi["Data"]['Items'][0];
                         //\Log::info($penerbit_belum_verifikasi);
@@ -69,7 +70,7 @@ class AuthController extends Controller
                             'penerbit' => [
                                 'STATUS' => 'notvalid',
                                 'ID' => $penerbit_belum_verifikasi['ID'],
-                                'USERNAME' => $penerbit_belum_verifikasi['USERNAME'],
+                                'USERNAME' => $penerbit_belum_verifikasi['USER_NAME'],
                                 'EMAIL' => $penerbit_belum_verifikasi['ADMIN_EMAIL'],
                                 'NAME' => $penerbit_belum_verifikasi['NAMA_PENERBIT'],
                                 'PROVINCE_ID' => $penerbit_belum_verifikasi['PROVINCE_ID'],
@@ -78,6 +79,7 @@ class AuthController extends Controller
                                 'VILLAGE_ID' => $penerbit_belum_verifikasi['VILLAGE_ID'],
                             ]]);
                         return response()->json([
+                            'penerbitstatus' => 'notvalid',
                             'status' => 'Success',
                         ], 200);
                     } else {

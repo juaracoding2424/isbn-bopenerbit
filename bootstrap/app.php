@@ -22,7 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
             //'penerbit' => \App\Http\Middleware\PenerbitMiddleware::class,
             //'guest'    => \App\Http\Middleware\RedirectIfAuthenticated::class,
         ]);*/
-        //$middleware->append(\App\Http\Middleware\PenerbitMiddleware::class);
+        $middleware->append(\App\Http\Middleware\RedirectIfAuthenticated::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

@@ -15,11 +15,10 @@
 										class="path1"></span><span class="path2"></span></i>
 								<div class="rounded border p-10  d-flex flex-column">
 									<div class="d-flex flex-column">
-										<h2 class="mb-1 text-danger">Akun anda belum diverifikasi</h2>
-										<span>Harap menghubungi <a href="support.php">costumer service</a>
-										layanan ISBN. <br/> Anda belum melakukan kewajiban serah
-										simpan KCKR sesuai Undang-undang No 13. Tahun 2018
-										tentang Serah Simpan Karya Cetak dan Karya Rekam.</span>
+										<h2 class="mb-1 text-danger">Akun Anda saat ini belum diverifikasi oleh administrator website ISBN. </h2>
+										<span>Proses verifikasi akun memerlukan waktu maksimal <b>1x24 jam</b>. <br/>
+										Jika akun Anda belum terverifikasi dalam jangka waktu tersebut, silakan hubungi Customer Service kami untuk bantuan lebih lanjut.
+										<br/><br/>Terima kasih atas kesabaran dan pengertiannya</span>										
 									</div>
 								</div>
 							</div>
