@@ -256,11 +256,11 @@ class IsbnPermohonanController extends Controller
                 }
                 $urls = ""; $jilids = "";
                 for($i = 0; $i < count(request('url')); $i++) {
-                    $urls .= request('url')[$i] ."¦";
-                    $jilids .= "jilid " . $i+1 . "¦";
+                    $urls .= request('url')[$i];
+                    $jilids .= "jilid " . $i+1;
                     if(isset(request('url')[$i+1])){
-                        $urls .= "¦";;
-                        $jilids .= "¦";;
+                        $urls .= "¦";
+                        $jilids .= "¦";
                     }
                 }
                 
@@ -285,6 +285,11 @@ class IsbnPermohonanController extends Controller
                         [ "name"=>"LINK_BUKU", "Value"=> $urls ],
                         [ "name"=>"STATUS", "Value"=> 'permohonan']
                 ];
+                if($jumlah_jilid > 1){
+                    array_push($ListData, 
+                        [ "name"=>"JILID_VOLUME", "Value"=> $urls ]
+                    );
+                }
                 if(request('penerbit_terbitan_id') != ''){
                     array_push($ListData, 
                             [ "name"=>"UPDATEBY", "Value"=> session('penerbit')["USERNAME"]], //nama user penerbit
@@ -317,36 +322,43 @@ class IsbnPermohonanController extends Controller
                         'file_lampiran' => $request->input('file_lampiran')[0] ?? null,
                         'file_cover' => $request->input('file_cover')[0] ?? null,
                     ];
-                    if(request('penerbit_terbitan_id') != '' && $request->input('file_dummy')[0]){
+                    //\Log::info($request->input('file_dummy')[0]);
+                    if(request('penerbit_terbitan_id') != '' && isset($request->input('file_dummy')[0])){
                         //ganti file dummy kalau ada
-                        $params = [
-                            'penerbitisbnfile' => $request->input('file_dummy_id')[0],
-                            'actionby' => session('penerbit')['USERNAME'],
-                            'terminal' => \Request::ip()
-                        ];
-                        kurl("post", "deletefilelampiran",'', '', $params);
+                        if(isset($request->input('file_dummy_id')[0])) {
+                            $params = [
+                                'penerbitisbnfile' => $request->input('file_dummy_id')[0],
+                                'actionby' => session('penerbit')['USERNAME'],
+                                'terminal' => \Request::ip()
+                            ];
+                            kurl("post", "deletefilelampiran",'', '', $params);
+                        }
                     }
-                    if(request('penerbit_terbitan_id') != '' && $request->input('file_cover')[0]){
+                    if(request('penerbit_terbitan_id') != '' && isset($request->input('file_cover')[0])){
                         //ganti file cover kalau ada
-                        $params = [
-                            'penerbitisbnfile' => $request->input('file_cover_id')[0],
-                            'actionby' => session('penerbit')['USERNAME'],
-                            'terminal' => \Request::ip()
-                        ];
-                        kurl("post", "deletefilelampiran",'', '', $params);
+                        if(isset($request->input('file_cover_id')[0])) {
+                            $params = [
+                                'penerbitisbnfile' => $request->input('file_cover_id')[0],
+                                'actionby' => session('penerbit')['USERNAME'],
+                                'terminal' => \Request::ip()
+                            ];
+                            kurl("post", "deletefilelampiran",'', '', $params);
+                        }
                     }
                     if(request('penerbit_isbn_masalah_id' != '')) {
                         //kalau bermasalah, lampirannya ga usah dihapus
                         $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), '', true);    
                     } else {
                         //kalau mau ganti lampiran permohonan 
-                        if(request('penerbit_isbn_masalah') == '' && $request->input('file_lampiran')[0]) {
-                            $params = [
-                                'penerbitisbnfile' => $request->input('file_lampiran_id')[0],
-                                'actionby' => session('penerbit')['USERNAME'],
-                                'terminal' => \Request::ip()
-                            ];
-                            kurl("post", "deletefilelampiran",'', '', $params);
+                        if(request('penerbit_isbn_masalah') == '' && isset($request->input('file_lampiran')[0])) {
+                            if(isset($request->input('file_lampiran_id')[0])) {
+                                $params = [
+                                    'penerbitisbnfile' => $request->input('file_lampiran_id')[0],
+                                    'actionby' => session('penerbit')['USERNAME'],
+                                    'terminal' => \Request::ip()
+                                ];
+                                kurl("post", "deletefilelampiran",'', '', $params);
+                            }
                         }
                         $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), '');    
                     }
@@ -360,23 +372,27 @@ class IsbnPermohonanController extends Controller
                             'file_lampiran' => $request->input('file_lampiran')[$i] ?? null,
                             'file_cover' => $request->input('file_cover')[$i] ?? null
                         ];
-                        if(request('penerbit_terbitan_id') != '' && $request->input('file_dummy')[$i]){
+                        if(request('penerbit_terbitan_id') != '' && isset($request->input('file_dummy')[$i])){
                             //ganti file dummy kalau ada
-                            $params = [
-                                'penerbitisbnfile' => $request->input('file_dummy_id')[$i],
-                                'actionby' => session('penerbit')['USERNAME'],
-                                'terminal' => \Request::ip()
-                            ];
-                            kurl("post", "deletefilelampiran",'', '', $params);
+                            if(isset($request->input('file_dummy_id')[$i])) {
+                                $params = [
+                                    'penerbitisbnfile' => $request->input('file_dummy_id')[$i],
+                                    'actionby' => session('penerbit')['USERNAME'],
+                                    'terminal' => \Request::ip()
+                                ];
+                                kurl("post", "deletefilelampiran",'', '', $params);
+                            }
                         }
-                        if(request('penerbit_terbitan_id') != '' && $request->input('file_cover')[$i]){
+                        if(request('penerbit_terbitan_id') != '' && isset($request->input('file_cover')[$i])){
                             //ganti file cover kalau ada
-                            $params = [
-                                'penerbitisbnfile' => $request->input('file_cover_id')[$i],
-                                'actionby' => session('penerbit')['USERNAME'],
-                                'terminal' => \Request::ip()
-                            ];
-                            kurl("post", "deletefilelampiran",'', '', $params);
+                            if(isset($request->input('file_cover_id')[$i])) {
+                                $params = [
+                                    'penerbitisbnfile' => $request->input('file_cover_id')[$i],
+                                    'actionby' => session('penerbit')['USERNAME'],
+                                    'terminal' => \Request::ip()
+                                ];
+                                kurl("post", "deletefilelampiran",'', '', $params);
+                            }
                         }
                         if(request('penerbit_isbn_masalah_id' != '')) {
                             //kalau bermasalah, lampirannya ga usah dihapus
@@ -384,13 +400,15 @@ class IsbnPermohonanController extends Controller
                             $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), $keterangan, true);    
                         } else {
                             //kalau mau ganti lampiran permohonan 
-                            if(request('penerbit_isbn_masalah') == '' && $request->input('file_lampiran')[$i]) {
-                                $params = [
-                                    'penerbitisbnfile' => $request->input('file_lampiran_id')[0],
-                                    'actionby' => session('penerbit')['USERNAME'],
-                                    'terminal' => \Request::ip()
-                                ];
-                                kurl("post", "deletefilelampiran",'', '', $params);
+                            if(request('penerbit_isbn_masalah') == '' && isset($request->input('file_lampiran')[$i])) {
+                                if(isset($request->input('file_lampiran_id')[$i])) {
+                                    $params = [
+                                        'penerbitisbnfile' => $request->input('file_lampiran_id')[$i],
+                                        'actionby' => session('penerbit')['USERNAME'],
+                                        'terminal' => \Request::ip()
+                                    ];
+                                    kurl("post", "deletefilelampiran",'', '', $params);
+                                }
                             }
                             $keterangan = "jilid ke- " . $i + 1;   
                             $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), $keterangan);     
@@ -548,5 +566,18 @@ class IsbnPermohonanController extends Controller
         $title = strtoupper(preg_replace("/[^a-zA-Z0-9]/", "", $title));
         $count = kurl("get","getlistraw", "", "SELECT count(*) JML FROM PENERBIT_TERBITAN WHERE  REGEXP_REPLACE(UPPER(TITLE), '[^[:alnum:]]', '') = '$title' AND penerbit_id='$id'", 'sql', '')["Data"]["Items"][0]["JML"];
         return intval($count);
+    }
+
+    function deleteFile($id)
+    {
+        $params = [
+            'penerbitisbnfileid' => $id,
+            'actionby' => session('penerbit')['USERNAME'],
+            'terminal' => \Request::ip()
+        ];
+        kurl("post", "deletefilelampiran",'', '','', $params);
+        return response()->json([
+            'status' => 'success'
+        ], 200);
     }
 }

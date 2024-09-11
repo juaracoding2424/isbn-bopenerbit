@@ -1399,7 +1399,24 @@ height: 100vh !important;
         }
     });
     var removeFile = function(id){
-
+        Swal.fire({
+                    title: "Yakin akan menghapus File ini?",
+                    icon: "success",
+                    buttonsStyling: !1,
+                    showCancelButton: !0,
+                    confirmButtonText: "Ya, Hapus!",
+                    cancelButtonText: "Batalkan",
+                    customClass: {
+                        confirmButton: "btn fw-bold btn-danger",
+                        cancelButton: "btn fw-bold btn-light-primary"
+                    }
+                    }).then(function(isConfirm){
+                        if (isConfirm){
+                            //
+                            $.get('/penerbit/isbn/permohonan/delete-file/' + id);
+                            getFile("{{$detail['ID']}}");
+                        }
+                });
     };
     var selectKab = $('#select2-kabupaten');
 

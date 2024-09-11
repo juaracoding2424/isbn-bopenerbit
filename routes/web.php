@@ -43,6 +43,7 @@ Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
         Route::get('penerbit/isbn/permohonan/detail/{id}/get', [IsbnPermohonanController::class, 'getDetail']);
         Route::get('penerbit/isbn/permohonan/file/{id}', [IsbnPermohonanController::class, 'getFile']);
         Route::get('penerbit/isbn/permohonan/delete/{id}', [IsbnPermohonanController::class, 'rollback_permohonan']);
+        Route::get('penerbit/isbn/permohonan/delete-file/{id}', [IsbnPermohonanController::class, 'deleteFile']);
 
         Route::post('penerbit/dropzone/store', [DropZoneController::class, 'store']);
         Route::post('penerbit/dropzone/delete', [DropZoneController::class, 'delete']);

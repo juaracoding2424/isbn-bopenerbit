@@ -27,7 +27,7 @@ function kurl($method, $action, $table, $data, $kategori, $params = null) {
         $form_data = array_merge($form_data, $params);
     }
     $response = Http::asForm()->$method(config('app.inlis_api_url'), $form_data);
-
+    //\Log::info($response);
     if ($response->successful()) {
         $data = $response->json();
         return $data;
@@ -40,7 +40,7 @@ function kurl($method, $action, $table, $data, $kategori, $params = null) {
     }
 }
 
-function kurl_upload($method, $penerbit, $terbitan_id, $jenis, $file, $ip_user, $keterangan, $url) {
+function kurl_upload($method, $penerbit, $terbitan_id, $jenis, $file, $ip_user, $keterangan) {
     //$jenis : lampiran_permohonan, dummy_buku, lampiran_pending
     //\Log::info($url);
     //\Log::info($keterangan);
