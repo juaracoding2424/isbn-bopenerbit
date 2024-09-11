@@ -207,15 +207,11 @@ class IsbnPermohonanController extends Controller
                 ];
                 if(request('penerbit_isbn_masalah_id') != ''){
                     array_merge($rules, [
-                            'file_dummy' => 'required|array|min:1',
                             'file_lampiran' => 'required|array|min:1',
-                            'file_dummy.*' => 'required',
                             'file_lampiran.*' => 'required',
                     ]);
                     array_merge($messages ,[
-                            'file_dummy.required' => 'Anda belum mengunggah file dummy buku yang sudah diperbaiki',
                             'file_lampiran.required' => 'Anda belum mengunggah file lampiran buku yang sudah diperbaiki',
-                            'file_dummy.*.required' => 'Anda belum mengunggah file dummy buku yang sudah diperbaiki',
                             'file_lampiran.*.required' => 'Anda belum mengunggah file lampiran buku yang sudah diperbaiki',
                     ]);
                     $validator = \Validator::make(request()->all(), $rules, $messages);

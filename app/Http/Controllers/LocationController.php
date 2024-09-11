@@ -38,7 +38,6 @@ class LocationController extends Controller
     {
         $data = kurl("get","getlistraw", "", "SELECT ID, NAMAKEC NAME FROM KECAMATAN WHERE KABUPATENID=$id", 'sql', '')["Data"]["Items"];
         $arr = [];
-        $arr = [];
         foreach($data as $d){
             array_push($arr, [
                 'id' => $d['ID'],
@@ -52,7 +51,6 @@ class LocationController extends Controller
     function getKelurahan($id)
     {
         $data = kurl("get","getlistraw", "", "SELECT ID, NAMAKEL NAME FROM KELURAHAN WHERE KECAMATANID=$id", 'sql', '')["Data"]["Items"];
-        $arr = [];
         $arr = [];
         foreach($data as $d){
             array_push($arr, [
