@@ -121,7 +121,7 @@ class IsbnPermohonanController extends Controller
     function submit(Request $request)
     {
         $penerbit = session('penerbit');
-        \Log::info(request()->all());
+        //\Log::info(request()->all());
         //try{   
             if(request('penerbit_terbitan_id') == ''){ //form baru
                 if(request('title') != ''){
@@ -285,9 +285,10 @@ class IsbnPermohonanController extends Controller
                         [ "name"=>"LINK_BUKU", "Value"=> $urls ],
                         [ "name"=>"STATUS", "Value"=> 'permohonan']
                 ];
+                
                 if($jumlah_jilid > 1){
                     array_push($ListData, 
-                        [ "name"=>"JILID_VOLUME", "Value"=> $urls ]
+                        [ "name"=>"JILID_VOLUME", "Value"=> $jilids ]
                     );
                 }
                 if(request('penerbit_terbitan_id') != ''){
@@ -301,8 +302,10 @@ class IsbnPermohonanController extends Controller
                             [ "name"=>"STATUS", "Value"=> "permohonan"], //ketika bermasalah, dan diupdate jadi permohonan sehingga balik lagi ke permohonan
                         );
                     }
+                    //\Log::info($ListData);
                     $id = request('penerbit_terbitan_id');
                     $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=PENERBIT_TERBITAN&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
+                    //\Log::info($res);
                 } else {
                     array_push($ListData, 
                             [ "name"=>"MOHON_DATE", "Value"=> now()->format('Y-m-d H:i:s') ],
@@ -312,6 +315,7 @@ class IsbnPermohonanController extends Controller
                             [ "name"=>"CREATEDATE", "Value"=> now()->format('Y-m-d H:i:s') ],
                             [ "name"=>"CREATETERMINAL", "Value"=> \Request::ip()]
                     );
+                    //\Log::info($ListData);
                     $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=add&table=PENERBIT_TERBITAN&issavehistory=1&ListAddItem=" . urlencode(json_encode($ListData)));
                     $id = $res['Data']['ID'];
                 }
