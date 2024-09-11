@@ -133,6 +133,8 @@ function kurl_cover($method, $penerbit, $terbitan_id, $file, $ip_user) {
     }
     
 }
+
+
 function rijndaelEncryptPassword($password)
 {
     // Key Size: Ensure the key is 32 bytes long for AES-256.
