@@ -20,13 +20,46 @@ class ProfilController extends Controller
             $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"][0];
         } else {
             $sql = "SELECT 'NOTVALID' STATUS, IR.*,
-                        PROPINSI.NAMAPROPINSI, KABUPATEN.NAMAKAB, KABUPATEN.CODE_SORT CODEKAB, FROM ISBN_REGISTRASI_PENERBIT IR 
+                        PROPINSI.NAMAPROPINSI, KABUPATEN.NAMAKAB FROM ISBN_REGISTRASI_PENERBIT IR 
                         JOIN PROPINSI on propinsi.id = IR.PROVINCE_ID
                         JOIN KABUPATEN ON KABUPATEN.id = IR.CITY_ID
                         WHERE IR.ID=$id";
             $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"][0];
         }
         return $data;
+    }
+
+    function submit()
+    {
+        $penerbit = session('penerbit');
+        
+        $validator = \Validator::make(request()->all(),[
+            'name' => 'required',
+            'username' => 'required|min:6',
+            'phone' => 'required|number',
+            'alamat_penerbit' => 'required',
+            'nama_gedung' => 'required',
+            'provinsi' => 'required',
+            'kabkot' => 'required',
+            'kecamatan' => 'required',
+            'kelurahan' => 'required',
+            ],[
+            'name.required' => 'Anda belum mengisi nama penerbit',
+            'username.required' => 'Anda belum mengisi username',
+            'username.min' => 'Username minimal terdiri dari 6 karakter',
+            'phone.required' => 'Anda belum mengisi nomor telp/hp kantor yang bisa dihubungi',
+            'alamat_penerbit.required' => 'Anda belum mengisi alamat kantor',
+            'nama_gedung.required' => 'Anda belum mengisi jenis terbitan buku',
+            'provinsi.required' => 'Anda belum mengisi provinsi tempat domisili kantor',
+            'kabkot.required' => 'Anda belum mengisi kota/kabupaten tempat domisili kantor',
+            'kecamatan.required' => 'Anda belum mengisi kecamatan tempat domisili kantor',
+            'kelurahan.required' => 'Anda belum mengisi kelurahan tempat domisili kantor',
+        ]);
+        if(session('penerbit')['STATUS'] == 'VALID'){
+            $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=PENERBIT&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
+        } else {
+            $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_REGISTRASI_PENERBIT&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
+        }
     }
 
     function index()

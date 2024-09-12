@@ -52,6 +52,7 @@ Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
         Route::get('penerbit/dashboard/notvalid', [DashboardController::class, 'notValid']);
         Route::get('penerbit/profile', [ProfilController::class, 'index']);
         Route::get('penerbit/profile/detail', [ProfilController::class, 'getDetail']);
+        Route::post('penerbit/profile/submit', [ProfilController::class, 'submit']);
 
         Route::get('auth/logout', [AuthController::class, 'logout']);
 

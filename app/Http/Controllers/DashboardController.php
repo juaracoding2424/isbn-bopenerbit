@@ -83,7 +83,7 @@ class DashboardController extends Controller
         $id = session('penerbit')['ID'];  
         $sql = "SELECT count(*) jumlah FROM PENERBIT_ISBN
                     WHERE PENERBIT_ID = '$id' AND RECEIVED_DATE_KCKR IS NOT NULL ";
-        $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"];
+        $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         return $data;
     }
 
@@ -93,7 +93,7 @@ class DashboardController extends Controller
         $id = session('penerbit')['ID'];  
         $sql = "SELECT count(*) jumlah FROM PENERBIT_ISBN
                     WHERE PENERBIT_ID = '$id' AND RECEIVED_DATE_PROV IS NOT NULL ";
-        $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"];
+        $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         return $data;
     }
     

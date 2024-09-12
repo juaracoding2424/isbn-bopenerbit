@@ -238,7 +238,8 @@
 			ajax: {
 				url: '{{ url("penerbit/isbn/permohonan/datatable") }}',
 				data: {
-					advSearch : advSearch
+					advSearch : advSearch,
+					jenisTerbitan: $('#selectJenis').val()
 				}
 			},
 		});
