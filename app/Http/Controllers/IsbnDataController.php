@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Milon\Barcode\DNS1D;
-use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\PDF;
 
 class IsbnDataController extends Controller
 {
@@ -41,10 +41,6 @@ class IsbnDataController extends Controller
         $start = $start;
         $end = $start + $length;
 
-        /*$sql  = "SELECT pi.id, pt.title, pi.keterangan, pi.isbn_no, pi.prefix_element, pi.publisher_element, pi.item_element, pi.check_digit, pi.keterangan_jilid,
-                    pt.kepeng, pt.author, pt.tahun_terbit, pi.received_date_kckr, pi.received_date_prov, pt.jml_jilid, pt.jilid_volume, pt.bulan_terbit, pi.penerbit_terbitan_id,
-                    pt.validation_date, pt.mohon_date, pt.validator_by, pt.is_kdt_valid FROM PENERBIT_ISBN pi 
-                    JOIN PENERBIT_TERBITAN pt ON pt.ID = pi.PENERBIT_TERBITAN_ID WHERE pi.PENERBIT_ID='$id'";*/
         $sql = "SELECT pi.penerbit_terbitan_id, pt.KD_PENERBIT_DTL, ir.mohon_date, pt.author, pt.kepeng,
                 pi.RECEIVED_DATE_KCKR, pi.RECEIVED_DATE_PROV,pt.VALIDATION_DATE,
                 case 
