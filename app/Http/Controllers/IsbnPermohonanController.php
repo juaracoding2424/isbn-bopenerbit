@@ -38,8 +38,14 @@ class IsbnPermohonanController extends Controller
         $start = $start;
         $end = $start + $length;
 
-        $sql  = "SELECT ir.id, pt.title, pt.author, pt.kepeng,pt.bulan_terbit, pt.tahun_terbit, ir.noresi, ir.createdate, ir.mohon_date, ir.jml_jilid_req, ir.jenis, ir.status  FROM ISBN_RESI ir JOIN PENERBIT_TERBITAN pt  ON ir.penerbit_terbitan_id = pt.id  WHERE pt.PENERBIT_ID='$id' AND (ir.status='' OR ir.status='permohonan' OR ir.status is NULL) ";
-        $sqlFiltered = "SELECT count(ir.id) JUMLAH FROM ISBN_RESI ir JOIN PENERBIT_TERBITAN pt  ON ir.penerbit_terbitan_id = pt.id WHERE pt.PENERBIT_ID='$id' AND (ir.status='' OR ir.status='permohonan' OR ir.status is NULL) ";
+        $sql  = "SELECT ir.id, pt.title, pt.author, pt.kepeng,pt.bulan_terbit, pt.tahun_terbit, ir.noresi, ir.createdate, ir.mohon_date, ir.jml_jilid_req, ir.jenis, ir.status  
+                    FROM ISBN_RESI ir 
+                    JOIN PENERBIT_TERBITAN pt  ON ir.penerbit_terbitan_id = pt.id  
+                    WHERE pt.PENERBIT_ID='$id' AND (ir.status='' OR ir.status='permohonan' OR ir.status is NULL) ";
+        $sqlFiltered = "SELECT count(ir.id) JUMLAH 
+                            FROM ISBN_RESI ir 
+                            JOIN PENERBIT_TERBITAN pt  ON ir.penerbit_terbitan_id = pt.id 
+                            WHERE pt.PENERBIT_ID='$id' AND (ir.status='' OR ir.status='permohonan' OR ir.status is NULL) ";
 
         foreach($request->input('advSearch') as $advSearch){
             if($advSearch["value"] != '') {
@@ -182,6 +188,7 @@ class IsbnPermohonanController extends Controller
                     'jenis_kategori' => 'required',
                     'jenis_pustaka' => 'required',
                     'deskripsi' => 'required|min:100',
+                    'jml_hlm' => 'required',
                     //'status' => 'required',
                     'url.*' => 'required',
                     ];
@@ -198,6 +205,7 @@ class IsbnPermohonanController extends Controller
                     'jenis_pustaka.required' => 'Anda belum mengisi jenis pustaka (fiksi/non fiksi)',
                     'deskripsi.required' => 'Anda belum mengisi abstrak/deskripsi buku',
                     'deskripsi.min' => 'Abstrak/deskripsi buku minimal terdiri dari 100 karakter',
+                    'jml_hlm.required' => 'Anda wajib mengisi jumlah halaman buku',
                     //'status.required' => 'Anda belum memilih jenis permintaan ISBN (Lepas/Jilid)',
                     'url.*.required' => 'Anda belum mengisi URL/Link publikasi buku',
                 ];
@@ -210,11 +218,16 @@ class IsbnPermohonanController extends Controller
                             'file_lampiran.required' => 'Anda belum mengunggah file lampiran buku yang sudah diperbaiki',
                             'file_lampiran.*.required' => 'Anda belum mengunggah file lampiran buku yang sudah diperbaiki',
                     ]);
-                    $validator = \Validator::make(request()->all(), $rules, $messages);
-                } else {
-                    $validator = \Validator::make(request()->all(), $rules, $messages);
                 }
-            
+                if(request('status') == 'lepas') {
+                    array_merge($rules, [
+                        'jml_hlm.min' => 'min:40',
+                    ]);
+                    array_merge($messages ,[
+                        'jml_hlm.min' => 'Menurut UNESCO, jumlah halaman buku paling sedikit terdiri dari 40 halaman, tidak termasuk bagian preliminaries dan postliminaries',
+                    ]);
+                }
+                $validator = \Validator::make(request()->all(), $rules, $messages);
             }
             if($validator->fails()){
                 return response()->json([
@@ -591,6 +604,18 @@ class IsbnPermohonanController extends Controller
     {
         $file = Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=getlistraw&sql=" . urlencode('SELECT * FROM PENERBIT_ISBN_FILE WHERE PENERBIT_TERBITAN_ID=' . $id))["Data"]["Items"];
         return response()->json($file);
+    }
+    
+    function getJilidLengkap()
+    {
+        $id = session('penerbit')['ID'];
+        $sql = "SELECT pi.isbn_no, pt.title 
+                FROM PENERBIT_ISBN pi 
+                JOIN PENERBIT_TERBITAN pt ON pi.penerbit_terbitan_id = pt.id 
+                WHERE pi.keterangan_jilid LIKE '%lengkap%' 
+                AND pi.penerbit_id = $id";
+        $data = kurl("get","getlistraw", "", $sql, 'sql', '');
+        return response()->json($data);
     }
 
     function checkTitle($title, $id)

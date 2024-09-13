@@ -66,7 +66,7 @@
 									<div class="card bg-danger overflow-hidden mb-5 mb-xl-10">
 										<!--begin::Card body-->
 										<a class="card-body d-flex justify-content-between flex-column px-0 pb-0"
-											href="isbn_bermasalah.php">
+											href="/penerbit/isbn/masalah">
 											<!--begin::Statistics-->
 											<div class="mb-10 px-9">
 												<!--begin::Statistics-->
