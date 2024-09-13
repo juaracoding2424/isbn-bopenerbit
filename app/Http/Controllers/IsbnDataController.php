@@ -92,7 +92,8 @@ class IsbnDataController extends Controller
             $sqlFiltered .= " AND pt.is_kdt_valid = '".$request->input('kdtValid')."'";
             $sql .= " AND pt.is_kdt_valid = '".$request->input('kdtValid')."'";
         }
-        $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM PENERBIT_ISBN WHERE PENERBIT_ID='$id' AND (status='diterima' OR status is null)", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
+        $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM (SELECT penerbit_terbitan_id FROM PENERBIT_ISBN WHERE PENERBIT_ID='$id' GROUP BY penerbit_terbitan_id) ", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
+        
         if($length == '-1'){
             $end = $totalData;
         }
@@ -111,7 +112,7 @@ class IsbnDataController extends Controller
                     $jml_jilid = 1;
                 }
                
-                $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="badge badge-success h-30px m-1" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : '<a class="badge badge-primary h-30px m-1" onClick="reqKDT('.$val['PENERBIT_TERBITAN_ID'].')">Permohonan KDT</a>';
+                $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="badge badge-success h-30px m-1" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : "";//'KDT Belum Ada';
                 $response['data'][] = [
                     $nomor,
                     '<a class="badge badge-info h-30px m-1" onclick="cetakBarcode('.$val['PENERBIT_TERBITAN_ID'].')">Barcode</a>' .$kdt, //<a class="badge badge-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',

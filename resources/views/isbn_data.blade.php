@@ -188,9 +188,6 @@
 <script src="{{ asset('/assets/js/widgets.bundle.js') }}"></script>
 <script src="{{ asset('/assets/js/custom/widgets.js') }}"></script>
 <script src="{{ asset('/assets/js/custom/apps/chat/chat.js') }}"></script>
-<script src="{{ asset('/assets/js/custom/randomtitle.js') }}"></script>
-<script src="{{ asset('/assets/js/custom/randomname.js') }}"></script>
-<script src="{{ asset('/assets/js/html2pdf.bundle.min.js') }}" ></script>
 <!--end::Custom Javascript-->
 <!--end::Javascript-->
 </body>
