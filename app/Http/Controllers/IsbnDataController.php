@@ -59,9 +59,10 @@ class IsbnDataController extends Controller
                 pt.validation_date, pt.validator_by, pt.is_kdt_valid, ir.jenis, ir.mohon_date, ir.id, pt.tahun_terbit,
                 pi.RECEIVED_DATE_KCKR, pi.RECEIVED_DATE_PROV, pt.KD_PENERBIT_DTL";
 
-        $sqlFiltered = "SELECT count(*) JUMLAH FROM penerbit_terbitan pt JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
+        $sqlFiltered = "SELECT pt.id FROM penerbit_terbitan pt JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
+                        JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
                         WHERE ir.penerbit_id = $id ";
-
+        $sqlFilGroupBy = "GROUP BY pt.id ";
        
         foreach($request->input('advSearch') as $advSearch){
             if($advSearch["value"] != '') {
@@ -99,8 +100,8 @@ class IsbnDataController extends Controller
         }
         
         $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql  $sqlGroupBy) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
-        $totalFiltered = kurl("get","getlistraw", "", $sqlFiltered, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
-
+        $totalFiltered = kurl("get","getlistraw", "", "SELECT COUNT(*) JUMLAH FROM ($sqlFiltered $sqlFilGroupBy)", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
+        
         $response['data'] = [];
         if ($queryData <> FALSE) {
             $nomor = $start + 1;
