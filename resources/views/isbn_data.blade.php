@@ -126,6 +126,16 @@
 												<option value="0">Belum Valid</option>
 											</select></div>
 									</div>
+									<div class="row md-6">
+										<div class="col-md-3 fs-8">Status SS KCKR</div>
+										<div class="col-md-9"><select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectKckr" id="selectKckr">
+												<option value="">--pilih status SS KCKR--</option>
+												<option value="1-perpusnas">Sudah Serah Simpan Perpusnas</option>
+												<option value="0-perpusnas">Belum Serah Simpan Perpusnas</option>
+												<option value="1-prov">Sudah Serah Simpan Provinsi</option>
+												<option value="0-prov">Belum Serah Simpan Provinsi</option>
+											</select></div>
+									</div>
 								</div>
 								<!--end::Search-->
 							</div></div>
@@ -394,7 +404,8 @@
 				data: {
 					advSearch : advSearch,
 					jenisTerbitan: $('#selectJenis').val(),
-					kdtValid : $('#selectKdt').val()
+					kdtValid : $('#selectKdt').val(),
+					statusKckr : $('#selectKckr').val()
 				}
 			},
 		});
@@ -458,6 +469,9 @@
 		loadDataTable();
 	});
 	$('#selectKdt').on("change", function(){
+		loadDataTable();
+	});
+	$('#selectKckr').on("change", function(){
 		loadDataTable();
 	});
 	$('input[type="text"][name="searchValue[]"]').on("focusout", function(){

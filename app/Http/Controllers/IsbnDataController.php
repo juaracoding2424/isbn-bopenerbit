@@ -93,6 +93,28 @@ class IsbnDataController extends Controller
             $sqlFiltered .= " AND pt.is_kdt_valid = '".$request->input('kdtValid')."'";
             $sql .= " AND pt.is_kdt_valid = '".$request->input('kdtValid')."'";
         }
+        if($request->input('statusKckr') !=''){
+            switch($request->input('statusKckr')) {
+                case "1-perpusnas": 
+                    $sqlFiltered .= " AND pi.received_date_kckr is not null ";
+                    $sql .= " AND pi.received_date_kckr is not null ";
+                    break;
+                case "0-perpusnas": 
+                    $sqlFiltered .= " AND pi.received_date_kckr is  null ";
+                    $sql .= " AND pi.received_date_kckr is  null ";
+                    break;
+                case "1-prov": 
+                    $sqlFiltered .= " AND pi.received_date_prov is not null ";
+                    $sql .= " AND pi.received_date_prov is not null ";
+                    break;
+                case "0-prov": 
+                    $sqlFiltered .= " AND pi.received_date_prov is  null ";
+                    $sql .= " AND pi.received_date_prov is  null ";
+                    break;
+
+            }
+           
+        }
         $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM (SELECT penerbit_terbitan_id FROM PENERBIT_ISBN WHERE PENERBIT_ID='$id' GROUP BY penerbit_terbitan_id) ", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         
         if($length == '-1'){
@@ -122,7 +144,6 @@ class IsbnDataController extends Controller
                     $val['TITLE'] . "<br/><span class='badge badge-light-success'>$jenis</span>",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
                     $val['BULAN_TERBIT'] .' ' . $val['TAHUN_TERBIT'],
-
                     $val['MOHON_DATE'],
                     $val['VALIDATION_DATE'],
                     $val['RECEIVED_DATE_KCKR'] ? $val['RECEIVED_DATE_KCKR'] : '<a class="badge badge-danger wrap" href="https://edeposit.perpusnas.go.id/login" target="_blank">Serahkan ke Perpusnas</a>',
