@@ -464,18 +464,23 @@
 	};
 	$('#btnSearch').on("click", function(){
 		loadDataTable();
+		exportButtons();
 	});
 	$('#selectJenis').on("change", function(){
 		loadDataTable();
+		exportButtons();
 	});
 	$('#selectKdt').on("change", function(){
 		loadDataTable();
+		exportButtons();
 	});
 	$('#selectKckr').on("change", function(){
 		loadDataTable();
+		exportButtons();
 	});
 	$('input[type="text"][name="searchValue[]"]').on("focusout", function(){
 		loadDataTable();
+		exportButtons();
 	})
 </script>
 @endsection
