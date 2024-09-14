@@ -36,19 +36,21 @@ class IsbnMasalahController extends Controller
         $start = $start;
         $end = $start + $length;
 
-        $sql  = "SELECT pt.id, m.isi, m.createdate, pt.noresi, pt.title, pt.kepeng, pt.author, pt.tahun_terbit, pt.mohon_date
-                    FROM PENERBIT_ISBN_MASALAH m JOIN PENERBIT_TERBITAN pt
-                    ON m.PENERBIT_TERBITAN_ID = pt.ID 
-                    WHERE m.IS_SOLVE = 0 AND pt.PENERBIT_ID='$id' AND pt.status='pending'";
-        $sqlFiltered = "SELECT count(*) JUMLAH FROM PENERBIT_ISBN_MASALAH m JOIN PENERBIT_TERBITAN pt
-                    ON m.PENERBIT_TERBITAN_ID = pt.ID 
-                    WHERE m.IS_SOLVE = 0 AND pt.PENERBIT_ID='$id' AND pt.status='pending'";
+        $sql  = "SELECT pt.id, m.isi, m.createdate, ir.noresi, pt.title, pt.kepeng, pt.author, pt.tahun_terbit, pt.mohon_date
+                    FROM PENERBIT_ISBN_MASALAH m 
+                    JOIN PENERBIT_TERBITAN pt ON m.PENERBIT_TERBITAN_ID = pt.ID 
+                    JOIN ISBN_RESI ir on ir.id = m.isbn_resi_id
+                    WHERE m.IS_SOLVE = 0 AND pt.PENERBIT_ID='$id' AND ir.status='pending'";
+        $sqlFiltered = "SELECT count(*) JUMLAH FROM PENERBIT_ISBN_MASALAH m 
+                    JOIN ISBN_RESI ir ON m.isbn_resi_id = ir.ID 
+                    JOIN PENERBIT_TERBITAN pt ON m.PENERBIT_TERBITAN_ID = pt.ID 
+                    WHERE m.IS_SOLVE = 0 AND ir.PENERBIT_ID='$id' AND ir.status='pending'";
 
         foreach($request->input('advSearch') as $advSearch){
             if($advSearch["value"] != '') {
                 if($advSearch["param"] == 'title'){
-                    $sqlFiltered .= " AND (CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%' OR CONCAT('WIN',upper(pi.KETERANGAN_JILID)) like 'WIN%".strtoupper($advSearch["value"]) ."%')";
-                    $sql .= " AND (CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%' OR CONCAT('WIN',upper(pi.KETERANGAN_JILID)) like 'WIN%".strtoupper($advSearch["value"]) ."%')";
+                    $sqlFiltered .= " AND (CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%')";
+                    $sql .= " AND (CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%')";
                 }
                 if($advSearch["param"] == 'tahun_terbit'){
                     $sqlFiltered .= " AND pt.TAHUN_TERBIT like '%".$advSearch["value"]."%'";
@@ -63,14 +65,15 @@ class IsbnMasalahController extends Controller
                     $sql .= " AND upper(m.isi) like '%".strtoupper($advSearch["value"])."%'";
                 }
                 if($advSearch["param"] == 'no_resi'){
-                    $sqlFiltered .= " AND (CONCAT('WIN',upper(pt.noresi))) like 'WIN%".strtoupper($advSearch["value"])."%'";
-                    $sql .= " AND (CONCAT('WIN',upper(pt.noresi))) like 'WIN%".strtoupper($advSearch["value"])."%'";
+                    $sqlFiltered .= " AND (CONCAT('WIN',upper(ir.noresi))) like 'WIN%".strtoupper($advSearch["value"])."%'";
+                    $sql .= " AND (CONCAT('WIN',upper(ir.noresi))) like 'WIN%".strtoupper($advSearch["value"])."%'";
                 }
             }
         }
-
+        //\Log::info("SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end");
+        //\Log::info($sqlFiltered);
         $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
-        $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM PENERBIT_TERBITAN WHERE PENERBIT_ID='$id' AND status='pending'", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
+        $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM ISBN_RESI WHERE PENERBIT_ID='$id' AND status='pending'", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         $totalFiltered = kurl("get","getlistraw", "", $sqlFiltered, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         $response['data'] = [];
         if (count($queryData) > 0) {

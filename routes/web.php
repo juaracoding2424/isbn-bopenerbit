@@ -41,6 +41,7 @@ Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
         Route::post('penerbit/isbn/permohonan/new/submit', [IsbnPermohonanController::class, 'submit']);
         Route::get('penerbit/isbn/permohonan/detail/{noresi}', [IsbnPermohonanController::class, 'detail']);
         Route::get('penerbit/isbn/permohonan/detail/{id}/get', [IsbnPermohonanController::class, 'getDetail']);
+        Route::get('penerbit/isbn/permohonan/jilid-lengkap', [IsbnPermohonanController::class, 'getJilidLengkap']);
         Route::get('penerbit/isbn/permohonan/file/{id}', [IsbnPermohonanController::class, 'getFile']);
         Route::get('penerbit/isbn/permohonan/delete/{id}', [IsbnPermohonanController::class, 'rollback_permohonan']);
         Route::get('penerbit/isbn/permohonan/delete-file/{id}', [IsbnPermohonanController::class, 'deleteFile']);
@@ -52,6 +53,7 @@ Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
         Route::get('penerbit/dashboard/notvalid', [DashboardController::class, 'notValid']);
         Route::get('penerbit/profile', [ProfilController::class, 'index']);
         Route::get('penerbit/profile/detail', [ProfilController::class, 'getDetail']);
+        Route::post('penerbit/profile/submit', [ProfilController::class, 'submit']);
 
         Route::get('auth/logout', [AuthController::class, 'logout']);
 

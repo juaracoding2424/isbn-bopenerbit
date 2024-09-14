@@ -27,17 +27,17 @@ class DashboardController extends Controller
         $status = request('status'); 
         $id = session('penerbit')['ID'];
         if($status == 'permohonan'){
-            $sql = "SELECT count(*) JUMLAH FROM PENERBIT_TERBITAN pt  WHERE pt.PENERBIT_ID='$id' AND (pt.status='' OR pt.status='permohonan' OR pt.status is NULL) ";
+            $sql = "SELECT count(*) JUMLAH FROM ISBN_RESI IR 
+                    WHERE PENERBIT_ID='$id' AND (status='' OR status='permohonan' OR status is NULL) ";
         } 
         if($status == 'pending') {
             $sql = "SELECT count(*) JUMLAH
-                FROM PENERBIT_ISBN_MASALAH m JOIN PENERBIT_TERBITAN pt
-                ON m.PENERBIT_TERBITAN_ID = pt.ID 
-                WHERE m.IS_SOLVE = 0 AND pt.PENERBIT_ID='$id' AND pt.status='pending'";
+                FROM PENERBIT_ISBN_MASALAH m JOIN ISBN_RESI ir on ir.id = m.isbn_resi_id
+                WHERE m.IS_SOLVE = 0 AND ir.PENERBIT_ID='$id' AND ir.status='pending'";
         }
         if($status == 'diterima'){
             $sql  = "SELECT count(*) JUMLAH FROM PENERBIT_ISBN pi 
-                    JOIN PENERBIT_TERBITAN pt ON pt.ID = pi.PENERBIT_TERBITAN_ID WHERE pi.PENERBIT_ID='$id'";
+                    WHERE pi.PENERBIT_ID='$id'";
         }
         
         $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
@@ -83,7 +83,7 @@ class DashboardController extends Controller
         $id = session('penerbit')['ID'];  
         $sql = "SELECT count(*) jumlah FROM PENERBIT_ISBN
                     WHERE PENERBIT_ID = '$id' AND RECEIVED_DATE_KCKR IS NOT NULL ";
-        $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"];
+        $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         return $data;
     }
 
@@ -93,7 +93,7 @@ class DashboardController extends Controller
         $id = session('penerbit')['ID'];  
         $sql = "SELECT count(*) jumlah FROM PENERBIT_ISBN
                     WHERE PENERBIT_ID = '$id' AND RECEIVED_DATE_PROV IS NOT NULL ";
-        $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"];
+        $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         return $data;
     }
     

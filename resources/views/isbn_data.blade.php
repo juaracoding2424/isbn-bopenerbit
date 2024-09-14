@@ -81,44 +81,70 @@
 				<div id="kt_app_content_container" class="app-container container-fluid">
 					<!--begin::Products-->
 					<div class="card card-flush">
-						<!--begin::Card header-->
-						<div class="card-header align-items-center py-5 gap-2 gap-md-5">
+						<!--begin::Card Body header-->
+						<div class="card-body align-items-center ">
 							<!--begin::Card title-->
 							<div class="card-title">
-								<!--begin::Search-->
-								<div  id="advanceSearch">
-									<div class="d-flex align-items-center position-relative my-0" id="advanceSearch_0">
-										<select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectParameter">
-											<option value="isbn">ISBN</option>
-											<option value="title">Judul</option>
-											<option value="kepeng">Kepengarangan</option>
-											<option value="tahun_terbit">Tahun Terbit</option>
-										</select>
-		
-										<input type="text" id="txtAdvanceSearch_0" class="form-control w-400px fs-8 p-2 m-0" 
-											placeholder="Masukan kata kunci pencarian" name="searchValue[]" />
-										<div id="btnTambahFilter">
-											<span class="btn btn-primary p-1 m-0"><i class="ki-outline ki-plus fs-2" ></i></span>
-										</div>
-										<div id="btnSearch">
-											<span class="btn btn-success p-1 m-0 py-1 me-2">search</span>
+								<div class="row"><!--begin::Search-->
+								<div class="col-md-6">Advance Filter:
+									<div id="advanceSearch">
+										<div class="d-flex align-items-center position-relative my-0" id="advanceSearch_0">
+											<select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectParameter">
+												<option value="isbn">ISBN</option>
+												<option value="title">Judul</option>
+												<option value="kepeng">Kepengarangan</option>
+												<option value="tahun_terbit">Tahun Terbit</option>
+											</select>
+
+											<input type="text" id="txtAdvanceSearch_0" class="form-control w-400px fs-8 p-2 m-0"
+												placeholder="Masukan kata kunci pencarian" name="searchValue[]">
+											<div id="btnTambahFilter">
+												<span class="btn btn-primary p-1 m-0"><i class="ki-outline ki-plus fs-2"></i></span>
+											</div>
+											<div id="btnSearch">
+												<span class="btn btn-success p-1 m-0 py-1 me-2">search</span>
+											</div>
 										</div>
 									</div>
 								</div>
-								<select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectJenis" id="selectJenis">
-											<option value="">--pilih jenis terbitan--</option>
-											<option value="lepas">terbitan lepas</option>
-											<option value="jilid">terbitan berjilid</option>
-								</select>
-								
+
+								<div class="col-md-6">Filter
+									<div class="row mb-1">
+										<div class="col-md-3 fs-8">Jenis Terbitan</div>
+										<div class="col-md-9"><select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectJenis"
+												id="selectJenis">
+												<option value="">--pilih jenis terbitan--</option>
+												<option value="lepas">terbitan lepas</option>
+												<option value="jilid">terbitan berjilid</option>
+											</select></div>
+									</div>
+									<div class="row md-6">
+										<div class="col-md-3 fs-8">KDT</div>
+										<div class="col-md-9"><select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectKdt" id="selectKdt">
+												<option value="">--pilih status KDT--</option>
+												<option value="1">Valid</option>
+												<option value="0">Belum Valid</option>
+											</select></div>
+									</div>
+									<div class="row md-6">
+										<div class="col-md-3 fs-8">Status SS KCKR</div>
+										<div class="col-md-9"><select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectKckr" id="selectKckr">
+												<option value="">--pilih status SS KCKR--</option>
+												<option value="1-perpusnas">Sudah Serah Simpan Perpusnas</option>
+												<option value="0-perpusnas">Belum Serah Simpan Perpusnas</option>
+												<option value="1-prov">Sudah Serah Simpan Provinsi</option>
+												<option value="0-prov">Belum Serah Simpan Provinsi</option>
+											</select></div>
+									</div>
+								</div>
 								<!--end::Search-->
-							</div>
-							<!--end::Card title-->
+							</div></div>
+							<!--end::Card Body title-->
 							<!--begin::Card toolbar-->
 							<div class="card-toolbar flex-row-fluid justify-content-end gap-5">
 								<!--begin::Add product-->
 								<span id="unduhExcel"></span>
-								<a href="{{ url('/penerbit/isbn/permohonan/new') }}" class="btn btn-primary">Tambah Permohonan ISBN</a>
+								<a href="http://localhost:83/penerbit/isbn/permohonan/new" class="btn btn-light-primary p-2 m-0">Tambah Permohonan ISBN</a>
 								<!--end::Add product-->
 							</div>
 							<!--end::Card toolbar-->
@@ -137,7 +163,6 @@
 										<th class="min-w-200px">Judul</th>
 										<th class="min-w-200px">Kepengarangan</th>
 										<th class="min-w-200px">Bulan/Tahun Terbit</th>
-										<th class="min-w-200px">Status Penerbitan</th>
 										<th class="min-w-200px">Tanggal Permohonan</th>
 										<th class="min-w-200px">Tanggal Verifikasi</th>
 										<th class="min-w-200px">Penyerahan Perpusnas</th>
@@ -173,9 +198,6 @@
 <script src="{{ asset('/assets/js/widgets.bundle.js') }}"></script>
 <script src="{{ asset('/assets/js/custom/widgets.js') }}"></script>
 <script src="{{ asset('/assets/js/custom/apps/chat/chat.js') }}"></script>
-<script src="{{ asset('/assets/js/custom/randomtitle.js') }}"></script>
-<script src="{{ asset('/assets/js/custom/randomname.js') }}"></script>
-<script src="{{ asset('/assets/js/html2pdf.bundle.min.js') }}" ></script>
 <!--end::Custom Javascript-->
 <!--end::Javascript-->
 </body>
@@ -373,11 +395,17 @@
 			serverSide: true,
 			destroy: true,
 			order: [[7, 'desc']],
+			lengthMenu: [
+				[10, 25, 50, 100, 500, -1],
+				[10, 25, 50, 100, 500, 'All']
+			],
 			ajax: {
 				url: '{{ url("penerbit/isbn/data/datatable") }}',
 				data: {
 					advSearch : advSearch,
-					jenisTerbitan: $('#selectJenis').val()
+					jenisTerbitan: $('#selectJenis').val(),
+					kdtValid : $('#selectKdt').val(),
+					statusKckr : $('#selectKckr').val()
 				}
 			},
 		});
@@ -385,19 +413,42 @@
 	loadDataTable();
 	var exportButtons = () => {
 		var myInt = Number(new Date()).toString();
-        const documentTitle = 'ISBN Report ' + myInt;
+        const documentTitle = 'ISBN Report ' + myInt + " {{ session('penerbit')['NAME'] }}";
         var buttons = new $.fn.dataTable.Buttons(t, {
             buttons: [
                 {
                     extend: 'excelHtml5',
                     title: documentTitle,
 					text:'<i class="ki-outline ki-exit-up fs-2"></i>Export Data',
+					className: 'btn btn-light-success p-2 m-0',
+					customize: function( xlsx ) {
+						var sheet = xlsx.xl.worksheets["sheet1.xml"];
+                		$('row:first c', sheet).attr( 's', '42' );
+						var freezePanes =
+							'<sheetViews><sheetView tabSelected="2" workbookViewId="0"><pane xSplit="1" ySplit="1" topLeftCell="B3"  activePane="bottomRight" state="frozen"/></sheetView></sheetViews>';
+						var current = sheet.children[0].innerHTML;
+						current = freezePanes + current;
+						sheet.children[0].innerHTML = current;
+					}
                 },
             ]
         }).container().appendTo($('#unduhExcel'));
 		const target = document.querySelector('#unduhExcel');
         target.click();
     }
+	var createCellPos = function( n ){
+		var ordA = 'A'.charCodeAt(0);
+		var ordZ = 'Z'.charCodeAt(0);
+		var len = ordZ - ordA + 1;
+		var s = "";
+	
+		while( n >= 0 ) {
+			s = String.fromCharCode(n % len + ordA) + s;
+			n = Math.floor(n / len) - 1;
+		}
+	
+		return s;
+	}
 	exportButtons();
 	var advSearch = 1;
 	$('#btnTambahFilter').on("click", function(){
@@ -413,12 +464,23 @@
 	};
 	$('#btnSearch').on("click", function(){
 		loadDataTable();
+		exportButtons();
 	});
 	$('#selectJenis').on("change", function(){
 		loadDataTable();
+		exportButtons();
+	});
+	$('#selectKdt').on("change", function(){
+		loadDataTable();
+		exportButtons();
+	});
+	$('#selectKckr').on("change", function(){
+		loadDataTable();
+		exportButtons();
 	});
 	$('input[type="text"][name="searchValue[]"]').on("focusout", function(){
 		loadDataTable();
+		exportButtons();
 	})
 </script>
 @endsection

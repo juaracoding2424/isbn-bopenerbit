@@ -16,7 +16,7 @@
 									<!--begin::Card widget 8-->
 									<div class="card overflow-hidden mb-5 mb-xl-10">
 										<!--begin::Card body-->
-										<a class="card-body d-flex justify-content-between flex-column px-0 pb-0" href="isbn_data.php">
+										<a class="card-body d-flex justify-content-between flex-column px-0 pb-0" href="/penerbit/isbn/data">
 											<!--begin::Statistics-->
 											<div class="mb-10 px-9">
 												<!--begin::Info-->
@@ -41,7 +41,7 @@
 									<!--begin::Card widget 5-->
 									<div class="card bg-gray-100 overflow-hidden mb-5 mb-xl-10">
 										<!--begin::Header-->
-										<a class="card-body d-flex justify-content-between flex-column px-0 pb-0" href="isbn_baru.php">
+										<a class="card-body d-flex justify-content-between flex-column px-0 pb-0" href="/penerbit/isbn/permohonan">
 											<!--begin::Title-->
 											<div class="mb-10 px-9">
 												<!--begin::Info-->
@@ -66,7 +66,7 @@
 									<div class="card bg-danger overflow-hidden mb-5 mb-xl-10">
 										<!--begin::Card body-->
 										<a class="card-body d-flex justify-content-between flex-column px-0 pb-0"
-											href="isbn_bermasalah.php">
+											href="/penerbit/isbn/masalah">
 											<!--begin::Statistics-->
 											<div class="mb-10 px-9">
 												<!--begin::Statistics-->

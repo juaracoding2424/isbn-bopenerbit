@@ -125,5 +125,6 @@ return [
 
     'inlis_api_url' => env('INLIS_API_URL'),
     'inlis_api_token' => env('INLIS_API_TOKEN'),
+    'expires' => env('TOKEN_EXPIRES', '+30 days'),
 
 ];

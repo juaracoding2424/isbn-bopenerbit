@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Barryvdh\DomPDF\Facade\PDF;
 use Milon\Barcode\DNS1D;
+use Barryvdh\DomPDF\Facade\PDF;
 
 class IsbnDataController extends Controller
 {
@@ -41,68 +41,109 @@ class IsbnDataController extends Controller
         $start = $start;
         $end = $start + $length;
 
-        $sql  = "SELECT pi.id, pt.title, pi.keterangan, pi.isbn_no, pi.prefix_element, pi.publisher_element, pi.item_element, pi.check_digit, pi.keterangan_jilid,
-                    pt.kepeng, pt.author, pt.tahun_terbit, pi.received_date_kckr, pi.received_date_prov, pt.jml_jilid, pt.jilid_volume, pt.bulan_terbit, pi.penerbit_terbitan_id,
-                    pt.validation_date, pt.mohon_date, pt.validator_by, pt.is_kdt_valid FROM PENERBIT_ISBN pi 
-                    JOIN PENERBIT_TERBITAN pt ON pt.ID = pi.PENERBIT_TERBITAN_ID WHERE pi.PENERBIT_ID='$id'";
-        $sqlFiltered = "SELECT count(*) JUMLAH FROM PENERBIT_ISBN pi JOIN PENERBIT_TERBITAN pt ON pt.ID = pi.PENERBIT_TERBITAN_ID 
-            WHERE pi.PENERBIT_ID='$id' ";
+        $sql = "SELECT pi.penerbit_terbitan_id, pt.KD_PENERBIT_DTL, ir.mohon_date, pt.author, pt.kepeng,
+                pi.RECEIVED_DATE_KCKR, pi.RECEIVED_DATE_PROV,pt.VALIDATION_DATE,
+                case 
+                    when upper(ir.jenis) = 'LEPAS' then listagg(pi.isbn_no, ', ') within group (order by pi.isbn_no)
+                    when upper(ir.jenis) = 'JILID' then listagg(pi.isbn_no || ' (' || pi.KETERANGAN_JILID || ') ', ', ') within group (order by pi.isbn_no) 
+                End isbn_no_gab, pt.bulan_terbit, pt.tahun_terbit,
+								ir.id as isbn_resi_id,
+                ir.jenis,
+                pt.title,  pt.jml_jilid, pt.jilid_volume, 
+                 pt.validator_by, pt.is_kdt_valid
+                FROM penerbit_isbn pi
+                JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
+                JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id
+                WHERE pi.PENERBIT_ID =$id ";
+        $sqlGroupBy = " GROUP BY pi.penerbit_terbitan_id, pt.title,  pt.jml_jilid, pt.jilid_volume, pt.bulan_terbit, pt.author, pt.kepeng,
+                pt.validation_date, pt.validator_by, pt.is_kdt_valid, ir.jenis, ir.mohon_date, ir.id, pt.tahun_terbit,
+                pi.RECEIVED_DATE_KCKR, pi.RECEIVED_DATE_PROV, pt.KD_PENERBIT_DTL";
+
+        $sqlFiltered = "SELECT pt.id FROM penerbit_terbitan pt JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
+                        JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
+                        WHERE ir.penerbit_id = $id ";
+        $sqlFilGroupBy = "GROUP BY pt.id ";
        
         foreach($request->input('advSearch') as $advSearch){
             if($advSearch["value"] != '') {
                 if($advSearch["param"] == 'isbn'){
                     $isbn = str_replace("-","",$advSearch["value"]);
                     $sqlFiltered .= " AND CONCAT('WIN',(upper(pi.ISBN_NO))) like 'WIN%".$isbn."%'";
-                    $sql .= " AND CONCAT('WIN',(upper(pi.ISBN_NO))) like 'WIN%".$isbn."%'";
+                    $sql .= " AND CONCAT('WIN',(upper(ISBN_NO))) like 'WIN%".$isbn."%'";
                 }
                 if($advSearch["param"] == 'title'){
                     $sqlFiltered .= " AND (CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%' OR CONCAT('WIN',upper(pi.KETERANGAN_JILID)) like 'WIN%".strtoupper($advSearch["value"]) ."%')";
-                    $sql .= " AND (CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%' OR CONCAT('WIN',upper(pi.KETERANGAN_JILID)) like 'WIN%".strtoupper($advSearch["value"]) ."%')";
+                    $sql .= " AND (CONCAT('WIN',(upper(TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%' OR CONCAT('WIN',upper(KETERANGAN_JILID)) like 'WIN%".strtoupper($advSearch["value"]) ."%')";
                 }
                 if($advSearch["param"] == 'tahun_terbit'){
                     $sqlFiltered .= " AND pt.TAHUN_TERBIT like '%".$advSearch["value"]."%'";
-                    $sql .= " AND pt.TAHUN_TERBIT like '%".$advSearch["value"]."%'";
+                    $sql .= " AND TAHUN_TERBIT like '%".$advSearch["value"]."%'";
                 }
                 if($advSearch["param"] == 'kepeng'){
                     $sqlFiltered .= " AND (upper(pt.kepeng) like '%".strtoupper($advSearch["value"])."%' OR upper(pt.author) like '%".strtoupper($advSearch["value"])."%') ";
-                    $sql .= " AND (upper(pt.kepeng) like '%".strtoupper($advSearch["value"])."%' OR upper(pt.author) like '%".strtoupper($advSearch["value"])."%') ";
+                    $sql .= " AND (upper(kepeng) like '%".strtoupper($advSearch["value"])."%' OR upper(author) like '%".strtoupper($advSearch["value"])."%') ";
                 }
             }
         }
         if($request->input('jenisTerbitan') !=''){
-            if($request->input('jenisTerbitan') == 'lepas'){
-                $sqlFiltered .= " AND (pt.JML_JILID is null OR pt.JML_JILID=1)";
-                $sql .= " AND (pt.JML_JILID is null OR pt.JML_JILID=1)";
-            }
-            if($request->input('jenisTerbitan') == 'jilid'){
-                $sqlFiltered .= " AND  pt.JML_JILID > 1";
-                $sql .= " AND pt.JML_JILID > 1";
-            }
+            $sqlFiltered .= " AND upper(ir.jenis) = '".strtoupper($request->input('jenisTerbitan'))."'";
+            $sql .= " AND upper(ir.jenis) = '".strtoupper($request->input('jenisTerbitan'))."'";  
         }
-        \Log::info("SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end");
-        $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
-        $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM PENERBIT_ISBN WHERE PENERBIT_ID='$id' AND (status='diterima' OR status is null)", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
-        $totalFiltered = kurl("get","getlistraw", "", $sqlFiltered, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
+        if($request->input('kdtValid') !=''){
+            $sqlFiltered .= " AND pt.is_kdt_valid = '".$request->input('kdtValid')."'";
+            $sql .= " AND pt.is_kdt_valid = '".$request->input('kdtValid')."'";
+        }
+        if($request->input('statusKckr') !=''){
+            switch($request->input('statusKckr')) {
+                case "1-perpusnas": 
+                    $sqlFiltered .= " AND pi.received_date_kckr is not null ";
+                    $sql .= " AND pi.received_date_kckr is not null ";
+                    break;
+                case "0-perpusnas": 
+                    $sqlFiltered .= " AND pi.received_date_kckr is  null ";
+                    $sql .= " AND pi.received_date_kckr is  null ";
+                    break;
+                case "1-prov": 
+                    $sqlFiltered .= " AND pi.received_date_prov is not null ";
+                    $sql .= " AND pi.received_date_prov is not null ";
+                    break;
+                case "0-prov": 
+                    $sqlFiltered .= " AND pi.received_date_prov is  null ";
+                    $sql .= " AND pi.received_date_prov is  null ";
+                    break;
 
+            }
+           
+        }
+        $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM (SELECT penerbit_terbitan_id FROM PENERBIT_ISBN WHERE PENERBIT_ID='$id' GROUP BY penerbit_terbitan_id) ", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
+        
+        if($length == '-1'){
+            $end = $totalData;
+        }
+        
+        $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql  $sqlGroupBy) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
+        $totalFiltered = kurl("get","getlistraw", "", "SELECT COUNT(*) JUMLAH FROM ($sqlFiltered $sqlFilGroupBy)", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
+        
         $response['data'] = [];
         if ($queryData <> FALSE) {
             $nomor = $start + 1;
             foreach ($queryData as $val) {
-                $jml_jilid = $val['JML_JILID'];
-                if($jml_jilid){
-                    $jilid_lepas = intval($jml_jilid) > 1 ? "terbitan jilid" : "terbitan lepas";
-                }else {
-                    $jilid_lepas = "terbitan lepas";
+                $jenis = str_contains($val['ISBN_NO_GAB'], "(") ? "jilid" : "lepas";
+                if($jenis == 'jilid'){
+                    $jml_jilid = count(explode(',', $val['ISBN_NO_GAB']));
+                } else {
+                    $jml_jilid = 1;
                 }
-                $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="badge badge-success h-30px m-1" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : '<a class="badge badge-primary h-30px m-1" onClick="reqKDT('.$val['PENERBIT_TERBITAN_ID'].')">Permohonan KDT</a>';
+               
+                $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="badge badge-success h-30px m-1" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : "";//'KDT Belum Ada';
                 $response['data'][] = [
                     $nomor,
-                    '<a class="badge badge-info h-30px m-1" onclick="cetakBarcode('.$val['ID'].')">Barcode</a>' .$kdt, //<a class="badge badge-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',
-                    $val['PREFIX_ELEMENT'] .'-' . $val['PUBLISHER_ELEMENT'] . '-' . $val['ITEM_ELEMENT'] . '-' . $val['CHECK_DIGIT'] ,
-                    $val['TITLE'] . "   <i>". $val['KETERANGAN_JILID'] ."</i><br/><span class='badge badge-light-success'>$jilid_lepas</span>",
+                    '<a class="badge badge-info h-30px m-1" onclick="cetakBarcode('.$val['PENERBIT_TERBITAN_ID'].')">Barcode</a>' .$kdt, //<a class="badge badge-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',
+                    //$val['PREFIX_ELEMENT'] .'-' . $val['PUBLISHER_ELEMENT'] . '-' . $val['ITEM_ELEMENT'] . '-' . $val['CHECK_DIGIT'] ,
+                    $val['ISBN_NO_GAB'],
+                    $val['TITLE'] . "<br/><span class='badge badge-light-success'>$jenis</span>",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
                     $val['BULAN_TERBIT'] .' ' . $val['TAHUN_TERBIT'],
-                    '<select class="form-select fs-7 select-costum" id="changeStatus_'.$val['ID'].'" onChange="changeStatus('.$val['ID'].')"><option value"">--Pilih status--</option><option value="belum terbit">Belum Terbit</option><option value="terbit">Sudah Terbit</option><option value="batal">Batal Terbit</option></select>', 
                     $val['MOHON_DATE'],
                     $val['VALIDATION_DATE'],
                     $val['RECEIVED_DATE_KCKR'] ? $val['RECEIVED_DATE_KCKR'] : '<a class="badge badge-danger wrap" href="https://edeposit.perpusnas.go.id/login" target="_blank">Serahkan ke Perpusnas</a>',

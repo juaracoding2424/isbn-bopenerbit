@@ -28,6 +28,7 @@ function kurl($method, $action, $table, $data, $kategori, $params = null) {
     }
     $response = Http::asForm()->$method(config('app.inlis_api_url'), $form_data);
     //\Log::info($response);
+    //\Log::info($response);
     if ($response->successful()) {
         $data = $response->json();
         return $data;

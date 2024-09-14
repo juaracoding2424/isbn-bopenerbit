@@ -66,7 +66,93 @@
                                     @csrf
                                     <!--begin::Card body-->
                                     <div class="card-body border-top p-9">
-                                       
+                                        <!--begin::Input group-->
+                                        <div class="row mb-8">
+                                            <!--begin::Col-->
+                                            <div class="col-xl-3">
+                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Jenis
+                                                        Permohonan ISBN </span>
+                                                    <span class="ms-1" data-bs-toggle="tooltip"
+                                                        title="Pilih jenis permohonan ISBN">
+                                                        <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!--end::Col-->
+                                            <!--begin::Col-->
+                                            <div class="col-xl-9">
+                                                <!--begin::Row-->
+                                                <div class="row g-9" data-kt-buttons="true"
+                                                    data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="status" value="lepas">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Lepas</span>
+                                                                <span class="fw-semibold fs-8 text-gray-600">Penerbit
+                                                                    akan mendapatkan 1 nomor ISBN untuk setiap judul
+                                                                    yang diminta.</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="status" value="jilid">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Jilid</span>
+                                                                <span class="fw-semibold fs-8 text-gray-600">Anda wajib
+                                                                    memasukan minimal 2 jilid untuk permohonan ISBN
+                                                                    berjilid.</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                </div>
+                                                <!--end::Row-->
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
+                                        <div class="row mb-6">
+                                            <!--begin::Label-->
+                                            <label class="col-lg-3 col-form-label fw-semibold fs-8">
+                                                <span>ISBN lanjutan</span>
+                                                <span class="ms-1" data-bs-toggle="tooltip"
+                                                    title="masukan ISBN jilid jika merupakan lanjutan dari jilid sebelumnya">
+                                                    <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+                                                </span>
+                                            </label>
+                                            <!--end::Label-->
+                                            <!--begin::Col-->
+                                            <div class="col-lg-9 fv-row">
+                                                <select id="select2-isbn-jilid" name="isbn-jilid" data-control="select2"
+                                                    data-placeholder="Masukan nomor ISBN Jilid..."
+                                                    class="form-select form-select-solid form-select-lg fw-semibold">
+                                                </select>
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                        <!--end::Input group-->
                                         <!--begin::Input group-->
                                         <div class="row mb-6">
                                             <!--begin::Label-->
@@ -718,54 +804,33 @@
                                             <!--end::Col-->
                                         </div>
                                         <!--end::Input group-->
+                                        
                                         <!--begin::Input group-->
                                         <div class="row mb-6">
-                                            <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fw-semibold fs-8">
-                                                <span>ISBN lanjutan</span>
-                                                <span class="ms-1" data-bs-toggle="tooltip"
-                                                    title="masukan ISBN jilid jika merupakan lanjutan dari jilid sebelumnya">
-                                                    <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
-                                                </span>
-                                            </label>
-                                            <!--end::Label-->
-                                            <!--begin::Col-->
-                                            <div class="col-lg-9 fv-row">
-                                                <select id="select2-isbn-jilid" name="isbn-jilid" data-control="select2"
-                                                    data-placeholder="Masukan nomor ISBN Jilid..."
-                                                    class="form-select form-select-solid form-select-lg fw-semibold">
-                                                </select>
+                                                <!--begin::Label-->
+                                                <label class="col-lg-3 col-form-label required fw-semibold fs-8" id="labelJumlahHalaman">Jumlah
+                                                    Halaman</label>
+                                                <!--end::Label-->
+                                                <!--begin::Col-->
+                                                <div class="col-lg-2 fv-row">
+                                                    <input type="number" name="jml_hlm" id="jml_hlm"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="Jumlah Halaman" value="" />
+                                                </div>
+                                                <label class="col-lg-1 col-form-label fw-semibold fs-8" id="labelKetJumlahHalaman">halaman</label>
+                                                <!--end::Col-->
+                                                <!--begin::Label-->
+                                                <label class="col-lg-3 col-form-label fw-semibold fs-8" style="text-align:right">Tinggi Buku</label>
+                                                <!--end::Label-->
+                                                <!--begin::Col-->
+                                                <div class="col-lg-2 fv-row">
+                                                    <input type="number" name="ketebalan" id="ketebalan"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        placeholder="tinggi buku" value="" />
+                                                </div>
+                                                <!--end::Col-->
+                                                <label class="col-lg-1 col-form-label fw-semibold fs-8">cm</label>
                                             </div>
-                                            <!--end::Col-->
-                                        </div>
-                                        <!--end::Input group-->
-                                        <!--begin::Input group-->
-                                        <div class="row mb-6">
-                                            <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label required fw-semibold fs-8">Jumlah
-                                                Halaman</label>
-                                            <!--end::Label-->
-                                            <!--begin::Col-->
-                                            <div class="col-lg-2 fv-row">
-                                                <input type="number" name="jml_hlm"
-                                                    class="form-control form-control-lg form-control-solid"
-                                                    placeholder="Jumlah Halaman" value="" />
-                                            </div>
-                                            <label class="col-lg-1 col-form-label fw-semibold fs-8">halaman</label>
-                                            <!--end::Col-->
-                                            <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fw-semibold fs-8"
-                                                style="text-align:right">Tinggi Buku</label>
-                                            <!--end::Label-->
-                                            <!--begin::Col-->
-                                            <div class="col-lg-2 fv-row">
-                                                <input type="number" name="ketebalan"
-                                                    class="form-control form-control-lg form-control-solid"
-                                                    placeholder="tinggi buku" value="" />
-                                            </div>
-                                            <!--end::Col-->
-                                            <label class="col-lg-1 col-form-label fw-semibold fs-8">cm</label>
-                                        </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
                                         <div class="row mb-6">
@@ -793,72 +858,7 @@
                                             <!--end::Col-->
                                         </div>
                                         <!--end::Input group-->
-                                        <!--begin::Input group-->
-                                        <div class="row mb-8">
-                                            <!--begin::Col-->
-                                            <div class="col-xl-3">
-                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Jenis
-                                                        Permohonan ISBN </span>
-                                                    <span class="ms-1" data-bs-toggle="tooltip"
-                                                        title="Pilih jenis permohonan ISBN">
-                                                        <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <!--end::Col-->
-                                            <!--begin::Col-->
-                                            <div class="col-xl-9">
-                                                <!--begin::Row-->
-                                                <div class="row g-9" data-kt-buttons="true"
-                                                    data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
-                                                    <!--begin::Col-->
-                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
-                                                        <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
-                                                            data-kt-button="true">
-                                                            <!--begin::Radio button-->
-                                                            <span
-                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-                                                                <input class="form-check-input" type="radio"
-                                                                    name="status" value="lepas">
-                                                            </span>
-                                                            <!--end::Radio button-->
-                                                            <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Lepas</span>
-                                                                <span class="fw-semibold fs-8 text-gray-600">Penerbit
-                                                                    akan mendapatkan 1 nomor ISBN untuk setiap judul
-                                                                    yang diminta.</span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                    <!--end::Col-->
-                                                    <!--begin::Col-->
-                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
-                                                        <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
-                                                            data-kt-button="true">
-                                                            <!--begin::Radio button-->
-                                                            <span
-                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-                                                                <input class="form-check-input" type="radio"
-                                                                    name="status" value="jilid">
-                                                            </span>
-                                                            <!--end::Radio button-->
-                                                            <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Jilid</span>
-                                                                <span class="fw-semibold fs-8 text-gray-600">Anda wajib
-                                                                    memasukan minimal 2 jilid untuk permohonan ISBN
-                                                                    berjilid.</span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                    <!--end::Col-->
-                                                </div>
-                                                <!--end::Row-->
-                                            </div>
-                                            <!--end::Col-->
-                                        </div>
-                                        <!--end::Input group-->
+
                                         <div id="isbn_detail">
                                             <span id="judul_buku_1">
                                                 <h4>Data Buku 1 </h4>
@@ -1146,6 +1146,7 @@
     }
     $('#btnTambahJilid').on('click', function () {
         jumlah_buku += 1;
+        $('#jml_hlm').val(jumlah_buku + " jil");
         let html =
             `<div class='jilidbaru'><span><h4>Data Buku ` + jumlah_buku + `</h4><hr/></span>
             <input type='hidden' id='file_dummy`+ jumlah_buku + `' name='file_dummy[]'>
@@ -1245,7 +1246,23 @@
         dropZoneJilid(jumlah_buku, "cover");
         dropZoneJilid(jumlah_buku, "dummy");
     });
+    $('#select2-isbn-jilid').on("change", function(){
+        $.getJSON('/penerbit/isbn/permohonan/jilid-lengkap', function(res) {
+				data = [{
+						id: "",
+						nama: "- Pilih  -",
+						text: "- Pilih Kabupaten -"
+				}].concat(res);
 
+						//implemen data ke select provinsi
+				$("#select2-isbn-jilid").select2({
+						dropdownAutoWidth: true,
+						width: '100%',
+						data: data,
+						async : false,
+				});
+			})
+    })
     $.getJSON(urlProvinsi, function (res) {
 		data = [{
 				id: "",
@@ -1266,7 +1283,6 @@
 		var value = $(selectProv).val();
 		clearOptions('select2-kabupaten');
 		if (value) {
-
 			var text = $('#select2-provinsi :selected').text();
 			$.getJSON(urlKabupaten + value, function(res) {
 				data = [{
@@ -1305,9 +1321,19 @@
         if ($(this).val() == 'lepas') {
             $('#judul_buku_1').css('display', 'none');
             $('#btnTambahJilid').css('display', 'none');
+            $('#labelJumlahHalaman').text('Jumlah Halaman');
+            $('#labelKetJumlahHalaman').text('Halaman');
+            $('#jml_hlm').attr("type", "number");
+            $('#jml_hlm').val(0);
+            $('#jml_hlm').removeAttr("disabled");
         } else {
             $('#judul_buku_1').css('display', 'block');
             $('#btnTambahJilid').css('display', 'block');
+            $('#labelJumlahHalaman').text('Jumlah Jilid');
+            $('#labelKetJumlahHalaman').text('Jilid');
+            $('#jml_hlm').attr("type", "text");
+            $('#jml_hlm').val(jumlah_buku + " jil");
+            $('#jml_hlm').attr("disabled", "disabled");
         }
     });
     $('#judul_buku_1').css('display', 'none');

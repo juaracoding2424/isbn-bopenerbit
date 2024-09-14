@@ -38,8 +38,14 @@ class IsbnPermohonanController extends Controller
         $start = $start;
         $end = $start + $length;
 
-        $sql  = "SELECT *  FROM PENERBIT_TERBITAN pt  WHERE pt.PENERBIT_ID='$id' AND (pt.status='' OR pt.status='permohonan' OR pt.status is NULL) ";
-        $sqlFiltered = "SELECT count(*) JUMLAH FROM PENERBIT_TERBITAN pt WHERE pt.PENERBIT_ID='$id' AND (pt.status='' OR pt.status='permohonan' OR pt.status is NULL) ";
+        $sql  = "SELECT ir.id, pt.title, pt.author, pt.kepeng,pt.bulan_terbit, pt.tahun_terbit, ir.noresi, ir.createdate, ir.mohon_date, ir.jml_jilid_req, ir.jenis, ir.status  
+                    FROM ISBN_RESI ir 
+                    JOIN PENERBIT_TERBITAN pt  ON ir.penerbit_terbitan_id = pt.id  
+                    WHERE pt.PENERBIT_ID='$id' AND (ir.status='' OR ir.status='permohonan' OR ir.status is NULL) ";
+        $sqlFiltered = "SELECT count(ir.id) JUMLAH 
+                            FROM ISBN_RESI ir 
+                            JOIN PENERBIT_TERBITAN pt  ON ir.penerbit_terbitan_id = pt.id 
+                            WHERE pt.PENERBIT_ID='$id' AND (ir.status='' OR ir.status='permohonan' OR ir.status is NULL) ";
 
         foreach($request->input('advSearch') as $advSearch){
             if($advSearch["value"] != '') {
@@ -56,44 +62,40 @@ class IsbnPermohonanController extends Controller
                     $sql .= " AND (upper(pt.kepeng) like '%".strtoupper($advSearch["value"])."%' OR upper(pt.author) like '%".strtoupper($advSearch["value"])."%') ";
                 }
                 if($advSearch["param"] == 'no_resi'){
-                    $sqlFiltered .= " AND (CONCAT('WIN',upper(pt.noresi))) like 'WIN%".strtoupper($advSearch["value"])."%'";
-                    $sql .= " AND (CONCAT('WIN',upper(pt.noresi))) like 'WIN%".strtoupper($advSearch["value"])."%'";
+                    $sqlFiltered .= " AND (CONCAT('WIN',upper(ir.noresi))) like 'WIN%".strtoupper($advSearch["value"])."%'";
+                    $sql .= " AND (CONCAT('WIN',upper(ir.noresi))) like 'WIN%".strtoupper($advSearch["value"])."%'";
                 }
             }
         }
         if($request->input('jenisTerbitan') !=''){
-            if($request->input('jenisTerbitan') == 'lepas'){
-                $sqlFiltered .= " AND (pt.JML_JILID is null OR pt.JML_JILID=1)";
-                $sql .= " AND (pt.JML_JILID is null OR pt.JML_JILID=1)";
-            }
-            if($request->input('jenisTerbitan') == 'jilid'){
-                $sqlFiltered .= " AND  pt.JML_JILID > 1";
-                $sql .= " AND pt.JML_JILID > 1";
-            }
+            $sqlFiltered .= " AND UPPER(ir.jenis) = '" . strtoupper($request->input('jenisTerbitan')) ."'";
+            $sql .= " AND UPPER(ir.jenis) = '" . strtoupper($request->input('jenisTerbitan')) ."'";
         }
-        $sql .= " ORDER BY pt.CREATEDATE DESC ";
+        $sql .= " ORDER BY CREATEDATE DESC ";
+        //\Log::info("SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end");
         $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
-        $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM PENERBIT_TERBITAN WHERE PENERBIT_ID='$id' AND (status='' OR status='permohonan' OR status is NULL)", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
+        $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM ISBN_RESI WHERE PENERBIT_ID='$id' AND (status='' OR status='permohonan' OR status is NULL)", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         $totalFiltered = kurl("get","getlistraw", "", $sqlFiltered, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         $response['data'] = [];
         if (count($queryData) > 0) {
             $nomor = $start + 1;
             foreach ($queryData as $val) {
+                //\Log::info($val);
                 $id = $val['ID'];
                 $noresi = $val['NORESI'] ? $val['NORESI'] : $val['ID'];
-                $jml_jilid = $val['JML_JILID'];
-                if($jml_jilid){
-                    $jilid_lepas = intval($jml_jilid) > 1 ? "terbitan jilid" : "terbitan lepas";
-                }else {
-                    $jilid_lepas = "terbitan lepas";
-                }
+                //$jml_jilid = $val['JML_JILID_REQ'];
+                //if($jml_jilid){
+                //    $jilid_lepas = intval($jml_jilid) > 1 ? "terbitan jilid" : "terbitan lepas";
+                //}else {
+                //    $jilid_lepas = "terbitan lepas";
+                //}
                 $response['data'][] = [
                     $nomor,
                     '<a class="badge badge-info h-30px m-1" href="/penerbit/isbn/permohonan/detail/'.$noresi.'">Ubah Data</a><a class="badge badge-danger h-30px m-1" href="#" onclick="batalkanPermohonan('.$id.')">Batalkan Permohonan</a>',
                     $val['NORESI'],
-                    $val['TITLE'] . "<br/><span class='badge badge-light-success'>$jilid_lepas</span>",
+                    $val['TITLE'] . "<br/><span class='badge badge-light-success'>" . $val['JENIS']. "</span>",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
-                    $val['TAHUN_TERBIT'],
+                    $val['BULAN_TERBIT'] . ' ' .$val['TAHUN_TERBIT'],
                     $val['MOHON_DATE']  
                 ];
                 $nomor++;
@@ -186,7 +188,8 @@ class IsbnPermohonanController extends Controller
                     'jenis_kategori' => 'required',
                     'jenis_pustaka' => 'required',
                     'deskripsi' => 'required|min:100',
-                    'status' => 'required',
+                    'jml_hlm' => 'required',
+                    //'status' => 'required',
                     'url.*' => 'required',
                     ];
                 $messages = [
@@ -202,7 +205,8 @@ class IsbnPermohonanController extends Controller
                     'jenis_pustaka.required' => 'Anda belum mengisi jenis pustaka (fiksi/non fiksi)',
                     'deskripsi.required' => 'Anda belum mengisi abstrak/deskripsi buku',
                     'deskripsi.min' => 'Abstrak/deskripsi buku minimal terdiri dari 100 karakter',
-                    'status.required' => 'Anda belum memilih jenis permintaan ISBN (Lepas/Jilid)',
+                    'jml_hlm.required' => 'Anda wajib mengisi jumlah halaman buku',
+                    //'status.required' => 'Anda belum memilih jenis permintaan ISBN (Lepas/Jilid)',
                     'url.*.required' => 'Anda belum mengisi URL/Link publikasi buku',
                 ];
                 if(request('penerbit_isbn_masalah_id') != ''){
@@ -214,11 +218,16 @@ class IsbnPermohonanController extends Controller
                             'file_lampiran.required' => 'Anda belum mengunggah file lampiran buku yang sudah diperbaiki',
                             'file_lampiran.*.required' => 'Anda belum mengunggah file lampiran buku yang sudah diperbaiki',
                     ]);
-                    $validator = \Validator::make(request()->all(), $rules, $messages);
-                } else {
-                    $validator = \Validator::make(request()->all(), $rules, $messages);
                 }
-            
+                if(request('status') == 'lepas') {
+                    array_merge($rules, [
+                        'jml_hlm.min' => 'min:40',
+                    ]);
+                    array_merge($messages ,[
+                        'jml_hlm.min' => 'Menurut UNESCO, jumlah halaman buku paling sedikit terdiri dari 40 halaman, tidak termasuk bagian preliminaries dan postliminaries',
+                    ]);
+                }
+                $validator = \Validator::make(request()->all(), $rules, $messages);
             }
             if($validator->fails()){
                 return response()->json([
@@ -242,14 +251,16 @@ class IsbnPermohonanController extends Controller
                     }
                 }
                 $jumlah_jilid = intval(request('jumlah_jilid'));
-                if(request('status') == 'jilid') {
-                    if($jumlah_jilid < 2) {
+                if(request('status') == 'jilid') { 
+                    #--------------VALIDASI JUMLAH JILID----------------------------------------------------------------
+                    /*if($jumlah_jilid < 2) {
                         return response()->json([
                             'status' => 'Failed',
                             'message'   => 'Gagal menyimpan data!',
                             'err' => ["jumlah_jilid" => ["Wajib memasukan minimal 2 data buku jika merupakan terbitan jilid"]],
                         ], 422);
-                    }
+                    }*/
+                    #----------------END VALIDASI -------------------------------------------------------------------------
                     $jml_hlm = $jumlah_jilid . " jil";
                 } else {
                     $jml_hlm = request('jml_hlm');
@@ -265,14 +276,12 @@ class IsbnPermohonanController extends Controller
                 }
                 
                 $ListData = [
-                        [ "name"=>"NORESI", "Value"=> $noresi ], // example : 202409020449131FPI3
                         [ "name"=>"TITLE", "Value"=> request('title') ],
                         [ "name"=>"KEPENG", "Value"=> $authors ],
                         [ "name"=>"EDISI", "Value"=> request('edisi')],
                         [ "name"=>"SERI", "Value"=> request('seri')],
                         [ "name"=>"SINOPSIS", "Value"=> request('deskripsi') ],
                         [ "name"=>"JML_HLM", "Value"=> $jml_hlm ],
-                        [ "name"=>"JML_JILID", "Value" => $jumlah_jilid],
                         [ "name"=>"TAHUN_TERBIT", "Value"=> request('tahun_terbit') ],
                         [ "name"=>"BULAN_TERBIT", "Value"=> request('bulan_terbit') ],
                         [ "name"=>"JENIS_KELOMPOK", "Value"=> request('jenis_kelompok') ],
@@ -282,31 +291,42 @@ class IsbnPermohonanController extends Controller
                         [ "name"=>"JENIS_PUSTAKA", "Value"=> request('jenis_pustaka') ],
                         [ "name"=>"JENIS_KATEGORI", "Value"=> request('jenis_kategori') ],
                         [ "name"=>"KETEBALAN", "Value"=> request('ketebalan')],
-                        [ "name"=>"LINK_BUKU", "Value"=> $urls ],
-                        [ "name"=>"STATUS", "Value"=> 'permohonan']
+                        
+                ];
+                $IsbnResi = [
+                    [ "name" =>"NORESI", "Value" => $noresi ],
+                    [ "name" => "JENIS", "Value" => request('status')],
+                    [ "name" =>"JML_JILID_REQ", "Value" => $jumlah_jilid],
+                    [ "name" =>"LINK_BUKU", "Value" => $urls ],
                 ];
                 
                 if($jumlah_jilid > 1){
-                    array_push($ListData, 
-                        [ "name"=>"JILID_VOLUME", "Value"=> $jilids ]
+                    array_push($IsbnResi, 
+                        [ "name"=>"KETERANGAN_JILID", "Value"=> $jilids ]
                     );
                 }
                 if(request('penerbit_terbitan_id') != ''){
+                    // EDIT DATA PERMOHONAN
                     array_push($ListData, 
                             [ "name"=>"UPDATEBY", "Value"=> session('penerbit')["USERNAME"]], //nama user penerbit
                             [ "name"=>"UPDATEDATE", "Value"=> now()->format('Y-m-d H:i:s') ],
                             [ "name"=>"UPDATETERMINAL", "Value"=> \Request::ip()]
                     );
                     if(request('penerbit_isbn_masalah_id') != ''){
-                        array_push($ListData, 
+                        array_push($IsbnResi, 
                             [ "name"=>"STATUS", "Value"=> "permohonan"], //ketika bermasalah, dan diupdate jadi permohonan sehingga balik lagi ke permohonan
                         );
                     }
-                    //\Log::info($ListData);
                     $id = request('penerbit_terbitan_id');
+                    $id_resi = request('isbn_resi_id');
+
+                    // UPDATE KE TABEL PENERBIT_TERBITAN
                     $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=PENERBIT_TERBITAN&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
-                    //\Log::info($res);
+
+                    // UPDATE KE TABEL ISBN_RESI
+                    $res2 =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_RESI&id=$id_resi&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($IsbnResi)));
                 } else {
+                    // TAMBAH DATA PERMOHONAN
                     array_push($ListData, 
                             [ "name"=>"MOHON_DATE", "Value"=> now()->format('Y-m-d H:i:s') ],
                             [ "name"=>"PENERBIT_ID", "Value"=> session('penerbit')["ID"] ], 
@@ -315,11 +335,26 @@ class IsbnPermohonanController extends Controller
                             [ "name"=>"CREATEDATE", "Value"=> now()->format('Y-m-d H:i:s') ],
                             [ "name"=>"CREATETERMINAL", "Value"=> \Request::ip()]
                     );
-                    //\Log::info($ListData);
+                    
+                    // INSERT KE TABEL PENERBIT_TERBITAN
                     $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=add&table=PENERBIT_TERBITAN&issavehistory=1&ListAddItem=" . urlencode(json_encode($ListData)));
                     $id = $res['Data']['ID'];
+
+                    // INSERT KE TABEL ISBN_RESI
+                    array_push($IsbnResi, 
+                        [ "name" => "MOHON_DATE", "Value"=> now()->format('Y-m-d H:i:s') ],
+                        [ "name" => "PENERBIT_ID", "Value"=> session('penerbit')["ID"] ] ,
+                        [ "name" => "PENERBIT_TERBITAN_ID", "Value" => $id],
+                        [ "name" => "STATUS", "Value"=> "permohonan"],
+                        [ "name" => "CREATEBY", "Value"=> session('penerbit')["USERNAME"]], 
+                        [ "name" => "CREATEDATE", "Value"=> now()->format('Y-m-d H:i:s') ],
+                        [ "name" => "CREATETERMINAL", "Value"=> \Request::ip()]
+                    );
+                    $res2 =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=add&table=ISBN_RESI&issavehistory=1&ListAddItem=" . urlencode(json_encode($IsbnResi)));
+                    $id_resi = $res2['Data']['ID'];
+                    
                 }
-                /* --------------------- simpan file -------------------------*/
+                /* ------------------------------------------------ simpan file ------------------------------------------*/
                 if(request('status') == 'lepas') {
                     $file = [
                         'file_dummy' => $request->input('file_dummy')[0] ?? null,
@@ -444,10 +479,12 @@ class IsbnPermohonanController extends Controller
     function rollback_permohonan($id) 
     {
         $params = [
-            'id' => $id,
+            'status' => 'batal',
         ];
-        $data = kurl('get','delete', 'PENERBIT_TERBITAN', '', '' , $params);
-        return $data['Status'];
+        //$data = kurl('get','update', 'ISBN_RESI', '', '' , $params);
+        //return $data['Status'];
+        $res2 =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_RESI&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($params)));
+        return $res2;
     }
 
     //send file lampiran, dummy, cover
@@ -519,22 +556,26 @@ class IsbnPermohonanController extends Controller
 
     function detail($noresi)
     {
-        $detail = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_TERBITAN WHERE NORESI='$noresi'", 'sql', '');
-        
+        $detail = kurl("get","getlistraw", "", "SELECT ir.id, ir.penerbit_terbitan_id, pt.title, pt.author, pt.kepeng,pt.bulan_terbit, pt.tahun_terbit, ir.noresi, ir.createdate, ir.mohon_date,  
+            ir.jml_jilid_req, ir.jenis, ir.status, ir.link_buku, ir.keterangan_jilid, pt.jenis_media, pt.jenis_kategori, pt.jenis_kelompok, pt.jenis_pustaka,  pt.jenis_terbitan,
+            pt.sinopsis, pt.jml_hlm, pt.ketebalan, pt.edisi, pt.seri, pt.is_kdt_valid, pt.jenis_penelitian, pt.jenis_kelompok, ir.createdate, ir.createterminal, ir.createby         
+          FROM  ISBN_RESI ir JOIN PENERBIT_TERBITAN pt ON ir.penerbit_terbitan_id = pt.id WHERE NORESI='$noresi'", 'sql', '');
+
+
         if(!isset($detail["Data"]["Items"][0])) {
             $detail = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_TERBITAN WHERE ID=$noresi", 'sql', '');
         }
        
-        if(intval($detail["Data"]["Items"][0]["JML_JILID"]) > 1){
-            $status = "jilid";
-        } else {
-            $status = "lepas";
-        }       
+      
         $id = $detail['Data']['Items'][0]['ID'];
-        $file = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_ISBN_FILE WHERE PENERBIT_TERBITAN_ID='$id'", 'sql', '');
-        $masalah = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_ISBN_MASALAH WHERE PENERBIT_TERBITAN_ID='$id' AND IS_SOLVE=0 ", 'sql', '');
+        $id_penerbit_terbitan = $detail['Data']["Items"][0]["PENERBIT_TERBITAN_ID"];
+        //\Log::info($id_penerbit_terbitan);
+        $file = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_ISBN_FILE WHERE PENERBIT_TERBITAN_ID='$id_penerbit_terbitan'", 'sql', '');
+        //$file = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_ISBN_FILE WHERE ISBN_RESI_ID='$id'", 'sql', '');
+        $masalah = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_ISBN_MASALAH WHERE PENERBIT_TERBITAN_ID='$id_penerbit_terbitan' AND IS_SOLVE=0 ", 'sql', '');
         $data = [
-            'status' => $status,
+            'jenis' =>  $detail["Data"]["Items"][0]["JENIS"],
+            'status' =>  $detail["Data"]["Items"][0]["STATUS"],
             'detail' => $detail["Data"]["Items"][0],
             'noresi' => $noresi,
             'file' => $file,
@@ -563,6 +604,18 @@ class IsbnPermohonanController extends Controller
     {
         $file = Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=getlistraw&sql=" . urlencode('SELECT * FROM PENERBIT_ISBN_FILE WHERE PENERBIT_TERBITAN_ID=' . $id))["Data"]["Items"];
         return response()->json($file);
+    }
+    
+    function getJilidLengkap()
+    {
+        $id = session('penerbit')['ID'];
+        $sql = "SELECT pi.isbn_no, pt.title 
+                FROM PENERBIT_ISBN pi 
+                JOIN PENERBIT_TERBITAN pt ON pi.penerbit_terbitan_id = pt.id 
+                WHERE pi.keterangan_jilid LIKE '%lengkap%' 
+                AND pi.penerbit_id = $id";
+        $data = kurl("get","getlistraw", "", $sql, 'sql', '');
+        return response()->json($data);
     }
 
     function checkTitle($title, $id)
