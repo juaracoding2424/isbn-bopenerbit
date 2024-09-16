@@ -136,9 +136,19 @@
 												<option value="0-prov">Belum Serah Simpan Provinsi</option>
 											</select></div>
 									</div>
+									<div class="row md-6">
+										<div class="col-md-3 fs-8">Sumber</div>
+										<div class="col-md-9"><select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectSumber" id="selectSumber">
+												<option value="">--pilih sumber data--</option>
+												<option value="web">Web</option>
+												<option value="api">API</option>
+												<option value="bulk">Bulk</option>
+											</select></div>
+									</div>
 								</div>
 								<!--end::Search-->
-							</div></div>
+							</div>
+						</div>
 							<!--end::Card Body title-->
 							<!--begin::Card toolbar-->
 							<div class="card-toolbar flex-row-fluid justify-content-end gap-5">
@@ -167,7 +177,6 @@
 										<th class="min-w-200px">Tanggal Verifikasi</th>
 										<th class="min-w-200px">Penyerahan Perpusnas</th>
 										<th class="min-w-200px">Penyerahan Provinsi</th>
-										
 									</tr>
 								</thead>
 
@@ -405,7 +414,8 @@
 					advSearch : advSearch,
 					jenisTerbitan: $('#selectJenis').val(),
 					kdtValid : $('#selectKdt').val(),
-					statusKckr : $('#selectKckr').val()
+					statusKckr : $('#selectKckr').val(),
+					sumber : $('#selectSumber').val(),
 				}
 			},
 		});
@@ -475,6 +485,10 @@
 		exportButtons();
 	});
 	$('#selectKckr').on("change", function(){
+		loadDataTable();
+		exportButtons();
+	});
+	$('#selectSumber').on("change", function(){
 		loadDataTable();
 		exportButtons();
 	});

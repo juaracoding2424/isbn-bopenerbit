@@ -41,11 +41,11 @@ function kurl($method, $action, $table, $data, $kategori, $params = null) {
     }
 }
 
-function kurl_upload($method, $penerbit, $terbitan_id, $jenis, $file, $ip_user, $keterangan) {
+function kurl_upload($method, $penerbit, $terbitan_id, $jenis, $file, $ip_user, $keterangan,$resi_id) {
     //$jenis : lampiran_permohonan, dummy_buku, lampiran_pending
     //\Log::info($url);
     //\Log::info($keterangan);
-    $response = Http::asMultipart()->$method(config('app.inlis_api_url'), [
+    $params = [
         [
             'name'     => 'token',
             'contents' => config('app.inlis_api_token'),
@@ -67,8 +67,12 @@ function kurl_upload($method, $penerbit, $terbitan_id, $jenis, $file, $ip_user, 
             'contents' => $terbitan_id,
         ],
         [
+            'name'     => 'isbnresiid',
+            'contents' => $resi_id,
+        ],
+        [
             'name'     => 'actionby',
-            'contents' => $penerbit['USERNAME'],
+            'contents' => isset($penerbit['USERNAME']) ? $penerbit['USERNAME'] : $penerbit['ISBN_USER_NAME'] . '-api',
         ],
         [
             'name'     => 'terminal',
@@ -79,7 +83,11 @@ function kurl_upload($method, $penerbit, $terbitan_id, $jenis, $file, $ip_user, 
             'contents' => fopen($file->getRealPath(), 'r'),
             'filename' => $file->getClientOriginalName(),
         ],
-    ]);
+    ];
+    $response = Http::asMultipart()->$method(config('app.inlis_api_url'), $params );
+    //\Log::info(config('app.inlis_api_url'), $params );
+    //\Log::info("Real path: ". $file->getRealPath());
+    //\Log::info($file->getClientMimeType());
     //\Log::info($response);
     if ($response->successful()) {
         $data = $response->json();
@@ -175,4 +183,11 @@ function getMd5Hash($input) {
     // Convert the binary hash to hexadecimal representation
     $hexHash = bin2hex($hash);
     return $hexHash;
+}
+
+function checkTitle($title, $id)
+{
+    $title = strtoupper(preg_replace("/[^a-zA-Z0-9]/", "", $title));
+    $count = kurl("get", "getlistraw", "", "SELECT count(*) JML FROM PENERBIT_TERBITAN WHERE  REGEXP_REPLACE(UPPER(TITLE), '[^[:alnum:]]', '') = '$title' AND penerbit_id='$id'", 'sql', '')["Data"]["Items"][0]["JML"];
+    return intval($count);
 }

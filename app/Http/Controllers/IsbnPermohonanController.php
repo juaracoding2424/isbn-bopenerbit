@@ -34,11 +34,10 @@ class IsbnPermohonanController extends Controller
         $dir    = $request->input('order.0.dir');
         $search = $request->input('search.value');
         $id = session('penerbit')['ID'];
-        
-        $start = $start;
         $end = $start + $length;
 
-        $sql  = "SELECT ir.id, pt.title, pt.author, pt.kepeng,pt.bulan_terbit, pt.tahun_terbit, ir.noresi, ir.createdate, ir.mohon_date, ir.jml_jilid_req, ir.jenis, ir.status  
+        $sql  = "SELECT ir.id, pt.title, pt.author, pt.kepeng,pt.bulan_terbit, pt.tahun_terbit, ir.noresi, ir.createdate, 
+                        ir.mohon_date, ir.jml_jilid_req, ir.jenis, ir.status, ir.source  
                     FROM ISBN_RESI ir 
                     JOIN PENERBIT_TERBITAN pt  ON ir.penerbit_terbitan_id = pt.id  
                     WHERE pt.PENERBIT_ID='$id' AND (ir.status='' OR ir.status='permohonan' OR ir.status is NULL) ";
@@ -71,6 +70,10 @@ class IsbnPermohonanController extends Controller
             $sqlFiltered .= " AND UPPER(ir.jenis) = '" . strtoupper($request->input('jenisTerbitan')) ."'";
             $sql .= " AND UPPER(ir.jenis) = '" . strtoupper($request->input('jenisTerbitan')) ."'";
         }
+        if($request->input('sumber') !=''){
+            $sqlFiltered .= " AND UPPER(ir.source) = '" . strtoupper($request->input('sumner')) ."'";
+            $sql .= " AND UPPER(ir.source) = '" . strtoupper($request->input('sumber')) ."'";
+        }
         $sql .= " ORDER BY CREATEDATE DESC ";
         //\Log::info("SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end");
         $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
@@ -83,6 +86,8 @@ class IsbnPermohonanController extends Controller
                 //\Log::info($val);
                 $id = $val['ID'];
                 $noresi = $val['NORESI'] ? $val['NORESI'] : $val['ID'];
+                $source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge badge-primary'>".$val['SOURCE']."</span>";
+                $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
                 //$jml_jilid = $val['JML_JILID_REQ'];
                 //if($jml_jilid){
                 //    $jilid_lepas = intval($jml_jilid) > 1 ? "terbitan jilid" : "terbitan lepas";
@@ -92,8 +97,8 @@ class IsbnPermohonanController extends Controller
                 $response['data'][] = [
                     $nomor,
                     '<a class="badge badge-info h-30px m-1" href="/penerbit/isbn/permohonan/detail/'.$noresi.'">Ubah Data</a><a class="badge badge-danger h-30px m-1" href="#" onclick="batalkanPermohonan('.$id.')">Batalkan Permohonan</a>',
-                    $val['NORESI'],
-                    $val['TITLE'] . "<br/><span class='badge badge-light-success'>" . $val['JENIS']. "</span>",
+                    $val['NORESI'] ."<br/>" .$source,
+                    $val['TITLE'] . "<br/>$jenis",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
                     $val['BULAN_TERBIT'] . ' ' .$val['TAHUN_TERBIT'],
                     $val['MOHON_DATE']  
@@ -386,7 +391,7 @@ class IsbnPermohonanController extends Controller
                     }
                     if(request('penerbit_isbn_masalah_id' != '')) {
                         //kalau bermasalah, lampirannya ga usah dihapus
-                        $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), '', true);    
+                        $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), '', $id_resi, true);    
                     } else {
                         //kalau mau ganti lampiran permohonan 
                         if(request('penerbit_isbn_masalah') == '' && isset($request->input('file_lampiran')[0])) {
@@ -399,7 +404,7 @@ class IsbnPermohonanController extends Controller
                                 kurl("post", "deletefilelampiran",'', '', $params);
                             }
                         }
-                        $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), '');    
+                        $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), '', $id_resi);    
                     }
                     
 
@@ -436,7 +441,7 @@ class IsbnPermohonanController extends Controller
                         if(request('penerbit_isbn_masalah_id' != '')) {
                             //kalau bermasalah, lampirannya ga usah dihapus
                             $keterangan = "perbaikan jilid ke- " . $i + 1;   
-                            $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), $keterangan, true);    
+                            $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), $keterangan, $id_resi, true);    
                         } else {
                             //kalau mau ganti lampiran permohonan 
                             if(request('penerbit_isbn_masalah') == '' && isset($request->input('file_lampiran')[$i])) {
@@ -450,7 +455,7 @@ class IsbnPermohonanController extends Controller
                                 }
                             }
                             $keterangan = "jilid ke- " . $i + 1;   
-                            $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), $keterangan);     
+                            $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), $keterangan, $id_resi);     
                         }                   
                     }
                 }
@@ -479,16 +484,18 @@ class IsbnPermohonanController extends Controller
     function rollback_permohonan($id) 
     {
         $params = [
-            'status' => 'batal',
+            ["name" => 'status', 'Value'=> 'batal'],
         ];
         //$data = kurl('get','update', 'ISBN_RESI', '', '' , $params);
         //return $data['Status'];
+        \Log::info(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_RESI&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($params)));
         $res2 =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_RESI&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($params)));
+        \Log::info($res2);
         return $res2;
     }
 
     //send file lampiran, dummy, cover
-    function upload_file($file, $penerbit, $terbitan_id, $ip, $keterangan, $is_masalah = false) 
+    function upload_file($file, $penerbit, $terbitan_id, $ip, $keterangan, $resi_id,$is_masalah = false) 
     {
         $gagal = [];
 
@@ -504,7 +511,7 @@ class IsbnPermohonanController extends Controller
                         null,
                         true
                     );
-                    kurl_upload('post', $penerbit, $terbitan_id, "lampiran_pending", $file_one, $ip, $keterangan);
+                    kurl_upload('post', $penerbit, $terbitan_id, "lampiran_pending", $file_one, $ip, $keterangan, $resi_id);
                 }
             }
         } else {
@@ -519,7 +526,7 @@ class IsbnPermohonanController extends Controller
                         null,
                         true
                     );
-                    kurl_upload('post', $penerbit, $terbitan_id, "lampiran_permohonan", $file_one, $ip, $keterangan);
+                    kurl_upload('post', $penerbit, $terbitan_id, "lampiran_permohonan", $file_one, $ip, $keterangan, $resi_id);
                 }
             } 
         }
@@ -586,7 +593,7 @@ class IsbnPermohonanController extends Controller
 
     function getDetail($id)
     {
-        $detail = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_TERBITAN WHERE ID='$id'", 'sql', '');
+        $detail = kurl("get","getlistraw", "", "SELECT pt.* FROM PENERBIT_TERBITAN pt JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id WHERE ir.ID='$id'", 'sql', '');
        
         if(intval($detail["Data"]["Items"][0]["JML_JILID"]) > 1){
             $status = "jilid";

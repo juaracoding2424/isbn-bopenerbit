@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
-class DropzoneController extends Controller
+class DropZoneController extends Controller
 {
   public function store(Request $request)
   {

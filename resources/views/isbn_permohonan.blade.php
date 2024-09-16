@@ -85,6 +85,12 @@
 											<option value="lepas">terbitan lepas</option>
 											<option value="jilid">terbitan berjilid</option>
 								</select>
+								<select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectSumber" id="selectSumber">
+												<option value="">--pilih sumber data--</option>
+												<option value="web">Web</option>
+												<option value="api">API</option>
+												<option value="bulk">Bulk</option>
+								</select>
 								<!--end::Search-->
 
 							</div>
@@ -239,7 +245,8 @@
 				url: '{{ url("penerbit/isbn/permohonan/datatable") }}',
 				data: {
 					advSearch : advSearch,
-					jenisTerbitan: $('#selectJenis').val()
+					jenisTerbitan: $('#selectJenis').val(),
+					sumber : $('#selectSumber').val(),
 				}
 			},
 		});
@@ -262,6 +269,10 @@
 	});
 	$('#selectJenis').on("change", function(){
 		loadDataTable();
+	});
+	$('#selectSumber').on("change", function(){
+		loadDataTable();
+		exportButtons();
 	});
 </script>
 

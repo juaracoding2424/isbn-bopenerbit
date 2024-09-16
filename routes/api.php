@@ -12,6 +12,7 @@ Route::match(array('GET', 'POST'),'/token', [TokenController::class, 'getToken']
 Route::group(['middleware' => JWTValidation::class], function () {
     Route::match(array('GET', 'POST'),'/permohonan/tracking/{noresi}', [PermohonanController::class, 'tracking']);
     Route::match(array('GET', 'POST'), '/permohonan/submit', [PermohonanController::class, 'submit']);
+    Route::match(array('GET', 'POST'), '/permohonan/perbaikan/{noresi}', [PermohonanController::class, 'perbaikan']);
     Route::match(array('GET', 'POST'), '/penerbit/detail', [PenerbitController::class, 'detail']);
 
     Route::match(array('GET', 'POST'), '/isbn/data', [ISBNController::class, 'data']);
