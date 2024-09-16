@@ -19,6 +19,50 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        \Validator::extend('valArrayNotEmpty', function ($attribute, $value, $parameters, $validator) {
+            $arrs = json_decode($value, true);
+            foreach ($arrs as $arr) {
+                foreach ($arr as $key => $val) {
+                    if (trim($val) == "") {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            }
+        });
+        \Validator::extend('keyArrayNotEmpty', function ($attribute, $value, $parameters, $validator) {
+            $arrs = json_decode($value, true);
+            foreach ($arrs as $arr) {
+                foreach ($arr as $key => $val) {
+                    if (trim($key) == "") {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            }
+        });
+        \Validator::extend('title_exists', function ($attribute, $value, $parameters, $validator) {
+            if (checkTitle($value, $parameters[0]) > 0) {
+                return false;
+            } else {
+                return true;
+            }
+        });
+        \Validator::extend('tahun_terbit_min', function ($attribute, $value, $parameters, $validator) {
+            if(strtotime(date('Y')) >= strtotime(intval($value))){
+                return true;
+            } else {
+                return false;
+            }
+        });
+        \Validator::extend('bulan_terbit_min', function ($attribute, $value, $parameters, $validator) {
+            if(strtotime(date('Y-m')) <= strtotime(str($parameters[0]) .'-'. str($value))){
+                return true;
+            } else {
+                return false;
+            }
+        });
     }
 }

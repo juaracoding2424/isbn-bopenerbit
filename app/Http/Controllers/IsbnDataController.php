@@ -47,7 +47,7 @@ class IsbnDataController extends Controller
                     when upper(ir.jenis) = 'LEPAS' then listagg(pi.isbn_no, ', ') within group (order by pi.isbn_no)
                     when upper(ir.jenis) = 'JILID' then listagg(pi.isbn_no || ' (' || pi.KETERANGAN_JILID || ') ', ', ') within group (order by pi.isbn_no) 
                 End isbn_no_gab, pt.bulan_terbit, pt.tahun_terbit,
-								ir.id as isbn_resi_id,
+								ir.id as isbn_resi_id, ir.source,
                 ir.jenis,
                 pt.title,  pt.jml_jilid, pt.jilid_volume, 
                  pt.validator_by, pt.is_kdt_valid
@@ -56,7 +56,7 @@ class IsbnDataController extends Controller
                 JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id
                 WHERE pi.PENERBIT_ID =$id ";
         $sqlGroupBy = " GROUP BY pi.penerbit_terbitan_id, pt.title,  pt.jml_jilid, pt.jilid_volume, pt.bulan_terbit, pt.author, pt.kepeng,
-                pt.validation_date, pt.validator_by, pt.is_kdt_valid, ir.jenis, ir.mohon_date, ir.id, pt.tahun_terbit,
+                pt.validation_date, pt.validator_by, pt.is_kdt_valid, ir.jenis, ir.mohon_date, ir.id, pt.tahun_terbit, ir.source,
                 pi.RECEIVED_DATE_KCKR, pi.RECEIVED_DATE_PROV, pt.KD_PENERBIT_DTL";
 
         $sqlFiltered = "SELECT pt.id FROM penerbit_terbitan pt JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
@@ -92,6 +92,10 @@ class IsbnDataController extends Controller
         if($request->input('kdtValid') !=''){
             $sqlFiltered .= " AND pt.is_kdt_valid = '".$request->input('kdtValid')."'";
             $sql .= " AND pt.is_kdt_valid = '".$request->input('kdtValid')."'";
+        }
+        if($request->input(key: 'sumber') !=''){
+            $sqlFiltered .= " AND ir.source = '".$request->input('sumber')."'";
+            $sql .= " AND ir.source = '".$request->input('sumber')."'";
         }
         if($request->input('statusKckr') !=''){
             switch($request->input('statusKckr')) {
@@ -129,19 +133,20 @@ class IsbnDataController extends Controller
             $nomor = $start + 1;
             foreach ($queryData as $val) {
                 $jenis = str_contains($val['ISBN_NO_GAB'], "(") ? "jilid" : "lepas";
-                if($jenis == 'jilid'){
+                /*if($jenis == 'jilid'){
                     $jml_jilid = count(explode(',', $val['ISBN_NO_GAB']));
                 } else {
                     $jml_jilid = 1;
-                }
-               
+                }*/
+                $source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge badge-primary'>".$val['SOURCE']."</span>";
+                $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
                 $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="badge badge-success h-30px m-1" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : "";//'KDT Belum Ada';
                 $response['data'][] = [
                     $nomor,
                     '<a class="badge badge-info h-30px m-1" onclick="cetakBarcode('.$val['PENERBIT_TERBITAN_ID'].')">Barcode</a>' .$kdt, //<a class="badge badge-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',
                     //$val['PREFIX_ELEMENT'] .'-' . $val['PUBLISHER_ELEMENT'] . '-' . $val['ITEM_ELEMENT'] . '-' . $val['CHECK_DIGIT'] ,
                     $val['ISBN_NO_GAB'],
-                    $val['TITLE'] . "<br/><span class='badge badge-light-success'>$jenis</span>",
+                    $val['TITLE'] . "<br/>$jenis $source",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
                     $val['BULAN_TERBIT'] .' ' . $val['TAHUN_TERBIT'],
                     $val['MOHON_DATE'],
