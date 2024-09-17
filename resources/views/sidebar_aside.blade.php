@@ -19,11 +19,19 @@
                     </a>
 					<!--end:Menu link-->
 					<!--begin:Menu link-->
+					<a class="menu-link bg-light-primary" href="{{ url('/penerbit/isbn/permohonan/new')}}">
+						<span class="menu-icon">
+							<i class="ki-outline ki-plus fs-2"></i>
+						</span>
+						<span class="menu-title">Permohonan Baru</span>
+                    </a>
+					<!--end:Menu link-->
+					<!--begin:Menu link-->
 					<a class="menu-link" href="{{ url('/penerbit/isbn/permohonan')}}">
 						<span class="menu-icon">
 							<i class="ki-outline ki-plus-circle fs-2"></i>
 						</span>
-						<span class="menu-title">Permohonan ISBN</span>
+						<span class="menu-title">Data Permohonan</span>
                     </a>
 					<!--end:Menu link-->
 					<!--begin:Menu link-->
@@ -31,7 +39,7 @@
 						<span class="menu-icon">
 							<i class="ki-outline ki-file-deleted fs-2"></i>
 						</span>
-						<span class="menu-title">ISBN Bermasalah</span>
+						<span class="menu-title">Data Permohonan Bermasalah</span>
                     </a>
 					<!--end:Menu link-->
 					<!--begin:Menu link-->
@@ -40,6 +48,14 @@
 							<i class="ki-outline ki-questionnaire-tablet fs-2"></i>
 						</span>
 						<span class="menu-title">Data ISBN</span>
+                    </a>
+					<!--end:Menu link-->
+					<!--begin:Menu link-->
+					<a class="menu-link" href="{{ url('/penerbit/kdt/data')}}">
+						<span class="menu-icon">
+							<i class="ki-outline ki-book fs-2"></i>
+						</span>
+						<span class="menu-title">KDT</span>
                     </a>
 					<!--end:Menu link-->
 				</div>

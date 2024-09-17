@@ -185,9 +185,15 @@ function getMd5Hash($input) {
     return $hexHash;
 }
 
-function checkTitle($title, $id)
+function checkTitle($title, $id, $penerbit_terbitan_id = 0)
 {
-    $title = strtoupper(preg_replace("/[^a-zA-Z0-9]/", "", $title));
-    $count = kurl("get", "getlistraw", "", "SELECT count(*) JML FROM PENERBIT_TERBITAN WHERE  REGEXP_REPLACE(UPPER(TITLE), '[^[:alnum:]]', '') = '$title' AND penerbit_id='$id'", 'sql', '')["Data"]["Items"][0]["JML"];
+    if($penerbit_terbitan_id > 0) {
+        $title = strtoupper(preg_replace("/[^a-zA-Z0-9]/", "", $title));
+        $sql = "SELECT count(*) JML FROM PENERBIT_TERBITAN WHERE  REGEXP_REPLACE(UPPER(TITLE), '[^[:alnum:]]', '') = '$title' AND penerbit_id='$id' AND ID != $penerbit_terbitan_id";
+        $count = kurl("get", "getlistraw", "", $sql, 'sql', '')["Data"]["Items"][0]["JML"];
+    } else {
+        $title = strtoupper(preg_replace("/[^a-zA-Z0-9]/", "", $title));
+        $count = kurl("get", "getlistraw", "", "SELECT count(*) JML FROM PENERBIT_TERBITAN WHERE  REGEXP_REPLACE(UPPER(TITLE), '[^[:alnum:]]', '') = '$title' AND penerbit_id='$id'", 'sql', '')["Data"]["Items"][0]["JML"];
+    }
     return intval($count);
 }

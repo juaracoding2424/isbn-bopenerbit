@@ -10,6 +10,7 @@ use App\Http\Controllers\API\ISBNController;
 Route::match(array('GET', 'POST'),'/token', [TokenController::class, 'getToken']);
 
 Route::group(['middleware' => JWTValidation::class], function () {
+    Route::match(array('GET', 'POST'),'/permohonan/data', [PermohonanController::class, 'data']);
     Route::match(array('GET', 'POST'),'/permohonan/tracking/{noresi}', [PermohonanController::class, 'tracking']);
     Route::match(array('GET', 'POST'), '/permohonan/submit', [PermohonanController::class, 'submit']);
     Route::match(array('GET', 'POST'), '/permohonan/perbaikan/{noresi}', [PermohonanController::class, 'perbaikan']);
