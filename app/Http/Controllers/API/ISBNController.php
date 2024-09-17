@@ -43,6 +43,13 @@ class ISBNController extends Controller
                 "value" => $request->input('title')
             ]);
         }
+        if($request->input('distributor')){
+            $sqlWhere .= " AND (CONCAT('WIN',(upper(ir.distributor))) like 'WIN%".strtoupper($request->input('distributor'))."%')";
+            array_push($query, [
+                "field" => "noresi",
+                "value" => $request->input('distributor')
+            ]);
+        }
         if($request->input('kepeng')){
             $sqlWhere .= " AND (upper(pt.kepeng) like '%".strtoupper($request->input('kepeng'))."%' OR upper(pt.author) like '%".strtoupper($request->input('kepeng'))."%') ";
             array_push($query, [
@@ -113,20 +120,20 @@ class ISBNController extends Controller
                 "value" => $request->input('jenis_terbitan')
             ]);
         }
-        /*if($request->input('date_start')){
-            $sqlWhere .= " AND VALIDATE_DATE ='".$request->input('date_start')."'";
+        if($request->input('date_start')){
+            $sqlWhere .= " AND VALIDATE_DATE >= TO_DATE('".$request->input('date_start')."', 'yyyy-mm-dd')";
              array_push($query, [
                 "field" => "date_start",
                 "value" => $request->input('date_start')
             ]);
         }
         if($request->input('date_end')){
-            $sqlWhere .= " AND VALIDATE_DATE ='".$request->input('date_end')."'";
+            $sqlWhere .= " AND VALIDATE_DATE <= TO_DATE('".$request->input('date_end')."', 'yyyy-mm-dd')";
              array_push($query, [
                 "field" => "date_end",
                 "value" => $request->input('date_end')
             ]);
-        }*/
+        }
         //\Log::info("SELECT outer.* FROM (SELECT ROWNUM nomor, inner.* FROM ($sql $sqlWhere) inner) outer WHERE rn >$start AND rn <= $end");
         $data = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM nomor, inner.* FROM ($sql $sqlWhere) inner) outer WHERE nomor >$start AND nomor <= $end", 'sql', '')["Data"]["Items"];  
         // \Log::info("SELECT COUNT(*) JML FROM PENERBIT_ISBN WHERE PENERBIT_ID=$id");

@@ -38,31 +38,22 @@ class IsbnDataController extends Controller
         $search = $request->input('search.value');
         $id = session('penerbit')['ID'];
         
-        $start = $start;
         $end = $start + $length;
 
-        $sql = "SELECT pi.penerbit_terbitan_id, pt.KD_PENERBIT_DTL, ir.mohon_date, pt.author, pt.kepeng,
+        $sql = "SELECT pi.penerbit_terbitan_id, ir.mohon_date, pt.author, pt.kepeng, pi.prefix_element, pi.publisher_element,pi.item_element, pi.check_digit,
                 pi.RECEIVED_DATE_KCKR, pi.RECEIVED_DATE_PROV,pt.VALIDATION_DATE,
-                case 
-                    when upper(ir.jenis) = 'LEPAS' then listagg(pi.isbn_no, ', ') within group (order by pi.isbn_no)
-                    when upper(ir.jenis) = 'JILID' then listagg(pi.isbn_no || ' (' || pi.KETERANGAN_JILID || ') ', ', ') within group (order by pi.isbn_no) 
-                End isbn_no_gab, pt.bulan_terbit, pt.tahun_terbit,
-								ir.id as isbn_resi_id, ir.source,
-                ir.jenis,
-                pt.title,  pt.jml_jilid, pt.jilid_volume, 
-                 pt.validator_by, pt.is_kdt_valid
+                pi.isbn_no, pt.bulan_terbit, pt.tahun_terbit,
+				ir.id as isbn_resi_id, ir.source, ir.jenis,
+                pt.title,  pt.jml_jilid, pt.jilid_volume, pi.ACCEPTDATE, pt.call_number, pt.sinopsis, pt.subjek,
+                pt.is_kdt_valid
                 FROM penerbit_isbn pi
                 JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
                 JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id
                 WHERE pi.PENERBIT_ID =$id ";
-        $sqlGroupBy = " GROUP BY pi.penerbit_terbitan_id, pt.title,  pt.jml_jilid, pt.jilid_volume, pt.bulan_terbit, pt.author, pt.kepeng,
-                pt.validation_date, pt.validator_by, pt.is_kdt_valid, ir.jenis, ir.mohon_date, ir.id, pt.tahun_terbit, ir.source,
-                pi.RECEIVED_DATE_KCKR, pi.RECEIVED_DATE_PROV, pt.KD_PENERBIT_DTL";
 
         $sqlFiltered = "SELECT pt.id FROM penerbit_terbitan pt JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
                         JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
                         WHERE ir.penerbit_id = $id ";
-        $sqlFilGroupBy = "GROUP BY pt.id ";
        
         foreach($request->input('advSearch') as $advSearch){
             if($advSearch["value"] != '') {
@@ -72,8 +63,8 @@ class IsbnDataController extends Controller
                     $sql .= " AND CONCAT('WIN',(upper(ISBN_NO))) like 'WIN%".$isbn."%'";
                 }
                 if($advSearch["param"] == 'title'){
-                    $sqlFiltered .= " AND (CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%' OR CONCAT('WIN',upper(pi.KETERANGAN_JILID)) like 'WIN%".strtoupper($advSearch["value"]) ."%')";
-                    $sql .= " AND (CONCAT('WIN',(upper(TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%' OR CONCAT('WIN',upper(KETERANGAN_JILID)) like 'WIN%".strtoupper($advSearch["value"]) ."%')";
+                    $sqlFiltered .= " AND CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%'";
+                    $sql .= " AND CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%')";
                 }
                 if($advSearch["param"] == 'tahun_terbit'){
                     $sqlFiltered .= " AND pt.TAHUN_TERBIT like '%".$advSearch["value"]."%'";
@@ -125,14 +116,14 @@ class IsbnDataController extends Controller
             $end = $totalData;
         }
         
-        $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql  $sqlGroupBy) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
-        $totalFiltered = kurl("get","getlistraw", "", "SELECT COUNT(*) JUMLAH FROM ($sqlFiltered $sqlFilGroupBy)", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
+        $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql ) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
+        $totalFiltered = kurl("get","getlistraw", "", "SELECT COUNT(*) JUMLAH FROM ($sqlFiltered )", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         
         $response['data'] = [];
         if ($queryData <> FALSE) {
             $nomor = $start + 1;
             foreach ($queryData as $val) {
-                $jenis = str_contains($val['ISBN_NO_GAB'], "(") ? "jilid" : "lepas";
+                //$jenis = str_contains($val['ISBN_NO_GAB'], "(") ? "jilid" : "lepas";
                 /*if($jenis == 'jilid'){
                     $jml_jilid = count(explode(',', $val['ISBN_NO_GAB']));
                 } else {
@@ -144,15 +135,18 @@ class IsbnDataController extends Controller
                 $response['data'][] = [
                     $nomor,
                     '<a class="badge badge-info h-30px m-1" onclick="cetakBarcode('.$val['PENERBIT_TERBITAN_ID'].')">Barcode</a>' .$kdt, //<a class="badge badge-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',
-                    //$val['PREFIX_ELEMENT'] .'-' . $val['PUBLISHER_ELEMENT'] . '-' . $val['ITEM_ELEMENT'] . '-' . $val['CHECK_DIGIT'] ,
-                    $val['ISBN_NO_GAB'],
+                    $val['PREFIX_ELEMENT'] .'-' . $val['PUBLISHER_ELEMENT'] . '-' . $val['ITEM_ELEMENT'] . '-' . $val['CHECK_DIGIT'] ,
+                    //$val['ISBN_NO'],
                     $val['TITLE'] . "<br/>$jenis $source",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
                     $val['BULAN_TERBIT'] .' ' . $val['TAHUN_TERBIT'],
                     $val['MOHON_DATE'],
-                    $val['VALIDATION_DATE'],
+                    $val['ACCEPTDATE'],
                     $val['RECEIVED_DATE_KCKR'] ? $val['RECEIVED_DATE_KCKR'] : '<a class="badge badge-danger wrap" href="https://edeposit.perpusnas.go.id/login" target="_blank">Serahkan ke Perpusnas</a>',
                     $val['RECEIVED_DATE_PROV'] ? $val['RECEIVED_DATE_PROV'] : '<a class="badge badge-danger wrap" href="https://edeposit.perpusnas.go.id/login" target="_blank">Serahkan ke Provinsi</a>',
+                    $val['CALL_NUMBER'],
+                    $val['SUBJEK'],
+                    $val['SINOPSIS'],
                 ];
                 $nomor++;
             }

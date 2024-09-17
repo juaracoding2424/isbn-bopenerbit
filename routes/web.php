@@ -7,6 +7,7 @@ use App\Http\Controllers\IsbnMasalahController;
 use App\Http\Controllers\IsbnPermohonanController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DropZoneController;
+use App\Http\Controllers\KDTController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\LocationController;
@@ -31,6 +32,9 @@ Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
         Route::get('penerbit/isbn/data/kdt/{id}', [IsbnDataController::class, 'getKDT']);
         Route::get('penerbit/isbn/data/generate-pdf/{id}', [IsbnDataController::class, 'generatePDF']);
         Route::get('penerbit/isbn/data/generate-barcode/{id}', [IsbnDataController::class, 'generateBarcode']);
+
+        Route::get('penerbit/kdt/data', [KDTController::class, 'index']);
+        Route::get('penerbit/kdt/data/datatable', [KDTController::class, 'datatable']);
 
         Route::get('penerbit/isbn/masalah', [IsbnMasalahController::class, 'index']);
         Route::get('penerbit/isbn/masalah/datatable', [IsbnMasalahController::class, 'datatable']);

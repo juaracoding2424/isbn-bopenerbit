@@ -43,7 +43,7 @@
 						<div class="page-title d-flex flex-column justify-content-center gap-1 me-3">
 							<!--begin::Title-->
 							<h1 class="page-heading d-flex flex-column justify-content-center text-gray-900 fw-bold fs-3 m-0">
-								Data ISBN</h1>
+								Katalog Dalam Terbitan</h1>
 							<!--end::Title-->
 							<!--begin::Breadcrumb-->
 							<ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0">
@@ -58,15 +58,7 @@
 								</li>
 								<!--end::Item-->
 								<!--begin::Item-->
-								<li class="breadcrumb-item text-muted">Data ISBN</li>
-								<!--end::Item-->
-								<!--begin::Item-->
-								<li class="breadcrumb-item">
-									<span class="bullet bg-gray-500 w-5px h-2px"></span>
-								</li>
-								<!--end::Item-->
-								<!--begin::Item-->
-								<li class="breadcrumb-item text-muted">Sudah verifikasi</li>
+								<li class="breadcrumb-item text-muted">Katalog Dalam Terbitan (KDT)</li>
 								<!--end::Item-->
 							</ul>
 							<!--end::Breadcrumb-->
@@ -119,24 +111,6 @@
 											</select></div>
 									</div>
 									<div class="row md-6">
-										<div class="col-md-3 fs-8">KDT</div>
-										<div class="col-md-9"><select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectKdt" id="selectKdt">
-												<option value="">--pilih status KDT--</option>
-												<option value="1">Valid</option>
-												<option value="0">Belum Valid</option>
-											</select></div>
-									</div>
-									<div class="row md-6">
-										<div class="col-md-3 fs-8">Status SS KCKR</div>
-										<div class="col-md-9"><select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectKckr" id="selectKckr">
-												<option value="">--pilih status SS KCKR--</option>
-												<option value="1-perpusnas">Sudah Serah Simpan Perpusnas</option>
-												<option value="0-perpusnas">Belum Serah Simpan Perpusnas</option>
-												<option value="1-prov">Sudah Serah Simpan Provinsi</option>
-												<option value="0-prov">Belum Serah Simpan Provinsi</option>
-											</select></div>
-									</div>
-									<div class="row md-6">
 										<div class="col-md-3 fs-8">Sumber</div>
 										<div class="col-md-9"><select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectSumber" id="selectSumber">
 												<option value="">--pilih sumber data--</option>
@@ -173,12 +147,8 @@
 										<th class="min-w-200px">Judul</th>
 										<th class="min-w-200px">Kepengarangan</th>
 										<th class="min-w-200px">Bulan/Tahun Terbit</th>
-										<th class="min-w-200px">Tanggal Permohonan</th>
-										<th class="min-w-200px">Tanggal Verifikasi</th>
-										<th class="min-w-200px">Penyerahan Perpusnas</th>
-										<th class="min-w-200px">Penyerahan Provinsi</th>
 										<th class="min-w-100px">Nomor Panggil</th>
-										<th class="min-w-100px">Subyek</th>
+										<th class="min-w-150px">Subyek</th>
 										<th class="min-w-200px">Sinopsis</th>
 									</tr>
 								</thead>
@@ -412,7 +382,7 @@
 				[10, 25, 50, 100, 500, 'All']
 			],
 			ajax: {
-				url: '{{ url("penerbit/isbn/data/datatable") }}',
+				url: '{{ url("penerbit/kdt/data/datatable") }}',
 				data: {
 					advSearch : advSearch,
 					jenisTerbitan: $('#selectJenis').val(),

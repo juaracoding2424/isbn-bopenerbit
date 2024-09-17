@@ -129,7 +129,7 @@
 								<!--begin::Body-->
 								<div class="card-body pt-5">
 									<!--begin::Chart container-->
-									<div id="chart_isbn_month" class="min-h-auto ps-4 pe-6 mb-3 h-350px"></div>
+									<div id="chart_isbn_month" class="min-h-auto ps-4 pe-6 mb-3 h-350px col-md-6 col-xxl-12"></div>
 									<!--end::Chart container-->
 								</div>
 								<!--end::Body-->
@@ -191,6 +191,7 @@
 <script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZonesLow.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZoneAreasLow.js"></script>
 <script src="{{ url('assets/plugins/custom/datatables/datatables.bundle.js ') }}"></script>
+<script src="//cdn.amcharts.com/lib/5/themes/Responsive.js"></script>
 <!--end::Vendors Javascript-->
 <!--begin::Custom Javascript(used for this page only)-->
 <script src="{{ url('assets/js/widgets.bundle.js') }}"></script>
@@ -208,7 +209,7 @@
 		if (e) {
 			var t, a = function () {
 					//var dataChart = generateData('2024');
-					(t = am5.Root.new(e)).setThemes([am5themes_Animated.new(t)]);
+					(t = am5.Root.new(e)).setThemes([am5themes_Responsive.new(t)]); //am5themes_Animated.new(t)]);
 					var a = t.container.children.push(am5xy.XYChart.new(t, {
 						panX: !1,
 						panY: !1,
