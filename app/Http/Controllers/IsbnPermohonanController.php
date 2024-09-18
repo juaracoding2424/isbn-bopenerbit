@@ -440,7 +440,7 @@ class IsbnPermohonanController extends Controller
                         }
                         if(request('penerbit_isbn_masalah_id' != '')) {
                             //kalau bermasalah, lampirannya ga usah dihapus
-                            $keterangan = "perbaikan jilid ke- " . $i + 1;   
+                            $keterangan = "perbaikan jilid " . $i + 1;   
                             $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), $keterangan, $id_resi, true);    
                         } else {
                             //kalau mau ganti lampiran permohonan 
@@ -454,7 +454,7 @@ class IsbnPermohonanController extends Controller
                                     kurl("post", "deletefilelampiran",'', '', $params);
                                 }
                             }
-                            $keterangan = "jilid ke- " . $i + 1;   
+                            $keterangan = "jilid " . $i + 1;   
                             $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), $keterangan, $id_resi);     
                         }                   
                     }
@@ -488,9 +488,9 @@ class IsbnPermohonanController extends Controller
         ];
         //$data = kurl('get','update', 'ISBN_RESI', '', '' , $params);
         //return $data['Status'];
-        \Log::info(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_RESI&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($params)));
+        //\Log::info(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_RESI&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($params)));
         $res2 =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_RESI&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($params)));
-        \Log::info($res2);
+        //\Log::info($res2);
         return $res2;
     }
 

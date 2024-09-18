@@ -26,6 +26,7 @@ class PermohonanController extends Controller
             }
             
             if ($validator->fails()) {
+               
                 return response()->json([
                     'status' => 'Failed',
                     'message' => 'Gagal menyimpan data. Cek kembali data yang Anda masukan!',
@@ -50,6 +51,7 @@ class PermohonanController extends Controller
                     }
                 }
                 $jumlah_jilid = intval(request('jumlah_jilid')) == 0 || intval(request('jumlah_jilid')) == '' ? 1 : intval(request('jumlah_jilid'));
+                //\Log::info($jumlah_jilid);
                 if (request('jenis_permohonan') == 'jilid') {
                     #--------------VALIDASI JUMLAH JILID----------------------------------------------------------------
                     /*if($jumlah_jilid < 2) {
@@ -67,10 +69,11 @@ class PermohonanController extends Controller
                 $urls = "";
                 $jilids = "";
                 if (request('jenis_permohonan') == 'jilid') {
-                    for ($i = 0; $i < count(request('url')); $i++) {
-                        $urls .= request('link_buku')[$i];
-                        $jilids .= "jilid " . $i + 1;
-                        if (isset(request('link_buku')[$i + 1])) {
+                    for ($i = 1; $i <= $jumlah_jilid; $i++) {
+                        $urls .= $request->input("link_buku_$i");
+                        $jilids .= "jilid " . $i;
+                        $next = "link_buku_" . $i + 1;
+                        if ($request->input($next)) {
                             $urls .= "¦";
                             $jilids .= "¦";
                         }
@@ -140,30 +143,25 @@ class PermohonanController extends Controller
                 $id_resi = $res2['Data']['ID'];
 
             }
-            //\Log::info($request->input('file_lampiran'));
             // ------------------------------------------------ simpan file ------------------------------------------//
-            if (request('jenis_permohonan') == 'lepas') {
+            if ($request->input('jenis_permohonan') == 'lepas') {
                 $file = [
                     'file_dummy' => $request->file('file_dummy') ?? null,
                     'file_lampiran' => $request->file('file_lampiran') ?? null,
                     'file_cover' => $request->file('file_cover') ?? null,
                 ];
-                //\Log::info($file);
                 if ($request->hasFile('file_lampiran')) {
-                    //\Log::info($request->hasFile('file_lampiran'));
                     $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), '', $id_resi);
-                } //else {
-                   // \Log::info('file_lampiran kosong');
-                //}
+                } 
             } else {
                 //upload file jilid
-                for ($i = 0; $i < $jumlah_jilid; $i++) {
+                for ($i = 1; $i <= $jumlah_jilid; $i++) {
                     $file = [
-                        'file_dummy' => $request->input('file_dummy')[$i] ?? null,
-                        'file_lampiran' => $request->input('file_lampiran')[$i] ?? null,
-                        'file_cover' => $request->input('file_cover')[$i] ?? null,
+                        "file_dummy_$i" => $request->file("file_dummy_$i") ?? null,
+                        "file_lampiran_$i" => $request->file("file_lampiran_$i") ?? null,
+                        "file_cover_$i" => $request->file("file_cover_$i") ?? null,
                     ];
-                    $keterangan = "jilid ke- " . $i + 1;
+                    $keterangan = 'jilid ' . $i;
                     $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), $keterangan, $id_resi);
                 }
             }
@@ -175,7 +173,6 @@ class PermohonanController extends Controller
                     pt.jenis_kelompok, pt.jenis_penelitian
                     FROM PENERBIT_TERBITAN pt JOIN ISBN_RESI ir ON ir.penerbit_terbitan_id = pt.id WHERE ir.id=$id_resi";
             $data_terbitan = kurl("get", "getlistraw", "", $sql_terbitan, 'sql', '')["Data"]["Items"][0];
-            //\Log::info($res);
             return response()->json([
                 'status' => 'Success',
                 'message' => 'Data permohonan berhasil disimpan.',
@@ -195,7 +192,7 @@ class PermohonanController extends Controller
     {
         $penerbit = kurl("get", "getlistraw", "", "SELECT * FROM PENERBIT WHERE JWT='" . $request->bearerToken() . "'", 'sql', '')["Data"]["Items"][0];
         
-        //try {    
+        try {    
             $data = kurl("get", "getlistraw", "", "SELECT * FROM ISBN_RESI JOIN PENERBIT_TERBITAN ON ISBN_RESI.PENERBIT_TERBITAN_ID = PENERBIT_TERBITAN.ID WHERE NORESI='" . $noresi . "'", 'sql', '')["Data"]["Items"];
             
             if(! isset($data[0])) {
@@ -206,9 +203,6 @@ class PermohonanController extends Controller
             } else {
                 $id_resi = $data[0]["ID"];
             }
-            //\Log::info($request->all());
-
-            //foreach($request->all() as $req){
             if($request->input('title') == '' || $request->input('title') == null){
                 $request->merge(['title' => $data[0]['TITLE']]);
             }
@@ -224,8 +218,8 @@ class PermohonanController extends Controller
                 }
                 $request->merge(['kepeng' => json_encode($kepengs_)]);
             }
-            if($request->input('sinopsis') == '' || $request->input('sinopsis') == null ){
-                $request->merge(['sinopsis' => $data[0]['SINOPSIS']]);
+            if($request->input('deskripsi') == '' || $request->input('deskripsi') == null ){
+                $request->merge(['deskripsi' => $data[0]['SINOPSIS']]);
             }
             if($request->input('jenis_kategori') == '' || $request->input('jenis_kategori') == null ){
                 $request->merge(['jenis_kategori' => $data[0]['JENIS_KATEGORI']]);
@@ -260,7 +254,6 @@ class PermohonanController extends Controller
             
 
             $request->merge(['jenis_permohonan' => $data[0]['JENIS']]);
-            //\Log::info($request->all());
             if ($data[0]['JENIS'] == 'lepas') {
                 $val = $this->validasiLepas($request,$penerbit['ID'], $data[0]["PENERBIT_TERBITAN_ID"], true);
                 $validator = \Validator::make(request()->all(), $val[0], $val[1]);
@@ -277,7 +270,6 @@ class PermohonanController extends Controller
                 ], 422);
             } else {
                 $authors = "";
-                //\Log::info("uhuy kepeng");
                 $arrs = json_decode($request->input('kepeng'), true);
                 for ($i = 0; $i < count($arrs); $i++) {
                     foreach ($arrs[$i] as $key => $val) {
@@ -288,7 +280,8 @@ class PermohonanController extends Controller
                     }
                 }
                 
-                $jumlah_jilid = intval($request->input('jumlah_jilid'));
+                $jumlah_jilid = intval($data[0]["JML_JILID_REQ"]); //intval($request->input('jumlah_jilid'));
+                
                 if ($request->input('jenis_permohonan') == 'jilid') {
                     #--------------VALIDASI JUMLAH JILID----------------------------------------------------------------
                     /*if($jumlah_jilid < 2) {
@@ -304,16 +297,17 @@ class PermohonanController extends Controller
                     $jml_hlm = $request->input('jml_hlm');
                 }
                 $urls = "";
-                $jilids = "";
-                if ($request->input('jenis_permohonan') == 'jilid') {
-                    for ($i = 0; $i < count($request->input('url')); $i++) {
-                        $urls .= $request->input('link_buku')[$i];
-                        $jilids .= "jilid " . $i + 1;
-                        if (isset($request->input('link_buku')[$i + 1])) {
-                            $urls .= "¦";
-                            $jilids .= "¦";
+                $jilids = ""; $jilArr = [];
+                if ($data[0]['JENIS']  == 'jilid') {
+                    $link_buku_old = explode("¦", $data[0]['LINK_BUKU']);
+                    for ($i = 1; $i <= $jumlah_jilid; $i++) {
+                        if($request->input("link_buku_$i")){
+                            $link_buku_old[$i-1] = $request->input("link_buku_$i");
                         }
+                        array_push($jilArr,"jilid " . $i);
                     }
+                    $jilids = implode("¦", $jilArr);
+                    $urls = implode("¦", $link_buku_old);
                 } else {
                     $urls = $request->input('link_buku');
                 }
@@ -339,9 +333,6 @@ class PermohonanController extends Controller
 
                 ];
                 $IsbnResi = [
-                    //["name" => "NORESI", "Value" => $noresi],
-                    //["name" => "JENIS", "Value" => $request->input('jenis_permohonan')],
-                    //["name" => "SOURCE", "Value" => "api"],
                     ["name" => "JML_JILID_REQ", "Value" => $jumlah_jilid],
                     ["name" => "LINK_BUKU", "Value" => $urls],
                 ];
@@ -353,53 +344,41 @@ class PermohonanController extends Controller
                 }
                 // TAMBAH DATA PERMOHONAN
                 array_push($ListData,
-                   // ["name" => "MOHON_DATE", "Value" => now()->format('Y-m-d H:i:s')],
-                   // ["name" => "PENERBIT_ID", "Value" => $penerbit["ID"]],
-                    //["name" => "IS_KDT_VALID", "Value" => '0'],
                     ["name" => "UPDATEBY", "Value" => $penerbit["ISBN_USER_NAME"] . "-api"],
                     ["name" => "UPDATEDATE", "Value" => now()->format('Y-m-d H:i:s')],
                     ["name" => "UPDATETERMINAL", "Value" => \Request::ip()]
                 );
-                //\Log::info(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=update&table=PENERBIT_TERBITAN&id=".$data[0]['PENERBIT_TERBITAN_ID']."&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
                 // INSERT KE TABEL PENERBIT_TERBITAN
                 $res = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=update&table=PENERBIT_TERBITAN&id=".$data[0]['PENERBIT_TERBITAN_ID']."&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
-                //\Log::info($res);
-                //$id = $res['Data']['ID'];
 
                 // INSERT KE TABEL ISBN_RESI
                 array_push($IsbnResi,
-                    //["name" => "MOHON_DATE", "Value" => now()->format('Y-m-d H:i:s')],
-                    //["name" => "PENERBIT_ID", "Value" => $penerbit["ID"]],
-                    //["name" => "PENERBIT_TERBITAN_ID", "Value" => $id],
                     ["name" => "STATUS", "Value" => "permohonan"],
                     ["name" => "UPDATEBY", "Value" => $penerbit["ISBN_USER_NAME"] . "-api"],
                     ["name" => "UPDATEDATE", "Value" => now()->format('Y-m-d H:i:s')],
                     ["name" => "UPDATETERMINAL", "Value" => \Request::ip()]
                 );
                 $res2 = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=update&table=ISBN_RESI&id=".$data[0]['ID']."&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($IsbnResi)));
-                //$id_resi = $res2['Data']['ID'];
 
             }
             /* ------------------------------------------------ simpan file ------------------------------------------*/
-            if (request('status') == 'lepas') {
+            if ($data[0]['JENIS'] == 'lepas') {
                 $file = [
-                    'file_dummy' => $request->input('file_dummy') ?? null,
-                    'file_lampiran' => $request->input('file_lampiran') ?? null,
-                    'file_cover' => $request->input('file_cover') ?? null,
+                    'file_dummy' => $request->file('file_dummy') ?? null,
+                    'file_lampiran' => $request->file('file_lampiran') ?? null,
+                    'file_cover' => $request->file('file_cover') ?? null,
                 ];
-                if ($request->input('file_lampiran')) {
-                    $call_func = $this->upload_file($file, $penerbit, $data[0]['PENERBIT_TERBITAN_ID'], \Request::ip(), '', $data[0]['ID']);
-                }
+                $call_func = $this->upload_file($file, $penerbit, $data[0]['PENERBIT_TERBITAN_ID'], \Request::ip(), '', $data[0]['ID']);
             } else {
-                //upload file jilid
-                for ($i = 0; $i < $jumlah_jilid; $i++) {
+                 //upload file jilid
+                for ($i = 1; $i <= $jumlah_jilid; $i++) {
                     $file = [
-                        'file_dummy' => $request->input('file_dummy')[$i] ?? null,
-                        'file_lampiran' => $request->input('file_lampiran')[$i] ?? null,
-                        'file_cover' => $request->input('file_cover')[$i] ?? null,
+                        "file_dummy_$i" => $request->file("file_dummy_$i") ?? null,
+                        "file_lampiran_$i" => $request->file("file_lampiran_$i") ?? null,
+                        "file_cover_$i" => $request->file("file_cover_$i") ?? null,
                     ];
-                    $keterangan = "jilid ke- " . $i + 1;
-                    $call_func = $this->upload_file($file, $penerbit, $data[0]['PENERBIT_TERBITAN_ID'], \Request::ip(), $keterangan,$data[0]['ID']);
+                    $keterangan = "jilid " . $i;
+                    $call_func = $this->upload_file($file, $penerbit, $data[0]['PENERBIT_TERBITAN_ID'], \Request::ip(), $keterangan, $data[0]['ID']);
                 }
             }
             //RETURN DATA YANG DIINPUT
@@ -417,13 +396,13 @@ class PermohonanController extends Controller
                 'noresi' => $noresi,
                 'data' => $data_terbitan,
             ], 200);
-        /*} catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => 'Failed',
                 'message' => 'Server Error. Data permohonan gagal disimpan. Server Error!',
                 'noresi' => $e->getMessage(),
             ], 500);
-        }*/
+        }
 
     }
     public function tracking($noresi)
@@ -688,6 +667,7 @@ class PermohonanController extends Controller
                 'bulan_terbit.bulan_terbit_min' => 'Bulan terbit yang Anda masukan tidak boleh kurang dari bulsn ' . date('m-Y'),
             ]);
         }
+        //\Log::info([$rules, $messages]);
         return [$rules, $messages];
     }
     public function validasiJilid(Request $request, $id, $penerbit_terbitan_id,$perbaikan = false)
@@ -745,17 +725,13 @@ class PermohonanController extends Controller
                 'jenis_kategori' => 'required',
                 'jenis_pustaka' => 'required',
                 'deskripsi' => 'required|min:100',
-                'file_dummy' => 'required|array|min:1',
-                'file_lampiran' => 'required|array|min:1',
-                'file_dummy.*' => 'required',
-                'file_lampiran.*' => 'required',
-                'link_buku.*' => 'required',
                 'tahun_terbit' => 'required|tahun_terbit_min',
                 'bulan_terbit' => 'required|bulan_terbit_min:' . $request->input('tahun_terbit'),
             ]);
             $messages = array_merge($messages, [
                 'jenis_permohonan.required' => 'Anda belum mengisi jenis permohonan!',
                 'title.required' => 'Anda belum mengisi judul buku',
+                'title.title_exists' => 'Judul buku sudah ada, Anda tidak dapat memohon ISBN baru dengan judul yang sama.',
                 'kepeng.val_array_not_empty' => 'Nama kepengarangan tidak boleh kosong',
                 'kepeng.key_array_not_empty' => "Role kepengarangan tidak boleh kosong",
                 'tempat_terbit.required' => 'Anda belum mengisi tempat terbit buku',
@@ -767,85 +743,100 @@ class PermohonanController extends Controller
                 'jenis_pustaka.required' => 'Anda belum mengisi jenis pustaka (fiksi/non fiksi)',
                 'deskripsi.required' => 'Anda belum mengisi abstrak/deskripsi buku',
                 'deskripsi.min' => 'Abstrak/deskripsi buku minimal terdiri dari 100 karakter',
-                'file_dummy.required' => 'Anda belum mengunggah file dummy buku',
-                'file_lampiran.required' => 'Anda belum mengunggah file lampiran buku',
-                'file_dummy.*.required' => 'Anda belum mengunggah file dummy buku',
-                'file_lampiran.*.required' => 'Anda belum mengunggah file lampiran buku',
-                'link_buku.*.required' => 'Anda belum mengisi URL/Link publikasi buku',
                 'tahun_terbit.tahun_terbit_min' => 'Tahun terbit yang Anda masukan tidak boleh kurang dari tahun ' . date('Y'),
                 'bulan_terbit.bulan_terbit_min' => 'Bulan terbit yang Anda masukan tidak boleh kurang dari bulsn ' . date('m-Y'),
             ]);
+
+            for($i = 1; $i <= intval($request->input('jumlah_jilid')); $i++){
+                $rules = array_merge($rules, [
+                    "file_lampiran_$i" => 'required',
+                    "file_dummy_$i" => 'required',
+                    "link_buku_$i" => 'required',
+                ]);
+                $messages = array_merge($messages, [
+                    "file_lampiran_$i.required" => "File lampiran untuk jilid $i perlukan!",
+                    "file_dummy_$i.required" => "File dummy untuk jilid $i diperlukan!",
+                    "link_buku_$i.required" => "Link publikasi buku jilid $i diperlukan!",
+                ]);
+            }
         }
         return [$rules, $messages];
     }
 
     public function upload_file($file, $penerbit, $terbitan_id, $ip, $keterangan, $resi_id, $is_masalah = false)
     {
-        $gagal = [];
         //\Log::info($file);
+        $gagal = [];
+        if($keterangan  != "") {
+            $jilid = "_" . explode("jilid ", $keterangan)[1];
+        } else {
+            $jilid = "";
+        }
+        \Log::info($jilid);
         
         if ($is_masalah) {
             //file lampiran  
-            if ($file['file_lampiran']) {
-                $filePath_one = $this->uploadToLocal($file['file_lampiran']);
+            if ($file["file_lampiran" .$jilid]) {
+                $filePath_one = public_path('file_tmp_upload/') . $this->uploadToLocal($file["file_lampiran" . $jilid]);
                 if (File::exists($filePath_one)) {
                     $file_one = new UploadedFile(
-                        $file->getOriginalPath(),
-                        $file['file_lampiran']->getClientOriginalName(),
-                        $file['file_lampiran']->getClientMimeType(),
+                        $filePath_one,
+                        $file["file_lampiran" . $jilid],
+                        File::mimeType($filePath_one),
                         null,
                         true
                     );
                     kurl_upload('post', $penerbit, $terbitan_id, "lampiran_pending", $file_one, $ip, $keterangan, $resi_id);
-                    File::delete($filePath_one);
+                    //File::delete($filePath_one);
                 }
             }
         } else {
             //file lampiran
-            if ($file['file_lampiran']) {
-                $filePath_one = $this->uploadToLocal($file['file_lampiran']);
-                if (File::exists($filePath_one)) {
+            if ($file["file_lampiran".$jilid]) {
+                \Log::info("nemu " . "file_lampiran".$jilid );
+                $filePath_one = $this->uploadToLocal($file["file_lampiran" . $jilid]);
+                if (File::exists(public_path('file_tmp_upload/') . $filePath_one)) {
                     $file_one = new UploadedFile(
-                        $filePath_one,
-                        $file['file_lampiran']->getClientOriginalName(),
-                        $file['file_lampiran']->getClientMimeType(),
+                        public_path('file_tmp_upload/') . $filePath_one,
+                        $filePath_one ,
+                        File::mimeType(public_path('file_tmp_upload/') . $filePath_one),
                         null,
                         true
                     );
                     kurl_upload('post', $penerbit, $terbitan_id, "lampiran_permohonan", $file_one, $ip, $keterangan, $resi_id);
-                    File::delete($filePath_one);
+                    //File::delete(public_path('file_tmp_upload/') . $filePath_one);
                 }
-            }
+            } 
         }
         //file dummy
-        if ($file['file_dummy']) {
-            $filePath_two = $this->uploadToLocal($file['file_dummy']);
-            if (File::exists($filePath_two)) {
-                $file_two = new UploadedFile(
-                    $filePath_two,
-                    $file['file_dummy']->getClientOriginalName(),
-                    $file['file_dummy']->getClientMimeType(),
-                    null,
-                    true
-                );
-                kurl_upload('post', $penerbit, $terbitan_id, "dummy_buku", $file_two, $ip, $keterangan, $resi_id);
-                File::delete($filePath_two);
-            }
+        if ($file["file_dummy".$jilid]) {
+            $filePath = $this->uploadToLocal($file["file_dummy" . $jilid]);
+                if (File::exists(public_path('file_tmp_upload/') . $filePath)) {
+                    $file_ = new UploadedFile(
+                        public_path('file_tmp_upload/') . $filePath,
+                        $filePath ,
+                        File::mimeType(public_path('file_tmp_upload/') . $filePath),
+                        null,
+                        true
+                    );
+                    kurl_upload('post', $penerbit, $terbitan_id, "dummy_buku", $file_, $ip, $keterangan, $resi_id);
+                    //File::delete(public_path('file_tmp_upload/') . $filePath);
+                }
         }
         //file cover
-        if ($file['file_cover']) {
-            $filePath_3 = $this->uploadToLocal($file['file_cover']);
-            if (File::exists($filePath_3)) {
-                $file_3 = new UploadedFile(
-                    $filePath_3,
-                    $file['file_cover']->getClientOriginalName(),
-                    $file['file_cover']->getClientMimeType(),
-                    null,
-                    true
-                );
-                kurl_upload('post', $penerbit, $terbitan_id, "cover", $file_3, $ip, $keterangan, $resi_id);
-                File::delete($filePath_3);
-            }
+        if ($file["file_cover".$jilid]) {
+             $filePath = $this->uploadToLocal($file["file_cover" . $jilid]);
+                if (File::exists(public_path('file_tmp_upload/') . $filePath)) {
+                    $file_ = new UploadedFile(
+                        public_path('file_tmp_upload/') . $filePath,
+                        $filePath ,
+                        File::mimeType(public_path('file_tmp_upload/') . $filePath),
+                        null,
+                        true
+                    );
+                    kurl_upload('post', $penerbit, $terbitan_id, "cover", $file_, $ip, $keterangan, $resi_id);
+                    //File::delete(public_path('file_tmp_upload/') . $filePath);
+                }
         }
     }
 
@@ -855,7 +846,7 @@ class PermohonanController extends Controller
         $path = public_path('file_tmp_upload');
         $name = uniqid() . '_' . trim($file->getClientOriginalName());
         $file->move($path, $name);
-        return $path .'/'.$name;
+        return $name;
     }
 
 

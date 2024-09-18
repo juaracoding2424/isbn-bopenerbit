@@ -21,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
     {
         \Validator::extend('valArrayNotEmpty', function ($attribute, $value, $parameters, $validator) {
             $arrs = json_decode($value, true);
+           
             foreach ($arrs as $arr) {
                 foreach ($arr as $key => $val) {
                     if (trim($val) == "") {
@@ -44,14 +45,22 @@ class AppServiceProvider extends ServiceProvider
             }
         });
         \Validator::extend('title_exists', function ($attribute, $value, $parameters, $validator) {
-            if (checkTitle($value, $parameters[0]) > 0) {
-                return false;
+            if(isset($parameters[1])) {
+                if(checkTitle($value, $parameters[0], $parameters[1]) > 0) {
+                    return false;
+                } else {
+                    return true;
+                }
             } else {
-                return true;
+                if (checkTitle($value, $parameters[0]) > 0) {
+                    return false;
+                } else {
+                    return true;
+                }
             }
         });
         \Validator::extend('tahun_terbit_min', function ($attribute, $value, $parameters, $validator) {
-            if(strtotime(date('Y')) >= strtotime(intval($value))){
+            if(strtotime(date(format: 'Y')) >= strtotime(intval($value))){
                 return true;
             } else {
                 return false;
