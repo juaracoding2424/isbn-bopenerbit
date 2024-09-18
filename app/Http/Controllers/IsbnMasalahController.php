@@ -33,7 +33,6 @@ class IsbnMasalahController extends Controller
         $search = $request->input('search.value');
         $id = session('penerbit')['ID'];
         
-        $start = $start;
         $end = $start + $length;
 
         $sql  = "SELECT pt.id, m.isi, m.createdate, ir.noresi, pt.title, pt.kepeng, pt.author, pt.tahun_terbit, pt.mohon_date
