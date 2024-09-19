@@ -136,6 +136,7 @@
 					<span><h2>Laporan Data ISBN</h2></span>
                     <span class="btn btn-light-success" onclick="exportData('pdf')">EXPORT PDF</span>
                     <span class="btn btn-light-primary" onclick="exportData('xls')">EXPORT EXCEL</span>
+                    <span class="btn btn-light-secondary" onclick="exportData('CSV')">EXPORT CSV</span>
 				</td
 			</tr>
 
@@ -156,6 +157,7 @@
 					<th width="150px">ISBN</th>
 					<th width="250px">Judul</th>
                     <th width="150px">Jenis Terbitan</th>
+                    <th width="100px">Sumber Data</th>
 					<th width="200px">Kepengarangan</th>
 					<th width="100px">Bulan/Tahun Terbit</th>
 					<th width="150px">Tanggal Permohonan</th>
@@ -198,6 +200,11 @@
         }
         if(typeExport  == 'xls'){
             location.href='/penerbit/report/isbn/show-data?action=xls&param='+periode+'&date_start=' +date_start + 
+				"&date_end=" + date_end  + '&jenisTerbitan=' +jenisTerbitan + '&=kdtValid=' + kdtValid + 
+				'&statusKckr=' + statusKckr + '&sumber=' + sumber + '&advSearch=' + advSearch;
+        }
+        if(typeExport  == 'csv'){
+            location.href='/penerbit/report/isbn/show-data?action=csv&param='+periode+'&date_start=' +date_start + 
 				"&date_end=" + date_end  + '&jenisTerbitan=' +jenisTerbitan + '&=kdtValid=' + kdtValid + 
 				'&statusKckr=' + statusKckr + '&sumber=' + sumber + '&advSearch=' + advSearch;
         }

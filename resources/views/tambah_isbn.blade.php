@@ -1,4 +1,4 @@
-@extends('index')
+@extends('layouts.index')
 @section('content')
 <style>
     .swal2-container.swal2-center>.swal2-popup {

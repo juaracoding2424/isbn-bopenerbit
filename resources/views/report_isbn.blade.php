@@ -1,4 +1,4 @@
-@extends('index')
+@extends('layouts.index')
 @section('content')
 <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/5.0.1/css/fixedColumns.dataTables.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.css">
@@ -371,7 +371,7 @@
 				$('#iFrameReport').attr('src', '/penerbit/report/isbn/show-data?action=datatable&param=tahunan&date_start=' + year_start.val() + 
 				"&date_end=" + year_end.val() + '&jenisTerbitan=' +jenisTerbitan + '&=kdtValid=' + kdtValid + '&statusKckr=' + statusKckr + 
 				'&sumber=' + sumber + '&advSearch=' + advSearchString + '&periode=tahunan');
-				set_size(700);
+				set_size(1000);
 			} else {
 				Swal.fire('Ooopss!!', 'Harap mengisi tahun awal dan tahun akhir.', 'warning');
 			}
@@ -385,7 +385,7 @@
 				$('#iFrameReport').attr('src', '/penerbit/report/isbn/show-data?action=datatable&param=bulanan&date_start=' + year_start2.val() +'-'+month_start.val() + 
 				"&date_end=" + year_end2.val() +'-'+ month_end.val()  + '&jenisTerbitan=' +jenisTerbitan + '&=kdtValid=' + kdtValid + 
 				'&statusKckr=' + statusKckr + '&sumber=' + sumber + '&advSearch=' + advSearchString + '&periode=bulanan');
-				set_size(700);
+				set_size(1000);
 			} else {
 				Swal.fire('Ooopss!!', 'Harap mengisi bulan tahun awal dan bulan tahun akhir.', 'warning');
 			}
@@ -402,7 +402,7 @@
 				$('#iFrameReport').attr('src', '/penerbit/report/isbn/show-data?action=datatable&param=tahunan&date_start=' + date_start.val() + "&date_end=" + date_end.val() +
 				'&jenisTerbitan=' +jenisTerbitan + '&=kdtValid=' + kdtValid + '&statusKckr=' + statusKckr + 
 				'&sumber=' + sumber + '&advSearch=' + advSearchString + '&periode=harian');	
-				set_size(700);
+				set_size(1000);
 			} else {
 				Swal.fire('Ooopss!!', 'Harap mengisi harian awal dan harian akhir.', 'warning');
 			}

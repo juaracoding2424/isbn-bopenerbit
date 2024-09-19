@@ -159,6 +159,7 @@ class ReportController extends Controller
                     $val['PREFIX_ELEMENT'] .'-' . $val['PUBLISHER_ELEMENT'] . '-' . $val['ITEM_ELEMENT'] . '-' . $val['CHECK_DIGIT'] ,
                     $val['TITLE'],
                     $val['JENIS'],
+                    $val['SOURCE'],
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
                     $val['BULAN_TERBIT'] .' ' . $val['TAHUN_TERBIT'],
                     $val['MOHON_DATE'],
@@ -197,7 +198,12 @@ class ReportController extends Controller
             return response()->json($response);
         }
         if($request->input('action') == 'xls') {
-            return Excel::download(new ReportIsbnExport($response['data']), 'Laporan Data ISBN ' . session('penerbit')['NAME'] . now()->format('YmdHis') .'.xlsx');
+            return Excel::download(new ReportIsbnExport($response['data'], session('penerbit')['NAME']), 'Laporan Data ISBN ' . session('penerbit')['NAME'] . now()->format('YmdHis') .'.xlsx');
+        }
+        if($request->input('action') == 'csv') {
+            return Excel::download(new ReportIsbnExport($response['data'], session('penerbit')['NAME']), 
+            'Laporan Data ISBN ' . session('penerbit')['NAME'] . now()->format('YmdHis') .'.csv', 
+            \Maatwebsite\Excel\Excel::CSV);
         }
 
     }
