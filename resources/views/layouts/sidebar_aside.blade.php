@@ -58,6 +58,14 @@
 						<span class="menu-title">KDT</span>
                     </a>
 					<!--end:Menu link-->
+					<!--begin:Menu link-->
+					<a class="menu-link" href="{{ url('/penerbit/report/isbn')}}">
+						<span class="menu-icon">
+							<i class="ki-outline ki-chart fs-2"></i>
+						</span>
+						<span class="menu-title">Laporan</span>
+                    </a>
+					<!--end:Menu link-->
 				</div>
 			</div>
 			<!--end::Primary menu-->

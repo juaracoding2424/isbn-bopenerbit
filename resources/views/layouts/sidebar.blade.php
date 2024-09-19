@@ -40,9 +40,14 @@
                     <span class="menu-icon"><i class="ki-outline ki-book fs-2"></i></span> KDT
                 </a>
             </div>
-            <div class="menu-item">
+            <!--div class="menu-item">
                 <a class="menu-link" href="support.php">
                     <span class="menu-icon"><i class="ki-outline ki-chart fs-2"></i></span> Support
+                </a>
+            </div-->
+            <div class="menu-item">
+                <a class="menu-link" href="{{ url('/penerbit/report/isbn')}}">
+                    <span class="menu-icon"><i class="ki-outline ki-chart fs-2"></i></span> Laporan
                 </a>
             </div>
             <!--end:Menu item-->

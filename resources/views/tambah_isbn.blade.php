@@ -1,4 +1,4 @@
-@extends('index')
+@extends('layouts.index')
 @section('content')
 <style>
     .swal2-container.swal2-center>.swal2-popup {
@@ -135,7 +135,7 @@
                                         <!--begin::Input group-->
                                         <div class="row mb-6">
                                             <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fw-semibold fs-8">
+                                            <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
                                                 <span>ISBN lanjutan</span>
                                                 <span class="ms-1" data-bs-toggle="tooltip"
                                                     title="masukan ISBN jilid jika merupakan lanjutan dari jilid sebelumnya">
@@ -156,13 +156,13 @@
                                         <!--begin::Input group-->
                                         <div class="row mb-6">
                                             <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label required fw-semibold fs-8">Judul
+                                            <label class="col-lg-3 col-form-label fs-8 required fw-semibold fs-8">Judul
                                                 Buku</label>
                                             <!--end::Label-->
                                             <!--begin::Col-->
                                             <div class="col-lg-9">
                                                 <textarea row="3" type="text" name="title" id="title"
-                                                    class="form-control form-control-lg form-control-solid"
+                                                    class="form-control fs-8 form-control-lg form-control-solid"
                                                     placeholder="Isi judul buku"></textarea>
                                             </div>
                                             <!--end::Col-->
@@ -171,7 +171,7 @@
                                         <!--begin::Input group-->
                                         <div class="row mb-6">
                                             <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fw-semibold fs-8">
+                                            <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
                                                 <span class="required">Kepengarangan</span>
                                                 <span class="ms-1" data-bs-toggle="tooltip"
                                                     title="Minimal mengisi satu nama kepengarangan">
@@ -184,7 +184,7 @@
                                                     <!--begin::Col-->
                                                     <div id="kepengarangan_0" class="row">
                                                         <div class="col-lg-4 fv-row mb-1">
-                                                            <select name="authorRole[]" class="select2 form-select">
+                                                            <select name="authorRole[]" class="select2 form-select fs-8">
                                                                 <option selected="selected">penulis</option>
                                                                 <option>penyunting</option>
                                                                 <option>penyusun</option>
@@ -196,7 +196,7 @@
                                                         </div>
                                                         <div class="col-lg-6 fv-row mb-1">
                                                             <input type="text" name="namaPengarang[]"
-                                                                class="form-control form-control-lg"
+                                                                class="form-control fs-8 form-control-lg"
                                                                 placeholder="Nama orang" value="" />
                                                         </div>
                                                         <div class="col-lg-2 fv-row mb-1">
@@ -701,7 +701,7 @@
                                         <!--begin::Input group-->
                                         <div class="row mb-6">
                                             <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fw-semibold fs-8">
+                                            <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
                                                 <span class="required">Perkiraan bulan dan tahun terbit</span>
                                                 <span class="ms-1" data-bs-toggle="tooltip"
                                                     title="Isi perkiraan tanggal terbit">
@@ -713,7 +713,7 @@
                                                 <div class="row">
                                                     <!--begin::Col-->
                                                     <div class="col-lg-4 fv-row">
-                                                        <select name="bulan_terbit" class="select2 form-select">
+                                                        <select name="bulan_terbit" class="select2 form-select fs-8">
                                                             <option value="01">Januari</option>
                                                             <option value="02">Februari</option>
                                                             <option value="03">Maret</option>
@@ -729,7 +729,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="col-lg-4 fv-row">
-                                                        <select name="tahun_terbit" class="select2 form-select">
+                                                        <select name="tahun_terbit" class="select2 form-select fs-8">
                                                             <option>2024</option>
                                                             <option>2025</option>
                                                         </select>
@@ -744,21 +744,18 @@
                                         <!--begin::Input group-->
                                         <div class="row mb-6">
                                             <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fw-semibold fs-8">
-                                                <span class="required">Provinsi Terbit</span>
-                                                <span class="ms-1" data-bs-toggle="tooltip" title="Provinsi">
+                                            <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
+                                                <span class="required">Tempat Terbit</span>
+                                                <span class="ms-1" data-bs-toggle="tooltip" title="tempat_terbit">
                                                     <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
                                                 </span>
                                             </label>
                                             <!--end::Label-->
                                             <!--begin::Col-->
                                             <div class="col-lg-9 fv-row">
-                                                <select id="select2-provinsi" name="provinsi"
-                                                    aria-label="Select a Country" data-control="select2"
-                                                    data-placeholder="Pilih provinsi..."
-                                                    class="form-select form-select-solid form-select-lg fw-semibold">
-                                                    <option value="">Pilih Provinsi...</option>
-                                                </select>
+                                                <input type="text" name="tempat_terbit"
+                                                        class="form-control fs-8 form-control-lg form-control-solid"
+                                                        placeholder="Tempat terbit buku" />
                                             </div>
                                             <!--end::Col-->
                                         </div>
@@ -766,21 +763,18 @@
                                         <!--begin::Input group-->
                                         <div class="row mb-6">
                                             <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fw-semibold fs-8">
-                                                <span class="required">Kabupaten / Kota Terbit</span>
-                                                <span class="ms-1" data-bs-toggle="tooltip" title="Kabupaten/Kota">
+                                            <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
+                                                <span >Distributor</span>
+                                                <span class="ms-1" data-bs-toggle="tooltip" title="Distributor buku">
                                                     <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
                                                 </span>
                                             </label>
                                             <!--end::Label-->
                                             <!--begin::Col-->
                                             <div class="col-lg-9 fv-row">
-                                                <select id="select2-kabupaten" name="kabkot"
-                                                    aria-label="Pilih Kabupaten/kota" data-control="select2"
-                                                    data-placeholder="Pilih kabupaten/kota..."
-                                                    class="form-select form-select-solid form-select-lg fw-semibold">
-                                                    <option value="">Pilih Kabupaten/Kota...</option>
-                                                </select>
+                                                <input type="text" name="distributor"
+                                                        class="form-control fs-8 form-control-lg form-control-solid"
+                                                        placeholder="Distributor buku" />
                                             </div>
                                             <!--end::Col-->
                                         </div>
@@ -788,7 +782,7 @@
                                         <!--begin::Input group-->
                                         <div class="row mb-6">
                                             <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fw-semibold fs-8">
+                                            <label class="col-lg-3 col-form-label fs-8 fw-semibold">
                                                 <span class="required">Deskripsi / Abstrak buku</span>
                                                 <span class="ms-1" data-bs-toggle="tooltip" title="deskripsi">
                                                     <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
@@ -798,7 +792,7 @@
                                             <!--begin::Col-->
                                             <div class="col-lg-9 fv-row">
                                                 <textarea row="5" type="text" name="deskripsi"
-                                                    class="form-control form-control-lg form-control-solid"
+                                                    class="form-control fs-8 form-control-lg form-control-solid"
                                                     placeholder="Isi deskripsi / abstrak buku minimal 200 karakter"></textarea>
                                             </div>
                                             <!--end::Col-->
@@ -808,24 +802,24 @@
                                         <!--begin::Input group-->
                                         <div class="row mb-6">
                                                 <!--begin::Label-->
-                                                <label class="col-lg-3 col-form-label required fw-semibold fs-8" id="labelJumlahHalaman">Jumlah
+                                                <label class="col-lg-3 col-form-label fs-8 required fw-semibold" id="labelJumlahHalaman">Jumlah
                                                     Halaman</label>
                                                 <!--end::Label-->
                                                 <!--begin::Col-->
                                                 <div class="col-lg-2 fv-row">
                                                     <input type="number" name="jml_hlm" id="jml_hlm"
-                                                        class="form-control form-control-lg form-control-solid"
+                                                        class="form-control fs-8 form-control-lg form-control-solid"
                                                         placeholder="Jumlah Halaman" value="" />
                                                 </div>
                                                 <label class="col-lg-1 col-form-label fw-semibold fs-8" id="labelKetJumlahHalaman">halaman</label>
                                                 <!--end::Col-->
                                                 <!--begin::Label-->
-                                                <label class="col-lg-3 col-form-label fw-semibold fs-8" style="text-align:right">Tinggi Buku</label>
+                                                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8" style="text-align:right">Tinggi Buku</label>
                                                 <!--end::Label-->
                                                 <!--begin::Col-->
                                                 <div class="col-lg-2 fv-row">
                                                     <input type="number" name="ketebalan" id="ketebalan"
-                                                        class="form-control form-control-lg form-control-solid"
+                                                        class="form-control fs-8 form-control-lg form-control-solid"
                                                         placeholder="tinggi buku" value="" />
                                                 </div>
                                                 <!--end::Col-->
@@ -835,24 +829,24 @@
                                         <!--begin::Input group-->
                                         <div class="row mb-6">
                                             <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fw-semibold fs-8">Edisi Buku</label>
+                                            <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">Edisi Buku</label>
                                             <!--end::Label-->
                                             <!--begin::Col-->
                                             <div class="col-lg-2 fv-row">
                                                 <input type="text" name="edisi"
-                                                    class="form-control form-control-lg form-control-solid"
+                                                    class="form-control fs-8 form-control-lg form-control-solid"
                                                     placeholder="Edisi buku" value="" />
                                             </div>
                                             <label class="col-lg-1 col-form-label fw-semibold fs-8"></label>
                                             <!--end::Col-->
                                             <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fw-semibold fs-8"
+                                            <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8"
                                                 style="text-align:right">Seri buku</label>
                                             <!--end::Label-->
                                             <!--begin::Col-->
                                             <div class="col-lg-2 fv-row">
                                                 <input type="text" name="seri"
-                                                    class="form-control form-control-lg form-control-solid"
+                                                    class="form-control fs-8 form-control-lg form-control-solid"
                                                     placeholder="seri buku" value="" />
                                             </div>
                                             <!--end::Col-->
@@ -870,10 +864,10 @@
 
                                             <div class="row mb-6">
                                                 <!--begin::Label-->
-                                                <label class="col-lg-3 col-form-label fw-semibold fs-8">Dummy Buku yang
+                                                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">Dummy Buku yang
                                                     akan
                                                     terbit</label>
-                                                <!-- <div class="col-lg-3 col-form-label ">
+                                                <!-- <div class="col-lg-3 col-form-label fs-8 ">
                                                     <a><i class="bi bi-filetype-pdf fs-1"></i> DummyBuku.pdf</a>
                                                 </div>-->
                                                 <!--end:: Label-->
@@ -887,7 +881,7 @@
                                                             <!--end::Icon-->
                                                             <!--begin::Info-->
                                                             <div class="ms-4">
-                                                                <h3 class="fs-5 fw-bold text-gray-900 mb-1">Masukan file
+                                                                <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan file
                                                                     dummy buku</h3>
                                                                 <span class="fw-semibold fs-7 text-gray-500">Max:
                                                                     100MB</span>
@@ -904,10 +898,10 @@
                                             <div class="row mb-6">
                                                 <!--begin::Label-->
 
-                                                <label class="col-lg-3 col-form-label fw-semibold fs-8">File
+                                                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">File
                                                     Attachment</label>
                                                 <!--
-                                                <div class="col-lg-3 col-form-label ">
+                                                <div class="col-lg-3 col-form-label fs-8 ">
                                                     <a><i class="bi bi-filetype-pdf fs-1"></i> SuratPernyataan.pdf</a>
                                                     <br />
                                                     <a><i class="bi bi-filetype-pdf fs-1"></i> SuratKeaslianKarya.pdf</a>
@@ -923,7 +917,7 @@
                                                             <!--end::Icon-->
                                                             <!--begin::Info-->
                                                             <div class="ms-4">
-                                                                <h3 class="fs-5 fw-bold text-gray-900 mb-1">Masukan
+                                                                <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan
                                                                     attachment</h3>
                                                                 <span class="fw-semibold fs-7 text-gray-500">Max:150MB</span>
                                                             </div>
@@ -936,8 +930,8 @@
                                             <!--end::Input group-->
                                             <div class="row mb-6">
                                                 <!--begin::Label-->
-                                                <label class="col-lg-3 col-form-label fw-semibold fs-8">Cover Buku</label>
-                                                <!-- <div class="col-lg-3 col-form-label ">
+                                                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">Cover Buku</label>
+                                                <!-- <div class="col-lg-3 col-form-label fs-8 ">
                                                     <a><i class="bi bi-filetype-pdf fs-1"></i> DummyBuku.pdf</a>
                                                 </div>-->
                                                 <!--end:: Label-->
@@ -951,7 +945,7 @@
                                                             <!--end::Icon-->
                                                             <!--begin::Info-->
                                                             <div class="ms-4">
-                                                                <h3 class="fs-5 fw-bold text-gray-900 mb-1">Masukan file
+                                                                <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan file
                                                                     cover buku</h3>
                                                                 <span class="fw-semibold fs-7 text-gray-500">Max:
                                                                     5MB</span>
@@ -967,7 +961,7 @@
                                             <!--begin::Input group-->
                                             <div class="row mb-6">
                                                 <!--begin::Label-->
-                                                <label class="col-lg-3 col-form-label fw-semibold fs-8">
+                                                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
                                                     <span class="required">URL / LINK publikasi buku</span>
                                                     <span class="ms-1" data-bs-toggle="tooltip" title="url">
                                                         <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
@@ -977,7 +971,7 @@
                                                 <!--begin::Col-->
                                                 <div class="col-lg-6 fv-row">
                                                     <input type="text" name="url[]"
-                                                        class="form-control form-control-lg form-control-solid"
+                                                        class="form-control fs-8 form-control-lg form-control-solid"
                                                         placeholder="url/link buku" />
                                                 </div>
                                                 <div class="col-lg-3 fv-row" id="btnTambahJilid">
@@ -1153,14 +1147,14 @@
             <input type='hidden' id='file_lampiran`+ jumlah_buku + `' name='file_lampiran[]'>
             <input type='hidden' id='file_cover`+ jumlah_buku + `' name='file_cover[]'>
             <div class="row mb-6">
-                <label class="col-lg-3 col-form-label fw-semibold fs-8">File
+                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">File
                     Attachment</label>
                 <div class="col-lg-6 d-flex align-items-center">
                     <div class="dropzone" id="attachments`+ jumlah_buku + `" style="width:100%">
                         <div class="dz-message needsclick align-items-center">
                             <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
                             <div class="ms-4">
-                                <h3 class="fs-5 fw-bold text-gray-900 mb-1">Masukan
+                                <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan
                                     attachment</h3>
                                 <span class="fw-semibold fs-7 text-gray-500">Max:150MB</span>
                             </div>
@@ -1169,14 +1163,14 @@
                 </div>
             </div>
             <div class="row mb-6">
-                <label class="col-lg-3 col-form-label fw-semibold fs-8">Dummy Buku yang akan
+                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">Dummy Buku yang akan
                     terbit</label>
                 <div class="col-lg-6 d-flex align-items-center">
                     <div class="dropzone" id="dummy`+ jumlah_buku + `">
                         <div class="dz-message needsclick align-items-center">
                             <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
                             <div class="ms-4">
-                                <h3 class="fs-5 fw-bold text-gray-900 mb-1">Masukan file
+                                <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan file
                                     dummy buku</h3>
                                 <span class="fw-semibold fs-7 text-gray-500">Max:
                                     100MB</span>
@@ -1186,13 +1180,13 @@
                 </div>
             </div>
             <div class="row mb-6">
-                <label class="col-lg-3 col-form-label fw-semibold fs-8">Cover Buku</label>
+                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">Cover Buku</label>
                 <div class="col-lg-6 d-flex align-items-center">
                     <div class="dropzone" id="cover`+ jumlah_buku + `" style="width:100%">
                         <div class="dz-message needsclick align-items-center">
                             <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
                             <div class="ms-4">
-                                <h3 class="fs-5 fw-bold text-gray-900 mb-1">Masukan
+                                <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan
                                     File Cover Buku</h3>
                                 <span class="fw-semibold fs-7 text-gray-500">Max:5MB</span>
                             </div>
@@ -1201,14 +1195,14 @@
                 </div>
             </div>
             <div class="row mb-6">
-                <label class="col-lg-3 col-form-label fw-semibold fs-8">
+                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
                     <span class="required">URL / LINK publikasi buku</span>
                     <span class="ms-1" data-bs-toggle="tooltip" title="url">
                         <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
                     </span>
                 </label>
                 <div class="col-lg-6 fv-row">
-                    <input type="text" name="url[]" class="form-control form-control-lg form-control-solid"
+                    <input type="text" name="url[]" class="form-control fs-8 form-control-lg form-control-solid"
                         placeholder="url/link buku" />
                 </div>
                 <div class="col-lg-3 fv-row hapusJilid">
@@ -1342,13 +1336,13 @@
     var jumlah_buku = 1;
     $('#btnTambahPengarang').on("click", function () {
         let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
-            '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select">';
+            '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select fs-8">';
         htmlAppend +=
             '<option selected="selected">penulis</option><option>penyunting</option><option>penyusun</option><option>editor</option>';
         htmlAppend +=
             '<option>alih bahasa</option><option>ilustrator</option><option>desain sampul</option></select></div>';
         htmlAppend +=
-            '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control form-control-lg form-control-solid" placeholder="Nama orang" /></div>';
+            '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control fs-8 form-control-lg form-control-solid" placeholder="Nama orang" /></div>';
         htmlAppend +=
             '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger" onclick="deleteKepengarangan(' +
             kepengarangan + ')"><i class="ki-outline ki-trash" ></i></span></div></div>';

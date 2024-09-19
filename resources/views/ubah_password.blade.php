@@ -1,4 +1,4 @@
-@extends('index')
+@extends('layouts.index')
 @section('content')
 
 <!--begin::Content wrapper-->

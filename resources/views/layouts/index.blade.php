@@ -1,8 +1,8 @@
-@include('header')
+@include('layouts.header')
 <!--begin::Wrapper-->
 <div class="app-wrapper d-flex" id="kt_app_wrapper">
 	<!--begin::Sidebar-->
-	@include('sidebar')
+	@include('layouts.sidebar')
 	<!--end::Sidebar-->
 	<!--begin::Main-->
 	<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
@@ -11,13 +11,13 @@
 		@yield('content')
 		<!--end::Content wrapper-->
 		<!--begin::Footer-->
-		@include('footer')
+		@include('layouts.footer')
 		
 		<!--end::Footer-->
 	</div>
 	<!--end:::Main-->
 	<!--begin::aside-->
-	@include('sidebar_aside')
+	@include('layouts.sidebar_aside')
 	<!--end::aside-->
 </div>
 <!--end::Wrapper-->
@@ -26,7 +26,7 @@
 </div>
 <!--end::App-->
 <!--begin::Activities drawer-->
-@include('log_aktifitas')
+@include('layouts.log_aktifitas')
 <!--end::Activities drawer-->
 <!--begin::Scrolltop-->
 <div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
