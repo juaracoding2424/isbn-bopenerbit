@@ -58,47 +58,63 @@
 					<!--begin::Products-->
 					<div class="card card-flush">
 						<!--begin::Card header-->
-						<div class="card-header align-items-center py-5 gap-2 gap-md-5">
+						<div class="card-body align-items-center ">
 							<!--begin::Card title-->
 							<div class="card-title">
-								<!--begin::Search-->
-								<div  id="advanceSearch">
-									<div class="d-flex align-items-center position-relative my-0" id="advanceSearch_0">
-										<select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectParameter">
-											<option value="title">Judul</option>
-											<option value="kepeng">Kepengarangan</option>
-											<option value="no_resi">Nomor Resi</option>
-											<option value="tahun_terbit">Tahun Terbit</option>
-										</select>
-										<input type="text" id="txtAdvanceSearch_0" class="form-control w-400px fs-8 p-2 m-0" 
-											placeholder="Masukan kata kunci pencarian" name="searchValue[]" />
-										<div id="btnTambahFilter">
-											<span class="btn btn-primary p-1 m-0"><i class="ki-outline ki-plus fs-2" ></i></span>
-										</div>
-										<div id="btnSearch">
-											<span class="btn btn-success p-1 m-0 py-1 me-2">search</span>
+								<div class="row">
+									<!--begin::Search-->
+									<div class="col-md-6">
+										Advance Filter:
+										<div  id="advanceSearch">
+											<div class="d-flex align-items-center position-relative my-0" id="advanceSearch_0">
+												<select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectParameter">
+													<option value="title">Judul</option>
+													<option value="kepeng">Kepengarangan</option>
+													<option value="no_resi">Nomor Resi</option>
+													<option value="tahun_terbit">Tahun Terbit</option>
+												</select>
+												<input type="text" id="txtAdvanceSearch_0" class="form-control w-400px fs-8 p-2 m-0" 
+													placeholder="Masukan kata kunci pencarian" name="searchValue[]" />
+												<div id="btnTambahFilter">
+													<span class="btn btn-primary p-1 m-0"><i class="ki-outline ki-plus fs-2" ></i></span>
+												</div>
+												<div id="btnSearch">
+													<span class="btn btn-success p-1 m-0 py-1 me-2">search</span>
+												</div>
+											</div>
 										</div>
 									</div>
+									<div class="col-md-6">
+										<div class="row mb-1">
+											<div class="col-md-3 fs-8">Jenis Terbitan</div>
+											<div class="col-md-9">
+												<select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectJenis" id="selectJenis">
+														<option value="">--pilih jenis terbitan--</option>
+														<option value="lepas">terbitan lepas</option>
+														<option value="jilid">terbitan berjilid</option>
+												</select>
+											</div>
+										</div>
+										<div class="row mb-1">
+											<div class="col-md-3 fs-8">Sumber Data</div>
+											<div class="col-md-9">
+												<select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectSumber" id="selectSumber">
+														<option value="">--pilih sumber data--</option>
+														<option value="web">Web</option>
+														<option value="api">API</option>
+														<option value="bulk">Bulk</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<!--end::Search-->
 								</div>
-								<select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectJenis" id="selectJenis">
-											<option value="">--pilih jenis terbitan--</option>
-											<option value="lepas">terbitan lepas</option>
-											<option value="jilid">terbitan berjilid</option>
-								</select>
-								<select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectSumber" id="selectSumber">
-												<option value="">--pilih sumber data--</option>
-												<option value="web">Web</option>
-												<option value="api">API</option>
-												<option value="bulk">Bulk</option>
-								</select>
-								<!--end::Search-->
-
 							</div>
 							<!--end::Card title-->
 							<!--begin::Card toolbar-->
 							<div class="card-toolbar flex-row-fluid justify-content-end gap-5">
 								<!--begin::Add product-->
-								<a href="{{url('penerbit/isbn/permohonan/new')}}" class="btn btn-primary">Tambah Permohonan ISBN</a>
+								<a href="{{url('penerbit/isbn/permohonan/new')}}" class="btn btn-light-primary">Tambah Permohonan ISBN</a>
 								<!--end::Add product-->
 							</div>
 							<!--end::Card toolbar-->

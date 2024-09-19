@@ -8,9 +8,11 @@ use App\Http\Controllers\IsbnPermohonanController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DropZoneController;
 use App\Http\Controllers\KDTController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\ReportController;
 
 use App\Http\Middleware\ProtectLoginMiddleware;
 use App\Http\Middleware\PenerbitValidMiddleware;
@@ -52,6 +54,12 @@ Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
 
         Route::post('penerbit/dropzone/store', [DropZoneController::class, 'store']);
         Route::post('penerbit/dropzone/delete', [DropZoneController::class, 'delete']);
+
+        Route::get('penerbit/history/data', [HistoryController::class, 'index']);
+
+        Route::get('penerbit/report/isbn', [ReportController::class, 'index']);
+        Route::get('penerbit/report/isbn/show-data', [ReportController::class, 'showData']);
+        Route::get('penerbit/report/isbn/show-frequency', [ReportController::class, 'showFrequency']);
     });
     
         Route::get('penerbit/dashboard/notvalid', [DashboardController::class, 'notValid']);

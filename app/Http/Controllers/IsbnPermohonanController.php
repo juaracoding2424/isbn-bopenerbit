@@ -144,8 +144,9 @@ class IsbnPermohonanController extends Controller
                     'title' => 'required',
                     'namaPengarang' => 'required|array|min:1',
                     'namaPengarang.0' => 'required',
-                    'provinsi' => 'required',
-                    'kabkot' => 'required',
+                    //'provinsi' => 'required',
+                    //'kabkot' => 'required',
+                    'tempat_terbit' => 'required',
                     'jenis_media' => 'required',
                     'jenis_terbitan' => 'required',
                     'jenis_kelompok' => 'required',
@@ -162,8 +163,9 @@ class IsbnPermohonanController extends Controller
                     ],[
                     'title.required' => 'Anda belum mengisi judul buku',
                     'namaPengarang.0.required' => 'Anda belum mengisi nama pengarang/penulis pertama',
-                    'provinsi.required' => 'Anda belum mengisi provinsi terbit buku',
-                    'kabkot.required' => 'Anda belum mengisi kota terbit buku',
+                    //'provinsi.required' => 'Anda belum mengisi provinsi terbit buku',
+                    //'kabkot.required' => 'Anda belum mengisi kota terbit buku',
+                    'tempat_terbit.required' => 'Anda belum mengisi tempat terbit buku',
                     'jenis_media.required' => 'Anda belum mengisi jenis media terbitan buku',
                     'jenis_terbitan.required' => 'Anda belum mengisi jenis terbitan buku',
                     'jenis_kelompok.required' => 'Anda belum mengisi kelompok pembaca buku',
@@ -184,8 +186,9 @@ class IsbnPermohonanController extends Controller
                     'title' => 'required',
                     'namaPengarang' => 'required|array|min:1',
                     'namaPengarang.0' => 'required',
-                    'provinsi' => 'required',
-                    'kabkot' => 'required',
+                    //'provinsi' => 'required',
+                    //'kabkot' => 'required',
+                    'tempat_terbit' => 'required',
                     'jenis_media' => 'required',
                     'jenis_terbitan' => 'required',
                     'jenis_kelompok' => 'required',
@@ -200,8 +203,9 @@ class IsbnPermohonanController extends Controller
                 $messages = [
                     'title.required' => 'Anda belum mengisi judul buku',
                     'namaPengarang.0.required' => 'Anda belum mengisi nama pengarang/penulis pertama',
-                    'provinsi.required' => 'Anda belum mengisi provinsi terbit buku',
-                    'kabkot.required' => 'Anda belum mengisi kota terbit buku',
+                    //'provinsi.required' => 'Anda belum mengisi provinsi terbit buku',
+                    //'kabkot.required' => 'Anda belum mengisi kota terbit buku',
+                    'tempat_terbit.required' => 'Anda belum mengisi tempat terbit buku',
                     'jenis_media.required' => 'Anda belum mengisi jenis media terbitan buku',
                     'jenis_terbitan.required' => 'Anda belum mengisi jenis terbitan buku',
                     'jenis_kelompok.required' => 'Anda belum mengisi kelompok pembaca buku',
@@ -270,12 +274,10 @@ class IsbnPermohonanController extends Controller
                 } else {
                     $jml_hlm = request('jml_hlm');
                 }
-                $urls = ""; $jilids = "";
+                $jilids = ""; $urls = implode('¦', request('url'));
                 for($i = 0; $i < count(request('url')); $i++) {
-                    $urls .= request('url')[$i];
                     $jilids .= "jilid " . $i+1;
                     if(isset(request('url')[$i+1])){
-                        $urls .= "¦";
                         $jilids .= "¦";
                     }
                 }
@@ -289,6 +291,8 @@ class IsbnPermohonanController extends Controller
                         [ "name"=>"JML_HLM", "Value"=> $jml_hlm ],
                         [ "name"=>"TAHUN_TERBIT", "Value"=> request('tahun_terbit') ],
                         [ "name"=>"BULAN_TERBIT", "Value"=> request('bulan_terbit') ],
+                        [ "name"=>"DISTRIBUTOR", "Value"=> request('distributor') ],
+                        [ "name"=>"TEMPAT_TERBIT", "Value"=> request('tempat_terbit') ],
                         [ "name"=>"JENIS_KELOMPOK", "Value"=> request('jenis_kelompok') ],
                         [ "name"=>"JENIS_MEDIA", "Value"=> request('jenis_media') ],
                         [ "name"=>"JENIS_TERBITAN", "Value"=> request('jenis_terbitan') ],
@@ -300,7 +304,7 @@ class IsbnPermohonanController extends Controller
                 ];
                 $IsbnResi = [
                     [ "name" =>"NORESI", "Value" => $noresi ],
-                    [ "name" => "JENIS", "Value" => request('status')],
+                    [ "name" =>"JENIS", "Value" => request('status')],
                     [ "name" =>"JML_JILID_REQ", "Value" => $jumlah_jilid],
                     [ "name" =>"LINK_BUKU", "Value" => $urls ],
                 ];
@@ -563,8 +567,9 @@ class IsbnPermohonanController extends Controller
 
     function detail($noresi)
     {
-        $detail = kurl("get","getlistraw", "", "SELECT ir.id, ir.penerbit_terbitan_id, pt.title, pt.author, pt.kepeng,pt.bulan_terbit, pt.tahun_terbit, ir.noresi, ir.createdate, ir.mohon_date,  
-            ir.jml_jilid_req, ir.jenis, ir.status, ir.link_buku, ir.keterangan_jilid, pt.jenis_media, pt.jenis_kategori, pt.jenis_kelompok, pt.jenis_pustaka,  pt.jenis_terbitan,
+        $detail = kurl("get","getlistraw", "", "SELECT ir.id, ir.penerbit_terbitan_id, pt.title, pt.author, pt.distributor, pt.kepeng,
+            pt.bulan_terbit, pt.tahun_terbit, pt.tempat_terbit, ir.noresi, ir.createdate, ir.mohon_date,   ir.jml_jilid_req, ir.jenis, ir.status, 
+            ir.link_buku, ir.keterangan_jilid, pt.jenis_media, pt.jenis_kategori, pt.jenis_kelompok, pt.jenis_pustaka,  pt.jenis_terbitan,
             pt.sinopsis, pt.jml_hlm, pt.ketebalan, pt.edisi, pt.seri, pt.is_kdt_valid, pt.jenis_penelitian, pt.jenis_kelompok, ir.createdate, ir.createterminal, ir.createby         
           FROM  ISBN_RESI ir JOIN PENERBIT_TERBITAN pt ON ir.penerbit_terbitan_id = pt.id WHERE NORESI='$noresi'", 'sql', '');
 
