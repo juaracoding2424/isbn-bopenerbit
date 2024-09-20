@@ -147,7 +147,7 @@
 		</table>
 	</footer>
 	<div class="main">
-        
+        {!! $data !!}
 	</div>
 </body>
 </html>

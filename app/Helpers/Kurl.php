@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\SendMail;
 /*
 params kurl
 $method = post/get
@@ -192,7 +191,7 @@ function checkTitle($title, $id, $penerbit_terbitan_id = 0)
     return intval($count);
 }
 
-function sendMail($id, $params, $emailTo)
+function sendMail($id, $params, $emailTo, $subject)
 {
     try{
         $mail = kurl("get", "getlistraw", "","SELECT * FROM ISBN_MAIL_TEMPLATE WHERE ID="  .  $id, "sql", "")["Data"]["Items"][0];
@@ -201,10 +200,7 @@ function sendMail($id, $params, $emailTo)
         foreach($params as $k){
             $emailContent = str_replace("{".$k['name']."}", $k["value"], $emailContent);
         }
-        //Mail::to([$emailTo])->send(new SendMail("sleepingdock@gmail.com", 
-        //                                            $mail["NAME"], 
-        //                                            $emailContent));
-                                                    Mail::to($emailTo)->send(new \App\Mail\SendMail($emailTo,$mail["NAME"], $emailContent));
+        Mail::to($emailTo)->send(new \App\Mail\SendMail("sleepingdock@gmail.com", $subject, $emailContent));
         return 'success';
     } catch (\Exception $e) {
         return $e->getMessage();

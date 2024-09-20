@@ -346,7 +346,7 @@ class IsbnPermohonanController extends Controller
                     );
                     
                     // INSERT KE TABEL PENERBIT_TERBITAN
-                    $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=add&table=PENERBIT_TERBITAN&issavehistory=1&ListAddItem=" . urlencode(json_encode($ListData)));
+                    $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=add&table=PENERBIT_TERBITAN&issavehistory=0&ListAddItem=" . urlencode(json_encode($ListData)));
                     $id = $res['Data']['ID'];
 
                     // INSERT KE TABEL ISBN_RESI
@@ -361,6 +361,18 @@ class IsbnPermohonanController extends Controller
                     );
                     $res2 =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=add&table=ISBN_RESI&issavehistory=1&ListAddItem=" . urlencode(json_encode($IsbnResi)));
                     $id_resi = $res2['Data']['ID'];
+
+                    //INSERT HISTORY
+                    $history = [
+                        [ "name" => "TABLENAME", "Value"=> "PENERBI_TERBITAN"],
+                        [ "name" => "IDREF", "Value"=> $id],
+                        [ "name" => "ACTION" , "Value"=> "Add"],
+                        [ "name" => "ACTIONBY" , "Value"=> session('penerbit')["USERNAME"]],
+                        [ "name" => "ACTIONDATE", "Value"=> now()->format('Y-m-d H:i:s') ],
+                        [ "name" => "ACTIONTERMINAL", "Value"=> \Request::ip()],
+                        [ "name" => "NOTE", "Value"=> "Permohonan baru"],
+                    ];
+                    $res_his = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=HISTORYDATA&ListAddItem=" . urlencode(json_encode($history)));
                     
                 }
                 /* ------------------------------------------------ simpan file ------------------------------------------*/
@@ -464,7 +476,20 @@ class IsbnPermohonanController extends Controller
                     }
                 }
 
-                //\Log::info($res);
+                //KIRIM EMAIL NOTIFIKASI
+                $params = [
+                    ["name" => "NoResi", "Value" => $noresi],
+                    ["name" => "NamaPenerbit", "Value" => session('penerbit')['NAME']],
+                    ["name" => "Title", "Value" => request('title')],
+                    ["name" => "Kepeng", "Value" => $authors ],
+                    ["name" => "BulanTahunTerbit", "Value" => request('bulan_terbit') . '-' . request('tahun_terbit')],
+                    ["name" => "JenisTerbitan", "Value" => request('status') ],
+                    ["name" => "Sinopsis", "Value" => request('deskripsi') ],
+                    ["name" => "Distributor", "Value"=> request('distributor') ],
+                    ["name" => "TempatTerbit", "Value"=> request('tempat_terbit') ],
+                ];
+                sendMail(14, $params, session('penerbit')['EMAIL'], 'PERMOHONAN ISBN BARU [#'+$noresi+']');
+
                 return response()->json([
                     'status' => 'Success',
                     'message' => 'Data permohonan berhasil disimpan.',

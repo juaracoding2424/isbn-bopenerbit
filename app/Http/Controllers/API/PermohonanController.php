@@ -126,9 +126,19 @@ class PermohonanController extends Controller
                 );
 
                 // INSERT KE TABEL PENERBIT_TERBITAN
-                $res = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=PENERBIT_TERBITAN&issavehistory=1&ListAddItem=" . urlencode(json_encode($ListData)));
+                $res = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=PENERBIT_TERBITAN&ListAddItem=" . urlencode(json_encode($ListData)));
                 $id = $res['Data']['ID'];
-
+                //INSERT HISTORY PENERBIT TERBITAN
+                $history = [
+                    [ "name" => "TABLENAME", "Value"=> "PENERBI_TERBITAN"],
+                    [ "name" => "IDREF", "Value"=> $id],
+                    [ "name" => "ACTION" , "Value"=> "Add"],
+                    [ "name" => "ACTIONDATE", "Value"=> now()->format('Y-m-d H:i:s') ],
+                    [ "name" => "ACTIONTERMINAL", "Value"=> \Request::ip()],
+                    [ "name" => "ACTIONBY", "Value"=> $penerbit["ISBN_USER_NAME"] . "-api"],
+                    [ "name" => "NOTE", "Value"=> "Permohonan baru"],
+                ];
+                $res_his = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=HISTORYDATA&ListAddItem=" . urlencode(json_encode($history)));
                 // INSERT KE TABEL ISBN_RESI
                 array_push($IsbnResi,
                     ["name" => "MOHON_DATE", "Value" => now()->format('Y-m-d H:i:s')],
@@ -141,7 +151,21 @@ class PermohonanController extends Controller
                 );
                 $res2 = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=ISBN_RESI&issavehistory=1&ListAddItem=" . urlencode(json_encode($IsbnResi)));
                 $id_resi = $res2['Data']['ID'];
-
+                //KIRIM EMAIL NOTIFIKASI
+                if(request('notifikasi') == 'true' || request('notifikasi') == true) {
+                    $params = [
+                        ["name" => "NoResi", "Value" => $noresi],
+                        ["name" => "NamaPenerbit", "Value" => $penerbit['NAME']],
+                        ["name" => "Title", "Value" => request('title')],
+                        ["name" => "Kepeng", "Value" => $authors ],
+                        ["name" => "BulanTahunTerbit", "Value" => request('bulan_terbit') . '-' . request('tahun_terbit')],
+                        ["name" => "JenisTerbitan", "Value" => request('jenis_permohonan') ],
+                        ["name" => "Sinopsis", "Value" => request('deskripsi') ],
+                        ["name" => "Distributor", "Value"=> request('distributor') ],
+                        ["name" => "TempatTerbit", "Value"=> request('tempat_terbit') ],
+                    ];
+                    sendMail(14, $params, $penerbit['EMAIL'], 'PERMOHONAN ISBN BARU [#'+$noresi+']');
+                }
             }
             // ------------------------------------------------ simpan file ------------------------------------------//
             if ($request->input('jenis_permohonan') == 'lepas') {
