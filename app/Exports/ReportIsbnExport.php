@@ -2,9 +2,8 @@
 
 namespace App\Exports;
 use Maatwebsite\Excel\Concerns\FromArray;
-use Maatwebsite\Excel\Concerns\WithTitle;
 
-class ReportIsbnExport implements FromArray, WithTitle
+class ReportIsbnExport implements FromArray
 {
     protected $data;
     protected $namaPenerbit;
@@ -17,10 +16,5 @@ class ReportIsbnExport implements FromArray, WithTitle
     public function array(): array
     {
         return $this->data;
-    }
-
-    public function title(): string
-    {
-        return 'Laporan Data ISBN ' . $this->namaPenerbit;
     }
 }
