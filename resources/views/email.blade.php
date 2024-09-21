@@ -126,7 +126,11 @@
     th, td {
         border-bottom: 1px solid #ddd;
     }
-
+    .btn.btn-primary {
+    color: #fff !important;
+    border-color:  #1b84ff !important;
+    background-color:  #1b84ff !important;
+}
 </style>
 <body>
 	<header>

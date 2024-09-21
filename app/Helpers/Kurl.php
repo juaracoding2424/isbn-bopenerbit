@@ -196,11 +196,18 @@ function sendMail($id, $params, $emailTo, $subject)
     try{
         $mail = kurl("get", "getlistraw", "","SELECT * FROM ISBN_MAIL_TEMPLATE WHERE ID="  .  $id, "sql", "")["Data"]["Items"][0];
         $emailContent = $mail['ISI'];
-
-        foreach($params as $k){
-            $emailContent = str_replace("{".$k['name']."}", $k["value"], $emailContent);
+        if($subject == ""){
+            $subject = $mail["NAME"];
         }
-        Mail::to($emailTo)->send(new \App\Mail\SendMail("sleepingdock@gmail.com", $subject, $emailContent));
+        foreach($params as $k){
+            $emailContent = str_replace("{".$k['name']."}", $k["Value"], $emailContent);
+        }
+        if(config('app.env') == 'local' || config('app.env') == 'demo' ) {
+            
+            Mail::to('sleepingdock@gmail.com')->send(new \App\Mail\SendMail('sleepingdock@gmail.com',$subject, $emailContent));
+        } else {
+            Mail::to($emailTo)->send(new \App\Mail\SendMail($emailTo,$subject, $emailContent));
+        }
         return 'success';
     } catch (\Exception $e) {
         return $e->getMessage();

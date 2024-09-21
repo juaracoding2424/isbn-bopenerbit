@@ -36,7 +36,7 @@ class JWTValidation
             ], 401);
         } 
         if($authorization != $authapi[0]['JWT']){
-            \Log::info("func 2");
+            //\Log::info("func 2");
             return response()->json([
                 'message'   => 'Token not valid.',
                 'status'    => 'Failed'

@@ -79,6 +79,10 @@ Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
 
 });
 Route::get('login', [AuthController::class, 'login']);
+Route::get('reset-password', [AuthController::class, 'resetPassword']);
+Route::post('reset-password/send', [AuthController::class, 'resetPasswordSend']);
+Route::get('reset-password-next', [AuthController::class, 'resetPasswordNext']);
+Route::post('reset-password-next', [AuthController::class, 'resetPasswordNextSubmit']);
 Route::post('auth/submit', [AuthController::class, 'submit']);
 Route::get('penerbit/isbn/data/view-kdt/{id}', [IsbnDataController::class, 'viewPDF']);
 

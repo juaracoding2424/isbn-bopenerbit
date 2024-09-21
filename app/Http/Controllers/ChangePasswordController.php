@@ -42,7 +42,8 @@ class ChangePasswordController extends Controller
                 $encryptedPassword = urlencode(getMd5Hash($request->input('new_password')));
                 $encryptedPasswordOld = urlencode(getMd5Hash($request->input('current_password')));
                 $encryptedPassword2 = urlencode(rijndaelEncryptPassword($request->input('new_password')));
-                $penerbit = session('penerbit')['ID'];
+                $penerbit = session('penerbit');
+                $id = session('penerbit')['ID'];
                 if($penerbit['STATUS'] == 'valid') {
                     $old = Http::post(config('app.inlis_api_url') ."?token=". config('app.inlis_api_token') ."&op=getlistraw&sql=". urlencode("SELECT * FROM PENERBIT WHERE ID='".$id."' AND ISBN_PASSWORD1='$encryptedPasswordOld'"))["Data"]["Items"];
                     if(isset($old[0])){
