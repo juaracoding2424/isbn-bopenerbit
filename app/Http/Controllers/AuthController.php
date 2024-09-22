@@ -133,7 +133,7 @@ class AuthController extends Controller
                 ["name" => "IDREF", "Value" => $id],
                 ["name" => "ACTION", "Value" => "Update"],
                 ["name" => "ACTIONBY", "Value" => $queryData[0]["ISBN_USER_NAME"]],
-                ["name" => "ACTIONDATE", "Value" => now()->format('Y-m-d H:i:s')],
+                //["name" => "ACTIONDATE", "Value" => now()->format('Y-m-d H:i:s')],
                 ["name" => "ACTIONTERMINAL", "Value" => \Request::ip()],
                 ["name" => "NOTE", "Value" => "Permintaan reset password"],
             ];
@@ -217,7 +217,7 @@ class AuthController extends Controller
                 ["name" => "IDREF", "Value" => $id],
                 ["name" => "ACTION", "Value" => "Update"],
                 ["name" => "ACTIONBY", "Value" => $queryData[0]["ISBN_USER_NAME"]],
-                ["name" => "ACTIONDATE", "Value" => now()->format('Y-m-d H:i:s')],
+                //["name" => "ACTIONDATE", "Value" => now()->format('Y-m-d H:i:s')],
                 ["name" => "ACTIONTERMINAL", "Value" => \Request::ip()],
                 ["name" => "NOTE", "Value" => "Reset password sukses"],
             ];

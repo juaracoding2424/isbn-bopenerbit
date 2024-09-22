@@ -368,7 +368,7 @@ class IsbnPermohonanController extends Controller
                         [ "name" => "IDREF", "Value"=> $id],
                         [ "name" => "ACTION" , "Value"=> "Add"],
                         [ "name" => "ACTIONBY" , "Value"=> session('penerbit')["USERNAME"]],
-                        [ "name" => "ACTIONDATE", "Value"=> now()->format('Y-m-d H:i:s') ], //harusnya GMT+7
+                        //[ "name" => "ACTIONDATE", "Value"=> now()->format('Y-m-d H:i:s') ], //ga perlu, sistem auto isi
                         [ "name" => "ACTIONTERMINAL", "Value"=> \Request::ip()],
                         [ "name" => "NOTE", "Value"=> "Permohonan baru"],
                     ];

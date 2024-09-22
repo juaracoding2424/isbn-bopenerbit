@@ -133,7 +133,7 @@ class PermohonanController extends Controller
                     [ "name" => "TABLENAME", "Value"=> "PENERBI_TERBITAN"],
                     [ "name" => "IDREF", "Value"=> $id],
                     [ "name" => "ACTION" , "Value"=> "Add"],
-                    [ "name" => "ACTIONDATE", "Value"=> now()->format('Y-m-d H:i:s') ],
+                    //[ "name" => "ACTIONDATE", "Value"=> now()->format('Y-m-d H:i:s') ],
                     [ "name" => "ACTIONTERMINAL", "Value"=> \Request::ip()],
                     [ "name" => "ACTIONBY", "Value"=> $penerbit["ISBN_USER_NAME"] . "-api"],
                     [ "name" => "NOTE", "Value"=> "Permohonan baru"],
