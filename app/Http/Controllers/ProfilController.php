@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class ProfilController extends Controller
 {
@@ -31,34 +32,83 @@ class ProfilController extends Controller
 
     function submit()
     {
-        $penerbit = session('penerbit');
-        
-        $validator = \Validator::make(request()->all(),[
-            'name' => 'required',
-            'username' => 'required|min:6',
-            'phone' => 'required|number',
-            'alamat_penerbit' => 'required',
-            'nama_gedung' => 'required',
-            'provinsi' => 'required',
-            'kabkot' => 'required',
-            'kecamatan' => 'required',
-            'kelurahan' => 'required',
-            ],[
-            'name.required' => 'Anda belum mengisi nama penerbit',
-            'username.required' => 'Anda belum mengisi username',
-            'username.min' => 'Username minimal terdiri dari 6 karakter',
-            'phone.required' => 'Anda belum mengisi nomor telp/hp kantor yang bisa dihubungi',
-            'alamat_penerbit.required' => 'Anda belum mengisi alamat kantor',
-            'nama_gedung.required' => 'Anda belum mengisi jenis terbitan buku',
-            'provinsi.required' => 'Anda belum mengisi provinsi tempat domisili kantor',
-            'kabkot.required' => 'Anda belum mengisi kota/kabupaten tempat domisili kantor',
-            'kecamatan.required' => 'Anda belum mengisi kecamatan tempat domisili kantor',
-            'kelurahan.required' => 'Anda belum mengisi kelurahan tempat domisili kantor',
-        ]);
-        if(session('penerbit')['STATUS'] == 'VALID'){
-            $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=PENERBIT&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
-        } else {
-            $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_REGISTRASI_PENERBIT&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
+        try {
+            $id = session('penerbit')['ID'];
+            \Log::info(session('penerbit'));
+            $validator = \Validator::make(request()->all(),[
+                'name' => 'required:min:8',
+                'username' => 'required|min:6',
+                'phone' => 'required',
+                'alamat_penerbit' => 'required',
+                'nama_gedung' => 'required',
+                'provinsi' => 'required',
+                'kabkot' => 'required',
+                'kecamatan' => 'required',
+                'kelurahan' => 'required',
+                ],[
+                'name.required' => 'Anda belum mengisi nama penerbit',
+                'name.min' => 'Nama penerbit minimum terdiri dari 8 karakter',
+                'username.required' => 'Anda belum mengisi username',
+                'username.min' => 'Username minimal terdiri dari 6 karakter',
+                'phone.required' => 'Anda belum mengisi nomor telp/hp kantor yang bisa dihubungi',
+                //'phone.numeric' => 'Nomor telp/hp kantor hanya boleh diisi oleh angka!',
+                'alamat_penerbit.required' => 'Anda belum mengisi alamat kantor',
+                'nama_gedung.required' => 'Anda belum mengisi jenis terbitan buku',
+                'provinsi.required' => 'Anda belum mengisi provinsi tempat domisili kantor',
+                'kabkot.required' => 'Anda belum mengisi kota/kabupaten tempat domisili kantor',
+                'kecamatan.required' => 'Anda belum mengisi kecamatan tempat domisili kantor',
+                'kelurahan.required' => 'Anda belum mengisi kelurahan tempat domisili kantor',
+            ]);
+            if($validator->fails()){
+                return response()->json([
+                    'status' => 'Failed',
+                    'message'   => 'Gagal menyimpan data. Cek kembali data yang Anda masukan!',
+                    'err' => $validator->errors(),
+                ], 422);
+            } else {  
+                if(session('penerbit')['STATUS'] == 'valid'){
+                    $ListData = [
+                        [ "name"=>"NAME", "Value"=> request('name') ],
+                        [ "name"=>"ISBN_USER_NAME", "Value"=> request('username') ],
+                        [ "name"=>"TELP1", "Value"=> request('phone')],
+                        [ "name"=>"ALAMAT", "Value"=> request('alamat_penerbit')],
+                        [ "name"=>"NAMA_GEDUNG", "Value"=> request('nama_gedung') ],
+                        [ "name"=>"PROVINCE_ID", "Value"=> request('province') ],
+                        [ "name"=>"CITY_ID", "Value"=> request('kabkot') ],
+                        [ "name"=>"DISTRICT_ID", "Value"=> request('kecamatan') ],
+                        [ "name"=>"VILLAGE_ID", "Value"=> request('kelurahan') ],
+                    ];
+                    \Log::info(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=PENERBIT&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
+                    $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=PENERBIT&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
+                } else {
+                    $ListData = [
+                        [ "name"=>"NAMA_PENERBIT", "Value"=> request('name') ],
+                        [ "name"=>"USERNAME", "Value"=> request('username') ],
+                        [ "name"=>"ADMIN_PHONE", "Value"=> request('phone')],
+                        [ "name"=>"ALAMAT_PENERBIT", "Value"=> request('alamat_penerbit')],
+                        [ "name"=>"NAMA_GEDUNG", "Value"=> request('nama_gedung') ],
+                        [ "name"=>"PROVINCE_ID", "Value"=> request('province') ],
+                        [ "name"=>"CITY_ID", "Value"=> request('kabkot') ],
+                        [ "name"=>"DISTRICT_ID", "Value"=> request('kecamatan') ],
+                        [ "name"=>"VILLAGE_ID", "Value"=> request('kelurahan') ],
+                    ];
+                    $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_REGISTRASI_PENERBIT&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
+                }
+                \Log::info($res);
+                //INSERT HISTORY
+               
+                //\Log::info(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=HISTORYDATA&ListAddItem=" . urlencode(json_encode($history)));
+                //$res_his = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=HISTORYDATA&ListAddItem=" . urlencode(json_encode($history)));
+                return response()->json([
+                    'status' => 'Success',
+                    'message' => 'Perubahan data akun Anda berhasil disimpan.',
+                ], 200);
+            }
+        } catch(\Exception $e){
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Perubahan data akun Anda gagal disimpan. Server Error! ' .  $e->getMessage(),
+            ], 500);
         }
     }
 

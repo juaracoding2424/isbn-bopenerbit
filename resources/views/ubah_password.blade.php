@@ -146,8 +146,7 @@
                             validating: 'fa fa-refresh',
                         }),
                     }
-                }
-			).on('core.form.valid', function() {
+            }).on('core.form.valid', function() {
 				let form = document.getElementById('form_change_password');
 				let formData = new FormData(form); 
 			
@@ -222,6 +221,6 @@
 					});
 
 				})
-			})
+	})
 </script>
 @stop

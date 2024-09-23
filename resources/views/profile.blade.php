@@ -69,9 +69,7 @@
 											<div class="d-flex align-items-center mb-2">
 												<a href="#"
 													class="text-gray-900 text-hover-primary fs-2 fw-bold me-1" id="aName"></a>
-												<a href="#" id="aStatus">
-													
-												</a>
+												<a href="#" id="aStatus"></a>
 											</div>
 											<!--end::Name-->
 											<!--begin::Info-->
@@ -195,7 +193,8 @@
 									<!--begin::Content-->
 										<div id="kt_account_settings_profile_details" class="collapse show">
 											<!--begin::Form-->
-											<form id="kt_account_profile_details_form" class="form">
+											<form id="form_akun" class="form">
+											@csrf
 												<!--begin::Card body-->
 												<div class="card-body border-top p-9">
 													<!--begin::Input group-->
@@ -392,7 +391,7 @@
 												<!--begin::Actions-->
 												<div class="card-footer d-flex justify-content-end py-6 px-9">
 													<button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</button>
-													<button type="submit" class="btn btn-primary" id="kt_account_profile_details_submit">Save Changes</button>
+													<button type="submit" class="btn btn-primary" >Save Changes</button>
 												</div>
 												<!--end::Actions-->
 											</form>
@@ -634,13 +633,10 @@
 <!--begin::Javascript-->
 @section('script')
 <!--begin::Custom Javascript(used for this page only)-->
-<script src="/assets/js/custom/account/settings/signin-methods.js"></script>
-		<script src="/assets/js/custom/account/settings/profile-details.js"></script>
-		<script src="/assets/js/custom/account/settings/deactivate-account.js"></script>
-		<script src="/assets/js/custom/pages/user-profile/general.js"></script>
+
 		<script src="/assets/js/widgets.bundle.js"></script>
 		<script src="/assets/js/custom/widgets.js"></script>
-		<script src="/assets/js/custom/apps/chat/chat.js"></script>
+		<!--script src="/assets/js/custom/apps/chat/chat.js"></script>
 		<script src="/assets/js/custom/utilities/modals/upgrade-plan.js"></script>
 		<script src="/assets/js/custom/utilities/modals/create-campaign.js"></script>
 		<script src="/assets/js/custom/utilities/modals/offer-a-deal/type.js"></script>
@@ -650,10 +646,170 @@
 		<script src="/assets/js/custom/utilities/modals/offer-a-deal/main.js"></script>
 		<script src="/assets/js/custom/utilities/modals/two-factor-authentication.js"></script>
 		<script src="/assets/js/custom/utilities/modals/users-search.js"></script>
-		<!--end::Custom Javascript-->
+		<end::Custom Javascript-->
 <!--begin::Custom Javascript(used for this page only)-->
 
 <!--end::Body-->
+<script>
+		document.addEventListener('DOMContentLoaded', function(e) {
+		FormValidation.formValidation(
+			document.getElementById('form_akun'),
+			{
+                    fields: {
+                        name: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Nama penerbit diperlukan. Tidak boleh kosong!"
+                                },
+								stringLength: {
+									min: 8,
+									message: 'Nama penerbit tidak boleh kurang dari 8 karakter!'
+								},
+                            }
+                        },
+						username: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Username penerbit diperlukan untuk login ke dalam layanan ISBN. Tidak boleh kosong!"
+                                },
+								stringLength: {
+									min: 6,
+									message: 'Username penerbit tidak boleh kurang dari 6 karakter!'
+								},
+                            }
+                        },
+						phone: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Telepon penerbit diperlukan. Tidak boleh kosong!"
+                                }
+                            }
+                        },
+						alamat_penerbit: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Alamat penerbit diperlukan. Tidak boleh kosong!"
+                                }
+                            }
+                        },
+						provinsi: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Provinsi diperlukan. Tidak boleh kosong!"
+                                }
+                            }
+                        },
+						kabkot: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Kabupaten/Kota diperlukan. Tidak boleh kosong!"
+                                }
+                            }
+                        },
+						kecamatan: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Kecamatan domisili penerbit diperlukan. Tidak boleh kosong!"
+                                }
+                            }
+                        },
+						kelurahan: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Kelurahan domisili penerbit diperlukan. Tidak boleh kosong!"
+                                }
+                            }
+                        },
+                    },
+                    plugins: {
+                        trigger: new FormValidation.plugins.Trigger,
+                        bootstrap: new FormValidation.plugins.Bootstrap5({
+                            rowSelector: ".col-lg-8"
+                        }),
+						submitButton: new FormValidation.plugins.SubmitButton(),
+						icon: new FormValidation.plugins.Icon({
+                            valid: 'fa fa-check',
+                            invalid: 'fa fa-times',
+                            validating: 'fa fa-refresh',
+                        }),
+                    }
+            }).on('core.form.valid', function() {
+				let form = document.getElementById('form_akun');
+				let formData = new FormData(form); 
+			
+				$.ajaxSetup({
+					headers: {
+						'X-CSRF-TOKEN': $('input[name="_token"]').val()
+					}
+				});
+				$.ajax({
+							url :"{{ url('/penerbit/profile/submit') }}",
+							type: 'post',
+							dataType: 'json',
+							processData: false,
+							contentType:  false,
+							async:false,
+							data: formData,
+							beforeSend: function(){
+								$('.loader').css('display','block');
+							},
+							complete: function(){
+								$('.loader').css('display','none');
+							},
+							statusCode: {
+								422: function(xhr) {
+									var error = '<div class="alert alert-danger d-flex align-items-center p-5 mb-10"><div class="d-flex flex-column" style="text-align: left;"><ul>';
+									$.each(xhr.responseJSON.err, function(key, value){
+										error+='<li>'+value[0]+'</li>';
+									}); 
+									error+='</ul></div></div>';
+									Swal.fire({
+											title: "Validation Error!",
+											html: error,
+											buttonsStyling: !1,
+											confirmButtonText: "Ok!",
+											width: '800px',
+											heightAuto:false,
+											height: '800px',
+											customClass: { 
+												confirmButton: "btn fw-bold btn-primary",
+												content: "swal-height"
+											}
+										});
+								},
+								200: function(xhr) {
+									Swal.fire({
+											title: "Berhasil Ubah Password!",
+											html: xhr.message,
+											icon: "success",
+											buttonsStyling: !1,
+											confirmButtonText: "Ok!",
+											customClass: {
+												confirmButton: "btn fw-bold btn-primary"
+												}
+										}).then(function(isConfirm){
+											if (isConfirm){
+												//$('#new_password').val(''),$('#current_password').val(''), $('#confirm_password').val('')
+											}
+										});
+								},
+								500: function(xhr) {
+									Swal.fire({
+											text: xhr.responseJSON.message,
+											icon: "failed",
+											buttonsStyling: !1,
+											confirmButtonText: "Ok!",
+											customClass: {
+												confirmButton: "btn fw-bold btn-danger"
+												}
+										});
+								},
+							}
+					});
+
+				})
+	})
+</script>
 <script>
 	var status = "{{session('penerbit')['STATUS']}}";
 	function getData(){
@@ -784,12 +940,6 @@
 						console.log("value = " + value + " / " + "text = " + text);
 					}
 				});
-            },
-            error: function() {
-                //Toast.fire({
-                //    icon: 'error',
-                    title: 'Server Error!'
-                //});
             }
         });
 	
@@ -852,11 +1002,10 @@
 	var urlKecamatan = "{{url('location/kecamatan')}}" + "/";
 	var urlKelurahan = "{{url('location/kelurahan')}}" + "/";
 	function clearOptions(id) {
-		console.log("on clearOptions :" + id);
+		//console.log("on clearOptions :" + id);
 			//$('#' + id).val(null);
 		$('#' + id).empty().trigger('change');
 	}
-
 </script>
 
 @stop

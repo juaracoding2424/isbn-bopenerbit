@@ -129,7 +129,7 @@ class IsbnPermohonanController extends Controller
     {
         $penerbit = session('penerbit');
         //\Log::info(request()->all());
-        //try{   
+        try{   
             if(request('penerbit_terbitan_id') == ''){ //form baru
                 if(request('title') != ''){
                     if($this->checkTitle(request('title'), $penerbit['ID']) > 0) {
@@ -498,13 +498,13 @@ class IsbnPermohonanController extends Controller
                     'noresi' => $noresi
                 ], 200);
             }
-        /*} catch(\Exception $e){
+        } catch(\Exception $e){
             return response()->json([
                 'status' => 'Failed',
                 'message' => 'Data permohonan gagal disimpan. Server Error!',
                 'noresi' => $e->getMessage()
             ], 500);
-        }*/
+        }
     }
 
     function cancel($noresi)
