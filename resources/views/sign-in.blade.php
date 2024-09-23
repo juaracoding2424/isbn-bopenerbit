@@ -20,7 +20,7 @@
 		<script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
 	</head>
 	<!--end::Head-->
-	<body id="kt_body" class="app-blank bgi-size-cover bgi-attachment-fixed bgi-position-center">
+	<body id="kt_body" class="app-blank bgi-size-cover bgi-attachment-fixed bgi-position-center" onkeypress="clickPress(event)">
 		<!--begin::Theme mode setup on page load-->
 		<script>var defaultThemeMode = "light"; var themeMode; if ( document.documentElement ) { if ( document.documentElement.hasAttribute("data-bs-theme-mode")) { themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); } else { if ( localStorage.getItem("data-bs-theme") !== null ) { themeMode = localStorage.getItem("data-bs-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-bs-theme", themeMode); }</script>
 		<!--end::Theme mode setup on page load-->
@@ -96,7 +96,7 @@
 									<!--end::Wrapper-->
 									<!--begin::Submit button-->
 									<div class="d-grid mb-10">
-										<span id="submitBtn" class="btn btn-primary">
+										<span id="submitBtn" class="btn btn-primary" onclick="submitBtnClick(event)">
 											<!--begin::Indicator label-->
 											<span class="indicator-label">Sign In</span>
 											<!--end::Indicator label-->
@@ -143,7 +143,12 @@
 		<script src="{{ url('assets/js/scripts.bundle.js') }}"></script>
 		<!--end::Global Javascript Bundle-->
 		<script>
-		$('#submitBtn').on('click', function(e){
+		var clickPress =  function(event) {
+			if (event.keyCode == 13) {
+				submitBtnClick(event);
+			}
+		}
+		var submitBtnClick = function(e){
 			e.preventDefault();
 			let form = document.getElementById('signin_form');
 			let formData = new FormData(form); 
@@ -200,7 +205,7 @@
 					}
                 }
         	});
-		})
+		}
 		</script>
 	</body>
 </html>

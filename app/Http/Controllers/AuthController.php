@@ -160,26 +160,29 @@ class AuthController extends Controller
             $token = request('reset-token');
             $queryData = kurl("get", "getlistraw", "", "SELECT * FROM PENERBIT WHERE RESET_TOKEN='$token'", 'sql', '')["Data"]["Items"];
             if (!isset($queryData[0])) {
-                return response()->json([
+                $return = [
                     'status' => 'Failed',
                     'message' => 'Reset password link not found.',
-                ], 500);
+                ];
             } else {
                 if ((strtotime(date('Y-m-d H:i:s')) > strtotime($queryData[0]["RESET_EXPIRED"]))) {
-                    return response()->json([
+                    $return = [
                         'message' => 'Your reset password link has expired.',
                         'status' => 'Failed',
-                    ], 401);
+                    ];
+                } else {
+                    $return = [
+                        'status' => 'Success',
+                    ];
                 }
             }
-
-            return view('reset-password-next', ['resetToken' => $token]);
+            return view('reset-password-next', array_merge($return, ['resetToken' => $token]));
         } else {
-
-            return response()->json([
-                'message' => 'Your reset password link is invalid.',
-                'status' => 'Failed',
-            ], 500);
+            return view('reset-password-next', [
+                'resetToken' => '',  
+                'message' => 'Your reset password link is invalid. Please double check your email for correct reset password link.',
+                'status' => 'Failed'
+                ]);
         }
     }
 
@@ -191,8 +194,9 @@ class AuthController extends Controller
         if (!isset($queryData[0])) {
             return response()->json([
                 'status' => 'Failed',
-                'message' => 'Reset password link not found.',
+                'message' => 'Your reset password link is invalid. Please double check your email for correct reset password link.',
             ], 500);
+
         } else {
             if ((strtotime(date('Y-m-d H:i:s')) > strtotime($queryData[0]["RESET_EXPIRED"]))) {
                 return response()->json([

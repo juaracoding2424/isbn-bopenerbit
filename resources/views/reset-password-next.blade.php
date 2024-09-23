@@ -25,7 +25,7 @@ License: For each use you must have a valid license purchased only from above li
 		<meta property="og:url" content="https://isbn.perpusnas.go.id" />
 		<meta property="og:site_name" content="ISBN Indonesia" />
 		<link rel="canonical" href="https://isbn.perpusnas.go.id/reset-password" />
-		<link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
+		<link rel="shortcut icon" href="{{ url('assets/media/logos/favicon.ico') }}" />
 		<!--begin::Fonts(mandatory for all pages)-->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
 		<!--end::Fonts-->
@@ -37,7 +37,7 @@ License: For each use you must have a valid license purchased only from above li
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->
-	<body id="kt_body" class="app-blank">
+	<body id="kt_body" class="app-blank" onkeypress="clickPress(event)">
 		<!--begin::Theme mode setup on page load-->
 		<script>var defaultThemeMode = "light"; var themeMode; if ( document.documentElement ) { if ( document.documentElement.hasAttribute("data-bs-theme-mode")) { themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); } else { if ( localStorage.getItem("data-bs-theme") !== null ) { themeMode = localStorage.getItem("data-bs-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-bs-theme", themeMode); }</script>
 		<!--end::Theme mode setup on page load-->
@@ -51,6 +51,17 @@ License: For each use you must have a valid license purchased only from above li
 					<div class="d-flex flex-center flex-column flex-lg-row-fluid">
 						<!--begin::Wrapper-->
 						<div class="w-lg-500px p-10">
+						
+						@if($status == 'Failed')
+						<div class="alert alert-danger d-flex align-items-center p-5 mb-10">
+								<i class="ki-solid ki-shield-cross fs-4hx text-danger me-0"></i>
+								<div class="rounded border p-10  d-flex flex-column">
+									<div class="d-flex flex-column">
+										<p class="mb-1 text-danger">{{ $message }}</p>								
+									</div>
+								</div>
+							</div>
+						@endif
 							<!--begin::Form-->
 							<form class="form w-100" novalidate="novalidate" id="kt_new_password_form" data-kt-redirect-url="/login" action="/reset-password-next" method="post">
 							@csrf
@@ -143,12 +154,12 @@ License: For each use you must have a valid license purchased only from above li
 				</div>
 				<!--end::Body-->
 				<!--begin::Aside-->
-				<div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2" style="background-image: url(assets/media/misc/auth-bg.png)">
+				<div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2" style="background-image: url('/assets/media/misc/auth-bg.png')">
 					<!--begin::Content-->
 					<div class="d-flex flex-column flex-center py-7 py-lg-15 px-5 px-md-15 w-100">
 						<!--begin::Logo-->
 						<a href="index.html" class="mb-0 mb-lg-12">
-							<img alt="Logo" src="assets/media/logos/custom-1.png" class="h-60px h-lg-75px" />
+							<img alt="Logo" src="/assets/media/logos/custom-1.png" class="h-60px h-lg-75px" />
 						</a>
 						<!--end::Logo-->
 						<!--begin::Image-->
@@ -175,12 +186,46 @@ License: For each use you must have a valid license purchased only from above li
 		<!--end::Global Javascript Bundle-->
 		<!--begin::Custom Javascript(used for this page only)-->
 		<script>
-		
+		var clickPress =  function(event) {
+				if (event.keyCode == 13) {
+					submitForm(document.querySelector("#kt_new_password_form"),document.querySelector("#kt_new_password_submit"))
+				}
+			}
+		var submitForm = function(t, e){
+			axios.post(e.closest("form").getAttribute("action"), new FormData(t)).then((function(e) {
+								if (e) {
+									t.reset();
+									const e = t.getAttribute("data-kt-redirect-url");
+									e && (location.href = e)
+								} else Swal.fire({
+									text: "Sorry, the email is incorrect, please try again.",
+									icon: "error",
+									buttonsStyling: !1,
+									confirmButtonText: "Ok, got it!",
+									customClass: {
+										confirmButton: "btn btn-primary"
+									}
+								})
+							})).catch((function(t) {
+								Swal.fire({
+									text: "Sorry, looks like there are some errors detected, please try again. " + t.response.data.message,
+									icon: "error",
+									buttonsStyling: !1,
+									confirmButtonText: "Ok, got it!",
+									customClass: {
+										confirmButton: "btn btn-primary"
+									}
+								})
+							})).then((() => {
+								e.removeAttribute("data-kt-indicator"), e.disabled = !1
+							}))
+		}
 		"use strict";
 		var KTAuthNewPassword = function() {
 			var t, e, r, o, n = function() {
 				return o.getScore() > 50
 			};
+			
 			return {
 				init: function() {
 					t = document.querySelector("#kt_new_password_form"), e = document.querySelector("#kt_new_password_submit"), o = KTPasswordMeter.getInstance(t.querySelector('[data-kt-password-meter="true"]')), r = FormValidation.formValidation(t, {
@@ -241,33 +286,7 @@ License: For each use you must have a valid license purchased only from above li
 						}
 					}, e.addEventListener("click", (function(o) {
 						o.preventDefault(), r.revalidateField("password"), r.validate().then((function(r) {
-							"Valid" == r ? (e.setAttribute("data-kt-indicator", "on"), e.disabled = !0, axios.post(e.closest("form").getAttribute("action"), new FormData(t)).then((function(e) {
-								if (e) {
-									t.reset();
-									const e = t.getAttribute("data-kt-redirect-url");
-									e && (location.href = e)
-								} else Swal.fire({
-									text: "Sorry, the email is incorrect, please try again.",
-									icon: "error",
-									buttonsStyling: !1,
-									confirmButtonText: "Ok, got it!",
-									customClass: {
-										confirmButton: "btn btn-primary"
-									}
-								})
-							})).catch((function(t) {
-								Swal.fire({
-									text: "Sorry, looks like there are some errors detected, please try again. " + t.response.data.message,
-									icon: "error",
-									buttonsStyling: !1,
-									confirmButtonText: "Ok, got it!",
-									customClass: {
-										confirmButton: "btn btn-primary"
-									}
-								})
-							})).then((() => {
-								e.removeAttribute("data-kt-indicator"), e.disabled = !1
-							}))) : Swal.fire({
+							"Valid" == r ? (e.setAttribute("data-kt-indicator", "on"), e.disabled = !0, submitForm(t, e)) : Swal.fire({
 								text: "Sorry, looks like there are some errors detected, please try again.",
 								icon: "error",
 								buttonsStyling: !1,
