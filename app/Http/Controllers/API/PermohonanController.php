@@ -796,7 +796,7 @@ class PermohonanController extends Controller
         } else {
             $jilid = "";
         }
-        \Log::info($jilid);
+        //\Log::info($jilid);
         
         if ($is_masalah) {
             //file lampiran  
@@ -811,13 +811,13 @@ class PermohonanController extends Controller
                         true
                     );
                     kurl_upload('post', $penerbit, $terbitan_id, "lampiran_pending", $file_one, $ip, $keterangan, $resi_id);
-                    //File::delete($filePath_one);
+                    File::delete($filePath_one);
                 }
             }
         } else {
             //file lampiran
             if ($file["file_lampiran".$jilid]) {
-                \Log::info("nemu " . "file_lampiran".$jilid );
+                //\Log::info("nemu " . "file_lampiran".$jilid );
                 $filePath_one = $this->uploadToLocal($file["file_lampiran" . $jilid]);
                 if (File::exists(public_path('file_tmp_upload/') . $filePath_one)) {
                     $file_one = new UploadedFile(
@@ -828,7 +828,7 @@ class PermohonanController extends Controller
                         true
                     );
                     kurl_upload('post', $penerbit, $terbitan_id, "lampiran_permohonan", $file_one, $ip, $keterangan, $resi_id);
-                    //File::delete(public_path('file_tmp_upload/') . $filePath_one);
+                    File::delete(public_path('file_tmp_upload/') . $filePath_one);
                 }
             } 
         }
@@ -844,7 +844,7 @@ class PermohonanController extends Controller
                         true
                     );
                     kurl_upload('post', $penerbit, $terbitan_id, "dummy_buku", $file_, $ip, $keterangan, $resi_id);
-                    //File::delete(public_path('file_tmp_upload/') . $filePath);
+                    File::delete(public_path('file_tmp_upload/') . $filePath);
                 }
         }
         //file cover
@@ -859,7 +859,7 @@ class PermohonanController extends Controller
                         true
                     );
                     kurl_upload('post', $penerbit, $terbitan_id, "cover", $file_, $ip, $keterangan, $resi_id);
-                    //File::delete(public_path('file_tmp_upload/') . $filePath);
+                    File::delete(public_path('file_tmp_upload/') . $filePath);
                 }
         }
     }
