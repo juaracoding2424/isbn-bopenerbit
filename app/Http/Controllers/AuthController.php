@@ -205,8 +205,16 @@ class AuthController extends Controller
                 ], 401);
             }
             $id = $queryData[0]['ID'];
-            $encryptedPassword = urlencode(getMd5Hash($request->input('password')));
-            $encryptedPassword2 = urlencode(rijndaelEncryptPassword($request->input('password')));
+            $encryptedPassword = getMd5Hash(trim($request->input('password')));
+            $encryptedPassword2 = rijndaelEncryptPassword(trim($request->input('password')));
+            if($encryptedPassword == $queryData[0]['ISBN_PASSWORD1']){
+                return response()->json([
+                    'message' => 'The password you entered is the same as your previous password. 
+                                    The reset password feature is intended for those who have forgotten their password, but it seems like you haven’t. 
+                                    Please log in using your previous password.',
+                    'status' => 'Failed',
+                ], 401);
+            }
             //UPDATE TABEL PENERBIT
             $updated = [
                 ["name" => "ISBN_PASSWORD1", "Value" => $encryptedPassword],
