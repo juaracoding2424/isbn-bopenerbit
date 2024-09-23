@@ -55,7 +55,9 @@ Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
         Route::post('penerbit/dropzone/store', [DropZoneController::class, 'store']);
         Route::post('penerbit/dropzone/delete', [DropZoneController::class, 'delete']);
 
-        Route::get('penerbit/history/data', [HistoryController::class, 'index']);
+        Route::get('penerbit/history', [HistoryController::class, 'index']);
+        Route::get('penerbit/history/data', [HistoryController::class, 'data']);
+        Route::get('penerbit/history/datatable', [HistoryController::class, 'datatable']);
 
         Route::get('penerbit/report/isbn', [ReportController::class, 'index']);
         Route::get('penerbit/report/isbn/show-data', [ReportController::class, 'showData']);

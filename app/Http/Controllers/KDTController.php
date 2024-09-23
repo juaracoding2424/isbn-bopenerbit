@@ -102,7 +102,7 @@ class KDTController extends Controller
         }
         //\Log::info("SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql  $sqlGroupBy) inner) outer WHERE rn >$start AND rn <= $end");
         $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql  $sqlGroupBy) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
-        \Log::info("SELECT COUNT(*) JUMLAH FROM ($sqlFiltered $sqlFilGroupBy)");
+        //\Log::info("SELECT COUNT(*) JUMLAH FROM ($sqlFiltered $sqlFilGroupBy)");
         $totalFiltered = kurl("get","getlistraw", "", "SELECT COUNT(*) JUMLAH FROM ($sqlFiltered $sqlFilGroupBy)", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         
         $response['data'] = [];

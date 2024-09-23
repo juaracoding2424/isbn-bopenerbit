@@ -544,6 +544,7 @@ class IsbnPermohonanController extends Controller
                     );
                     kurl_upload('post', $penerbit, $terbitan_id, "lampiran_pending", $file_one, $ip, $keterangan, $resi_id);
                 }
+                File::delete($filePath_one);
             }
         } else {
             //file lampiran
@@ -559,6 +560,7 @@ class IsbnPermohonanController extends Controller
                     );
                     kurl_upload('post', $penerbit, $terbitan_id, "lampiran_permohonan", $file_one, $ip, $keterangan, $resi_id);
                 }
+                File::delete($filePath_one);
             } 
         }
         //file dummy
@@ -574,6 +576,7 @@ class IsbnPermohonanController extends Controller
                 );
                 kurl_upload('post', $penerbit, $terbitan_id, "dummy_buku", $file_two, $ip, $keterangan, $resi_id);
             }
+            File::delete($filePath_two);
         }
         //file cover
         if ($file['file_cover']) {
@@ -588,6 +591,7 @@ class IsbnPermohonanController extends Controller
                 );
                 kurl_upload('post', $penerbit, $terbitan_id, "cover", $file_3, $ip, $keterangan, $resi_id);
             }
+            File::delete($filePath_3);
         }
     }
 
