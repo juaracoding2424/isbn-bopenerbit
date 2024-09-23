@@ -187,10 +187,10 @@ License: For each use you must have a valid license purchased only from above li
 		<!--begin::Custom Javascript(used for this page only)-->
 		<script>
 		var clickPress =  function(event) {
-				if (event.keyCode == 13) {
-					submitForm(document.querySelector("#kt_new_password_form"),document.querySelector("#kt_new_password_submit"))
-				}
+			if (event.keyCode == 13) {
+				submitForm(document.querySelector("#kt_new_password_form"),document.querySelector("#kt_new_password_submit"))
 			}
+		}
 		var submitForm = function(t, e){
 			axios.post(e.closest("form").getAttribute("action"), new FormData(t)).then((function(e) {
 								if (e) {
