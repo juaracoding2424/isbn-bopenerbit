@@ -49,7 +49,7 @@
             contentType: false,
             processData: false,
             success: function(response) {
-				let status_permohonan = "", cek_disini = "", link = "http://demo321.online/ISBN_Back_Office/";
+				let status_permohonan = "", cek_disini = "", link = "http://demo321.online/ISBN_Back_Office/", note="Permohonan ";
 				for(var i=0; i< response.length; i++){
 					switch(response[i]['NOTE']){
 						case 'Permohonan baru': 
@@ -68,9 +68,12 @@
 							status_permohonan = '<span class="badge badge-light-danger">BATAL</span>';
 							cek_disini = `<a href="/penerbit/isbn/permohonan/batal">Cek disini.</a>`;
 							break;
-						default: status_permohonan = '' ;break;
+						default: 
+							note = response[i]['NOTE'].replace("href='", "href='" +link);
+							status_permohonan = '' ;
+							break;
 					}
-					let note = response[i]['NOTE'].replace("href='", "href='" +link);
+				
 					let penerbit_terbitan = `<div class="timeline-item">
 						<div class="timeline-line"></div>
 						<div class="timeline-icon">

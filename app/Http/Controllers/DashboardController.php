@@ -72,7 +72,7 @@ class DashboardController extends Controller
 
     public function getBerita()
     {   
-        $sql = "SELECT * FROM ISBN_MST_BERITA WHERE ROWNUM <= 5 ORDER BY TANGGAL DESC";
+        $sql = "SELECT * FROM ISBN_MST_BERITA WHERE ROWNUM <= 10 ORDER BY TANGGAL DESC";
         $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"];
         return $data;
     }

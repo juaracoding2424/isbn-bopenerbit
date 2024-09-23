@@ -517,11 +517,22 @@ class IsbnPermohonanController extends Controller
         $params = [
             ["name" => 'status', 'Value'=> 'batal'],
         ];
-        //$data = kurl('get','update', 'ISBN_RESI', '', '' , $params);
+        $isbn_resi = kurl("get","getlistraw", "", "SELECT * FROM ISBN_RESI WHERE ID='$id'", "sql", "")["Data"]["Items"][0];
         //return $data['Status'];
         //\Log::info(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_RESI&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($params)));
         $res2 =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_RESI&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($params)));
-        //\Log::info($res2);
+        
+        //INSERT HISTORY PENERBIT TERBITAN
+        $history = [
+            [ "name" => "TABLENAME", "Value"=> "PENERBIT_TERBITAN"],
+            [ "name" => "IDREF", "Value"=> $isbn_resi['PENERBIT_TERBITAN_ID']],
+            [ "name" => "ACTION" , "Value"=> "Add"],
+            //[ "name" => "ACTIONDATE", "Value"=> now()->format('Y-m-d H:i:s') ],
+            [ "name" => "ACTIONTERMINAL", "Value"=> \Request::ip()],
+            [ "name" => "ACTIONBY", "Value"=> session('penerbit')["USERNAME"]],
+            [ "name" => "NOTE", "Value"=> "Set status batal"],
+        ];
+        $res_his = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=HISTORYDATA&ListAddItem=" . urlencode(json_encode($history)));
         return $res2;
     }
 
