@@ -89,7 +89,7 @@
 									<i class="ki-outline ki-notification-status fs-1"></i>
 									<div
 										class="badge badge-circle badge-danger position-absolute translate-middle bottom-0 ms-10 mt-7 mt-lg-10 h-15px w-15px fs-9">
-										5</div>
+										</div>
 								</div>
 								<!--end::Drawer toggle-->
 							</div>

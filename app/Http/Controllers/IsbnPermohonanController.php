@@ -129,7 +129,7 @@ class IsbnPermohonanController extends Controller
     {
         $penerbit = session('penerbit');
         //\Log::info(request()->all());
-        //try{   
+        try{   
             if(request('penerbit_terbitan_id') == ''){ //form baru
                 if(request('title') != ''){
                     if($this->checkTitle(request('title'), $penerbit['ID']) > 0) {
@@ -219,20 +219,20 @@ class IsbnPermohonanController extends Controller
                     'url.*.required' => 'Anda belum mengisi URL/Link publikasi buku',
                 ];
                 if(request('penerbit_isbn_masalah_id') != ''){
-                    array_merge($rules, [
+                    $rules = array_merge($rules, [
                             'file_lampiran' => 'required|array|min:1',
                             'file_lampiran.*' => 'required',
                     ]);
-                    array_merge($messages ,[
+                    $messages = array_merge($messages ,[
                             'file_lampiran.required' => 'Anda belum mengunggah file lampiran buku yang sudah diperbaiki',
                             'file_lampiran.*.required' => 'Anda belum mengunggah file lampiran buku yang sudah diperbaiki',
                     ]);
                 }
                 if(request('status') == 'lepas') {
-                    array_merge($rules, [
+                    $rules = array_merge($rules, [
                         'jml_hlm.min' => 'min:40',
                     ]);
-                    array_merge($messages ,[
+                    $messages = array_merge($messages ,[
                         'jml_hlm.min' => 'Menurut UNESCO, jumlah halaman buku paling sedikit terdiri dari 40 halaman, tidak termasuk bagian preliminaries dan postliminaries',
                     ]);
                 }
@@ -364,16 +364,17 @@ class IsbnPermohonanController extends Controller
 
                     //INSERT HISTORY
                     $history = [
-                        [ "name" => "TABLENAME", "Value"=> "PENERBI_TERBITAN"],
+                        [ "name" => "TABLENAME", "Value"=> "PENERBIT_TERBITAN"],
                         [ "name" => "IDREF", "Value"=> $id],
                         [ "name" => "ACTION" , "Value"=> "Add"],
                         [ "name" => "ACTIONBY" , "Value"=> session('penerbit')["USERNAME"]],
-                        [ "name" => "ACTIONDATE", "Value"=> now()->format('Y-m-d H:i:s') ],
+                        //[ "name" => "ACTIONDATE", "Value"=> now()->format('Y-m-d H:i:s') ], //ga perlu, sistem auto isi
                         [ "name" => "ACTIONTERMINAL", "Value"=> \Request::ip()],
                         [ "name" => "NOTE", "Value"=> "Permohonan baru"],
                     ];
+                    //\Log::info(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=HISTORYDATA&ListAddItem=" . urlencode(json_encode($history)));
                     $res_his = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=HISTORYDATA&ListAddItem=" . urlencode(json_encode($history)));
-                    
+                    //\Log::info($res_his);
                 }
                 /* ------------------------------------------------ simpan file ------------------------------------------*/
                 if(request('status') == 'lepas') {
@@ -479,8 +480,9 @@ class IsbnPermohonanController extends Controller
                 //KIRIM EMAIL NOTIFIKASI
                 $params = [
                     ["name" => "NoResi", "Value" => $noresi],
+                    ["name" => "JenisPermohonan", "Value" => request('status')],
                     ["name" => "NamaPenerbit", "Value" => session('penerbit')['NAME']],
-                    ["name" => "Title", "Value" => request('title')],
+                    ["name" => "Title", "Value" => '<b>' . request('title') . '</b>'],
                     ["name" => "Kepeng", "Value" => $authors ],
                     ["name" => "BulanTahunTerbit", "Value" => request('bulan_terbit') . '-' . request('tahun_terbit')],
                     ["name" => "JenisTerbitan", "Value" => request('status') ],
@@ -488,7 +490,7 @@ class IsbnPermohonanController extends Controller
                     ["name" => "Distributor", "Value"=> request('distributor') ],
                     ["name" => "TempatTerbit", "Value"=> request('tempat_terbit') ],
                 ];
-                sendMail(14, $params, session('penerbit')['EMAIL'], 'PERMOHONAN ISBN BARU [#'+$noresi+']');
+                sendMail(14, $params, session('penerbit')['EMAIL'], 'PERMOHONAN ISBN BARU [#'.$noresi.']');
 
                 return response()->json([
                     'status' => 'Success',
@@ -496,13 +498,13 @@ class IsbnPermohonanController extends Controller
                     'noresi' => $noresi
                 ], 200);
             }
-        /*} catch(\Exception $e){
+        } catch(\Exception $e){
             return response()->json([
                 'status' => 'Failed',
                 'message' => 'Data permohonan gagal disimpan. Server Error!',
                 'noresi' => $e->getMessage()
             ], 500);
-        }*/
+        }
     }
 
     function cancel($noresi)
@@ -515,11 +517,22 @@ class IsbnPermohonanController extends Controller
         $params = [
             ["name" => 'status', 'Value'=> 'batal'],
         ];
-        //$data = kurl('get','update', 'ISBN_RESI', '', '' , $params);
+        $isbn_resi = kurl("get","getlistraw", "", "SELECT * FROM ISBN_RESI WHERE ID='$id'", "sql", "")["Data"]["Items"][0];
         //return $data['Status'];
         //\Log::info(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_RESI&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($params)));
         $res2 =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_RESI&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($params)));
-        //\Log::info($res2);
+        
+        //INSERT HISTORY PENERBIT TERBITAN
+        $history = [
+            [ "name" => "TABLENAME", "Value"=> "PENERBIT_TERBITAN"],
+            [ "name" => "IDREF", "Value"=> $isbn_resi['PENERBIT_TERBITAN_ID']],
+            [ "name" => "ACTION" , "Value"=> "Add"],
+            //[ "name" => "ACTIONDATE", "Value"=> now()->format('Y-m-d H:i:s') ],
+            [ "name" => "ACTIONTERMINAL", "Value"=> \Request::ip()],
+            [ "name" => "ACTIONBY", "Value"=> session('penerbit')["USERNAME"]],
+            [ "name" => "NOTE", "Value"=> "Set status batal"],
+        ];
+        $res_his = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=HISTORYDATA&ListAddItem=" . urlencode(json_encode($history)));
         return $res2;
     }
 
@@ -542,6 +555,7 @@ class IsbnPermohonanController extends Controller
                     );
                     kurl_upload('post', $penerbit, $terbitan_id, "lampiran_pending", $file_one, $ip, $keterangan, $resi_id);
                 }
+                File::delete($filePath_one);
             }
         } else {
             //file lampiran
@@ -557,6 +571,7 @@ class IsbnPermohonanController extends Controller
                     );
                     kurl_upload('post', $penerbit, $terbitan_id, "lampiran_permohonan", $file_one, $ip, $keterangan, $resi_id);
                 }
+                File::delete($filePath_one);
             } 
         }
         //file dummy
@@ -570,8 +585,9 @@ class IsbnPermohonanController extends Controller
                     null,
                     true
                 );
-                kurl_upload('post', $penerbit, $terbitan_id, "dummy_buku", $file_two, $ip, $keterangan);
+                kurl_upload('post', $penerbit, $terbitan_id, "dummy_buku", $file_two, $ip, $keterangan, $resi_id);
             }
+            File::delete($filePath_two);
         }
         //file cover
         if ($file['file_cover']) {
@@ -584,8 +600,9 @@ class IsbnPermohonanController extends Controller
                     null,
                     true
                 );
-                kurl_upload('post', $penerbit, $terbitan_id, "cover", $file_3, $ip, $keterangan);
+                kurl_upload('post', $penerbit, $terbitan_id, "cover", $file_3, $ip, $keterangan, $resi_id);
             }
+            File::delete($filePath_3);
         }
     }
 

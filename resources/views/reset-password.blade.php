@@ -14,7 +14,7 @@
 		<meta property="og:url" content="https://isbn.perpusnas.go.id" />
 		<meta property="og:site_name" content="ISBN Indonesia" />
 		<link rel="canonical" href="https://isbn.perpusnas.go.id/reset-password" />
-		<link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
+		<link rel="shortcut icon" href="{{ url('assets/media/logos/favicon.ico') }}" />
 		<!--begin::Fonts(mandatory for all pages)-->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
 		<!--end::Fonts-->
@@ -26,7 +26,7 @@
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->
-	<body id="kt_body" class="app-blank">
+	<body id="kt_body" class="app-blank" onkeypress="clickPress(event)">
 		<!--begin::Theme mode setup on page load-->
 		<script>var defaultThemeMode = "light"; var themeMode; if ( document.documentElement ) { if ( document.documentElement.hasAttribute("data-bs-theme-mode")) { themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); } else { if ( localStorage.getItem("data-bs-theme") !== null ) { themeMode = localStorage.getItem("data-bs-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-bs-theme", themeMode); }</script>
 		<!--end::Theme mode setup on page load-->
@@ -41,7 +41,7 @@
 						<!--begin::Wrapper-->
 						<div class="w-lg-500px p-10">
 							<!--begin::Form-->
-							<form class="form w-100" novalidate="novalidate" id="kt_password_reset_form" data-kt-redirect-url="/reset-password/next" action="/reset-password/send">
+							<form class="form w-100" novalidate="novalidate" id="kt_password_reset_form" data-kt-redirect-url="/reset-password/next" action="/reset-password/send" method="post">
 								<!--begin::Heading-->
 								@csrf
 								<div class="text-center mb-10">
@@ -93,7 +93,7 @@
 				</div>
 				<!--end::Body-->
 				<!--begin::Aside-->
-				<div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2" style="background-image: url(assets/media/misc/auth-bg.png)">
+				<div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2" style="background-image: url('/assets/media/misc/auth-bg.png')">
 					<!--begin::Content-->
 					<div class="d-flex flex-column flex-center py-7 py-lg-15 px-5 px-md-15 w-100">
 						<!--begin::Logo-->
@@ -124,6 +124,49 @@
 		<!--end::Global Javascript Bundle-->
 		<!--begin::Custom Javascript(used for this page only)-->
 		<script>
+		var clickPress =  function(event) {
+			if (event.keyCode == 13) {
+				event.preventDefault();
+				submitForm(document.querySelector("#kt_password_reset_form"), document.querySelector("#kt_password_reset_submit"));
+			}
+		}
+		var submitForm = function (t,e){
+			axios.post(e.closest("form").getAttribute("action"), new FormData(t)).then((function(e) {
+                        if (e) {
+                            t.reset(), Swal.fire({
+                                text: "We have send a password reset link to your email.",
+                                icon: "success",
+                                buttonsStyling: !1,
+                                confirmButtonText: "Ok, got it!",
+                                customClass: {
+                                    confirmButton: "btn btn-primary"
+                                }
+                            });
+                            const e = t.getAttribute("data-kt-redirect-url");
+                            //e && (location.href = e)
+                        } else Swal.fire({
+                            text: "Sorry, the email is incorrect, please try again.",
+                            icon: "error",
+                            buttonsStyling: !1,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn btn-primary"
+                            }
+                        })
+                    })).catch((function(t) {
+                        Swal.fire({
+                            text: "Sorry, looks like there are some errors detected, please try again. " + t.response.data.message,
+                            icon: "error",
+                            buttonsStyling: !1,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn btn-primary"
+                            }
+                        })
+                    })).then((() => {
+                        e.removeAttribute("data-kt-indicator"), e.disabled = !1
+                    })) 
+		}
 		"use strict";
 var KTAuthResetPassword = function() {
     var t, e, r;
@@ -159,41 +202,7 @@ var KTAuthResetPassword = function() {
                 }
             }, e.addEventListener("click", (function(i) {
                 i.preventDefault(), r.validate().then((function(r) {
-                    "Valid" == r ? (e.setAttribute("data-kt-indicator", "on"), e.disabled = !0, axios.post(e.closest("form").getAttribute("action"), new FormData(t)).then((function(e) {
-                        if (e) {
-                            t.reset(), Swal.fire({
-                                text: "We have send a password reset link to your email.",
-                                icon: "success",
-                                buttonsStyling: !1,
-                                confirmButtonText: "Ok, got it!",
-                                customClass: {
-                                    confirmButton: "btn btn-primary"
-                                }
-                            });
-                            const e = t.getAttribute("data-kt-redirect-url");
-                            //e && (location.href = e)
-                        } else Swal.fire({
-                            text: "Sorry, the email is incorrect, please try again.",
-                            icon: "error",
-                            buttonsStyling: !1,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn btn-primary"
-                            }
-                        })
-                    })).catch((function(t) {
-                        Swal.fire({
-                            text: "Sorry, looks like there are some errors detected, please try again. " + t.response.data.message,
-                            icon: "error",
-                            buttonsStyling: !1,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn btn-primary"
-                            }
-                        })
-                    })).then((() => {
-                        e.removeAttribute("data-kt-indicator"), e.disabled = !1
-                    }))) : Swal.fire({
+                    "Valid" == r ? (e.setAttribute("data-kt-indicator", "on"), e.disabled = !0, submitForm(t,e)): Swal.fire({
                         text: "Sorry, looks like there are some errors detected, please try again.",
                         icon: "error",
                         buttonsStyling: !1,

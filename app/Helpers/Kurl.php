@@ -203,7 +203,6 @@ function sendMail($id, $params, $emailTo, $subject)
             $emailContent = str_replace("{".$k['name']."}", $k["Value"], $emailContent);
         }
         if(config('app.env') == 'local' || config('app.env') == 'demo' ) {
-            
             Mail::to('sleepingdock@gmail.com')->send(new \App\Mail\SendMail('sleepingdock@gmail.com',$subject, $emailContent));
         } else {
             Mail::to($emailTo)->send(new \App\Mail\SendMail($emailTo,$subject, $emailContent));
