@@ -131,7 +131,7 @@ class IsbnPermohonanController extends Controller
     function submit(Request $request)
     {
         $penerbit = session('penerbit');
-        \Log::info(request()->all());
+        //\Log::info(request()->all());
         try{   
             if(request('penerbit_terbitan_id') == ''){ //form baru
                 if(request('isbn-jilid') == ''){
