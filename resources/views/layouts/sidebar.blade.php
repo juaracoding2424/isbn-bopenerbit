@@ -31,6 +31,11 @@
                 </a>
             </div>
             <div class="menu-item">
+                <a class="menu-link" href="{{ url('/penerbit/isbn/batal')}}">
+                    <span class="menu-icon"><i class="ki-outline ki-file-deleted fs-2 text-danger"></i></span> Permohonan Batal
+                </a>
+            </div>
+            <div class="menu-item">
                 <a class="menu-link" href="{{ url('/penerbit/isbn/data')}}">
                     <span class="menu-icon"><i class="ki-outline ki-questionnaire-tablet fs-2"></i></span> Data ISBN
                 </a>

@@ -43,6 +43,14 @@
                     </a>
 					<!--end:Menu link-->
 					<!--begin:Menu link-->
+					<a class="menu-link" href="{{ url('/penerbit/isbn/batal')}}">
+						<span class="menu-icon">
+							<i class="ki-outline ki-file-deleted fs-2 text-danger"></i>
+						</span>
+						<span class="menu-title">Permohonan Batal</span>
+                    </a>
+					<!--end:Menu link-->
+					<!--begin:Menu link-->
 					<a class="menu-link" href="{{ url('/penerbit/isbn/data')}}">
 						<span class="menu-icon">
 							<i class="ki-outline ki-questionnaire-tablet fs-2"></i>

@@ -724,7 +724,16 @@ class IsbnPermohonanController extends Controller
         }
         return view('edit_isbn', $data);
     }
-
+    function getDetail($id)
+    {
+        $detail = kurl("get","getlistraw", "", "SELECT pt.* FROM PENERBIT_TERBITAN pt JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id WHERE ir.ID='$id'", 'sql', '');
+        
+        $data = [
+            'status' => $detail["Data"]["Items"][0]['JENIS'],
+            'detail' => $detail["Data"]["Items"][0],
+        ];
+        return response()->json($data);
+    }
     function getDetailJilid($id)
     {
         $detail = kurl("get","getlistraw", "", "SELECT pt.* FROM PENERBIT_TERBITAN pt JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id WHERE pt.ID='$id'", 'sql', '');
