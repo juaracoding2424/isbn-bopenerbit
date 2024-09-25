@@ -75,7 +75,7 @@ class IsbnPermohonanController extends Controller
             $sql .= " AND UPPER(ir.source) = '" . strtoupper($request->input('sumber')) ."'";
         }
         $sql .= " ORDER BY CREATEDATE DESC ";
-        //\Log::info("SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end");
+
         $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
         $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM ISBN_RESI WHERE PENERBIT_ID='$id' AND (status='' OR status='permohonan' OR status is NULL)", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         $totalFiltered = kurl("get","getlistraw", "", $sqlFiltered, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
@@ -83,7 +83,6 @@ class IsbnPermohonanController extends Controller
         if (count($queryData) > 0) {
             $nomor = $start + 1;
             foreach ($queryData as $val) {
-                //\Log::info($val);
                 $id = $val['ID'];
                 $noresi = $val['NORESI'] ? $val['NORESI'] : $val['ID'];
                 if($val['STATUS'] == 'lanjutan'){
@@ -91,12 +90,6 @@ class IsbnPermohonanController extends Controller
                 }
                 $source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge badge-primary'>".$val['SOURCE']."</span>";
                 $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
-                //$jml_jilid = $val['JML_JILID_REQ'];
-                //if($jml_jilid){
-                //    $jilid_lepas = intval($jml_jilid) > 1 ? "terbitan jilid" : "terbitan lepas";
-                //}else {
-                //    $jilid_lepas = "terbitan lepas";
-                //}
                 $response['data'][] = [
                     $nomor,
                     '<a class="badge badge-info h-30px m-1" href="/penerbit/isbn/permohonan/detail/'.$val['NORESI'].'">Ubah Data</a><a class="badge badge-danger h-30px m-1" href="#" onclick="batalkanPermohonan('.$id.')">Batalkan Permohonan</a>',
@@ -456,7 +449,7 @@ class IsbnPermohonanController extends Controller
                         'file_lampiran' => $request->input('file_lampiran')[0] ?? null,
                         'file_cover' => $request->input('file_cover')[0] ?? null,
                     ];
-                    //\Log::info($request->input('file_dummy')[0]);
+
                     if(request('penerbit_terbitan_id') != '' && isset($request->input('file_dummy')[0])){
                         //ganti file dummy kalau ada
                         if(isset($request->input('file_dummy_id')[0])) {
@@ -596,7 +589,7 @@ class IsbnPermohonanController extends Controller
         ];
         $isbn_resi = kurl("get","getlistraw", "", "SELECT * FROM ISBN_RESI WHERE ID='$id'", "sql", "")["Data"]["Items"][0];
         //return $data['Status'];
-        //\Log::info(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_RESI&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($params)));
+       
         $res2 =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_RESI&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($params)));
         
         //INSERT HISTORY PENERBIT TERBITAN
@@ -710,7 +703,6 @@ class IsbnPermohonanController extends Controller
             'file' => $file,
             'masalah' => $masalah,
         ];
-
         if($detail["Data"]["Items"][0]["STATUS"] == 'lanjutan'){
             $data_jilid_lengkap = kurl("get","getlistraw", "", "SELECT pi.isbn_no, pt.title, pt.ID 
                 FROM PENERBIT_ISBN pi 
