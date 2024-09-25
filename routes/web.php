@@ -46,7 +46,7 @@ Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
         Route::get('penerbit/isbn/permohonan/new', [IsbnPermohonanController::class, 'new']);
         Route::post('penerbit/isbn/permohonan/new/submit', [IsbnPermohonanController::class, 'submit']);
         Route::get('penerbit/isbn/permohonan/detail/{noresi}', [IsbnPermohonanController::class, 'detail']);
-        Route::get('penerbit/isbn/permohonan/detail/{id}/get', [IsbnPermohonanController::class, 'getDetail']);
+        Route::get('penerbit/isbn/permohonan/detail-jilid/{id}', [IsbnPermohonanController::class, 'getDetailJilid']);
         Route::get('penerbit/isbn/permohonan/jilid-lengkap', [IsbnPermohonanController::class, 'getJilidLengkap']);
         Route::get('penerbit/isbn/permohonan/file/{id}', [IsbnPermohonanController::class, 'getFile']);
         Route::get('penerbit/isbn/permohonan/delete/{id}', [IsbnPermohonanController::class, 'rollback_permohonan']);
