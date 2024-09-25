@@ -148,7 +148,7 @@ height: 100vh !important;
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                         <div class="row mb-6">
+                                         <div class="row mb-6" id="divIsbnLanjutan">
                                             <!--begin::Label-->
                                             <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
                                                 <span>ISBN lanjutan</span>
@@ -1111,7 +1111,10 @@ height: 100vh !important;
     }
     var tambahJilid = function(){
         jumlah_buku +=1;
-        let idJilid = jumlah_buku-jml_jilid;
+        let idJilid = jumlah_buku;
+        if(status == 'lanjutan'){
+            idJilid = jumlah_buku-jml_jilid;
+        }
         $('#jml_hlm').val(jumlah_buku + " jil");
         let html = 
         `<div class='jilidbaru'><span><h4>Data Buku Jilid - `+ jumlah_buku + `</h4><hr/></span>
@@ -1276,10 +1279,13 @@ height: 100vh !important;
     var jenis_pustaka = "{{$detail['JENIS_PUSTAKA']}}";
     var jenis_kelompok = "{{$detail['JENIS_KELOMPOK']}}";
     $('#isbn-jilid-lanjutan').val('{{$isbnjilidlanjutan}}').attr("readonly", true);
+    if('{{$isbnjilidlanjutan}}' == ''){
+        $('#divIsbnLanjutan').hide();
+    }
     if(jenis_media != ''){
         $('input[type=radio][name="jenis_media"][value="'+jenis_media+'"]').prop('checked', true);
     }
-    //$('input[type=radio][name="status"][value="{{$status}}"]').prop("checked", true);
+
     if(jenis_terbitan != ''){
         $('input[type=radio][name="jenis_terbitan"][value="'+jenis_terbitan+'"]').prop('checked', true);
     }
@@ -1300,9 +1306,11 @@ height: 100vh !important;
     $('select[name="tahun_terbit"]').val('{{$detail['TAHUN_TERBIT']}}');
     $('input[type=text][name="distributor"]').val('{{$detail['DISTRIBUTOR']}}');
     $('input[type=text][name="tempat_terbit"]').val('{{$detail['TEMPAT_TERBIT']}}');
+    $('#divIsbnLanjutan').hide();
     if(jilid_lepas == 'lepas'){
         $('#jml_hlm').val("{{$detail['JML_HLM']}}");
         $('input[type=radio][name="status"][value="'+jilid_lepas+'"]').prop('checked', true);
+        
     } else {
         $('#jml_hlm').attr("type", "text").attr('readonly', true);
         $('#jml_hlm').val(parseInt("{{$detail['JML_JILID']}}") + parseInt("{{$detail['JML_JILID_REQ']}}"));
@@ -1317,15 +1325,17 @@ height: 100vh !important;
     ketebalan = ketebalan.replace(' cm', '');
     $('#ketebalan').val(ketebalan);
     var jml_jilid = parseInt("{{$detail['JML_JILID']}}");
-    jumlah_buku = jml_jilid + 1;
     var status = "{{$detail['STATUS']}}";
+    if(status == 'lanjutan'){
+        jumlah_buku = jml_jilid + 1;
+    }
    
     getFile("{{$detail['PENERBIT_TERBITAN_ID']}}");
     function getFile(penerbit_terbitan_id){
         let start = 1;
         if(status == 'lanjutan'){
             start =  parseInt('{{$detail['JML_JILID']}}') + 1;
-            jumlah_jilid = parseInt("{{$detail['JML_JILID_REQ']}}") + start - 1;
+            jml_jilid = parseInt("{{$detail['JML_JILID_REQ']}}") + start - 1;
         } 
         
         $.ajax({
@@ -1334,10 +1344,10 @@ height: 100vh !important;
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    for(var j = start; j < jumlah_jilid; j++){
+                    for(var j = start; j < jml_jilid; j++){
                         tambahJilid();
                     }
-                    for(var k = start; k < jumlah_jilid + 1; k++) {
+                    for(var k = start; k < jml_jilid + 1; k++) {
                         for(var i = 0; i<response.length; i++){
                             if(jilid_lepas == 'jilid') {
                                 let jilidFileNumb = k-start+1;
@@ -1405,7 +1415,7 @@ height: 100vh !important;
                     }
                     let urls = "{{$detail['LINK_BUKU']}}";
                     let link_buku = urls.split('¦');
-                    for(var k=1; k<= jumlah_jilid; k++){
+                    for(var k=1; k<= jml_jilid; k++){
                         $('#url'+k).val(link_buku[k-1]);
                     }
                 },
@@ -1605,6 +1615,7 @@ height: 100vh !important;
         $('#labelKetJumlahHalaman').text('Jilid');
         $('#jml_hlm').attr("type", "text");
         $('#jml_hlm').attr("disabled", "disabled");
+        $('#divIsbnLanjutan').show();
     }
 </script>
 @stop

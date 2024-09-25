@@ -133,7 +133,7 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                        <div class="row mb-6">
+                                        <div class="row mb-6" id="divIsbnLanjutan">
                                             <!--begin::Label-->
                                             <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
                                                 <span>ISBN lanjutan</span>
@@ -1415,6 +1415,7 @@
             $('#jml_hlm').attr("type", "number");
             $('#jml_hlm').val(0);
             $('#jml_hlm').removeAttr("disabled");
+            $('#divIsbnLanjutan').hide();
         } else {
             $('#judul_buku_1').css('display', 'block');
             $('#btnTambahJilid').css('display', 'block');
@@ -1423,10 +1424,12 @@
             $('#jml_hlm').attr("type", "text");
             $('#jml_hlm').val(jumlah_buku + " jil");
             $('#jml_hlm').attr("disabled", "disabled");
+            $('#divIsbnLanjutan').show();
         }
     });
     $('#judul_buku_1').css('display', 'none');
     $('#btnTambahJilid').css('display', 'none');
+    $('#divIsbnLanjutan').hide();
     var kepengarangan = 1;
     var jumlah_buku = 1;
     $('#btnTambahPengarang').on("click", function () {
@@ -1487,6 +1490,7 @@ Nasional dan Perpustakaan Provinsi, termasuk edisi revisi.<br/>
         let form = document.getElementById('form_isbn');
         let formData = new FormData(form);
         formData.append('jumlah_jilid', jumlah_buku);
+        formData.append('jumlah_jilid_total', jml_jilid + jumlah_buku);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('input[name="_token"]').val()

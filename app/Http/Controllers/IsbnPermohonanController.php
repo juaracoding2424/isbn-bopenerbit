@@ -334,6 +334,7 @@ class IsbnPermohonanController extends Controller
                         [ "name"=>"JENIS_PUSTAKA", "Value"=> request('jenis_pustaka') ],
                         [ "name"=>"JENIS_KATEGORI", "Value"=> request('jenis_kategori') ],
                         [ "name"=>"KETEBALAN", "Value"=> request('ketebalan')],
+                        [ "name"=>"JML_JILID", "Value" => request('jumlah_jilid_total')  ]
                 ];
                 $IsbnResi = [
                     [ "name" =>"NORESI", "Value" => $noresi ],
@@ -720,6 +721,11 @@ class IsbnPermohonanController extends Controller
                                 'isbnjilidlanjutan' => $data_jilid_lengkap['ISBN_NO'] . ' | '.$data_jilid_lengkap['TITLE'], 
                                 'isbnjilid'=> $detail["Data"]["Items"][0]['PENERBIT_TERBITAN_ID']
                             ]);
+        } else {
+            $data = array_merge($data, [
+                'isbnjilidlanjutan' => '', 
+                'isbnjilid'=> ''
+            ]);
         }
         return view('edit_isbn', $data);
     }
