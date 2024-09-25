@@ -1254,6 +1254,7 @@
                     btnHapus.removeClass("disabled");
                 }
             }
+            $('#jml_hlm').val(jumlah_buku + " jil");
         });
         dropZoneJilid(jumlah_buku, "lampiran");
         dropZoneJilid(jumlah_buku, "cover");

@@ -226,8 +226,6 @@ class IsbnPermohonanController extends Controller
                     'title' => 'required|title_exists:' . $penerbit['ID'] . ',' . request('penerbit_terbitan_id'),
                     'namaPengarang' => 'required|array|min:1',
                     'namaPengarang.0' => 'required',
-                    //'provinsi' => 'required',
-                    //'kabkot' => 'required',
                     'tempat_terbit' => 'required',
                     'jenis_media' => 'required',
                     'jenis_terbitan' => 'required',
@@ -236,16 +234,12 @@ class IsbnPermohonanController extends Controller
                     'jenis_kategori' => 'required',
                     'jenis_pustaka' => 'required',
                     'deskripsi' => 'required|min:100',
-                    'jml_hlm' => 'required',
-                    //'status' => 'required',
                     'url.*' => 'required',
                     ];
                 $messages = [
                     'title.required' => 'Anda belum mengisi judul buku',
                     'title.title_exists' => 'Judul buku sudah ada, Anda tidak dapat memohon ISBN dengan judul yang sama.',
                     'namaPengarang.0.required' => 'Anda belum mengisi nama pengarang/penulis pertama',
-                    //'provinsi.required' => 'Anda belum mengisi provinsi terbit buku',
-                    //'kabkot.required' => 'Anda belum mengisi kota terbit buku',
                     'tempat_terbit.required' => 'Anda belum mengisi tempat terbit buku',
                     'jenis_media.required' => 'Anda belum mengisi jenis media terbitan buku',
                     'jenis_terbitan.required' => 'Anda belum mengisi jenis terbitan buku',
@@ -255,8 +249,6 @@ class IsbnPermohonanController extends Controller
                     'jenis_pustaka.required' => 'Anda belum mengisi jenis pustaka (fiksi/non fiksi)',
                     'deskripsi.required' => 'Anda belum mengisi abstrak/deskripsi buku',
                     'deskripsi.min' => 'Abstrak/deskripsi buku minimal terdiri dari 100 karakter',
-                    'jml_hlm.required' => 'Anda wajib mengisi jumlah halaman buku',
-                    //'status.required' => 'Anda belum memilih jenis permintaan ISBN (Lepas/Jilid)',
                     'url.*.required' => 'Anda belum mengisi URL/Link publikasi buku',
                 ];
                 if(request('penerbit_isbn_masalah_id') != ''){
@@ -271,9 +263,10 @@ class IsbnPermohonanController extends Controller
                 }
                 if(request('status') == 'lepas') {
                     $rules = array_merge($rules, [
-                        'jml_hlm.min' => 'min:40',
+                        'jml_hlm' => 'required|min:40',
                     ]);
                     $messages = array_merge($messages ,[
+                        'jml_hlm.required' => 'Anda wajib mengisi jumlah halaman buku',
                         'jml_hlm.min' => 'Menurut UNESCO, jumlah halaman buku paling sedikit terdiri dari 40 halaman, tidak termasuk bagian preliminaries dan postliminaries',
                     ]);
                 }
