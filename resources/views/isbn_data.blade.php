@@ -227,7 +227,7 @@
 	var cetakBarcode = function(id){
 		let link= '/penerbit/isbn/data/generate-barcode/' + id;
 		Swal.fire({
-                    html: "<iFrame src='"+link+"' height='100px' width='300px'/>",
+                    html: "<iFrame src='"+link+"' height='100px' width='280px'/>",
                     showCancelButton: !0,
                     buttonsStyling: !1,
                     confirmButtonText: "Simpan Barcode",
