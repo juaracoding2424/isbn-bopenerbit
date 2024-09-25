@@ -376,9 +376,11 @@ class IsbnPermohonanController extends Controller
                     if(request('isbn-jilid') != ""){
                         //ISBN JILID LANJUTAN EDIT TABEL PENERBIT_TERBITAN
                         array_push($ListData, 
-                            [ "name"=>"LAST_MOHON_DATE", "Value"=> now()->addHours(7)->format('Y-m-d H:i:s') ],
-                            [ "name"=>"UPDATEBY", "Value"=> session('penerbit')["USERNAME"]], 
-                            [ "name"=>"UPDATETERMINAL", "Value"=> \Request::ip()]
+                            [ "name" => "LAST_MOHON_DATE", "Value"=> now()->addHours(7)->format('Y-m-d H:i:s') ],
+                            [ "name" => "LAST_MOHON_CREATEBY","Value"=> session('penerbit')["USERNAME"] ],
+                            [ "name" => "LAST_MOHON_CREATETERMINAL","Value"=> \Request::ip() ],
+                            [ "name" => "UPDATEBY", "Value"=> session('penerbit')["USERNAME"]], 
+                            [ "name" => "UPDATETERMINAL", "Value"=> \Request::ip()]
                         );
                         $id = request('isbn-jilid');
                         $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=PENERBIT_TERBITAN&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
