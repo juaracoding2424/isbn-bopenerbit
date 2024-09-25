@@ -41,7 +41,7 @@ class IsbnDataController extends Controller
         $end = $start + $length;
 
         $sql = "SELECT pi.penerbit_terbitan_id, ir.mohon_date, pt.author, pt.kepeng, pi.prefix_element, pi.publisher_element,pi.item_element, pi.check_digit,
-                pi.RECEIVED_DATE_KCKR, pi.RECEIVED_DATE_PROV,pt.VALIDATION_DATE, pi.keterangan_jilid,
+                pi.RECEIVED_DATE_KCKR, pi.RECEIVED_DATE_PROV,pt.VALIDATION_DATE, pi.keterangan_jilid, pi.id as piid,
                 pi.isbn_no, pt.bulan_terbit, pt.tahun_terbit,
 				ir.id as isbn_resi_id, ir.source, ir.jenis,
                 pt.title,  pt.jml_jilid, pt.jilid_volume, pi.ACCEPTDATE, pt.call_number, pt.sinopsis, pt.subjek,
@@ -129,7 +129,7 @@ class IsbnDataController extends Controller
                 $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="badge badge-success h-20px m-1" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : "";//'KDT Belum Ada';
                 $response['data'][] = [
                     $nomor,
-                    '<a class="badge badge-info h-30px m-1" onclick="cetakBarcode('.$val['PENERBIT_TERBITAN_ID'].')">Barcode</a>' .$kdt, //<a class="badge badge-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',
+                    '<a class="badge badge-info h-30px m-1" onclick="cetakBarcode('.$val['PIID'].')">Barcode</a>' .$kdt, //<a class="badge badge-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',
                     $val['PREFIX_ELEMENT'] .'-' . $val['PUBLISHER_ELEMENT'] . '-' . $val['ITEM_ELEMENT'] . '-' . $val['CHECK_DIGIT']  . '<br/>' . $val['KETERANGAN_JILID'],
                     $val['TITLE'] . "<br/>$jenis $source",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
@@ -222,8 +222,7 @@ class IsbnDataController extends Controller
 
     function generateBarcode($id)
     {
-        $d = new DNS1D();
-        //$d->setStorPath(__DIR__.'/cache/');
-        return view('barcode') ;//, $d->getBarcodeHTML('9780691147727', 'EAN13')); 
+        $queryData = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_ISBN WHERE id=$id", 'sql', '')["Data"]["Items"][0];
+        return view('barcode', ["data" => $queryData]) ;
     }
 }

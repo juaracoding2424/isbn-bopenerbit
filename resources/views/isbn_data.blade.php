@@ -22,12 +22,7 @@
 		top:50%;
 		left:50%;
 	}
-    .swal2-container.swal2-center>.swal2-popup {
-        height: 80vh !important;
-    }
-    .swal2-container .swal2-html-container{
-        max-height: 700px !important;
-    }
+
 </style>
 	<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
 		<!--begin::Content wrapper-->
@@ -210,6 +205,7 @@
 <script src="{{ asset('/assets/js/widgets.bundle.js') }}"></script>
 <script src="{{ asset('/assets/js/custom/widgets.js') }}"></script>
 <script src="{{ asset('/assets/js/custom/apps/chat/chat.js') }}"></script>
+<script src="//cdn.jsdelivr.net/jsbarcode/3.3.20/JsBarcode.all.min.js"></script>
 <!--end::Custom Javascript-->
 <!--end::Javascript-->
 </body>
@@ -228,17 +224,34 @@
 		'https://m.media-amazon.com/images/I/510GvscKODL._AC_SF480,480_.jpg',
 		'https://m.media-amazon.com/images/I/41PUsvw0kuL._AC_SF480,480_.jpg'
 	];
-	var cetakBarcode = function(){
+	var cetakBarcode = function(id){
+		let link= '/penerbit/isbn/data/generate-barcode/' + id;
 		Swal.fire({
-                    text: "Kami sudah mengirimkan barcode melalui email Anda!",
-                    icon: "success",
+                    html: "<iFrame src='"+link+"' height='100px' width='300px'/>",
+                    showCancelButton: !0,
                     buttonsStyling: !1,
-                    confirmButtonText: "Ok, got it!",
+                    confirmButtonText: "Simpan Barcode",
+                    cancelButtonText: "Close",
                     customClass: {
-                    	confirmButton: "btn fw-bold btn-primary"
-                        }
-                })
+                        confirmButton: "btn fw-bold btn-primary",
+                        cancelButton: "btn fw-bold btn-active-light-danger"
+                    }
+				})
 	};
+	/*var saveSvg = function (svgEl, name) {
+		svgEl.attr("xmlns", "http://www.w3.org/2000/svg");
+		var svgData = svgEl.outerHTML;
+		var preface = '<?xml version="1.0" standalone="no"?>\r\n';
+		var svgBlob = new Blob([preface, svgData], {type:"image/svg+xml;charset=utf-8"});
+		var svgUrl = URL.createObjectURL(svgBlob);
+		var downloadLink = document.createElement("a");
+		downloadLink.href = svgUrl;
+		downloadLink.download = name;
+		document.body.appendChild(downloadLink);
+		downloadLink.click();
+		document.body.removeChild(downloadLink);
+	}
+    saveSvg(document.getElementById('barcode'), 'barcode.svg');*/
 	var cetakKDT = function(id){
 		$.ajax({
             url: "{{ url('penerbit/isbn/data/kdt/') }}" + '/' + id,
