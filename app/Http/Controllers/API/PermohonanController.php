@@ -353,7 +353,7 @@ class PermohonanController extends Controller
                     ["name" => "JENIS_PUSTAKA", "Value" => $request->input('jenis_pustaka')],
                     ["name" => "JENIS_KATEGORI", "Value" => $request->input('jenis_kategori')],
                     ["name" => "KETEBALAN", "Value" => $request->input('dimensi')],
-
+                    ["name" => "JML_JILID", "Value" => $jumlah_jilid],
                 ];
                 $IsbnResi = [
                     ["name" => "JML_JILID_REQ", "Value" => $jumlah_jilid],
