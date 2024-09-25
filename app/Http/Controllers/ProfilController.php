@@ -97,11 +97,8 @@ class ProfilController extends Controller
                     ];
                     $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_REGISTRASI_PENERBIT&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
                 }
-                //\Log::info($res);
-                //INSERT HISTORY
-               
-                //\Log::info(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=HISTORYDATA&ListAddItem=" . urlencode(json_encode($history)));
-                //$res_his = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=HISTORYDATA&ListAddItem=" . urlencode(json_encode($history)));
+                
+
                 return response()->json([
                     'status' => 'Success',
                     'message' => 'Perubahan data akun Anda berhasil disimpan.',

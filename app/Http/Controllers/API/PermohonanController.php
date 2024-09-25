@@ -50,16 +50,15 @@ class PermohonanController extends Controller
                         $noresi = now()->addHours(7)->format('YmdHis') . strtoupper(str()->random(5));
                     }
                 }
-                $jumlah_jilid = intval(request('jumlah_jilid')) == 0 || intval(request('jumlah_jilid')) == '' ? 1 : intval(request('jumlah_jilid'));
-                //\Log::info($jumlah_jilid);
+                $jumlah_jilid = intval(request('jumlah_jilid')) == 0 || request('jumlah_jilid') == '' ? 1 : intval(request('jumlah_jilid'));
                 if (request('jenis_permohonan') == 'jilid') {
                     #--------------VALIDASI JUMLAH JILID----------------------------------------------------------------
-                    /*if($jumlah_jilid < 2) {
-                    return response()->json([
-                    'status' => 'Failed',
-                    'message'   => 'Gagal menyimpan data!',
-                    'err' => ["jumlah_jilid" => ["Wajib memasukan minimal 2 data buku jika merupakan terbitan jilid"]],
-                    ], 422);
+                    if($jumlah_jilid < 2) {
+                        return response()->json([
+                        'status' => 'Failed',
+                        'message'   => 'Gagal menyimpan data!',
+                        'err' => ["jumlah_jilid" => ["Wajib memasukan minimal 2 data buku jika merupakan terbitan jilid"]],
+                        ], 422);
                     }
                     #----------------END VALIDASI -------------------------------------------------------------------------#*/
                     $jml_hlm = $jumlah_jilid . " jil"; 
@@ -100,7 +99,7 @@ class PermohonanController extends Controller
                     ["name" => "JENIS_PUSTAKA", "Value" => request('jenis_pustaka')],
                     ["name" => "JENIS_KATEGORI", "Value" => request('jenis_kategori')],
                     ["name" => "KETEBALAN", "Value" => request('dimensi')],
-
+                    ["name" => "JML_JILID", "Value" => $jumlah_jilid]
                 ];
                 $IsbnResi = [
                     ["name" => "NORESI", "Value" => $noresi],

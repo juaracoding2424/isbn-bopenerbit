@@ -10,11 +10,7 @@ class TokenController extends Controller
 {
     function getToken(Request $request)
     {
-        //\Log::info($request->header('x-api-key'));
-        //\Log::info($request->json()->all());
         $data = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT WHERE X_API_KEY='".$request->input('x-api-key')."'", 'sql', '')["Data"]["Items"];
-        
-        //\Log::info($data);
 
         if(isset($data[0]["NAME"])){
             $token = Str::random(60);

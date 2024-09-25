@@ -679,7 +679,10 @@ class IsbnPermohonanController extends Controller
 
     function detail($noresi)
     {
-        $detail = kurl("get","getlistraw", "", "SELECT ir.id, ir.penerbit_terbitan_id, pt.title, pt.author, pt.distributor, pt.kepeng, pt.jml_jilid,
+        $detail = kurl("get","getlistraw", "", "SELECT ir.id, ir.penerbit_terbitan_id, pt.title, pt.author, pt.distributor, pt.kepeng, 
+        case when pt.jml_jilid is null then 1
+        when pt.jml_jilid = 0 then 1
+        else pt.jml_jilid end jml_jilid,
             pt.bulan_terbit, pt.tahun_terbit, pt.tempat_terbit, ir.noresi, ir.createdate, ir.mohon_date,   ir.jml_jilid_req, ir.jenis, ir.status, 
             ir.link_buku, ir.keterangan_jilid, pt.jenis_media, pt.jenis_kategori, pt.jenis_kelompok, pt.jenis_pustaka,  pt.jenis_terbitan,
             pt.sinopsis, pt.jml_hlm, pt.ketebalan, pt.edisi, pt.seri, pt.is_kdt_valid, pt.jenis_penelitian, pt.jenis_kelompok, ir.createdate, ir.createterminal, ir.createby         

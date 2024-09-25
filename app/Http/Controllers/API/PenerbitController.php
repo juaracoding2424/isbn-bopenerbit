@@ -10,9 +10,13 @@ class PenerbitController extends Controller
     function detail(Request $request)
     {
         try{
-            $sql = "SELECT id, name, alamat, nama_gedung, provinsi, city, kontak1, telp1,email1, fax1, 
-                        kontak2, telp2, email2,fax2, kodepos, isbn_user_name, website, keterangan 
-                        FROM PENERBIT WHERE JWT='" . $request->bearerToken() ."'";
+            $sql = "SELECT p.id, p.name, alamat, nama_gedung, provinsi, city, kontak1, telp1, email1, fax1, 
+                        kontak2, telp2, email2, fax2, kodepos, isbn_user_name, website, keterangan,
+                        PROPINSI.NAMAPROPINSI,  KABUPATEN.NAMAKAB 
+                        FROM PENERBIT P
+                        LEFT JOIN PROPINSI on propinsi.id = P.PROVINCE_ID
+                        LEFT JOIN KABUPATEN ON KABUPATEN.id = P.CITY_ID
+                        WHERE JWT='" . $request->bearerToken() ."'";
 
             $penerbit = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"];
             if(isset($penerbit[0])){
