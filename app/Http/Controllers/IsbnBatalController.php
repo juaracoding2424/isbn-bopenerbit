@@ -88,7 +88,7 @@ class IsbnBatalController extends Controller
                 $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
                 $response['data'][] = [
                     $nomor,
-                    '<a class="badge badge-primary h-30px m-1" href="#" onclick="pulihkanPermohonan('.$id.')">Pulihkan Permohonan</a>',
+                    '<a class="badge badge-primary h-20px m-1" href="#" onclick="pulihkanPermohonan('.$id.')">Pulihkan Permohonan</a>',
                     $noresi ."<br/>" .$source,
                     $val['TITLE'] . "<br/>$jenis",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],

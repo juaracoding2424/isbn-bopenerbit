@@ -11,37 +11,37 @@
             data-kt-menu="true">
             <!--begin:Menu item-->
             <div class="menu-item">
-                <a class="menu-link" href="{{ url('/penerbit/dashboard') }}">
+                <a class="menu-link {{ request()->is('penerbit/dashboard') ? 'active' : '' }}" href="{{ url('/penerbit/dashboard') }}">
                     <span class="menu-icon"><i class="ki-outline ki-element-11 fs-2"></i></span> Home
                 </a>
             </div>
-            <div class="menu-item bg-light-primary">
-                <a class="menu-link" href="{{ url('/penerbit/isbn/permohonan/new')}}">
+            <div class="menu-item">
+                <a class="menu-link {{ request()->is('penerbit/isbn/permohonan/new') ? 'active' : '' }}" href="{{ url('/penerbit/isbn/permohonan/new')}}">
                     <span class="menu-icon"><i class="ki-outline ki-plus fs-2"></i></span> Permohonan Baru
                 </a>
             </div>
             <div class="menu-item">
-                <a class="menu-link" href="{{ url('/penerbit/isbn/permohonan')}}">
+                <a class="menu-link {{ request()->is('penerbit/isbn/permohonan') ? 'active' : '' }}" href="{{ url('/penerbit/isbn/permohonan')}}">
                     <span class="menu-icon"><i class="ki-outline ki-plus-circle fs-2"></i></span> Data Permohonan
                 </a>
             </div>
             <div class="menu-item">
-                <a class="menu-link" href="{{ url('/penerbit/isbn/masalah')}}">
+                <a class="menu-link {{ request()->is('penerbit/isbn/permohonan/masalah') ? 'active' : '' }}" href="{{ url('/penerbit/isbn/masalah')}}">
                     <span class="menu-icon"><i class="ki-outline ki-file-deleted fs-2"></i></span> Data Permohonan Bermasalah
                 </a>
             </div>
             <div class="menu-item">
-                <a class="menu-link" href="{{ url('/penerbit/isbn/batal')}}">
+                <a class="menu-link {{ request()->is('penerbit/isbn/batal') ? 'active' : '' }}" href="{{ url('/penerbit/isbn/batal')}}">
                     <span class="menu-icon"><i class="ki-outline ki-file-deleted fs-2 text-danger"></i></span> Permohonan Batal
                 </a>
             </div>
             <div class="menu-item">
-                <a class="menu-link" href="{{ url('/penerbit/isbn/data')}}">
+                <a class="menu-link {{ request()->is('penerbit/isbn/data') ? 'active' : '' }}" href="{{ url('/penerbit/isbn/data')}}">
                     <span class="menu-icon"><i class="ki-outline ki-questionnaire-tablet fs-2"></i></span> Data ISBN
                 </a>
             </div>
             <div class="menu-item">
-                <a class="menu-link" href="{{ url('/penerbit/kdt/data')}}">
+                <a class="menu-link {{ request()->is('penerbit/isbn/kdt/data') ? 'active' : '' }}" href="{{ url('/penerbit/kdt/data')}}">
                     <span class="menu-icon"><i class="ki-outline ki-book fs-2"></i></span> KDT
                 </a>
             </div>
@@ -51,7 +51,7 @@
                 </a>
             </div-->
             <div class="menu-item">
-                <a class="menu-link" href="{{ url('/penerbit/report/isbn')}}">
+                <a class="menu-link {{ request()->is('penerbit/report/isbn') ? 'active' : '' }}" href="{{ url('/penerbit/report/isbn')}}">
                     <span class="menu-icon"><i class="ki-outline ki-chart fs-2"></i></span> Laporan
                 </a>
             </div>
