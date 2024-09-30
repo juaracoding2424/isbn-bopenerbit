@@ -9,13 +9,13 @@
 		<meta property="og:title" content="Portal ISBN" />
 		<meta property="og:url" content="https://isbn.perpusnas.go.id" />
 		<meta property="og:site_name" content="Portal ISBN Perpusnas" />
-		<link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
+		<link rel="shortcut icon" href="{{asset('assets/media/logos/favicon.ico') }}" />
 		<!--begin::Fonts(mandatory for all pages)-->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
 		<!--end::Fonts-->
 		<!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
-		<link href="{{ url('/assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
-		<link href="{{ url('/assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('/assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('/assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
 		<!--end::Global Stylesheets Bundle-->
 		<script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
 	</head>
@@ -27,7 +27,7 @@
 		<!--begin::Root-->
 		<div class="d-flex flex-column flex-root" id="kt_app_root">
 			<!--begin::Page bg image-->
-			<style>body { background-image: url('assets/media/auth/bg10.jpeg'); } [data-bs-theme="dark"] body { background-image: url('assets/media/auth/bg10-dark.jpeg'); }</style>
+			<style>body { background-image: url("{{asset('assets/media/auth/bg10.jpeg') }}"); } [data-bs-theme="dark"] body { background-image: url("{{asset ('/assets/media/auth/bg10-dark.jpeg') }}"); }</style>
 			<!--end::Page bg image-->
 			<!--begin::Authentication - Sign-in -->
 			<div class="d-flex flex-column flex-lg-row flex-column-fluid">
@@ -36,8 +36,8 @@
 					<!--begin::Content-->
 					<div class="d-flex flex-column flex-center pb-0 pb-lg-10 p-10 w-100">
 						<!--begin::Image-->
-						<img class="theme-light-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20" src="assets/media/auth/agency.png" alt="" />
-						<img class="theme-dark-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20" src="assets/media/auth/agency-dark.png" alt="" />
+						<img class="theme-light-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20" src="{{asset ('assets/media/auth/agency.png') }}" alt="" />
+						<img class="theme-dark-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20" src="{{ asset('assets/media/auth/agency-dark.png') }}" alt="" />
 						<!--end::Image-->
 						<!--begin::Title-->
 						<h1 class="text-gray-800 fs-2qx fw-bold text-center mb-7">Selamat datang, para penerbit di Indonesia!</h1>
@@ -139,8 +139,8 @@
 		<!--begin::Javascript-->
 		<script>var hostUrl = "assets/";</script>
 		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
-		<script src="{{ url('assets/plugins/global/plugins.bundle.js') }}"></script>
-		<script src="{{ url('assets/js/scripts.bundle.js') }}"></script>
+		<script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
+		<script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
 		<!--end::Global Javascript Bundle-->
 		<script>
 		var clickPress =  function(event) {
