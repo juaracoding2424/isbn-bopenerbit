@@ -1,12 +1,9 @@
 @extends('layouts.index')
 @section('content')
 <style>
-    .swal2-container.swal2-center>.swal2-popup {
-        height: 80vh !important;
-    }
-    .swal2-container .swal2-html-container{
-        max-height: 700px !important;
-    }
+    swal-height {
+height: 100vh !important;
+}
 </style>
 <div class="d-flex flex-column flex-column-fluid">
     <div id="kt_app_toolbar" class="app-toolbar pt-7 pt-lg-10">
@@ -18,7 +15,7 @@
                 <div class="page-title d-flex flex-column justify-content-center gap-1 me-3">
                     <!--begin::Title-->
                     <h1 class="page-heading d-flex flex-column justify-content-center text-gray-900 fw-bold fs-3 m-0">
-                        Tambah Permohonan ISBN</h1>
+                        Ubah Permohonan ISBN</h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0">
@@ -33,7 +30,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Tambah permohonan ISBN</li>
+                        <li class="breadcrumb-item text-muted">Ubah permohonan ISBN</li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
@@ -55,15 +52,33 @@
                         <div class="card min-w-full">
                             <div class="card-header">
                                 <h3 class="card-title text-gray-800 text-hover-primary fs-2 fw-bold me-3">
-                                    General Info
+                                    General Info 
                                 </h3>
+                                <h4 class="card-title"><span id="noresi">{{$noresi}}</span></h4>
+                                @if(isset($masalah["Data"]["Items"][0]))
+                                <div class="d-flex align-items-center p-5 mb-10" style="width:100%">
+                                    <i class="ki-solid ki-shield-cross fs-4hx text-danger me-4"><span
+                                            class="path1"></span><span class="path2"></span></i>
+                                    <div class="rounded border p-10  d-flex flex-column">
+                                        <div class="d-flex flex-column">
+                                            <h2 class="mb-1 text-danger">Detail masalah</h2>
+                                                <span>{!! $masalah["Data"]["Items"][0]["ISI"] !!}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
 
                             <!--begin::Content-->
                             <div id="kt_account_settings_profile_details" class="collapse show">
                                 <!--begin::Form-->
                                 <form id="form_isbn" class="form" enctype="multipart/form-data">
-                                    @csrf
+                                @csrf
+                                <input type="hidden" name='penerbit_isbn_masalah_id' @if(isset($masalah["Data"]["Items"][0])) value="{{$masalah['Data']['Items'][0]['ID']}}" @endif>
+                                
+                                <input type="hidden" name='noresi' value="{{$noresi}}">
+                                <input type="hidden" name='penerbit_terbitan_id' value="{{$detail['PENERBIT_TERBITAN_ID']}}">
+                                <input type="hidden" name='isbn_resi_id' value="{{$detail['ID']}}">
                                     <!--begin::Card body-->
                                     <div class="card-body border-top p-9">
                                         <!--begin::Input group-->
@@ -133,7 +148,7 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                        <div class="row mb-6">
+                                         <div class="row mb-6" id="divIsbnLanjutan">
                                             <!--begin::Label-->
                                             <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
                                                 <span>ISBN lanjutan</span>
@@ -145,10 +160,7 @@
                                             <!--end::Label-->
                                             <!--begin::Col-->
                                             <div class="col-lg-9 fv-row">
-                                                <select id="select2-isbn-jilid" name="isbn-jilid" data-control="select2"
-                                                    data-placeholder="Masukan nomor ISBN Jilid..."
-                                                    class="form-select form-select-solid form-select-lg fw-semibold">
-                                                </select>
+                                                <input type="text" value="" id="isbn-jilid-lanjutan" class="form-control fs-6 form-control-lg form-control-solid">
                                             </div>
                                             <!--end::Col-->
                                         </div>
@@ -156,7 +168,7 @@
                                         <!--begin::Input group-->
                                         <div class="row mb-6">
                                             <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fs-8 required fw-semibold fs-8">Judul
+                                            <label class="col-lg-3 col-form-label fs-8 required fw-semibold">Judul
                                                 Buku</label>
                                             <!--end::Label-->
                                             <!--begin::Col-->
@@ -171,7 +183,7 @@
                                         <!--begin::Input group-->
                                         <div class="row mb-6">
                                             <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
+                                            <label class="col-lg-3 col-form-label fs-8 fw-semibold">
                                                 <span class="required">Kepengarangan</span>
                                                 <span class="ms-1" data-bs-toggle="tooltip"
                                                     title="Minimal mengisi satu nama kepengarangan">
@@ -184,7 +196,7 @@
                                                     <!--begin::Col-->
                                                     <div id="kepengarangan_0" class="row">
                                                         <div class="col-lg-4 fv-row mb-1">
-                                                            <select name="authorRole[]" class="select2 form-select fs-8">
+                                                            <select name="authorRole[]" class="select2 form-select fs-8" id="authorRole0">
                                                                 <option selected="selected">penulis</option>
                                                                 <option>penyunting</option>
                                                                 <option>penyusun</option>
@@ -195,7 +207,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-lg-6 fv-row mb-1">
-                                                            <input type="text" name="namaPengarang[]"
+                                                            <input type="text" name="namaPengarang[]" id="namaPengarang0" 
                                                                 class="form-control fs-8 form-control-lg"
                                                                 placeholder="Nama orang" value="" />
                                                         </div>
@@ -209,13 +221,12 @@
                                             </div>
                                         </div>
                                         <!--end::Input group-->
-
-                                        <!--begin::Input group-->
+                                        
+										<!--begin::Input group-->
                                         <div class="row mb-8">
                                             <!--begin::Col-->
                                             <div class="col-xl-3">
-                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Media
-                                                        Terbitan ISBN </span>
+                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Media Terbitan ISBN </span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
                                                         title="Pilih jenis media terbitan ISBN">
                                                         <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
@@ -242,13 +253,8 @@
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
                                                                 <span class="fs-6 fw-bold mb-1 d-block">Cetak</span>
-                                                                <span
-                                                                    class="fw-semibold fs-8 text-gray-600 onhover">Sesuai
-                                                                    UU 13.th 2018: Penerbit wajib mengirimkan sebanyak 2
-                                                                    eks buku cetak kepada Perpusnas, dan 1 eks buku
-                                                                    cetak kepada Perpustakaan Provinsi sesuai
-                                                                    domisili</span>
-                                                            </span>
+                                                                <span class="fw-semibold fs-8 text-gray-600 onhover">Sesuai UU 13.th 2018: Penerbit wajib mengirimkan sebanyak 2 eks buku cetak kepada Perpusnas, dan 1 eks buku cetak kepada Perpustakaan Provinsi sesuai domisili</span>
+                                                             </span>
                                                         </label>
                                                     </div>
                                                     <!--end::Col-->
@@ -265,18 +271,13 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Digital
-                                                                    (PDF)</span>
-                                                                <span
-                                                                    class="fw-semibold fs-8 text-gray-600 onhover">Sesuai
-                                                                    UU 13.th 2018: Penerbit wajib serah simpan dengan
-                                                                    cara mengunggah mandiri file PDF melalui
-                                                                    https://edeposit.perpusnas.go.id</span>
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Digital (PDF)</span>
+                                                                <span class="fw-semibold fs-8 text-gray-600 onhover">Sesuai UU 13.th 2018: Penerbit wajib serah simpan dengan cara mengunggah mandiri file PDF melalui https://edeposit.perpusnas.go.id</span>
                                                             </span>
                                                         </label>
                                                     </div>
                                                     <!--end::Col-->
-                                                    <!--begin::Col-->
+													<!--begin::Col-->
                                                     <div class="col-md-4 col-lg-12 col-xxl-4 hoverEvent">
                                                         <label
                                                             class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
@@ -289,18 +290,13 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Digital
-                                                                    (EPUB)</span>
-                                                                <span
-                                                                    class="fw-semibold fs-8 text-gray-600 onhover">Sesuai
-                                                                    UU 13.th 2018: Penerbit wajib serah simpan dengan
-                                                                    cara mengunggah mandiri file EPUB melalui
-                                                                    https://edeposit.perpusnas.go.id</span>
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Digital (EPUB)</span>
+                                                                <span class="fw-semibold fs-8 text-gray-600 onhover">Sesuai UU 13.th 2018: Penerbit wajib serah simpan dengan cara mengunggah mandiri file EPUB melalui https://edeposit.perpusnas.go.id</span>
                                                             </span>
                                                         </label>
                                                     </div>
                                                     <!--end::Col-->
-                                                    <!--begin::Col-->
+													<!--begin::Col-->
                                                     <div class="col-md-4 col-lg-12 col-xxl-4 hoverEvent">
                                                         <label
                                                             class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
@@ -313,13 +309,8 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Audio
-                                                                    Book</span>
-                                                                <span
-                                                                    class="fw-semibold fs-8 text-gray-600 onhover">Sesuai
-                                                                    UU 13.th 2018: Penerbit wajib serah simpan dengan
-                                                                    cara mengunggah mandiri file MP3/WAV melalui
-                                                                    https://edeposit.perpusnas.go.id</span>
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Audio Book</span>
+                                                                <span class="fw-semibold fs-8 text-gray-600 onhover">Sesuai UU 13.th 2018: Penerbit wajib serah simpan dengan cara mengunggah mandiri file MP3/WAV melalui https://edeposit.perpusnas.go.id</span>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -337,19 +328,13 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Audio
-                                                                    Visual</span>
-                                                                <span
-                                                                    class="fw-semibold fs-8 text-gray-600 onhover">Sesuai
-                                                                    UU 13.th 2018: Penerbit wajib serah simpan dengan
-                                                                    cara mengunggah mandiri file MP4/MPEG melalui
-                                                                    https://edeposit.perpusnas.go.id</span>
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Audio Visual</span> 
+                                                                <span class="fw-semibold fs-8 text-gray-600 onhover">Sesuai UU 13.th 2018: Penerbit wajib serah simpan dengan cara mengunggah mandiri file MP4/MPEG melalui https://edeposit.perpusnas.go.id</span>
                                                             </span>
                                                         </label>
                                                     </div>
                                                     <!--end::Col-->
-                                                    <span class="fw-semibold fs-7 text-gray-600"
-                                                        id="notes_jenis_media"></span>
+                                                    <span class="fw-semibold fs-7 text-gray-600" id="notes_jenis_media"></span>
                                                 </div>
                                                 <!--end::Row-->
                                             </div>
@@ -360,8 +345,7 @@
                                         <div class="row mb-8">
                                             <!--begin::Col-->
                                             <div class="col-xl-3">
-                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Kelompok
-                                                        Pembaca</span>
+                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Kelompok Pembaca</span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
                                                         title="Pilih kelompok pembaca">
                                                         <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
@@ -410,7 +394,7 @@
                                                         </label>
                                                     </div>
                                                     <!--end::Col-->
-                                                    <!--begin::Col-->
+													<!--begin::Col-->
                                                     <div class="col-md-4 col-lg-12 col-xxl-4">
                                                         <label
                                                             class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
@@ -423,13 +407,12 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Semua Umur
-                                                                    (SU)</span>
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Semua Umur (SU)</span>
                                                             </span>
                                                         </label>
                                                     </div>
                                                     <!--end::Col-->
-
+													
                                                 </div>
                                                 <!--end::Row-->
                                             </div>
@@ -437,11 +420,10 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                        <div class="row mb-8">
+                                         <div class="row mb-8">
                                             <!--begin::Col-->
                                             <div class="col-xl-3">
-                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Jenis
-                                                        Pustaka</span>
+                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Jenis Pustaka</span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
                                                         title="Pilih jenis pustaka">
                                                         <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
@@ -489,7 +471,7 @@
                                                             </span>
                                                         </label>
                                                     </div>
-                                                    <!--end::Col-->
+                                                    <!--end::Col-->													
                                                 </div>
                                                 <!--end::Row-->
                                             </div>
@@ -500,8 +482,7 @@
                                         <div class="row mb-8">
                                             <!--begin::Col-->
                                             <div class="col-xl-3">
-                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Kategori
-                                                        Jenis Pustaka</span>
+                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Kategori Jenis Pustaka</span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
                                                         title="Pilih jenis pustaka">
                                                         <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
@@ -527,8 +508,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span
-                                                                    class="fs-6 fw-bold mb-1 d-block">Terjemahan</span>
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Terjemahan</span>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -546,12 +526,11 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Non
-                                                                    Terjemahan</span>
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Non Terjemahan</span>
                                                             </span>
                                                         </label>
                                                     </div>
-                                                    <!--end::Col-->
+                                                    <!--end::Col-->													
                                                 </div>
                                                 <!--end::Row-->
                                             </div>
@@ -562,8 +541,7 @@
                                         <div class="row mb-8">
                                             <!--begin::Col-->
                                             <div class="col-xl-3">
-                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Golongan
-                                                        Terbitan ISBN </span>
+                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Golongan Terbitan ISBN </span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
                                                         title="Pilih golongan terbitan ISBN">
                                                         <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
@@ -589,8 +567,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span
-                                                                    class="fs-6 fw-bold mb-1 d-block">Pemerintah</span>
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Pemerintah</span>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -608,13 +585,12 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Perguruan
-                                                                    Tinggi</span>
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Perguruan Tinggi</span>
                                                             </span>
                                                         </label>
                                                     </div>
                                                     <!--end::Col-->
-                                                    <!--begin::Col-->
+													<!--begin::Col-->
                                                     <div class="col-md-4 col-lg-12 col-xxl-4">
                                                         <label
                                                             class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
@@ -640,8 +616,7 @@
                                         <div class="row mb-8">
                                             <!--begin::Col-->
                                             <div class="col-xl-3">
-                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Apakah
-                                                        termasuk penelitian? </span>
+                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Apakah termasuk penelitian? </span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
                                                         title="Pilih golongan terbitan ISBN">
                                                         <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
@@ -667,8 +642,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span
-                                                                    class="fs-6 fw-bold mb-1 d-block">Penelitian</span>
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Penelitian</span>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -686,12 +660,11 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Non
-                                                                    Penelitian</span>
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Non Penelitian</span>
                                                             </span>
                                                         </label>
                                                     </div>
-                                                    <!--end::Col-->
+                                                    <!--end::Col-->													
                                                 </div>
                                                 <!--end::Row-->
                                             </div>
@@ -740,7 +713,7 @@
                                         </div>
                                         <!--end::Input group-->
 
-
+                                        
                                         <!--begin::Input group-->
                                         <div class="row mb-6">
                                             <!--begin::Label-->
@@ -782,7 +755,7 @@
                                         <!--begin::Input group-->
                                         <div class="row mb-6">
                                             <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fs-8 fw-semibold">
+                                            <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
                                                 <span class="required">Deskripsi / Abstrak buku</span>
                                                 <span class="ms-1" data-bs-toggle="tooltip" title="deskripsi">
                                                     <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
@@ -798,11 +771,11 @@
                                             <!--end::Col-->
                                         </div>
                                         <!--end::Input group-->
-                                        
-                                        <!--begin::Input group-->
-                                        <div class="row mb-6">
+                                       
+                                            <!--begin::Input group-->
+                                            <div class="row mb-6">
                                                 <!--begin::Label-->
-                                                <label class="col-lg-3 col-form-label fs-8 required fw-semibold" id="labelJumlahHalaman">Jumlah
+                                                <label class="col-lg-3 col-form-label fs-8 required fw-semibold fs-8" id="labelJumlahHalaman">Jumlah
                                                     Halaman</label>
                                                 <!--end::Label-->
                                                 <!--begin::Col-->
@@ -825,52 +798,81 @@
                                                 <!--end::Col-->
                                                 <label class="col-lg-1 col-form-label fw-semibold fs-8">cm</label>
                                             </div>
-                                        <!--end::Input group-->
-                                        <!--begin::Input group-->
-                                        <div class="row mb-6">
-                                            <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">Edisi Buku</label>
-                                            <!--end::Label-->
-                                            <!--begin::Col-->
-                                            <div class="col-lg-2 fv-row">
-                                                <input type="text" name="edisi"
-                                                    class="form-control fs-8 form-control-lg form-control-solid"
-                                                    placeholder="Edisi buku" value="" />
+                                            <!--end::Input group-->
+                                            <!--begin::Input group-->
+                                            <div class="row mb-6">
+                                                <!--begin::Label-->
+                                                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">Edisi Buku</label>
+                                                <!--end::Label-->
+                                                <!--begin::Col-->
+                                                <div class="col-lg-2 fv-row">
+                                                    <input type="text" name="edisi" id="edisi"
+                                                        class="form-control fs-8 form-control-lg form-control-solid"
+                                                        placeholder="Edisi buku" value="" />
+                                                </div>
+                                                <label class="col-lg-1 col-form-label fw-semibold fs-8"></label>
+                                                <!--end::Col-->
+                                                <!--begin::Label-->
+                                                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8" style="text-align:right">Seri buku</label>
+                                                <!--end::Label-->
+                                                <!--begin::Col-->
+                                                <div class="col-lg-2 fv-row">
+                                                    <input type="text" name="seri" id="seri"
+                                                        class="form-control fs-8 form-control-lg form-control-solid"
+                                                        placeholder="seri buku" value="" />
+                                                </div>
+                                                <!--end::Col-->
                                             </div>
-                                            <label class="col-lg-1 col-form-label fw-semibold fs-8"></label>
-                                            <!--end::Col-->
-                                            <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8"
-                                                style="text-align:right">Seri buku</label>
-                                            <!--end::Label-->
-                                            <!--begin::Col-->
-                                            <div class="col-lg-2 fv-row">
-                                                <input type="text" name="seri"
-                                                    class="form-control fs-8 form-control-lg form-control-solid"
-                                                    placeholder="seri buku" value="" />
-                                            </div>
-                                            <!--end::Col-->
-                                        </div>
-                                        <!--end::Input group-->
 
+                                        
                                         <div id="isbn_detail">
-                                            <span id="judul_buku_1">
-                                                <h4>Data Buku jilid 1 </h4>
-                                                <hr />
-                                            </span>
-                                            <input type='hidden' name='keterangan_jilid[]' value='jilid 1' id="keterangan_jilid_1">
+                                            <span id="judul_buku_1"><h4>Data Buku 1 </h4><hr/></span>
                                             <input type="hidden" name="file_lampiran[]" id="file_lampiran1">
                                             <input type="hidden" name="file_dummy[]" id="file_dummy1">
                                             <input type="hidden" name="file_cover[]" id="file_cover1">
 
+                                            <!--begin::Input group-->
                                             <div class="row mb-6">
                                                 <!--begin::Label-->
-                                                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">Dummy Buku yang
-                                                    akan
+                                                
+                                                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">File
+                                                    Attachment</label>
+                                                <div class="col-lg-3 col-form-label fs-8 " id="viewlampiran_1">
+                                                    <!--<a><i class="bi bi-filetype-pdf fs-1"></i> SuratPernyataan.pdf</a>
+                                                    <br />
+                                                    <a><i class="bi bi-filetype-pdf fs-1"></i> SuratKeaslianKarya.pdf</a>-->
+                                                </div>
+                                                <!--end:: Label-->
+                                                <div class="col-lg-6 d-flex align-items-center">
+                                                    <!--begin::Dropzone-->
+                                                    <div class="dropzone" id="attachments1" style="width:100%">
+                                                        <!--begin::Message-->
+                                                        <div class="dz-message needsclick align-items-center">
+                                                            <!--begin::Icon-->
+                                                            <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
+                                                            <!--end::Icon-->
+                                                            <!--begin::Info-->
+                                                            <div class="ms-4">
+                                                                <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan
+                                                                    attachment</h3>
+                                                                <span class="fw-semibold fs-7 text-gray-500">Upload up to 10
+                                                                    files, Max:150MB</span>
+                                                            </div>
+                                                            <!--end::Info-->
+                                                        </div>
+                                                    </div>
+                                                    <!--end::Dropzone-->
+                                                </div>
+                                            </div>
+                                            <!--end::Input group-->
+                                            <!--end::Input group-->
+                                            <div class="row mb-6">
+                                                <!--begin::Label-->
+                                                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">Dummy Buku yang akan
                                                     terbit</label>
-                                                <!-- <div class="col-lg-3 col-form-label fs-8 ">
-                                                    <a><i class="bi bi-filetype-pdf fs-1"></i> DummyBuku.pdf</a>
-                                                </div>-->
+                                                <div class="col-lg-3 col-form-label fs-8 " id="viewdummy_1">
+                                                    <!--<a><i class="bi bi-filetype-pdf fs-1"></i> DummyBuku.pdf</a>-->
+                                                </div>
                                                 <!--end:: Label-->
                                                 <div class="col-lg-6 d-flex align-items-center">
                                                     <!--begin::Dropzone-->
@@ -895,46 +897,13 @@
                                                 <!--begin::Label-->
                                             </div>
                                             <!--end::Input group-->
-                                            <!--begin::Input group-->
-                                            <div class="row mb-6">
+                                             <!--end::Input group-->
+                                             <div class="row mb-6">
                                                 <!--begin::Label-->
-
-                                                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">File
-                                                    Attachment</label>
-                                                <!--
-                                                <div class="col-lg-3 col-form-label fs-8 ">
-                                                    <a><i class="bi bi-filetype-pdf fs-1"></i> SuratPernyataan.pdf</a>
-                                                    <br />
-                                                    <a><i class="bi bi-filetype-pdf fs-1"></i> SuratKeaslianKarya.pdf</a>
-                                                </div>-->
-                                                <!--end:: Label-->
-                                                <div class="col-lg-6 d-flex align-items-center">
-                                                    <!--begin::Dropzone-->
-                                                    <div class="dropzone" id="attachments1" style="width:100%">
-                                                        <!--begin::Message-->
-                                                        <div class="dz-message needsclick align-items-center">
-                                                            <!--begin::Icon-->
-                                                            <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
-                                                            <!--end::Icon-->
-                                                            <!--begin::Info-->
-                                                            <div class="ms-4">
-                                                                <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan
-                                                                    attachment</h3>
-                                                                <span class="fw-semibold fs-7 text-gray-500">Max:150MB</span>
-                                                            </div>
-                                                            <!--end::Info-->
-                                                        </div>
-                                                    </div>
-                                                    <!--end::Dropzone-->
+                                                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">File Cover Buku </label>
+                                                <div class="col-lg-3 col-form-label fs-8 " id="viewcover_1">
+                                                    <!--<a><i class="bi bi-filetype-pdf fs-1"></i> DummyBuku.pdf</a>-->
                                                 </div>
-                                            </div>
-                                            <!--end::Input group-->
-                                            <div class="row mb-6">
-                                                <!--begin::Label-->
-                                                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">Cover Buku</label>
-                                                <!-- <div class="col-lg-3 col-form-label fs-8 ">
-                                                    <a><i class="bi bi-filetype-pdf fs-1"></i> DummyBuku.pdf</a>
-                                                </div>-->
                                                 <!--end:: Label-->
                                                 <div class="col-lg-6 d-flex align-items-center">
                                                     <!--begin::Dropzone-->
@@ -949,7 +918,7 @@
                                                                 <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan file
                                                                     cover buku</h3>
                                                                 <span class="fw-semibold fs-7 text-gray-500">Max:
-                                                                    5MB</span>
+                                                                    100MB</span>
                                                             </div>
                                                             <!--end::Info-->
                                                         </div>
@@ -971,9 +940,9 @@
                                                 <!--end::Label-->
                                                 <!--begin::Col-->
                                                 <div class="col-lg-6 fv-row">
-                                                    <input type="text" name="url[]"
+                                                <input type="text" name="url[]" id="url1"
                                                         class="form-control fs-8 form-control-lg form-control-solid"
-                                                        placeholder="url/link buku" />
+                                                        placeholder="url/link buku"/>
                                                 </div>
                                                 <div class="col-lg-3 fv-row" id="btnTambahJilid">
                                                     <span class="btn btn-success">Tambah Jilid</span>
@@ -1018,9 +987,9 @@
 </body>
 <!--end::Body-->
 <script>
-    var urlProvinsi = "{{url('location/province')}}" + "/";
-    var urlKabupaten = "{{url('location/kabupaten')}}" + "/";
-    var urlJilid = "{{url('penerbit/isbn/permohonan/jilid-lengkap') }}";
+
+    var urlProvinsi = "https://ibnux.github.io/data-indonesia/provinsi.json";
+    var urlKabupaten = "https://ibnux.github.io/data-indonesia/kabupaten/";
 
     function clearOptions(id) {
         console.log("on clearOptions :" + id);
@@ -1028,27 +997,10 @@
         $('#' + id).empty().trigger('change');
     }
 
-    $.getJSON(urlJilid, function (res) {
-        res = $.map(res, function (obj) {
-            return obj;
-        });
+    console.log('Load Provinsi...');
+    $.getJSON(urlProvinsi, function(res) {
 
-        data = [{
-            id: "",
-            nama: "- Pilih Jilid Lengkap -",
-            text: "- Pilih Jilid Lengkap -"
-        }].concat(res);
-
-        //implemen data ke select provinsi
-        $("#select2-isbn-jilid").select2({
-            dropdownAutoWidth: true,
-            width: '100%',
-            data: data
-        })
-    });
-    $.getJSON(urlProvinsi, function (res) {
-
-        res = $.map(res, function (obj) {
+        res = $.map(res, function(obj) {
             obj.text = obj.nama
             return obj;
         });
@@ -1157,270 +1109,378 @@
 
         });
     }
-    $('#btnTambahJilid').on('click', function () {
-        jumlah_buku += 1;
+    var tambahJilid = function(){
+        jumlah_buku +=1;
         let idJilid = jumlah_buku;
-        if($('#select2-isbn-jilid').val() != ""){
-            idJilid = jumlah_buku - jml_jilid + 1;
-            $('#keterangan_jilid_1').val('jilid ' + (jumlah_buku - 1));
+        if(status == 'lanjutan'){
+            idJilid = jumlah_buku-jml_jilid;
         }
-        $('#jml_hlm').val(jumlah_buku);
-        let html =
-            `<div class='jilidbaru'><span><h4>Data buku jilid ` + jumlah_buku + `</h4><hr/></span>
-            <input type='hidden' name='keterangan_jilid[]' value='jilid `+jumlah_buku+`'>
-            <input type='hidden' id='file_dummy`+ idJilid + `' name='file_dummy[]'>
-            <input type='hidden' id='file_lampiran`+ idJilid + `' name='file_lampiran[]'>
-            <input type='hidden' id='file_cover`+ idJilid + `' name='file_cover[]'>
-            <div class="row mb-6">
-                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">File
-                    Attachment</label>
-                <div class="col-lg-6 d-flex align-items-center">
-                    <div class="dropzone" id="attachments`+ idJilid + `" style="width:100%">
-                        <div class="dz-message needsclick align-items-center">
-                            <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
-                            <div class="ms-4">
-                                <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan
-                                    attachment</h3>
-                                <span class="fw-semibold fs-7 text-gray-500">Max:150MB</span>
-                            </div>
+        $('#jml_hlm').val(jumlah_buku + " jil");
+        let html = 
+        `<div class='jilidbaru'><span><h4>Data Buku Jilid - `+ jumlah_buku + `</h4><hr/></span>
+        <input type='hidden' id='file_dummy`+idJilid+`' name='file_dummy[]'>
+        <input type='hidden' id='file_lampiran`+idJilid+`' name='file_lampiran[]'>
+        <input type='hidden' id='file_cover`+idJilid+`' name='file_cover[]'>  
+        <div class="row mb-6">
+            <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">File
+                Attachment</label>
+            <div class="col-lg-3 col-form-label fs-8 " id="viewlampiran_`+idJilid+`"></div>
+            <div class="col-lg-6 d-flex align-items-center">
+                <div class="dropzone" id="attachments`+idJilid+`" style="width:100%">
+                    <div class="dz-message needsclick align-items-center">
+                        <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
+                        <div class="ms-4">
+                            <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan
+                                attachment</h3>
+                            <span class="fw-semibold fs-7 text-gray-500">Max:150MB</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row mb-6">
-                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">Dummy Buku yang akan
-                    terbit</label>
-                <div class="col-lg-6 d-flex align-items-center">
-                    <div class="dropzone" id="dummy`+ idJilid + `">
-                        <div class="dz-message needsclick align-items-center">
-                            <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
-                            <div class="ms-4">
-                                <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan file
-                                    dummy buku</h3>
-                                <span class="fw-semibold fs-7 text-gray-500">Max:
-                                    100MB</span>
-                            </div>
+        </div>
+        <div class="row mb-6">
+            <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">Dummy Buku yang akan
+                terbit</label>
+            <div class="col-lg-3 col-form-label fs-8 " id="viewdummy_`+idJilid+`"></div>
+            <div class="col-lg-6 d-flex align-items-center">
+                <div class="dropzone" id="dummy`+idJilid+`">
+                    <div class="dz-message needsclick align-items-center">
+                        <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
+                        <div class="ms-4">
+                            <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan file
+                                dummy buku</h3>
+                            <span class="fw-semibold fs-7 text-gray-500">Max:
+                                100MB</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row mb-6">
-                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">Cover Buku</label>
-                <div class="col-lg-6 d-flex align-items-center">
-                    <div class="dropzone" id="cover`+ idJilid + `" style="width:100%">
-                        <div class="dz-message needsclick align-items-center">
-                            <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
-                            <div class="ms-4">
-                                <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan
-                                    File Cover Buku</h3>
-                                <span class="fw-semibold fs-7 text-gray-500">Max:5MB</span>
-                            </div>
+        </div>
+        <div class="row mb-6">
+            <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">File
+                Cover Buku</label>
+            <div class="col-lg-3 col-form-label fs-8 " id="viewcover_`+idJilid+`"></div>
+            <div class="col-lg-6 d-flex align-items-center">
+                <div class="dropzone" id="cover`+idJilid+`" style="width:100%">
+                    <div class="dz-message needsclick align-items-center">
+                        <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
+                        <div class="ms-4">
+                            <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan
+                                file cover buku</h3>
+                            <span class="fw-semibold fs-7 text-gray-500">Max:5MB</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row mb-6">
-                <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
-                    <span class="required">URL / LINK publikasi buku</span>
-                    <span class="ms-1" data-bs-toggle="tooltip" title="url">
-                        <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
-                    </span>
-                </label>
-                <div class="col-lg-6 fv-row">
-                    <input type="text" name="url[]" class="form-control fs-8 form-control-lg form-control-solid"
-                        placeholder="url/link buku" />
-                </div>
-                <div class="col-lg-3 fv-row hapusJilid">
-                    <span class="btn btn-danger active">Hapus Jilid</span>
-                </div>
-            </div></div>`;
+        </div>
+        <div class="row mb-6">
+            <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
+                <span class="required">URL / LINK publikasi buku</span>
+                <span class="ms-1" data-bs-toggle="tooltip" title="url">
+                    <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+                </span>
+            </label>
+            <div class="col-lg-6 fv-row">
+                <input type="text" name="url[]" class="form-control fs-8 form-control-lg form-control-solid" id="url`+idJilid+`"
+                    placeholder="url/link buku" />
+            </div>
+            <div class="col-lg-3 fv-row hapusJilid">
+                <span class="btn btn-danger active">Hapus Jilid</span>
+            </div>
+        </div></div>`;
+    
         $('#isbn_detail').append(html);
-        if (jumlah_buku > 2) {
+        if(jumlah_buku > 2){
             var objJilids = $('.jilidbaru').find();
-            for (var i = 0; i <= objJilids.prevObject.length; i++) {
-                if($('#select2-isbn-jilid').val()!=""){
-                    if (i < jumlah_buku - jml_jilid - 1) {
-                        var btnHapus = $(objJilids.prevObject[i]).find('.btn-danger').first();
-                        btnHapus.removeClass("active");
-                        btnHapus.addClass('disabled');
-                    }
-                } else {
-                    if (i < jumlah_buku - 2) {
-                        var btnHapus = $(objJilids.prevObject[i]).find('.btn-danger').first();
-                        btnHapus.removeClass("active");
-                        btnHapus.addClass('disabled');
-                    }
+            for(var i = 0; i <= objJilids.prevObject.length; i++){
+                if(i < jumlah_buku -2 - jml_jilid){
+                    var btnHapus = $(objJilids.prevObject[i]).find('.btn-danger').first();
+                    btnHapus.removeClass("active");
+                    btnHapus.addClass('disabled');
                 }
             }
         }
-        $('.btn.btn-danger.active').on('click', function () {
+        $('.btn.btn-danger.active').on('click', function(){
             $(this).parent().parent().parent().remove();
-            jumlah_buku -= 1;
+            jumlah_buku-=1;
             var objJilids = $('.jilidbaru').find();
-            for (var i = 0; i <= objJilids.prevObject.length; i++) {
+            for(var i = 0; i <= objJilids.prevObject.length; i++){
                 var btnHapus = $(objJilids.prevObject[i]).find('.btn-danger').first();
-                if($('#select2-isbn-jilid').val()!=""){
-                    if (i < idJilid) {
-                        btnHapus.removeClass("active");
-                        btnHapus.addClass('disabled');
-                    }
-                    if (i == idJilid) {
-                        btnHapus.addClass('active');
-                        btnHapus.removeClass("disabled");
-                    }
-                } else {
-                    if (i < jumlah_buku - 2) {
-                        btnHapus.removeClass("active");
-                        btnHapus.addClass('disabled');
-                    }
-                    if (i == jumlah_buku - 2) {
-                        btnHapus.addClass('active');
-                        btnHapus.removeClass("disabled");
-                    }
+                if(i < jumlah_buku -2 - jml_jilid){
+                    btnHapus.removeClass("active");
+                    btnHapus.addClass('disabled');
+                }
+                if(i == jumlah_buku -2 - jml_jilid){
+                    btnHapus.addClass('active');
+                    btnHapus.removeClass("disabled");
                 }
             }
-        });
-        if($('#select2-isbn-jilid').val()!=""){ 
-            dropZoneJilid(idJilid, "lampiran");
-            dropZoneJilid(idJilid, "cover");
-            dropZoneJilid(idJilid, "dummy");
-        } else {
-            dropZoneJilid(jumlah_buku, "lampiran");
-            dropZoneJilid(jumlah_buku, "cover");
-            dropZoneJilid(jumlah_buku, "dummy");
+            $('#jml_hlm').val(jumlah_buku + " jil");
+        });  
+        dropZoneJilid(jumlah_buku, "lampiran");
+        dropZoneJilid(jumlah_buku, "dummy");
+        dropZoneJilid(jumlah_buku, "cover");
+    }
+    $('#btnTambahJilid').on('click', function(){
+        tambahJilid();
+    });
+    var jumlah_buku = 1;
+    dropZoneJilid(jumlah_buku, "lampiran");
+    dropZoneJilid(jumlah_buku, "dummy");
+    dropZoneJilid(jumlah_buku, "cover");
+    var jilid_lepas = '{{$jenis}}';
+    $('textarea[name=title]').val("{{ $detail['TITLE'] }}");
+
+    var kdt_valid = "{{ $detail['IS_KDT_VALID']}}";
+    var kepeng ="{{ $detail['KEPENG'] }}";
+    var kepengs = kepeng.split(";");
+    if(kepengs[0].includes(',')){
+        $('#authorRole0').val(kepengs[0].split(',')[0]);
+        $('#namaPengarang0').val(kepengs[0].split(',')[1]);
+    }else {
+        $('#authorRole0').val('penulis');
+        $('#namaPengarang0').val(kepengs[0]);
+    }
+    for(var i = 1; i < kepengs.length; i++){
+        if(kepengs[i].includes(',')){
+            let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
+                '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select fs-8 id="authorRole'+i+'">';
+            htmlAppend +=
+                '<option selected="">penulis</option><option>penyunting</option><option>penyusun</option><option>editor</option>';
+            htmlAppend +=
+                '<option>alih bahasa</option><option>ilustrator</option><option>desain sampul</option></select></div>';
+            htmlAppend +=
+                '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control fs-8 form-control-lg form-control-solid" placeholder="Nama orang" value="'+kepengs[i].split(',')[1]+'" /></div>';
+            htmlAppend +=
+                '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger" onclick="deleteKepengarangan(' +
+                kepengarangan + ')"><i class="ki-outline ki-trash" ></i></span></div></div>';
+            $('#kepengarangan').append(htmlAppend);
+            $('#authorRole'+i).val('penulis');
+        }else {
+            let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
+                '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select fs-8 id="authorRole'+i+'">';
+            htmlAppend +=
+                '<option selected="">penulis</option><option>penyunting</option><option>penyusun</option><option>editor</option>';
+            htmlAppend +=
+                '<option>alih bahasa</option><option>ilustrator</option><option>desain sampul</option></select></div>';
+            htmlAppend +=
+                '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control fs-8 form-control-lg form-control-solid" placeholder="Nama orang" value="'+kepengs[i]+'" /></div>';
+            htmlAppend +=
+                '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger" onclick="deleteKepengarangan(' +
+                kepengarangan + ')"><i class="ki-outline ki-trash" ></i></span></div></div>';
+            $('#kepengarangan').append(htmlAppend);
+            $('#authorRole'+i).val(kepengs[i].split(',')[0]);
+        } 
+    }
+    var jenis_media = "{{$detail['JENIS_MEDIA']}}";
+    var jenis_terbitan = "{{$detail['JENIS_TERBITAN']}}";
+    var jenis_penelitian = "{{$detail['JENIS_PENELITIAN']}}";
+    var jenis_kategori = "{{$detail['JENIS_KATEGORI']}}";
+    var jenis_pustaka = "{{$detail['JENIS_PUSTAKA']}}";
+    var jenis_kelompok = "{{$detail['JENIS_KELOMPOK']}}";
+    $('#isbn-jilid-lanjutan').val('{{$isbnjilidlanjutan}}').attr("readonly", true);
+    if('{{$isbnjilidlanjutan}}' == ''){
+        $('#divIsbnLanjutan').hide();
+    }
+    if(jenis_media != ''){
+        $('input[type=radio][name="jenis_media"][value="'+jenis_media+'"]').prop('checked', true);
+    }
+
+    if(jenis_terbitan != ''){
+        $('input[type=radio][name="jenis_terbitan"][value="'+jenis_terbitan+'"]').prop('checked', true);
+    }
+    if(jenis_penelitian != ''){
+        $('input[type=radio][name="jenis_penelitian"][value="'+jenis_penelitian+'"]').prop('checked', true);
+    }
+    if(jenis_kategori != ''){
+        $('input[type=radio][name="jenis_kategori"][value="'+jenis_kategori+'"]').prop('checked', true);
+    }
+    if(jenis_pustaka != ''){
+        $('input[type=radio][name="jenis_pustaka"][value="'+jenis_pustaka+'"]').prop('checked', true);
+    }
+    if(jenis_kelompok != ''){
+        $('input[type=radio][name="jenis_kelompok"][value="'+jenis_kelompok+'"]').prop('checked', true);
+    }
+    $('textarea[name="deskripsi"]').val(`{!!$detail['SINOPSIS']!!}`);
+    $('select[name="bulan_terbit"]').val('{{$detail['BULAN_TERBIT']}}');
+    $('select[name="tahun_terbit"]').val('{{$detail['TAHUN_TERBIT']}}');
+    $('input[type=text][name="distributor"]').val('{{$detail['DISTRIBUTOR']}}');
+    $('input[type=text][name="tempat_terbit"]').val('{{$detail['TEMPAT_TERBIT']}}');
+    $('#divIsbnLanjutan').hide();
+    if(jilid_lepas == 'lepas'){
+        $('#jml_hlm').val("{{$detail['JML_HLM']}}");
+        $('input[type=radio][name="status"][value="'+jilid_lepas+'"]').prop('checked', true);
+        
+    } else {
+        $('#jml_hlm').attr("type", "text").attr('readonly', true);
+        $('#jml_hlm').val(parseInt("{{$detail['JML_JILID_REQ']}}"));
+        $('#labelJumlahHalaman').text('Jumlah jilid yang diminta');
+        $('#labelKetJumlahHalaman').text('Jilid');
+        $('input[type=radio][name="status"][value="'+jilid_lepas+'"]').prop('checked', true);
+    }
+    $('input[type="radio"][name="status"]').prop('disabled', true);
+    $('#edisi').val("{{$detail['EDISI']}}");
+    $('#seri').val("{{$detail['SERI']}}");
+    var ketebalan = "{{$detail['KETEBALAN']}}";
+    ketebalan = ketebalan.replace(' cm', '');
+    $('#ketebalan').val(ketebalan);
+    var jml_jilid = parseInt("{{$detail['JML_JILID']}}");
+    var status = "{{$detail['STATUS']}}";
+    if(status == 'lanjutan'){
+        jumlah_buku = jml_jilid + 1;
+    }
+   
+    getFile("{{$detail['PENERBIT_TERBITAN_ID']}}");
+    function getFile(penerbit_terbitan_id){
+        let start = 1;
+        if(status == 'lanjutan'){
+            start =  parseInt('{{$detail['JML_JILID']}}') + 1;
+            jml_jilid = parseInt("{{$detail['JML_JILID_REQ']}}") + start - 1;
+        } 
+        
+        $.ajax({
+                url: '{{ url('penerbit/isbn/permohonan/file') }}' + '/' + penerbit_terbitan_id,
+                type: 'GET',
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    for(var j = start; j < jml_jilid; j++){
+                        tambahJilid();
+                    }
+                    for(var k = start; k < jml_jilid + 1; k++) {
+                        for(var i = 0; i<response.length; i++){
+                            if(jilid_lepas == 'jilid') {
+                                let jilidFileNumb = k-start+1;
+                                if(response[i]['JENIS'] == 'lampiran_permohonan' && response[i]['FILE_STATUS'] == '0' && response[i]['KETERANGAN'] == 'jilid '+k) {
+                                    let h = `<a href="http://demo321.online/ISBN_Back_Office/files/isbn/lampiran/`+response[i]["FILE_NAME"]+`">
+                                    <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
+                                    <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span> 
+                                    <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`,'#viewlampiran_`+k+`')"></a>
+                                    <input type="hidden" name="file_lampiran_id[]" value="`+response[i]["ID"]+`"></br>`;
+                                    $('#viewlampiran_'+jilidFileNumb ).append(h);
+                                }  
+                                if(response[i]['JENIS'] == 'lampiran_pending' && response[i]['FILE_STATUS'] == '0'  && response[i]['KETERANGAN'] == 'jilid '+k) {
+                                    $('#viewlampiran_'+ jilidFileNumb).append(`<a href="http://demo321.online/ISBN_Back_Office/files/isbn/lampiran/`+response[i]["FILE_NAME"]+`">
+                                    <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
+                                    <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span> 
+                                    <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`,'#viewlampiran_`+k+`')"></a>
+                                    <input type="hidden" name="file_pending_id[]" value="`+response[i]["ID"]+`"></br>`);
+                                }  
+                                if(response[i]['JENIS'] == 'dummy_buku' && response[i]['FILE_STATUS'] == '0' && response[i]['KETERANGAN'] == 'jilid '+k) {
+                                    $('#viewdummy_'+ jilidFileNumb).append(`<a href="http://demo321.online/ISBN_Back_Office/files/isbn/dummy/`+response[i]["FILE_NAME"]+`">
+                                    <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
+                                    <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span>
+                                    <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`,'#viewdummy_`+k+`')"></a>
+                                    <input type="hidden" name="file_dummy_id[]" value="`+response[i]["ID"]+`"></br>`);
+                                }
+                                if(response[i]['JENIS'] == 'cover' && response[i]['FILE_STATUS'] == '0' && response[i]['KETERANGAN'] == 'jilid '+k) {
+                                    $('#viewcover_'+ jilidFileNumb).append(`<a href="http://demo321.online/ISBN_Back_Office/files/cover/`+response[i]["FILE_NAME"]+`">
+                                    <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
+                                    <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span>
+                                    <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`,'#viewcover_`+k+`')"></a>
+                                    <input type="hidden" name="file_cover_id[]" value="`+response[i]["ID"]+`"></br>`);
+                                }
+                            } else {
+                                if(response[i]['JENIS'] == 'lampiran_permohonan' && response[i]['FILE_STATUS'] == '0') {
+                                    let h = `<a href="http://demo321.online/ISBN_Back_Office/files/isbn/lampiran/`+response[i]["FILE_NAME"]+`">
+                                    <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
+                                    <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span> 
+                                    <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`,'#viewlampiran_`+k+`')"></a>
+                                    <input type="hidden" name="file_lampiran_id[]" value="`+response[i]["ID"]+`"></br>`;
+                                    $('#viewlampiran_'+ k).append(h);
+                                }  
+                                if(response[i]['JENIS'] == 'lampiran_pending' && response[i]['FILE_STATUS'] == '0') {
+                                    $('#viewlampiran_'+ k).append(`<a href="http://demo321.online/ISBN_Back_Office/files/isbn/lampiran/`+response[i]["FILE_NAME"]+`">
+                                    <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
+                                    <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span> 
+                                    <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`,'#viewlampiran_`+k+`')"></a>
+                                    <input type="hidden" name="file_pending_id[]" value="`+response[i]["ID"]+`"></br>`);
+                                }  
+                                if(response[i]['JENIS'] == 'dummy_buku' && response[i]['FILE_STATUS'] == '0') {
+                                    $('#viewdummy_'+ k).append(`<a href="http://demo321.online/ISBN_Back_Office/files/isbn/dummy/`+response[i]["FILE_NAME"]+`">
+                                    <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
+                                    <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span>
+                                    <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`,'#viewdummy_`+k+`')"></a>
+                                    <input type="hidden" name="file_dummy_id[]" value="`+response[i]["ID"]+`"></br>`);
+                                }
+                                if(response[i]['JENIS'] == 'cover' && response[i]['FILE_STATUS'] == '0') {
+                                    $('#viewcover_'+ k).append(`<a href="http://demo321.online/ISBN_Back_Office/files/cover/`+response[i]["FILE_NAME"]+`">
+                                    <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
+                                    <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span>
+                                    <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`,'#viewcover_`+k+`')"></a>
+                                    <input type="hidden" name="file_cover_id[]" value="`+response[i]["ID"]+`"></br>`);
+                                }
+                            }
+                        }
+                    }
+                    let urls = "{{$detail['LINK_BUKU']}}";
+                    let link_buku = urls.split('¦');
+                    for(var k=1; k<= jml_jilid; k++){
+                        $('#url'+k).val(link_buku[k-1]);
+                    }
+                },
+                error: function() {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Server Error!'
+                    });
+                }
+            });
+    }
+    $(selectProv).change(function() {
+        var value = $(selectProv).val();
+        clearOptions('select2-kabupaten');
+
+        if (value) {
+            console.log("on change selectProv");
+
+            var text = $('#select2-provinsi :selected').text();
+            console.log("value = " + value + " / " + "text = " + text);
+
+            console.log('Load Kabupaten di ' + text + '...')
+            $.getJSON(urlKabupaten + value + ".json", function(res) {
+
+                res = $.map(res, function(obj) {
+                    obj.text = obj.nama
+                    return obj;
+                });
+
+                data = [{
+                    id: "",
+                    nama: "- Pilih Kabupaten -",
+                    text: "- Pilih Kabupaten -"
+                }].concat(res);
+
+                //implemen data ke select provinsi
+                $("#select2-kabupaten").select2({
+                    dropdownAutoWidth: true,
+                    width: '100%',
+                    data: data
+                })
+            })
         }
     });
-    $('#select2-isbn-jilid').on("change", function(){
-        $.getJSON("/penerbit/isbn/permohonan/detail-jilid/" + $(this).val(), function (res) {
-            $('textarea[name=title]').val(res['detail']['TITLE']);
-            var kepeng =res['detail']['KEPENG'];
-            var kepengs = kepeng.split(";");
-            if(kepengs[0].includes(',')){
-                $('#authorRole0').val(kepengs[0].split(',')[0]);
-                $('#namaPengarang0').val(kepengs[0].split(',')[1]);
-            }else {
-                $('#authorRole0').val('penulis');
-                $('#namaPengarang0').val(kepengs[0]);
-            }
-            for(var i = 1; i < kepengs.length; i++){
-                if(kepengs[i].includes(',')){
-                    let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
-                        '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select fs-8 id="authorRole'+i+'">';
-                    htmlAppend +=
-                        '<option selected="">penulis</option><option>penyunting</option><option>penyusun</option><option>editor</option>';
-                    htmlAppend +=
-                        '<option>alih bahasa</option><option>ilustrator</option><option>desain sampul</option></select></div>';
-                    htmlAppend +=
-                        '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control fs-8 form-control-lg form-control-solid" placeholder="Nama orang" value="'+kepengs[i].split(',')[1]+'" /></div>';
-                    htmlAppend +=
-                        '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger" onclick="deleteKepengarangan(' +
-                        kepengarangan + ')"><i class="ki-outline ki-trash" ></i></span></div></div>';
-                    $('#kepengarangan').append(htmlAppend);
-                    $('#authorRole'+i).val('penulis');
-                }else {
-                    let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
-                        '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select fs-8 id="authorRole'+i+'">';
-                    htmlAppend +=
-                        '<option selected="">penulis</option><option>penyunting</option><option>penyusun</option><option>editor</option>';
-                    htmlAppend +=
-                        '<option>alih bahasa</option><option>ilustrator</option><option>desain sampul</option></select></div>';
-                    htmlAppend +=
-                        '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control fs-8 form-control-lg form-control-solid" placeholder="Nama orang" value="'+kepengs[i]+'" /></div>';
-                    htmlAppend +=
-                        '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger" onclick="deleteKepengarangan(' +
-                        kepengarangan + ')"><i class="ki-outline ki-trash" ></i></span></div></div>';
-                    $('#kepengarangan').append(htmlAppend);
-                    $('#authorRole'+i).val(kepengs[i].split(',')[0]);
-                } 
-            }
-            var jenis_media = res['detail']['JENIS_MEDIA'];
-            var jenis_terbitan = res['detail']['JENIS_TERBITAN'];
-            var jenis_penelitian = res['detail']['JENIS_PENELITIAN'];
-            var jenis_kategori = res['detail']['JENIS_KATEGORI'];
-            var jenis_pustaka = res['detail']['JENIS_PUSTAKA'];
-            var jenis_kelompok = res['detail']['JENIS_KELOMPOK'];
-            if(jenis_media != ''){
-                $('input[type=radio][name="jenis_media"][value="'+jenis_media+'"]').prop('checked', true);
-            }
-            if(jenis_terbitan != ''){
-                $('input[type=radio][name="jenis_terbitan"][value="'+jenis_terbitan+'"]').prop('checked', true);
-            }
-            if(jenis_penelitian != ''){
-                $('input[type=radio][name="jenis_penelitian"][value="'+jenis_penelitian+'"]').prop('checked', true);
-            }
-            if(jenis_kategori != ''){
-                $('input[type=radio][name="jenis_kategori"][value="'+jenis_kategori+'"]').prop('checked', true);
-            }
-            if(jenis_pustaka != ''){
-                $('input[type=radio][name="jenis_pustaka"][value="'+jenis_pustaka+'"]').prop('checked', true);
-            }
-            if(jenis_kelompok != ''){
-                $('input[type=radio][name="jenis_kelompok"][value="'+jenis_kelompok+'"]').prop('checked', true);
-            }
-            $('textarea[name="deskripsi"]').val(res['detail']['SINOPSIS']);
-            $('select[name="bulan_terbit"]').val(res['detail']['BULAN_TERBIT']);
-            $('select[name="tahun_terbit"]').val(res['detail']['TAHUN_TERBIT']);
-            $('input[type=text][name="distributor"]').val(res['detail']['DISTRIBUTOR']);
-            $('input[type=text][name="tempat_terbit"]').val(res['detail']['TEMPAT_TERBIT']);  
-            $('#jml_hlm').attr("type", "text").attr('readonly', true);
-            jml_jilid = parseInt(res['detail']['JML_JILID']);
-            $('#jml_hlm').val(jml_jilid);
-            $('#labelJumlahHalaman').text('Jumlah Jilid');
-            $('#labelKetJumlahHalaman').text('Jilid');
-            $('input[type="radio"][name="status"]').prop('disabled', true);
-            $('input[type=radio][name="status"][value="jilid"]').prop('checked', true);           
-            $('#edisi').val(res['detail']['EDISI']);
-            $('#seri').val(res['detail']['SERI']);
-            var ketebalan = res['detail']['KETEBALAN'];
-            ketebalan = ketebalan.replace(' cm', '');
-            $('#ketebalan').val(ketebalan);
-            jumlah_buku = jml_jilid;
-            $('#judul_buku_1').html('<h4>Data Buku jilid '+jumlah_buku+' </h4><hr />');
-            $('#judul_buku_1').css('display', 'block');
-            $('#btnTambahJilid').css('display', 'block');
-            $('#labelJumlahHalaman').text('Jumlah Jilid');
-            $('#labelKetJumlahHalaman').text('Jilid');
-	    });
-    });
-    $.getJSON(urlProvinsi, function (res) {
-		data = [{
-				id: "",
-				nama: "- Pilih Provinsi -",
-				text: "- Pilih Provinsi -"
-		}].concat(res);
-
-			//implemen data ke select provinsi
-		$("#select2-provinsi").select2({
-				dropdownAutoWidth: true,
-				width: '100%',
-				data: data
-		}) ;
-	});
-
-	var selectProv = $('#select2-provinsi');
-	$(selectProv).change(function () {
-		var value = $(selectProv).val();
-		clearOptions('select2-kabupaten');
-		if (value) {
-			var text = $('#select2-provinsi :selected').text();
-			$.getJSON(urlKabupaten + value, function(res) {
-				data = [{
-						id: "",
-						nama: "- Pilih Kabupaten -",
-						text: "- Pilih Kabupaten -"
-				}].concat(res);
-
-						//implemen data ke select provinsi
-				$("#select2-kabupaten").select2({
-						dropdownAutoWidth: true,
-						width: '100%',
-						data: data,
-						async : false,
-				});
-			})
-		}
-	});
-
+    var removeFile = function(id,divId){
+        Swal.fire({
+                    title: "Yakin akan menghapus File ini?",
+                    icon: "success",
+                    buttonsStyling: !1,
+                    showCancelButton: !0,
+                    confirmButtonText: "Ya, Hapus!",
+                    cancelButtonText: "Batalkan",
+                    customClass: {
+                        confirmButton: "btn fw-bold btn-danger",
+                        cancelButton: "btn fw-bold btn-light-primary"
+                    }
+                    }).then(function(isConfirm){
+                        if (isConfirm){
+                            //
+                            $.get('/penerbit/isbn/permohonan/delete-file/' + id);
+                            $(divId).html('');
+                        }
+                });
+    };
+    var selectKab = $('#select2-kabupaten');
 
     $('.onhover').css('display', 'none');
     $('.hoverEvent').hover(function () {
@@ -1431,35 +1491,25 @@
         objSpan.css('display', 'none');
         //stuff to do on mouse leave
     });
-    $('input[type=radio][name="jenis_media"]').on('change', function () {
-        var objSpan = $(this).parent().parent().find('.onhover').first();
-        var notes = objSpan[0].innerHTML;
-        $('#notes_jenis_media').html(notes);
-    });
-    $('input[type=radio][name="status"]').on('change', function () {
-        if ($(this).val() == 'lepas') {
+    $('input[type=radio][name="jenis_media"]').on('change', function() {
+            var objSpan = $(this).parent().parent().find('.onhover').first();
+            var notes = objSpan[0].innerHTML;
+            $('#notes_jenis_media').html(notes);
+        });
+    $('input[type=radio][name="status"]').on('change', function() {
+        if($(this).val() == 'lepas'){
             $('#judul_buku_1').css('display', 'none');
             $('#btnTambahJilid').css('display', 'none');
-            $('#labelJumlahHalaman').text('Jumlah Halaman');
-            $('#labelKetJumlahHalaman').text('Halaman');
-            $('#jml_hlm').attr("type", "number");
-            $('#jml_hlm').val(0);
-            $('#jml_hlm').removeAttr("disabled");
         } else {
             $('#judul_buku_1').css('display', 'block');
             $('#btnTambahJilid').css('display', 'block');
-            $('#labelJumlahHalaman').text('Jumlah Jilid');
-            $('#labelKetJumlahHalaman').text('Jilid');
-            $('#jml_hlm').attr("type", "text");
-            $('#jml_hlm').val(jumlah_buku + " jil");
-            $('#jml_hlm').attr("disabled", "disabled");
         }
-    });
+        });
     $('#judul_buku_1').css('display', 'none');
     $('#btnTambahJilid').css('display', 'none');
     var kepengarangan = 1;
-    var jumlah_buku = 1;
-    $('#btnTambahPengarang').on("click", function () {
+    
+    $('#btnTambahPengarang').on("click", function() {
         let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
             '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select fs-8">';
         htmlAppend +=
@@ -1474,121 +1524,98 @@
         $('#kepengarangan').append(htmlAppend);
         kepengarangan += 1;
     });
-    $('form#form_isbn').submit(function (e) {
+    $('#btnSubmit').on('click', function(){
+        $('form#form_isbn').submit();
+    })
+    $('form#form_isbn').submit(function(e){
         e.preventDefault();
-        let htmlSwal = 
-        Swal.fire({
-                    html: `<h2>Anda yakin akan mengajukan permohonan ISBN baru?</h2> <br/> <div class="flex-column" style="text-align: left;">
-                    <h5> Sesuai <b>Undang-Undang Nomor 13 Tahun 2018 tentang Serah Simpan Karya Cetak dan Karya Rekam</b></h5> <br/>
-                    <b>PASAL 4</b><br/> (1) Setiap Penerbit dan Produsen Karya Rekam wajib menyerahkan <b>2 (dua) eksemplar</b> dari setiap judul Karya Cetak kepada 
-                            <b>Perpustakaan Nasional</b> dan <b>1 (satu) eksemplar</b> kepada <b>Perpustakaan Provinsi</b> tempat domisili Penerbit.<br/>
-                            (2) Dalam hal Perpustakaan Nasional memerlukan salinan digital atas Karya Cetak untuk kepentingan penyandang disabilitas, 
-                            Penerbit wajib menyerahkan salinan digital kepada Perpustakaan Nasional.<br/>
-                            (3) Karya Cetak sebagaimana dimaksud pada ayat (1) diserahkan untuk disimpan di Perpustakaan 
-Nasional dan Perpustakaan Provinsi, termasuk edisi revisi.<br/>
-                            (4) Penyerahan Karya Cetak sebagaimana dimaksud pada ayat (1) dilakukan <b> paling lama 3 (tiga) bulan setelah diterbitkan</b>.<br/><br/>
-                    <b>PASAL 5</b><br/>(1) Setiap Produsen Karya Rekam yang mempublikasikan Karya Rekam wajib menyerahkan <b>1 (satu) 
-                            salinan rekaman</b> dari setiap judul Karya Rekam kepada <b>Perpustakaan Nasional</b> dan <b>1 (satu) salinan</b> kepada <b>Perpustakaan Provinsi</b> 
-                            tempat domisili Produsen Karya Rekam<br/>
-                            (2) Penyerahan Karya Rekam sebagaimana dimaksud pada ayat (1) dilakukan <b> paling lama 1 (satu) tahun setelah dipublikasikan</b></div>`,
-					icon: "warning",
-                    width: "900px",
-                    height: "80vh",
-                    showCancelButton: !0,
-                    buttonsStyling: !1,
-                    confirmButtonText: "Ya, ajukan permohonan!",
-                    cancelButtonText: "Tidak",
-                    
-                    customClass: {
-                        confirmButton: "btn fw-bold btn-success",
-                        cancelButton: "btn fw-bold btn-active-light-danger"
-                    }
-            	}).then(function(e) {
-					if(e.isConfirmed == true) {
-                        postForm()
-                    } else {
-                        $('.loader').css('display', 'none');
-                    }
-        })
-        $('.loader').css('display', 'block');
-        
-    });
-    var postForm = function(){
         let form = document.getElementById('form_isbn');
-        let formData = new FormData(form);
+        let formData = new FormData(form); 
         formData.append('jumlah_jilid', jumlah_buku);
         $.ajaxSetup({
             headers: {
-                'X-CSRF-TOKEN': $('input[name="_token"]').val()
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
         $.ajax({
-            url: "{{ url('penerbit/isbn/permohonan/new/submit') }}",
-            type: 'post',
-            dataType: 'json',
-            processData: false,
-            contentType: false,
-            data: formData,
-            statusCode: {
-                422: function (xhr) {
-                    var error = '<div class="alert alert-danger d-flex align-items-center p-5 mb-10"><div class="d-flex flex-column" style="text-align: left;"><ul>';
-                    $.each(xhr.responseJSON.err, function (key, value) {
-                        error += '<li>' + value[0] + '</li>';
-                    });
-                    error += '</ul></div></div>';
-                    Swal.fire({
-                        title: "Validation Error!",
-                        html: error,
-                        buttonsStyling: !1,
-                        confirmButtonText: "Ok!",
-                        width: '800px',
-                        heightAuto: false,
-                        height: '800px',
-                        customClass: {
-                            confirmButton: "btn fw-bold btn-primary",
-                            content: "swal-height"
-                        }
-                    });
-                },
-                200: function (xhr) {
-                    Swal.fire({
-                        title: "Permohonan ISBN berhasil disimpan!",
-                        text: xhr.message,
-                        html: 'NOMOR RESI : <b>' + xhr.noresi + '</b>',
-                        icon: "success",
-                        buttonsStyling: !1,
-                        confirmButtonText: "Ok!",
-                        customClass: {
-                            confirmButton: "btn fw-bold btn-primary"
-                        }
-                    }).then(function (isConfirm) {
-                        if (isConfirm) {
-                            window.location.href = "/penerbit/isbn/permohonan/detail/" + xhr.noresi
-                        }
-                    });
-                },
-                500: function (xhr) {
-                    Swal.fire({
-                        text: xhr.responseJSON.message,
-                        icon: "failed",
-                        buttonsStyling: !1,
-                        confirmButtonText: "Ok!",
-                        customClass: {
-                            confirmButton: "btn fw-bold btn-primary"
-                        }
-                    });
-                },
-            },
-            complete: function () {
-                $('.loader').css('display', 'none');
-            },
-        });
-    }
-    var deleteKepengarangan = function (numb) {
+                    url :'{{ url('penerbit/isbn/permohonan/new/submit') }}',
+                    type: 'post',
+                    dataType: 'json',
+                    processData: false,
+                    contentType:  false,
+                    data: formData,
+                    statusCode: {
+                        422: function(xhr) {
+                            var error = '<div class="alert alert-danger d-flex align-items-center p-5 mb-10"><div class="d-flex flex-column" style="text-align: left;"><ul>';
+                            $.each(xhr.responseJSON.err, function(key, value){
+                                error+='<li>'+value[0]+'</li>';
+                            }); 
+                            error+='</ul></div></div>';
+                            Swal.fire({
+                                    title: "Validation Error!",
+                                    html: error,
+                                    buttonsStyling: !1,
+                                    confirmButtonText: "Ok!",
+                                    width: '800px',
+                                    heightAuto:false,
+                                    height: '800px',
+                                    customClass: { 
+                                        confirmButton: "btn fw-bold btn-primary",
+                                        content: "swal-height"
+                                    }
+                                });
+                        },
+                        200: function(xhr) {
+                            Swal.fire({
+                                    title: "Permohonan ISBN berhasil disimpan!",
+                                    text: xhr.message,
+                                    html: 'NOMOR RESI : <b>' + xhr.noresi + '</b>',
+                                    icon: "success",
+                                    buttonsStyling: !1,
+                                    confirmButtonText: "Ok!",
+                                    customClass: {
+                                        confirmButton: "btn fw-bold btn-primary"
+                                        }
+                                }).then(function(isConfirm){
+                                    if (isConfirm){
+                                        window.location.href = "/penerbit/isbn/permohonan/detail/" + xhr.noresi 
+                                    }
+                                });
+                        },
+                        500: function(xhr) {
+                            Swal.fire({
+                                    text: xhr.responseJSON.message,
+                                    icon: "failed",
+                                    buttonsStyling: !1,
+                                    confirmButtonText: "Ok!",
+                                    customClass: {
+                                        confirmButton: "btn fw-bold btn-primary"
+                                        }
+                                });
+                        },
+                    },
+                    beforeSend: function(){
+                        $('.loader').css('display','block');
+                    },
+                    complete: function(){
+                        $('.loader').css('display','none');
+                    },
+            });
+    });
+    var deleteKepengarangan = function(numb) {
         $('#kepengarangan_' + numb).remove();
     };
-    dropZoneJilid(jumlah_buku, "lampiran");
-    dropZoneJilid(jumlah_buku, "cover");
-    dropZoneJilid(jumlah_buku, "dummy");
+    if(status == 'lanjutan'){
+        //yang tidak boleh diubah taruh di sini ya
+        $('textarea[name=title]').attr('readonly', true);
+        $('#judul_buku_1').html('<h4>Data Buku Jilid - '+ (parseInt("{{$detail['JML_JILID']}}") + 1)+' </h4><hr />');
+        $('#judul_buku_1').css('display', 'block');
+        $('#btnTambahJilid').css('display', 'block');
+        $('#labelJumlahHalaman').text('Jumlah Jilid');
+        $('#labelKetJumlahHalaman').text('Jilid');
+        $('#jml_hlm').attr("type", "text");
+        $('#jml_hlm').attr("disabled", "disabled");
+        $('#divIsbnLanjutan').show();
+    }
 </script>
 @stop

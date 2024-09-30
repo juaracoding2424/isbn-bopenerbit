@@ -287,7 +287,7 @@ class IsbnPermohonanController extends Controller
                     }
                 }
                 $jumlah_jilid = intval(request('jumlah_jilid'));
-                if(request('status') == 'jilid') { 
+                if(request('status') == 'jilid' && request('isbn-jilid') == "") { 
                     #--------------VALIDASI JUMLAH JILID----------------------------------------------------------------
                     /*if($jumlah_jilid < 2) {
                         return response()->json([
@@ -298,16 +298,22 @@ class IsbnPermohonanController extends Controller
                     }*/
                     #----------------END VALIDASI -------------------------------------------------------------------------
                     $jml_hlm = $jumlah_jilid . " jil";
-                } else {
+                } else if(request('status') == 'lepas') {
                     $jml_hlm = request('jml_hlm');
                 }
-                $jilids = ""; $urls = implode('¦', request('url'));
-                for($i = 0; $i < count(request('url')); $i++) {
-                    $jilids .= "jilid " . $i+1;
-                    if(isset(request('url')[$i+1])){
-                        $jilids .= "¦";
-                    }
-                }
+                $urls = implode('¦', request('url'));
+                //if(request('isbn-jilid') != ""){
+                //    $start = ($jumlah_jilid - count(request('file_lampiran')));
+                //} else {
+                //    $start = 0;
+               // }
+                //for($i = $start; $i < count(request('file_lampiran')); $i++) {
+                //    $jilids .= "jilid " . $i+1;
+                //    if(isset(request('file_lampiran')[$i+1])){
+                //        $jilids .= "¦";
+                //    }
+               // }
+               
                 
                 $ListData = [
                         [ "name"=>"TITLE", "Value"=> request('title') ],
@@ -327,13 +333,13 @@ class IsbnPermohonanController extends Controller
                         [ "name"=>"JENIS_PUSTAKA", "Value"=> request('jenis_pustaka') ],
                         [ "name"=>"JENIS_KATEGORI", "Value"=> request('jenis_kategori') ],
                         [ "name"=>"KETEBALAN", "Value"=> request('ketebalan')],
-                        [ "name"=>"JML_JILID", "Value" => request('jumlah_jilid_total')  ]
+                        //[ "name"=>"JML_JILID", "Value" => request('jumlah_jilid_total')  ]
                 ];
                 $IsbnResi = [
-                    [ "name" =>"NORESI", "Value" => $noresi ],
-                    [ "name" =>"JML_JILID_REQ", "Value" => $jumlah_jilid],
-                    [ "name" =>"LINK_BUKU", "Value" => $urls ],
-                    [ "name" =>"SOURCE", "Value" => "web" ],
+                    [ "name" => "NORESI", "Value" => $noresi ],
+                    [ "name" => "JML_JILID_REQ", "Value" => count(request('keterangan_jilid'))],
+                    [ "name" => "LINK_BUKU", "Value" => $urls ],
+                    [ "name" => "SOURCE", "Value" => "web" ],
                 ];
                 if(request('isbn-jilid') == ""){
                     array_push($IsbnResi,  [ "name" =>"JENIS", "Value" => request('status')]);
@@ -341,8 +347,9 @@ class IsbnPermohonanController extends Controller
                     array_push($IsbnResi,  [ "name" =>"JENIS", "Value" => "jilid"]);
                 }
                 if($jumlah_jilid > 1){
+                    $jilids = implode('¦', request('keterangan_jilid'));
                     array_push($IsbnResi, 
-                        [ "name"=>"KETERANGAN_JILID", "Value"=> $jilids ]
+                        [ "name"=> "KETERANGAN_JILID", "Value"=> $jilids ]
                     );
                 }
                 if(request('penerbit_terbitan_id') != ''){
@@ -370,7 +377,7 @@ class IsbnPermohonanController extends Controller
                     if(request('isbn-jilid') != ""){
                         //ISBN JILID LANJUTAN EDIT TABEL PENERBIT_TERBITAN
                         array_push($ListData, 
-                            [ "name" => "LAST_MOHON_DATE", "Value"=> now()->addHours(7)->format('Y-m-d H:i:s') ],
+                            [ "name" => "LAST_MOHON_CREATEDATE", "Value"=> now()->addHours(7)->format('Y-m-d H:i:s') ],
                             [ "name" => "LAST_MOHON_CREATEBY","Value"=> session('penerbit')["USERNAME"] ],
                             [ "name" => "LAST_MOHON_CREATETERMINAL","Value"=> \Request::ip() ],
                             [ "name" => "UPDATEBY", "Value"=> session('penerbit')["USERNAME"]], 
@@ -378,6 +385,7 @@ class IsbnPermohonanController extends Controller
                         );
                         $id = request('isbn-jilid');
                         $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=PENERBIT_TERBITAN&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
+                        //\Log::info($res);
                     } else {
                         array_push($ListData, 
                                 [ "name"=>"MOHON_DATE", "Value"=> now()->addHours(7)->format('Y-m-d H:i:s') ],
@@ -736,7 +744,7 @@ class IsbnPermohonanController extends Controller
     }
     function getDetailJilid($id)
     {
-        $detail = kurl("get","getlistraw", "", "SELECT pt.* FROM PENERBIT_TERBITAN pt JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id WHERE pt.ID='$id'", 'sql', '');
+        $detail = kurl("get","getlistraw", "", "SELECT pt.* FROM PENERBIT_TERBITAN pt WHERE pt.ID='$id'", 'sql', '');
        
         if(intval($detail["Data"]["Items"][0]["JML_JILID"]) > 1){
             $status = "jilid";

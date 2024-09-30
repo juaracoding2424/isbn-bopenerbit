@@ -28,7 +28,7 @@ class DashboardController extends Controller
         $id = session('penerbit')['ID'];
         if($status == 'permohonan'){
             $sql = "SELECT count(*) JUMLAH FROM ISBN_RESI IR 
-                    WHERE PENERBIT_ID='$id' AND (status='' OR status='permohonan' OR status is NULL) ";
+                    WHERE PENERBIT_ID='$id' AND (status='' OR status='permohonan' OR status is NULL OR status='lanjutan') ";
         } 
         if($status == 'pending') {
             $sql = "SELECT count(*) JUMLAH
