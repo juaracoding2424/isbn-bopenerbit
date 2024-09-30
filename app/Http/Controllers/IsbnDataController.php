@@ -47,8 +47,8 @@ class IsbnDataController extends Controller
                 pt.title,  pt.jml_jilid, pt.jilid_volume, pi.ACCEPTDATE, pt.call_number, pt.sinopsis, pt.subjek,
                 pt.is_kdt_valid
                 FROM penerbit_isbn pi
-                JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
-                JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id
+                LEFT JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
+                LEFT JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id
                 WHERE pi.PENERBIT_ID =$id ";
 
         $sqlFiltered = "SELECT pt.id FROM penerbit_terbitan pt JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
