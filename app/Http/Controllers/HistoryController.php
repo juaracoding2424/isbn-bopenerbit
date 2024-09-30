@@ -19,7 +19,7 @@ class HistoryController extends Controller
             $sql = "SELECT * FROM (SELECT h.actiondate, h.note, pt.title, pi.isbn_no, ir.noresi, h.tablename from historydata h 
                     JOIN penerbit_terbitan pt on pt.id = h.idref 
                     LEFT JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
-                    JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
+                    LEFT JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
                     WHERE upper(h.tablename) = 'PENERBIT_TERBITAN'  
                     AND pt.penerbit_id = " . session('penerbit')['ID'] . " order by actiondate desc) WHERE rownum <= 10";
             $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"];

@@ -133,7 +133,7 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                        <div class="row mb-6" id="divIsbnLanjutan">
+                                        <div class="row mb-6">
                                             <!--begin::Label-->
                                             <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
                                                 <span>ISBN lanjutan</span>
@@ -184,7 +184,7 @@
                                                     <!--begin::Col-->
                                                     <div id="kepengarangan_0" class="row">
                                                         <div class="col-lg-4 fv-row mb-1">
-                                                            <select name="authorRole[]" class="select2 form-select fs-8" id="authorRole0">
+                                                            <select name="authorRole[]" class="select2 form-select fs-8">
                                                                 <option selected="selected">penulis</option>
                                                                 <option>penyunting</option>
                                                                 <option>penyusun</option>
@@ -195,7 +195,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-lg-6 fv-row mb-1">
-                                                            <input type="text" name="namaPengarang[]" id="namaPengarang0"
+                                                            <input type="text" name="namaPengarang[]"
                                                                 class="form-control fs-8 form-control-lg"
                                                                 placeholder="Nama orang" value="" />
                                                         </div>
@@ -855,9 +855,10 @@
 
                                         <div id="isbn_detail">
                                             <span id="judul_buku_1">
-                                                <h4>Data Buku Jilid - 1 </h4>
+                                                <h4>Data Buku jilid 1 </h4>
                                                 <hr />
                                             </span>
+                                            <input type='hidden' name='keterangan_jilid[]' value='jilid 1' id="keterangan_jilid_1">
                                             <input type="hidden" name="file_lampiran[]" id="file_lampiran1">
                                             <input type="hidden" name="file_dummy[]" id="file_dummy1">
                                             <input type="hidden" name="file_cover[]" id="file_cover1">
@@ -1020,12 +1021,13 @@
     var urlProvinsi = "{{url('location/province')}}" + "/";
     var urlKabupaten = "{{url('location/kabupaten')}}" + "/";
     var urlJilid = "{{url('penerbit/isbn/permohonan/jilid-lengkap') }}";
-    var jml_jilid = 0;
+
     function clearOptions(id) {
-        //console.log("on clearOptions :" + id);
+        console.log("on clearOptions :" + id);
         //$('#' + id).val(null);
         $('#' + id).empty().trigger('change');
     }
+
     $.getJSON(urlJilid, function (res) {
         res = $.map(res, function (obj) {
             return obj;
@@ -1044,7 +1046,6 @@
             data: data
         })
     });
-    //console.log('Load Provinsi...');
     $.getJSON(urlProvinsi, function (res) {
 
         res = $.map(res, function (obj) {
@@ -1158,18 +1159,23 @@
     }
     $('#btnTambahJilid').on('click', function () {
         jumlah_buku += 1;
-        let idJilid = jumlah_buku-jml_jilid;
-        $('#jml_hlm').val(jumlah_buku + " jil");
+        let idJilid = jumlah_buku;
+        if($('#select2-isbn-jilid').val() != ""){
+            idJilid = jumlah_buku - jml_jilid + 1;
+            $('#keterangan_jilid_1').val('jilid ' + (jumlah_buku - 1));
+        }
+        $('#jml_hlm').val(jumlah_buku);
         let html =
-            `<div class='jilidbaru'><span><h4>Data Buku Jilid - ` + jumlah_buku + `</h4><hr/></span>
+            `<div class='jilidbaru'><span><h4>Data buku jilid ` + jumlah_buku + `</h4><hr/></span>
+            <input type='hidden' name='keterangan_jilid[]' value='jilid `+jumlah_buku+`'>
             <input type='hidden' id='file_dummy`+ idJilid + `' name='file_dummy[]'>
-            <input type='hidden' id='file_lampiran`+ idJilid+ `' name='file_lampiran[]'>
-            <input type='hidden' id='file_cover`+ idJilid+ `' name='file_cover[]'>
+            <input type='hidden' id='file_lampiran`+ idJilid + `' name='file_lampiran[]'>
+            <input type='hidden' id='file_cover`+ idJilid + `' name='file_cover[]'>
             <div class="row mb-6">
                 <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">File
                     Attachment</label>
                 <div class="col-lg-6 d-flex align-items-center">
-                    <div class="dropzone" id="attachments`+ idJilid+ `" style="width:100%">
+                    <div class="dropzone" id="attachments`+ idJilid + `" style="width:100%">
                         <div class="dz-message needsclick align-items-center">
                             <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
                             <div class="ms-4">
@@ -1232,10 +1238,18 @@
         if (jumlah_buku > 2) {
             var objJilids = $('.jilidbaru').find();
             for (var i = 0; i <= objJilids.prevObject.length; i++) {
-                if (i < jumlah_buku - 2 - jml_jilid) {
-                    var btnHapus = $(objJilids.prevObject[i]).find('.btn-danger').first();
-                    btnHapus.removeClass("active");
-                    btnHapus.addClass('disabled');
+                if($('#select2-isbn-jilid').val()!=""){
+                    if (i < jumlah_buku - jml_jilid - 1) {
+                        var btnHapus = $(objJilids.prevObject[i]).find('.btn-danger').first();
+                        btnHapus.removeClass("active");
+                        btnHapus.addClass('disabled');
+                    }
+                } else {
+                    if (i < jumlah_buku - 2) {
+                        var btnHapus = $(objJilids.prevObject[i]).find('.btn-danger').first();
+                        btnHapus.removeClass("active");
+                        btnHapus.addClass('disabled');
+                    }
                 }
             }
         }
@@ -1245,20 +1259,36 @@
             var objJilids = $('.jilidbaru').find();
             for (var i = 0; i <= objJilids.prevObject.length; i++) {
                 var btnHapus = $(objJilids.prevObject[i]).find('.btn-danger').first();
-                if (i < jumlah_buku - 2 - jml_jilid) {
-                    btnHapus.removeClass("active");
-                    btnHapus.addClass('disabled');
-                }
-                if (i == jumlah_buku - 2 - jml_jilid) {
-                    btnHapus.addClass('active');
-                    btnHapus.removeClass("disabled");
+                if($('#select2-isbn-jilid').val()!=""){
+                    if (i < idJilid) {
+                        btnHapus.removeClass("active");
+                        btnHapus.addClass('disabled');
+                    }
+                    if (i == idJilid) {
+                        btnHapus.addClass('active');
+                        btnHapus.removeClass("disabled");
+                    }
+                } else {
+                    if (i < jumlah_buku - 2) {
+                        btnHapus.removeClass("active");
+                        btnHapus.addClass('disabled');
+                    }
+                    if (i == jumlah_buku - 2) {
+                        btnHapus.addClass('active');
+                        btnHapus.removeClass("disabled");
+                    }
                 }
             }
-            $('#jml_hlm').val(jumlah_buku + " jil");
         });
-        dropZoneJilid(jumlah_buku, "lampiran");
-        dropZoneJilid(jumlah_buku, "cover");
-        dropZoneJilid(jumlah_buku, "dummy");
+        if($('#select2-isbn-jilid').val()!=""){ 
+            dropZoneJilid(idJilid, "lampiran");
+            dropZoneJilid(idJilid, "cover");
+            dropZoneJilid(idJilid, "dummy");
+        } else {
+            dropZoneJilid(jumlah_buku, "lampiran");
+            dropZoneJilid(jumlah_buku, "cover");
+            dropZoneJilid(jumlah_buku, "dummy");
+        }
     });
     $('#select2-isbn-jilid').on("change", function(){
         $.getJSON("/penerbit/isbn/permohonan/detail-jilid/" + $(this).val(), function (res) {
@@ -1333,7 +1363,8 @@
             $('input[type=text][name="distributor"]').val(res['detail']['DISTRIBUTOR']);
             $('input[type=text][name="tempat_terbit"]').val(res['detail']['TEMPAT_TERBIT']);  
             $('#jml_hlm').attr("type", "text").attr('readonly', true);
-            $('#jml_hlm').val(res['detail']['JML_HLM']);
+            jml_jilid = parseInt(res['detail']['JML_JILID']);
+            $('#jml_hlm').val(jml_jilid);
             $('#labelJumlahHalaman').text('Jumlah Jilid');
             $('#labelKetJumlahHalaman').text('Jilid');
             $('input[type="radio"][name="status"]').prop('disabled', true);
@@ -1343,15 +1374,14 @@
             var ketebalan = res['detail']['KETEBALAN'];
             ketebalan = ketebalan.replace(' cm', '');
             $('#ketebalan').val(ketebalan);
-            jml_jilid = parseInt(res['detail']['JML_JILID']);
-            jumlah_buku = jml_jilid + 1;
-            $('#judul_buku_1').html('<h4>Data Buku Jilid - '+(jml_jilid + 1)+' </h4><hr />');
+            jumlah_buku = jml_jilid;
+            $('#judul_buku_1').html('<h4>Data Buku jilid '+jumlah_buku+' </h4><hr />');
             $('#judul_buku_1').css('display', 'block');
             $('#btnTambahJilid').css('display', 'block');
             $('#labelJumlahHalaman').text('Jumlah Jilid');
             $('#labelKetJumlahHalaman').text('Jilid');
 	    });
-    })
+    });
     $.getJSON(urlProvinsi, function (res) {
 		data = [{
 				id: "",
@@ -1415,7 +1445,6 @@
             $('#jml_hlm').attr("type", "number");
             $('#jml_hlm').val(0);
             $('#jml_hlm').removeAttr("disabled");
-            $('#divIsbnLanjutan').hide();
         } else {
             $('#judul_buku_1').css('display', 'block');
             $('#btnTambahJilid').css('display', 'block');
@@ -1424,12 +1453,10 @@
             $('#jml_hlm').attr("type", "text");
             $('#jml_hlm').val(jumlah_buku + " jil");
             $('#jml_hlm').attr("disabled", "disabled");
-            $('#divIsbnLanjutan').show();
         }
     });
     $('#judul_buku_1').css('display', 'none');
     $('#btnTambahJilid').css('display', 'none');
-    $('#divIsbnLanjutan').hide();
     var kepengarangan = 1;
     var jumlah_buku = 1;
     $('#btnTambahPengarang').on("click", function () {
@@ -1490,7 +1517,6 @@ Nasional dan Perpustakaan Provinsi, termasuk edisi revisi.<br/>
         let form = document.getElementById('form_isbn');
         let formData = new FormData(form);
         formData.append('jumlah_jilid', jumlah_buku);
-        formData.append('jumlah_jilid_total', jml_jilid + jumlah_buku);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('input[name="_token"]').val()
