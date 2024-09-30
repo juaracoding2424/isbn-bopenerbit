@@ -1111,7 +1111,8 @@ height: 100vh !important;
     var tambahJilid = function(){
         jumlah_buku +=1;
         let html = 
-        `<div class='jilidbaru'><span><h4>Data Buku `+ jumlah_buku + `</h4><hr/></span>
+        `<div class='jilidbaru'><span id="judul_buku_`+jumlah_buku+`"><h4>Data Buku `+ jumlah_buku + `</h4><hr/></span>
+        
         <input type='hidden' id='file_dummy`+jumlah_buku+`' name='file_dummy[]'>
         <input type='hidden' id='file_lampiran`+jumlah_buku+`' name='file_lampiran[]'>
         <input type='hidden' id='file_cover`+jumlah_buku+`' name='file_cover[]'>  
@@ -1330,6 +1331,7 @@ height: 100vh !important;
                         tambahJilid();
                     }
                     for(var k = 1; k < jumlah_jilid + 1; k++) {
+                        $('#judul_buku_'+k).html('<h4>Data buku ' + keterangan_jilid[k-1] + '</h4><hr/>');
                         for(var i = 0; i<response.length; i++){
                             if(jilid_lepas == 'jilid') {
                                 if(response[i]['JENIS'] == 'lampiran_permohonan' && response[i]['FILE_STATUS'] == '0' && response[i]['KETERANGAN'] == keterangan_jilid[k-1]) {
@@ -1485,9 +1487,9 @@ height: 100vh !important;
             $('#judul_buku_1').css('display', 'block');
             $('#btnTambahJilid').css('display', 'block');
         }
-        });
-        $('#judul_buku_1').css('display', 'none');
-        $('#btnTambahJilid').css('display', 'none');
+    });
+    $('#judul_buku_1').css('display', 'none');
+    //$('#btnTambahJilid').css('display', 'none');
     var kepengarangan = 1;
     
     $('#btnTambahPengarang').on("click", function() {
@@ -1598,6 +1600,7 @@ height: 100vh !important;
         $('#jml_hlm').attr("type", "text");
         $('#jml_hlm').attr("disabled", "disabled");
         $('#divIsbnLanjutan').show();
+        $('#btnTambahJilid').css('display', 'none');
     }
 </script>
 @stop
