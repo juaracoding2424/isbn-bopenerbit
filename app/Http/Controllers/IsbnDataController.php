@@ -51,9 +51,9 @@ class IsbnDataController extends Controller
                 LEFT JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id
                 WHERE pi.PENERBIT_ID =$id ";
 
-        $sqlFiltered = "SELECT pt.id FROM penerbit_terbitan pt JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
+        $sqlFiltered = "SELECT pt.id FROM penerbit_terbitan pt LEFT JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
                         JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
-                        WHERE ir.penerbit_id = $id ";
+                        WHERE pt.penerbit_id = $id ";
        
         foreach($request->input('advSearch') as $advSearch){
             if($advSearch["value"] != '') {
@@ -110,7 +110,7 @@ class IsbnDataController extends Controller
             }
            
         }
-        $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM (SELECT penerbit_terbitan_id FROM PENERBIT_ISBN WHERE PENERBIT_ID='$id' GROUP BY penerbit_terbitan_id) ", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
+        $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM PENERBIT_ISBN WHERE PENERBIT_ID='$id'  ", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         
         if($length == '-1'){
             $end = $totalData;
