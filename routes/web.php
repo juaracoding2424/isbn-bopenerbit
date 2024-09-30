@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\IsbnBatalController;
 use App\Http\Controllers\IsbnDataController;
 use App\Http\Controllers\IsbnMasalahController;
 use App\Http\Controllers\IsbnPermohonanController;
@@ -47,10 +48,16 @@ Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
         Route::post('penerbit/isbn/permohonan/new/submit', [IsbnPermohonanController::class, 'submit']);
         Route::get('penerbit/isbn/permohonan/detail/{noresi}', [IsbnPermohonanController::class, 'detail']);
         Route::get('penerbit/isbn/permohonan/detail/{id}/get', [IsbnPermohonanController::class, 'getDetail']);
+        Route::get('penerbit/isbn/permohonan/detail-jilid/{id}', [IsbnPermohonanController::class, 'getDetailJilid']);
         Route::get('penerbit/isbn/permohonan/jilid-lengkap', [IsbnPermohonanController::class, 'getJilidLengkap']);
         Route::get('penerbit/isbn/permohonan/file/{id}', [IsbnPermohonanController::class, 'getFile']);
         Route::get('penerbit/isbn/permohonan/delete/{id}', [IsbnPermohonanController::class, 'rollback_permohonan']);
         Route::get('penerbit/isbn/permohonan/delete-file/{id}', [IsbnPermohonanController::class, 'deleteFile']);
+
+        Route::get('penerbit/isbn/batal', [IsbnBatalController::class, 'index']);
+        Route::get('penerbit/isbn/batal/datatable', [IsbnBatalController::class, 'datatable']);
+        Route::get('penerbit/isbn/batal/pulihkan-permohonan/{id}', [IsbnBatalController::class, 'pulihkanPermohonan']);
+        Route::get('penerbit/isbn/batal/detail/{id}/get', [IsbnPermohonanController::class, 'getDetail']);
 
         Route::post('penerbit/dropzone/store', [DropZoneController::class, 'store']);
         Route::post('penerbit/dropzone/delete', [DropZoneController::class, 'delete']);

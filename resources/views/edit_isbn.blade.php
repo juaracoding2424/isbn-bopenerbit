@@ -82,6 +82,90 @@ height: 100vh !important;
                                     <!--begin::Card body-->
                                     <div class="card-body border-top p-9">
                                         <!--begin::Input group-->
+                                        <div class="row mb-8">
+                                            <!--begin::Col-->
+                                            <div class="col-xl-3">
+                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Jenis
+                                                        Permohonan ISBN </span>
+                                                    <span class="ms-1" data-bs-toggle="tooltip"
+                                                        title="Pilih jenis permohonan ISBN">
+                                                        <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!--end::Col-->
+                                            <!--begin::Col-->
+                                            <div class="col-xl-9">
+                                                <!--begin::Row-->
+                                                <div class="row g-9" data-kt-buttons="true"
+                                                    data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="status" value="lepas">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Lepas</span>
+                                                                <span class="fw-semibold fs-8 text-gray-600">Penerbit
+                                                                    akan mendapatkan 1 nomor ISBN untuk setiap judul
+                                                                    yang diminta.</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="status" value="jilid">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-6 fw-bold mb-1 d-block">Jilid</span>
+                                                                <span class="fw-semibold fs-8 text-gray-600">Anda wajib
+                                                                    memasukan minimal 2 jilid untuk permohonan ISBN
+                                                                    berjilid.</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                </div>
+                                                <!--end::Row-->
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
+                                         <div class="row mb-6" id="divIsbnLanjutan">
+                                            <!--begin::Label-->
+                                            <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
+                                                <span>ISBN lanjutan</span>
+                                                <span class="ms-1" data-bs-toggle="tooltip"
+                                                    title="masukan ISBN jilid jika merupakan lanjutan dari jilid sebelumnya">
+                                                    <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+                                                </span>
+                                            </label>
+                                            <!--end::Label-->
+                                            <!--begin::Col-->
+                                            <div class="col-lg-9 fv-row">
+                                                <input type="text" value="" id="isbn-jilid-lanjutan" class="form-control fs-6 form-control-lg form-control-solid">
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
                                         <div class="row mb-6">
                                             <!--begin::Label-->
                                             <label class="col-lg-3 col-form-label fs-8 required fw-semibold">Judul
@@ -687,27 +771,7 @@ height: 100vh !important;
                                             <!--end::Col-->
                                         </div>
                                         <!--end::Input group-->
-                                        <!--begin::Input group-->
-                                        <div class="row mb-6">
-                                            <!--begin::Label-->
-                                            <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
-                                                <span>ISBN lanjutan</span>
-                                                <span class="ms-1" data-bs-toggle="tooltip"
-                                                    title="masukan ISBN jilid jika merupakan lanjutan dari jilid sebelumnya">
-                                                    <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
-                                                </span>
-                                            </label>
-                                            <!--end::Label-->
-                                            <!--begin::Col-->
-                                            <div class="col-lg-9 fv-row">
-                                                <select id="select2-isbn-jilid" name="isbn-jilid" data-control="select2"
-                                                    data-placeholder="Masukan nomor ISBN Jilid..."
-                                                    class="form-select form-select-solid form-select-lg fw-semibold">
-                                                </select>
-                                            </div>
-                                            <!--end::Col-->
-                                        </div>
-                                        <!--end::Input group-->
+                                       
                                             <!--begin::Input group-->
                                             <div class="row mb-6">
                                                 <!--begin::Label-->
@@ -760,72 +824,7 @@ height: 100vh !important;
                                                 <!--end::Col-->
                                             </div>
 
-                                        <!--begin::Input group-->
-                                        <div class="row mb-8">
-                                            <!--begin::Col-->
-                                            <div class="col-xl-3">
-                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Jenis
-                                                        Permohonan ISBN </span>
-                                                    <span class="ms-1" data-bs-toggle="tooltip"
-                                                        title="Pilih jenis permohonan ISBN">
-                                                        <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <!--end::Col-->
-                                            <!--begin::Col-->
-                                            <div class="col-xl-9">
-                                                <!--begin::Row-->
-                                                <div class="row g-9" data-kt-buttons="true"
-                                                    data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
-                                                    <!--begin::Col-->
-                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
-                                                        <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
-                                                            data-kt-button="true">
-                                                            <!--begin::Radio button-->
-                                                            <span
-                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-                                                                <input class="form-check-input" type="radio"
-                                                                    name="status" value="lepas">
-                                                            </span>
-                                                            <!--end::Radio button-->
-                                                            <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Lepas</span>
-                                                                <span class="fw-semibold fs-8 text-gray-600">Penerbit
-                                                                    akan mendapatkan 1 nomor ISBN untuk setiap judul
-                                                                    yang diminta.</span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                    <!--end::Col-->
-                                                    <!--begin::Col-->
-                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
-                                                        <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
-                                                            data-kt-button="true">
-                                                            <!--begin::Radio button-->
-                                                            <span
-                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-                                                                <input class="form-check-input" type="radio"
-                                                                    name="status" value="jilid">
-                                                            </span>
-                                                            <!--end::Radio button-->
-                                                            <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Jilid</span>
-                                                                <span class="fw-semibold fs-8 text-gray-600">Anda wajib
-                                                                    memasukan minimal 2 jilid untuk permohonan ISBN
-                                                                    berjilid.</span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                    <!--end::Col-->
-                                                </div>
-                                                <!--end::Row-->
-                                            </div>
-                                            <!--end::Col-->
-                                        </div>
-                                        <!--end::Input group-->
+                                        
                                         <div id="isbn_detail">
                                             <span id="judul_buku_1"><h4>Data Buku 1 </h4><hr/></span>
                                             <input type="hidden" name="file_lampiran[]" id="file_lampiran1">
@@ -1112,17 +1111,22 @@ height: 100vh !important;
     }
     var tambahJilid = function(){
         jumlah_buku +=1;
+        let idJilid = jumlah_buku;
+        if(status == 'lanjutan'){
+            idJilid = jumlah_buku-jml_jilid;
+        }
+        $('#jml_hlm').val(jumlah_buku + " jil");
         let html = 
-        `<div class='jilidbaru'><span><h4>Data Buku `+ jumlah_buku + `</h4><hr/></span>
-        <input type='hidden' id='file_dummy`+jumlah_buku+`' name='file_dummy[]'>
-        <input type='hidden' id='file_lampiran`+jumlah_buku+`' name='file_lampiran[]'>
-        <input type='hidden' id='file_cover`+jumlah_buku+`' name='file_cover[]'>  
+        `<div class='jilidbaru'><span><h4>Data Buku Jilid - `+ jumlah_buku + `</h4><hr/></span>
+        <input type='hidden' id='file_dummy`+idJilid+`' name='file_dummy[]'>
+        <input type='hidden' id='file_lampiran`+idJilid+`' name='file_lampiran[]'>
+        <input type='hidden' id='file_cover`+idJilid+`' name='file_cover[]'>  
         <div class="row mb-6">
             <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">File
                 Attachment</label>
-            <div class="col-lg-3 col-form-label fs-8 " id="viewlampiran_`+jumlah_buku+`"></div>
+            <div class="col-lg-3 col-form-label fs-8 " id="viewlampiran_`+idJilid+`"></div>
             <div class="col-lg-6 d-flex align-items-center">
-                <div class="dropzone" id="attachments`+jumlah_buku+`" style="width:100%">
+                <div class="dropzone" id="attachments`+idJilid+`" style="width:100%">
                     <div class="dz-message needsclick align-items-center">
                         <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
                         <div class="ms-4">
@@ -1137,9 +1141,9 @@ height: 100vh !important;
         <div class="row mb-6">
             <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">Dummy Buku yang akan
                 terbit</label>
-            <div class="col-lg-3 col-form-label fs-8 " id="viewdummy_`+jumlah_buku+`"></div>
+            <div class="col-lg-3 col-form-label fs-8 " id="viewdummy_`+idJilid+`"></div>
             <div class="col-lg-6 d-flex align-items-center">
-                <div class="dropzone" id="dummy`+jumlah_buku+`">
+                <div class="dropzone" id="dummy`+idJilid+`">
                     <div class="dz-message needsclick align-items-center">
                         <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
                         <div class="ms-4">
@@ -1155,9 +1159,9 @@ height: 100vh !important;
         <div class="row mb-6">
             <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">File
                 Cover Buku</label>
-            <div class="col-lg-3 col-form-label fs-8 " id="viewcover_`+jumlah_buku+`"></div>
+            <div class="col-lg-3 col-form-label fs-8 " id="viewcover_`+idJilid+`"></div>
             <div class="col-lg-6 d-flex align-items-center">
-                <div class="dropzone" id="cover`+jumlah_buku+`" style="width:100%">
+                <div class="dropzone" id="cover`+idJilid+`" style="width:100%">
                     <div class="dz-message needsclick align-items-center">
                         <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
                         <div class="ms-4">
@@ -1177,7 +1181,7 @@ height: 100vh !important;
                 </span>
             </label>
             <div class="col-lg-6 fv-row">
-                <input type="text" name="url[]" class="form-control fs-8 form-control-lg form-control-solid" id="url`+jumlah_buku+`"
+                <input type="text" name="url[]" class="form-control fs-8 form-control-lg form-control-solid" id="url`+idJilid+`"
                     placeholder="url/link buku" />
             </div>
             <div class="col-lg-3 fv-row hapusJilid">
@@ -1189,7 +1193,7 @@ height: 100vh !important;
         if(jumlah_buku > 2){
             var objJilids = $('.jilidbaru').find();
             for(var i = 0; i <= objJilids.prevObject.length; i++){
-                if(i < jumlah_buku -2){
+                if(i < jumlah_buku -2 - jml_jilid){
                     var btnHapus = $(objJilids.prevObject[i]).find('.btn-danger').first();
                     btnHapus.removeClass("active");
                     btnHapus.addClass('disabled');
@@ -1202,15 +1206,16 @@ height: 100vh !important;
             var objJilids = $('.jilidbaru').find();
             for(var i = 0; i <= objJilids.prevObject.length; i++){
                 var btnHapus = $(objJilids.prevObject[i]).find('.btn-danger').first();
-                if(i < jumlah_buku -2){
+                if(i < jumlah_buku -2 - jml_jilid){
                     btnHapus.removeClass("active");
                     btnHapus.addClass('disabled');
                 }
-                if(i == jumlah_buku -2){
+                if(i == jumlah_buku -2 - jml_jilid){
                     btnHapus.addClass('active');
                     btnHapus.removeClass("disabled");
                 }
             }
+            $('#jml_hlm').val(jumlah_buku + " jil");
         });  
         dropZoneJilid(jumlah_buku, "lampiran");
         dropZoneJilid(jumlah_buku, "dummy");
@@ -1225,6 +1230,7 @@ height: 100vh !important;
     dropZoneJilid(jumlah_buku, "cover");
     var jilid_lepas = '{{$jenis}}';
     $('textarea[name=title]').val("{{ $detail['TITLE'] }}");
+
     var kdt_valid = "{{ $detail['IS_KDT_VALID']}}";
     var kepeng ="{{ $detail['KEPENG'] }}";
     var kepengs = kepeng.split(";");
@@ -1272,10 +1278,14 @@ height: 100vh !important;
     var jenis_kategori = "{{$detail['JENIS_KATEGORI']}}";
     var jenis_pustaka = "{{$detail['JENIS_PUSTAKA']}}";
     var jenis_kelompok = "{{$detail['JENIS_KELOMPOK']}}";
+    $('#isbn-jilid-lanjutan').val('{{$isbnjilidlanjutan}}').attr("readonly", true);
+    if('{{$isbnjilidlanjutan}}' == ''){
+        $('#divIsbnLanjutan').hide();
+    }
     if(jenis_media != ''){
         $('input[type=radio][name="jenis_media"][value="'+jenis_media+'"]').prop('checked', true);
     }
-    //$('input[type=radio][name="status"][value="{{$status}}"]').prop("checked", true);
+
     if(jenis_terbitan != ''){
         $('input[type=radio][name="jenis_terbitan"][value="'+jenis_terbitan+'"]').prop('checked', true);
     }
@@ -1295,12 +1305,15 @@ height: 100vh !important;
     $('select[name="bulan_terbit"]').val('{{$detail['BULAN_TERBIT']}}');
     $('select[name="tahun_terbit"]').val('{{$detail['TAHUN_TERBIT']}}');
     $('input[type=text][name="distributor"]').val('{{$detail['DISTRIBUTOR']}}');
-    $('input[type=text][name="tempat_Terbit"]').val('{{$detail['TEMPAT_TERBIT']}}');
+    $('input[type=text][name="tempat_terbit"]').val('{{$detail['TEMPAT_TERBIT']}}');
+    $('#divIsbnLanjutan').hide();
     if(jilid_lepas == 'lepas'){
         $('#jml_hlm').val("{{$detail['JML_HLM']}}");
         $('input[type=radio][name="status"][value="'+jilid_lepas+'"]').prop('checked', true);
+        
     } else {
-        $('#jml_hlm').attr("type", "text").val("{{$detail['JML_HLM']}}").attr('disabled', true);
+        $('#jml_hlm').attr("type", "text").attr('readonly', true);
+        $('#jml_hlm').val(parseInt("{{$detail['JML_JILID']}}") + parseInt("{{$detail['JML_JILID_REQ']}}"));
         $('#labelJumlahHalaman').text('Jumlah Jilid');
         $('#labelKetJumlahHalaman').text('Jilid');
         $('input[type=radio][name="status"][value="'+jilid_lepas+'"]').prop('checked', true);
@@ -1311,47 +1324,57 @@ height: 100vh !important;
     var ketebalan = "{{$detail['KETEBALAN']}}";
     ketebalan = ketebalan.replace(' cm', '');
     $('#ketebalan').val(ketebalan);
-    var jml_jilid = parseInt("{{$detail['JML_JILID_REQ']}}");
-
+    var jml_jilid = parseInt("{{$detail['JML_JILID']}}");
+    var status = "{{$detail['STATUS']}}";
+    if(status == 'lanjutan'){
+        jumlah_buku = jml_jilid + 1;
+    }
+   
     getFile("{{$detail['PENERBIT_TERBITAN_ID']}}");
     function getFile(penerbit_terbitan_id){
-        jumlah_jilid = parseInt("{{$detail['JML_JILID_REQ']}}");
+        let start = 1;
+        if(status == 'lanjutan'){
+            start =  parseInt('{{$detail['JML_JILID']}}') + 1;
+            jml_jilid = parseInt("{{$detail['JML_JILID_REQ']}}") + start - 1;
+        } 
+        
         $.ajax({
                 url: '{{ url('penerbit/isbn/permohonan/file') }}' + '/' + penerbit_terbitan_id,
                 type: 'GET',
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    for(var j = 1; j < jumlah_jilid; j++){
+                    for(var j = start; j < jml_jilid; j++){
                         tambahJilid();
                     }
-                    for(var k = 1; k < jumlah_jilid + 1; k++) {
+                    for(var k = start; k < jml_jilid + 1; k++) {
                         for(var i = 0; i<response.length; i++){
                             if(jilid_lepas == 'jilid') {
+                                let jilidFileNumb = k-start+1;
                                 if(response[i]['JENIS'] == 'lampiran_permohonan' && response[i]['FILE_STATUS'] == '0' && response[i]['KETERANGAN'] == 'jilid '+k) {
                                     let h = `<a href="http://demo321.online/ISBN_Back_Office/files/isbn/lampiran/`+response[i]["FILE_NAME"]+`">
                                     <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
                                     <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span> 
                                     <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`,'#viewlampiran_`+k+`')"></a>
                                     <input type="hidden" name="file_lampiran_id[]" value="`+response[i]["ID"]+`"></br>`;
-                                    $('#viewlampiran_'+ k).append(h);
+                                    $('#viewlampiran_'+jilidFileNumb ).append(h);
                                 }  
                                 if(response[i]['JENIS'] == 'lampiran_pending' && response[i]['FILE_STATUS'] == '0'  && response[i]['KETERANGAN'] == 'jilid '+k) {
-                                    $('#viewlampiran_'+ k).append(`<a href="http://demo321.online/ISBN_Back_Office/files/isbn/lampiran/`+response[i]["FILE_NAME"]+`">
+                                    $('#viewlampiran_'+ jilidFileNumb).append(`<a href="http://demo321.online/ISBN_Back_Office/files/isbn/lampiran/`+response[i]["FILE_NAME"]+`">
                                     <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
                                     <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span> 
                                     <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`,'#viewlampiran_`+k+`')"></a>
                                     <input type="hidden" name="file_pending_id[]" value="`+response[i]["ID"]+`"></br>`);
                                 }  
                                 if(response[i]['JENIS'] == 'dummy_buku' && response[i]['FILE_STATUS'] == '0' && response[i]['KETERANGAN'] == 'jilid '+k) {
-                                    $('#viewdummy_'+ k).append(`<a href="http://demo321.online/ISBN_Back_Office/files/isbn/dummy/`+response[i]["FILE_NAME"]+`">
+                                    $('#viewdummy_'+ jilidFileNumb).append(`<a href="http://demo321.online/ISBN_Back_Office/files/isbn/dummy/`+response[i]["FILE_NAME"]+`">
                                     <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
                                     <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span>
                                     <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`,'#viewdummy_`+k+`')"></a>
                                     <input type="hidden" name="file_dummy_id[]" value="`+response[i]["ID"]+`"></br>`);
                                 }
                                 if(response[i]['JENIS'] == 'cover' && response[i]['FILE_STATUS'] == '0' && response[i]['KETERANGAN'] == 'jilid '+k) {
-                                    $('#viewcover_'+ k).append(`<a href="http://demo321.online/ISBN_Back_Office/files/cover/`+response[i]["FILE_NAME"]+`">
+                                    $('#viewcover_'+ jilidFileNumb).append(`<a href="http://demo321.online/ISBN_Back_Office/files/cover/`+response[i]["FILE_NAME"]+`">
                                     <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
                                     <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span>
                                     <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`,'#viewcover_`+k+`')"></a>
@@ -1392,7 +1415,7 @@ height: 100vh !important;
                     }
                     let urls = "{{$detail['LINK_BUKU']}}";
                     let link_buku = urls.split('¦');
-                    for(var k=1; k<= jumlah_jilid; k++){
+                    for(var k=1; k<= jml_jilid; k++){
                         $('#url'+k).val(link_buku[k-1]);
                     }
                 },
@@ -1482,8 +1505,8 @@ height: 100vh !important;
             $('#btnTambahJilid').css('display', 'block');
         }
         });
-        $('#judul_buku_1').css('display', 'none');
-        $('#btnTambahJilid').css('display', 'none');
+    $('#judul_buku_1').css('display', 'none');
+    $('#btnTambahJilid').css('display', 'none');
     var kepengarangan = 1;
     
     $('#btnTambahPengarang').on("click", function() {
@@ -1582,5 +1605,17 @@ height: 100vh !important;
     var deleteKepengarangan = function(numb) {
         $('#kepengarangan_' + numb).remove();
     };
+    if(status == 'lanjutan'){
+        //yang tidak boleh diubah taruh di sini ya
+        $('textarea[name=title]').attr('readonly', true);
+        $('#judul_buku_1').html('<h4>Data Buku Jilid - '+ (parseInt("{{$detail['JML_JILID']}}") + 1)+' </h4><hr />');
+        $('#judul_buku_1').css('display', 'block');
+        $('#btnTambahJilid').css('display', 'block');
+        $('#labelJumlahHalaman').text('Jumlah Jilid');
+        $('#labelKetJumlahHalaman').text('Jilid');
+        $('#jml_hlm').attr("type", "text");
+        $('#jml_hlm').attr("disabled", "disabled");
+        $('#divIsbnLanjutan').show();
+    }
 </script>
 @stop

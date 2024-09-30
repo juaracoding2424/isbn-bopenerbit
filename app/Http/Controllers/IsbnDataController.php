@@ -41,7 +41,7 @@ class IsbnDataController extends Controller
         $end = $start + $length;
 
         $sql = "SELECT pi.penerbit_terbitan_id, ir.mohon_date, pt.author, pt.kepeng, pi.prefix_element, pi.publisher_element,pi.item_element, pi.check_digit,
-                pi.RECEIVED_DATE_KCKR, pi.RECEIVED_DATE_PROV,pt.VALIDATION_DATE,
+                pi.RECEIVED_DATE_KCKR, pi.RECEIVED_DATE_PROV,pt.VALIDATION_DATE, pi.keterangan_jilid, pi.id as piid,
                 pi.isbn_no, pt.bulan_terbit, pt.tahun_terbit,
 				ir.id as isbn_resi_id, ir.source, ir.jenis,
                 pt.title,  pt.jml_jilid, pt.jilid_volume, pi.ACCEPTDATE, pt.call_number, pt.sinopsis, pt.subjek,
@@ -63,8 +63,8 @@ class IsbnDataController extends Controller
                     $sql .= " AND CONCAT('WIN',(upper(ISBN_NO))) like 'WIN%".$isbn."%'";
                 }
                 if($advSearch["param"] == 'title'){
-                    $sqlFiltered .= " AND CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%'";
-                    $sql .= " AND CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%')";
+                    $sqlFiltered .= " AND CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%' ";
+                    $sql .= " AND CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%' ";
                 }
                 if($advSearch["param"] == 'tahun_terbit'){
                     $sqlFiltered .= " AND pt.TAHUN_TERBIT like '%".$advSearch["value"]."%'";
@@ -117,6 +117,7 @@ class IsbnDataController extends Controller
         }
         
         $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql ) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
+    
         $totalFiltered = kurl("get","getlistraw", "", "SELECT COUNT(*) JUMLAH FROM ($sqlFiltered )", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         
         $response['data'] = [];
@@ -125,11 +126,11 @@ class IsbnDataController extends Controller
             foreach ($queryData as $val) {
                 $source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge badge-primary'>".$val['SOURCE']."</span>";
                 $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
-                $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="badge badge-success h-30px m-1" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : "";//'KDT Belum Ada';
+                $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="badge badge-success h-20px m-1" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : "";//'KDT Belum Ada';
                 $response['data'][] = [
                     $nomor,
-                    '<a class="badge badge-info h-30px m-1" onclick="cetakBarcode('.$val['PENERBIT_TERBITAN_ID'].')">Barcode</a>' .$kdt, //<a class="badge badge-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',
-                    $val['PREFIX_ELEMENT'] .'-' . $val['PUBLISHER_ELEMENT'] . '-' . $val['ITEM_ELEMENT'] . '-' . $val['CHECK_DIGIT'] ,
+                    '<a class="badge badge-info h-30px m-1" onclick="cetakBarcode('.$val['PIID'].')">Barcode</a>' .$kdt, //<a class="badge badge-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',
+                    $val['PREFIX_ELEMENT'] .'-' . $val['PUBLISHER_ELEMENT'] . '-' . $val['ITEM_ELEMENT'] . '-' . $val['CHECK_DIGIT']  . '<br/>' . $val['KETERANGAN_JILID'],
                     $val['TITLE'] . "<br/>$jenis $source",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
                     $val['BULAN_TERBIT'] .' ' . $val['TAHUN_TERBIT'],
@@ -221,8 +222,7 @@ class IsbnDataController extends Controller
 
     function generateBarcode($id)
     {
-        $d = new DNS1D();
-        //$d->setStorPath(__DIR__.'/cache/');
-        return view('barcode') ;//, $d->getBarcodeHTML('9780691147727', 'EAN13')); 
+        $queryData = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_ISBN WHERE id=$id", 'sql', '')["Data"]["Items"][0];
+        return view('barcode', ["data" => $queryData]) ;
     }
 }

@@ -43,23 +43,22 @@ class PermohonanController extends Controller
                         $authors .= ";";
                     }
                 }
-                $noresi = now()->format('YmdHis') . strtoupper(str()->random(5));
+                $noresi = now()->addHours(7)->format('YmdHis') . strtoupper(str()->random(5));
                 if (request('noresi') != "") {
                     $noresi = request('noresi');
                     if (strlen($noresi) < 19) {
-                        $noresi = now()->format('YmdHis') . strtoupper(str()->random(5));
+                        $noresi = now()->addHours(7)->format('YmdHis') . strtoupper(str()->random(5));
                     }
                 }
-                $jumlah_jilid = intval(request('jumlah_jilid')) == 0 || intval(request('jumlah_jilid')) == '' ? 1 : intval(request('jumlah_jilid'));
-                //\Log::info($jumlah_jilid);
+                $jumlah_jilid = intval(request('jumlah_jilid')) == 0 || request('jumlah_jilid') == '' ? 1 : intval(request('jumlah_jilid'));
                 if (request('jenis_permohonan') == 'jilid') {
                     #--------------VALIDASI JUMLAH JILID----------------------------------------------------------------
-                    /*if($jumlah_jilid < 2) {
-                    return response()->json([
-                    'status' => 'Failed',
-                    'message'   => 'Gagal menyimpan data!',
-                    'err' => ["jumlah_jilid" => ["Wajib memasukan minimal 2 data buku jika merupakan terbitan jilid"]],
-                    ], 422);
+                    if($jumlah_jilid < 2) {
+                        return response()->json([
+                        'status' => 'Failed',
+                        'message'   => 'Gagal menyimpan data!',
+                        'err' => ["jumlah_jilid" => ["Wajib memasukan minimal 2 data buku jika merupakan terbitan jilid"]],
+                        ], 422);
                     }
                     #----------------END VALIDASI -------------------------------------------------------------------------#*/
                     $jml_hlm = $jumlah_jilid . " jil"; 
@@ -100,7 +99,7 @@ class PermohonanController extends Controller
                     ["name" => "JENIS_PUSTAKA", "Value" => request('jenis_pustaka')],
                     ["name" => "JENIS_KATEGORI", "Value" => request('jenis_kategori')],
                     ["name" => "KETEBALAN", "Value" => request('dimensi')],
-
+                    ["name" => "JML_JILID", "Value" => $jumlah_jilid]
                 ];
                 $IsbnResi = [
                     ["name" => "NORESI", "Value" => $noresi],
@@ -117,11 +116,11 @@ class PermohonanController extends Controller
                 }
                 // TAMBAH DATA PERMOHONAN
                 array_push($ListData,
-                    ["name" => "MOHON_DATE", "Value" => now()->format('Y-m-d H:i:s')],
+                    ["name" => "MOHON_DATE", "Value" => now()->addHours(7)->format('Y-m-d H:i:s')],
                     ["name" => "PENERBIT_ID", "Value" => $penerbit["ID"]],
                     ["name" => "IS_KDT_VALID", "Value" => '0'],
                     ["name" => "CREATEBY", "Value" => $penerbit["ISBN_USER_NAME"] . "-api"],
-                    ["name" => "CREATEDATE", "Value" => now()->format('Y-m-d H:i:s')],
+                    ["name" => "CREATEDATE", "Value" => now()->addHours(7)->format('Y-m-d H:i:s')],
                     ["name" => "CREATETERMINAL", "Value" => \Request::ip()]
                 );
 
@@ -133,7 +132,7 @@ class PermohonanController extends Controller
                     [ "name" => "TABLENAME", "Value"=> "PENERBI_TERBITAN"],
                     [ "name" => "IDREF", "Value"=> $id],
                     [ "name" => "ACTION" , "Value"=> "Add"],
-                    //[ "name" => "ACTIONDATE", "Value"=> now()->format('Y-m-d H:i:s') ],
+                    //[ "name" => "ACTIONDATE", "Value"=> now()->addHours(7)->format('Y-m-d H:i:s') ],
                     [ "name" => "ACTIONTERMINAL", "Value"=> \Request::ip()],
                     [ "name" => "ACTIONBY", "Value"=> $penerbit["ISBN_USER_NAME"] . "-api"],
                     [ "name" => "NOTE", "Value"=> "Permohonan baru"],
@@ -141,12 +140,12 @@ class PermohonanController extends Controller
                 $res_his = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=HISTORYDATA&ListAddItem=" . urlencode(json_encode($history)));
                 // INSERT KE TABEL ISBN_RESI
                 array_push($IsbnResi,
-                    ["name" => "MOHON_DATE", "Value" => now()->format('Y-m-d H:i:s')],
+                    ["name" => "MOHON_DATE", "Value" => now()->addHours(7)->format('Y-m-d H:i:s')],
                     ["name" => "PENERBIT_ID", "Value" => $penerbit["ID"]],
                     ["name" => "PENERBIT_TERBITAN_ID", "Value" => $id],
                     ["name" => "STATUS", "Value" => "permohonan"],
                     ["name" => "CREATEBY", "Value" => $penerbit["ISBN_USER_NAME"] . "-api"],
-                    ["name" => "CREATEDATE", "Value" => now()->format('Y-m-d H:i:s')],
+                    ["name" => "CREATEDATE", "Value" => now()->addHours(7)->format('Y-m-d H:i:s')],
                     ["name" => "CREATETERMINAL", "Value" => \Request::ip()]
                 );
                 $res2 = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=ISBN_RESI&issavehistory=1&ListAddItem=" . urlencode(json_encode($IsbnResi)));
@@ -354,7 +353,7 @@ class PermohonanController extends Controller
                     ["name" => "JENIS_PUSTAKA", "Value" => $request->input('jenis_pustaka')],
                     ["name" => "JENIS_KATEGORI", "Value" => $request->input('jenis_kategori')],
                     ["name" => "KETEBALAN", "Value" => $request->input('dimensi')],
-
+                    ["name" => "JML_JILID", "Value" => $jumlah_jilid],
                 ];
                 $IsbnResi = [
                     ["name" => "JML_JILID_REQ", "Value" => $jumlah_jilid],
@@ -369,7 +368,7 @@ class PermohonanController extends Controller
                 // TAMBAH DATA PERMOHONAN
                 array_push($ListData,
                     ["name" => "UPDATEBY", "Value" => $penerbit["ISBN_USER_NAME"] . "-api"],
-                    ["name" => "UPDATEDATE", "Value" => now()->format('Y-m-d H:i:s')],
+                    ["name" => "UPDATEDATE", "Value" => now()->addHours(7)->format('Y-m-d H:i:s')],
                     ["name" => "UPDATETERMINAL", "Value" => \Request::ip()]
                 );
                 // INSERT KE TABEL PENERBIT_TERBITAN
@@ -379,7 +378,7 @@ class PermohonanController extends Controller
                 array_push($IsbnResi,
                     ["name" => "STATUS", "Value" => "permohonan"],
                     ["name" => "UPDATEBY", "Value" => $penerbit["ISBN_USER_NAME"] . "-api"],
-                    ["name" => "UPDATEDATE", "Value" => now()->format('Y-m-d H:i:s')],
+                    ["name" => "UPDATEDATE", "Value" => now()->addHours(7)->format('Y-m-d H:i:s')],
                     ["name" => "UPDATETERMINAL", "Value" => \Request::ip()]
                 );
                 $res2 = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=update&table=ISBN_RESI&id=".$data[0]['ID']."&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($IsbnResi)));

@@ -10,7 +10,7 @@
 				<!--begin:Menu item-->
 				<div data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
 					<!--begin:Menu link-->
-					<a class="menu-link" href="{{ url('/penerbit/dashboard') }}">
+					<a class="menu-link {{ request()->is('penerbit/dashboard') ? 'active' : '' }}" href="{{ url('/penerbit/dashboard') }}">
 						<span class="menu-icon">
 							<i class="ki-outline ki-element-11 fs-2"></i>
 						</span>
@@ -19,7 +19,7 @@
                     </a>
 					<!--end:Menu link-->
 					<!--begin:Menu link-->
-					<a class="menu-link bg-light-primary" href="{{ url('/penerbit/isbn/permohonan/new')}}">
+					<a class="menu-link {{ request()->is('penerbit/isbn/permohonan/new') ? 'active' : '' }}" href="{{ url('/penerbit/isbn/permohonan/new')}}">
 						<span class="menu-icon">
 							<i class="ki-outline ki-plus fs-2"></i>
 						</span>
@@ -27,7 +27,7 @@
                     </a>
 					<!--end:Menu link-->
 					<!--begin:Menu link-->
-					<a class="menu-link" href="{{ url('/penerbit/isbn/permohonan')}}">
+					<a class="menu-link {{ request()->is('penerbit/isbn/permohonan') ? 'active' : '' }}" href="{{ url('/penerbit/isbn/permohonan')}}">
 						<span class="menu-icon">
 							<i class="ki-outline ki-plus-circle fs-2"></i>
 						</span>
@@ -35,7 +35,7 @@
                     </a>
 					<!--end:Menu link-->
 					<!--begin:Menu link-->
-					<a class="menu-link" href="{{ url('/penerbit/isbn/masalah')}}">
+					<a class="menu-link {{ request()->is('penerbit/isbn/masalah') ? 'active' : '' }}" href="{{ url('/penerbit/isbn/masalah')}}">
 						<span class="menu-icon">
 							<i class="ki-outline ki-file-deleted fs-2"></i>
 						</span>
@@ -43,7 +43,15 @@
                     </a>
 					<!--end:Menu link-->
 					<!--begin:Menu link-->
-					<a class="menu-link" href="{{ url('/penerbit/isbn/data')}}">
+					<a class="menu-link {{ request()->is('penerbit/isbn/batal') ? 'active' : '' }}" href="{{ url('/penerbit/isbn/batal')}}">
+						<span class="menu-icon">
+							<i class="ki-outline ki-file-deleted fs-2 text-danger"></i>
+						</span>
+						<span class="menu-title">Permohonan Batal</span>
+                    </a>
+					<!--end:Menu link-->
+					<!--begin:Menu link-->
+					<a class="menu-link {{ request()->is('penerbit/isbn/data') ? 'active' : '' }}" href="{{ url('/penerbit/isbn/data')}}">
 						<span class="menu-icon">
 							<i class="ki-outline ki-questionnaire-tablet fs-2"></i>
 						</span>
@@ -51,7 +59,7 @@
                     </a>
 					<!--end:Menu link-->
 					<!--begin:Menu link-->
-					<a class="menu-link" href="{{ url('/penerbit/kdt/data')}}">
+					<a class="menu-link {{ request()->is('penerbit/kdt/data') ? 'active' : '' }}" href="{{ url('/penerbit/kdt/data')}}">
 						<span class="menu-icon">
 							<i class="ki-outline ki-book fs-2"></i>
 						</span>
@@ -59,7 +67,7 @@
                     </a>
 					<!--end:Menu link-->
 					<!--begin:Menu link-->
-					<a class="menu-link" href="{{ url('/penerbit/report/isbn')}}">
+					<a class="menu-link {{ request()->is('penerbit/report/isbn') ? 'active' : '' }}" href="{{ url('/penerbit/report/isbn')}}">
 						<span class="menu-icon">
 							<i class="ki-outline ki-chart fs-2"></i>
 						</span>
