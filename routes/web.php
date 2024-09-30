@@ -87,6 +87,7 @@ Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
         Route::get('location/kelurahan/{id}', [LocationController::class, 'getKelurahan']);
 
 });
+Route::get('/', [AuthController::class, 'login']);
 Route::get('login', [AuthController::class, 'login']);
 Route::get('reset-password', [AuthController::class, 'resetPassword']);
 Route::post('reset-password/send', [AuthController::class, 'resetPasswordSend']);

@@ -109,7 +109,7 @@
 									<!--end::Submit button-->
 									<!--begin::Sign up-->
 									<div class="text-gray-500 text-center fw-semibold fs-6">Belum memiliki akun? 
-									<a href="sign-up.php" class="link-primary">Pendaftaran penerbit</a></div>
+									<a href="{{config('app.pendaftaran')}}" class="link-primary">Pendaftaran penerbit</a></div>
 									<!--end::Sign up-->
 								</form>
 								<!--end::Form-->

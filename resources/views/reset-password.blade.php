@@ -41,7 +41,7 @@
 						<!--begin::Wrapper-->
 						<div class="w-lg-500px p-10">
 							<!--begin::Form-->
-							<form class="form w-100" novalidate="novalidate" id="kt_password_reset_form" data-kt-redirect-url="/reset-password/next" action="/reset-password/send" method="post">
+							<form class="form w-100" novalidate="novalidate" id="kt_password_reset_form" data-kt-redirect-url="{{ url('/reset-password/next') }}" action="{{ url('/reset-password/send') }}" method="post">
 								<!--begin::Heading-->
 								@csrf
 								<div class="text-center mb-10">
@@ -93,11 +93,11 @@
 				</div>
 				<!--end::Body-->
 				<!--begin::Aside-->
-				<div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2" style="background-image: url('/assets/media/misc/auth-bg.png')">
+				<div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2" style="background-image: url('{{url('/assets/media/misc/auth-bg.png')}}')">
 					<!--begin::Content-->
 					<div class="d-flex flex-column flex-center py-7 py-lg-15 px-5 px-md-15 w-100">
 						<!--begin::Logo-->
-						<a href="index.html" class="mb-0 mb-lg-12">
+						<a href="{{url('')}}" class="mb-0 mb-lg-12">
 							<img alt="Logo" src="https://www.isbn-international.org/themes/isbn8/logo.png" class="h-60px h-lg-75px" />
 						</a>
 						<!--end::Logo-->

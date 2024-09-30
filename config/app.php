@@ -127,4 +127,5 @@ return [
     'inlis_api_token' => env('INLIS_API_TOKEN'),
     'expires' => env('TOKEN_EXPIRES', '+30 days'),
 
+    'pendaftaran' => env('APP_PENDAFTARAN'),
 ];

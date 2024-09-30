@@ -225,7 +225,7 @@
 		'https://m.media-amazon.com/images/I/41PUsvw0kuL._AC_SF480,480_.jpg'
 	];
 	var cetakBarcode = function(id){
-		let link= '/penerbit/isbn/data/generate-barcode/' + id;
+		let link= "{{url('/penerbit/isbn/data/generate-barcode/') }}" + '/'+  id;
 		Swal.fire({
                     html: "<iFrame src='"+link+"' height='100px' width='280px'/>",
                     showCancelButton: !0,

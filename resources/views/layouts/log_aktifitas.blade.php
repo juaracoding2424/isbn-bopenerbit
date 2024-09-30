@@ -30,7 +30,7 @@
 		<!--end::Body-->
 		<!--begin::Footer-->
 		<div class="card-footer py-5 text-center" id="kt_activities_footer">
-			<a href="/penerbit/history" class="btn btn-bg-body text-primary">View All Activities
+			<a href="{{url('/penerbit/history') }}" class="btn btn-bg-body text-primary">View All Activities
 				<i class="ki-outline ki-arrow-right fs-3 text-primary"></i></a>
 		</div>
 		<!--end::Footer-->
