@@ -50,13 +50,13 @@ class KDTController extends Controller
                 pt.validator_by, pt.is_kdt_valid
                 FROM penerbit_isbn pi
                 JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
-                JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id
+                LEFT JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id
                 WHERE pi.PENERBIT_ID =$id AND pt.is_kdt_valid=1";
         $sqlGroupBy = " GROUP BY pi.penerbit_terbitan_id, pt.title,  pt.jml_jilid, pt.jilid_volume, pt.bulan_terbit, pt.author, pt.kepeng,
                 pt.validation_date, pt.validator_by, pt.is_kdt_valid, ir.jenis, ir.mohon_date, ir.id, pt.tahun_terbit, ir.source, 
                 pt.call_number, pt.sinopsis, pt.subjek";
 
-        $sqlFiltered = "SELECT pt.id FROM penerbit_terbitan pt JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
+        $sqlFiltered = "SELECT pt.id FROM penerbit_terbitan pt LEFT JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
                         JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
                         WHERE ir.penerbit_id = $id  AND pt.is_kdt_valid = 1 ";
         $sqlFilGroupBy = "GROUP BY pt.id ";
