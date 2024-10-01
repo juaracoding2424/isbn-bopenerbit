@@ -21,7 +21,7 @@ class HistoryController extends Controller
                     LEFT JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
                     LEFT JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
                     WHERE upper(h.tablename) = 'PENERBIT_TERBITAN'  
-                    AND pt.penerbit_id = " . session('penerbit')['ID'] . " order by actiondate desc) WHERE rownum <= 10";
+                    AND pt.penerbit_id = " . session('penerbit')['ID'] . " order by actiondate desc) WHERE rownum <= 20";
             $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"];
             if(isset($data[0])){
                 return response()->json($data);
@@ -67,7 +67,7 @@ class HistoryController extends Controller
         if (count($queryData) > 0) {
             $nomor = $start + 1;
             foreach ($queryData as $val) {
-                $link = 'http://demo321.online/ISBN_Back_Office/';
+                $link = config('app.isbn_file_location');
                 $note = str_replace("href='", "href='".$link, $val['NOTE']);
                 $response['data'][] = [
                     $nomor,

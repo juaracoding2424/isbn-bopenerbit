@@ -194,17 +194,17 @@
 
     var exportData = function(typeExport){
         if(typeExport  == 'pdf'){
-            location.href='/penerbit/report/isbn/show-data?action=pdf&param='+periode+'&date_start=' +date_start + 
+            location.href='{{ url("/penerbit/report/isbn/show-data?action=pdf&param=") }}'+periode+'&date_start=' +date_start + 
 				"&date_end=" + date_end  + '&jenisTerbitan=' +jenisTerbitan + '&=kdtValid=' + kdtValid + 
 				'&statusKckr=' + statusKckr + '&sumber=' + sumber + '&advSearch=' + advSearch;
         }
         if(typeExport  == 'xls'){
-            location.href='/penerbit/report/isbn/show-data?action=xls&param='+periode+'&date_start=' +date_start + 
+            location.href='{{ url("/penerbit/report/isbn/show-data?action=xls&param=") }}'+periode+'&date_start=' +date_start + 
 				"&date_end=" + date_end  + '&jenisTerbitan=' +jenisTerbitan + '&=kdtValid=' + kdtValid + 
 				'&statusKckr=' + statusKckr + '&sumber=' + sumber + '&advSearch=' + advSearch;
         }
         if(typeExport  == 'csv'){
-            location.href='/penerbit/report/isbn/show-data?action=csv&param='+periode+'&date_start=' +date_start + 
+            location.href='{{ url("/penerbit/report/isbn/show-data?action=csv&param=") }}'+periode+'&date_start=' +date_start + 
 				"&date_end=" + date_end  + '&jenisTerbitan=' +jenisTerbitan + '&=kdtValid=' + kdtValid + 
 				'&statusKckr=' + statusKckr + '&sumber=' + sumber + '&advSearch=' + advSearch;
         }

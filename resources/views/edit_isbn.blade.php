@@ -986,8 +986,6 @@ height: 100vh !important;
 <!--end::Body-->
 <script>
 
-    var urlProvinsi = "https://ibnux.github.io/data-indonesia/provinsi.json";
-    var urlKabupaten = "https://ibnux.github.io/data-indonesia/kabupaten/";
 
     function clearOptions(id) {
         //console.log("on clearOptions :" + id);
@@ -995,28 +993,6 @@ height: 100vh !important;
         $('#' + id).empty().trigger('change');
     }
 
-    
-    $.getJSON(urlProvinsi, function(res) {
-
-        res = $.map(res, function(obj) {
-            obj.text = obj.nama
-            return obj;
-        });
-
-        data = [{
-            id: "",
-            nama: "- Pilih Provinsi -",
-            text: "- Pilih Provinsi -"
-        }].concat(res);
-
-        //implemen data ke select provinsi
-        $("#select2-provinsi").select2({
-            dropdownAutoWidth: true,
-            width: '100%',
-            data: data
-        })
-    });
-    var selectProv = $('#select2-provinsi');
     var dropZoneJilid = function(jilid_ke, file_type){
         let dropzoneId = "", inputFileId ="", acceptedFiles = "", maxFilesize = 5;
         switch(file_type){
@@ -1041,7 +1017,7 @@ height: 100vh !important;
             default:break;
         }
         new Dropzone(dropzoneId, {
-            url: '/penerbit/dropzone/store',
+            url: '{{ url("/penerbit/dropzone/store") }}',
             paramName: "file",
             maxFiles: 1,
             maxFilesize: maxFilesize, // MB
@@ -1067,21 +1043,21 @@ height: 100vh !important;
                 this.on("success", function (file, response) {
                     $(inputFileId).val(response[0]['name']);
                     // Handle the response from the server after the file is uploaded
-                    console.log('File uploaded successfully', response);
+                    //console.log('File uploaded successfully', response);
                 });
                 this.on("error", function (file, response) {
                     // Handle the errors
-                    console.error('Upload error', response);
+                    //console.error('Upload error', response);
                 });
                 this.on("queuecomplete", function () {
                     // Called when all files in the queue have been processed
-                    console.log('All files have been uploaded');
+                    //console.log('All files have been uploaded');
                 });
                 this.on("removedfile", function (file) {
-                    console.log(file, 'hakim delete', file.serverFileName)
+                    //console.log(file, 'delete file', file.serverFileName)
                     if (file.serverFileName) {
                         $.ajax({
-                            url: '/penerbit/dropzone/delete',
+                            url: '{{ url("/penerbit/dropzone/delete") }}',
                             type: 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -1091,7 +1067,7 @@ height: 100vh !important;
                             },
                             success: function (data) {
                                 $(inputFileId).val('');
-                                console.log("File deleted successfully");
+                                //console.log("File deleted successfully");
                             },
                             error: function (xhr, textStatus, errorThrown) {
                                 console.error('Failed to delete file:', errorThrown);
@@ -1335,7 +1311,7 @@ height: 100vh !important;
                         for(var i = 0; i<response.length; i++){
                             if(jilid_lepas == 'jilid') {
                                 if(response[i]['JENIS'] == 'lampiran_permohonan' && response[i]['FILE_STATUS'] == '0' && response[i]['KETERANGAN'] == keterangan_jilid[k-1]) {
-                                    let h = `<a href="http://demo321.online/ISBN_Back_Office/files/isbn/lampiran/`+response[i]["FILE_NAME"]+`">
+                                    let h = `<a href="{{ config('app.isbn_file_location') }}files/isbn/lampiran/`+response[i]["FILE_NAME"]+`">
                                     <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
                                     <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span> 
                                     <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`,'#viewlampiran_`+k+`')"></a>
@@ -1343,21 +1319,21 @@ height: 100vh !important;
                                     $('#viewlampiran_'+ k).append(h);
                                 }  
                                 if(response[i]['JENIS'] == 'lampiran_pending' && response[i]['FILE_STATUS'] == '0'  && response[i]['KETERANGAN'] == keterangan_jilid[k-1]) {
-                                    $('#viewlampiran_'+ k).append(`<a href="http://demo321.online/ISBN_Back_Office/files/isbn/lampiran/`+response[i]["FILE_NAME"]+`">
+                                    $('#viewlampiran_'+ k).append(`<a href="{{ config('app.isbn_file_location') }}files/isbn/lampiran/`+response[i]["FILE_NAME"]+`">
                                     <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
                                     <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span> 
                                     <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`,'#viewlampiran_`+k+`')"></a>
                                     <input type="hidden" name="file_pending_id[]" value="`+response[i]["ID"]+`"></br>`);
                                 }  
                                 if(response[i]['JENIS'] == 'dummy_buku' && response[i]['FILE_STATUS'] == '0' && response[i]['KETERANGAN'] == keterangan_jilid[k-1]) {
-                                    $('#viewdummy_'+ k).append(`<a href="http://demo321.online/ISBN_Back_Office/files/isbn/dummy/`+response[i]["FILE_NAME"]+`">
+                                    $('#viewdummy_'+ k).append(`<a href="{{ config('app.isbn_file_location') }}files/isbn/dummy/`+response[i]["FILE_NAME"]+`">
                                     <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
                                     <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span>
                                     <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`,'#viewdummy_`+k+`')"></a>
                                     <input type="hidden" name="file_dummy_id[]" value="`+response[i]["ID"]+`"></br>`);
                                 }
                                 if(response[i]['JENIS'] == 'cover' && response[i]['FILE_STATUS'] == '0' && response[i]['KETERANGAN'] == keterangan_jilid[k-1]) {
-                                    $('#viewcover_'+ k).append(`<a href="http://demo321.online/ISBN_Back_Office/files/cover/`+response[i]["FILE_NAME"]+`">
+                                    $('#viewcover_'+ k).append(`<a href="{{ config('app.isbn_file_location') }}files/cover/`+response[i]["FILE_NAME"]+`">
                                     <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
                                     <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span>
                                     <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`,'#viewcover_`+k+`')"></a>
@@ -1365,7 +1341,7 @@ height: 100vh !important;
                                 }
                             } else {
                                 if(response[i]['JENIS'] == 'lampiran_permohonan' && response[i]['FILE_STATUS'] == '0') {
-                                    let h = `<a href="http://demo321.online/ISBN_Back_Office/files/isbn/lampiran/`+response[i]["FILE_NAME"]+`">
+                                    let h = `<a href="{{ config('app.isbn_file_location') }}isbn/lampiran/`+response[i]["FILE_NAME"]+`">
                                     <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
                                     <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span> 
                                     <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`,'#viewlampiran_`+k+`')"></a>
@@ -1373,21 +1349,21 @@ height: 100vh !important;
                                     $('#viewlampiran_'+ k).append(h);
                                 }  
                                 if(response[i]['JENIS'] == 'lampiran_pending' && response[i]['FILE_STATUS'] == '0') {
-                                    $('#viewlampiran_'+ k).append(`<a href="http://demo321.online/ISBN_Back_Office/files/isbn/lampiran/`+response[i]["FILE_NAME"]+`">
+                                    $('#viewlampiran_'+ k).append(`<a href="{{ config('app.isbn_file_location') }}files/isbn/lampiran/`+response[i]["FILE_NAME"]+`">
                                     <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
                                     <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span> 
                                     <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`,'#viewlampiran_`+k+`')"></a>
                                     <input type="hidden" name="file_pending_id[]" value="`+response[i]["ID"]+`"></br>`);
                                 }  
                                 if(response[i]['JENIS'] == 'dummy_buku' && response[i]['FILE_STATUS'] == '0') {
-                                    $('#viewdummy_'+ k).append(`<a href="http://demo321.online/ISBN_Back_Office/files/isbn/dummy/`+response[i]["FILE_NAME"]+`">
+                                    $('#viewdummy_'+ k).append(`<a href="{{ config('app.isbn_file_location') }}files/isbn/dummy/`+response[i]["FILE_NAME"]+`">
                                     <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
                                     <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span>
                                     <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`,'#viewdummy_`+k+`')"></a>
                                     <input type="hidden" name="file_dummy_id[]" value="`+response[i]["ID"]+`"></br>`);
                                 }
                                 if(response[i]['JENIS'] == 'cover' && response[i]['FILE_STATUS'] == '0') {
-                                    $('#viewcover_'+ k).append(`<a href="http://demo321.online/ISBN_Back_Office/files/cover/`+response[i]["FILE_NAME"]+`">
+                                    $('#viewcover_'+ k).append(`<a href="{{ config('app.isbn_file_location') }}files/cover/`+response[i]["FILE_NAME"]+`">
                                     <i class="bi bi-filetype-pdf fs-1"></i> `+response[i]["FILE_NAME"]+` 
                                     <span class="badge badge-light-primary">`+response[i]["CREATEDATE"]+` (`+response[i]["CREATEBY"]+`)</span>
                                     <span class="badge badge-light-success">`+response[i]["KETERANGAN"]+`</span></a><a class="bi bi-trash fs-1 text-danger" onclick="removeFile(`+response[i]['ID']+`,'#viewcover_`+k+`')"></a>
@@ -1410,39 +1386,7 @@ height: 100vh !important;
                 }
             });
     }
-    $(selectProv).change(function() {
-        var value = $(selectProv).val();
-        clearOptions('select2-kabupaten');
 
-        if (value) {
-            console.log("on change selectProv");
-
-            var text = $('#select2-provinsi :selected').text();
-            console.log("value = " + value + " / " + "text = " + text);
-
-            console.log('Load Kabupaten di ' + text + '...')
-            $.getJSON(urlKabupaten + value + ".json", function(res) {
-
-                res = $.map(res, function(obj) {
-                    obj.text = obj.nama
-                    return obj;
-                });
-
-                data = [{
-                    id: "",
-                    nama: "- Pilih Kabupaten -",
-                    text: "- Pilih Kabupaten -"
-                }].concat(res);
-
-                //implemen data ke select provinsi
-                $("#select2-kabupaten").select2({
-                    dropdownAutoWidth: true,
-                    width: '100%',
-                    data: data
-                })
-            })
-        }
-    });
     var removeFile = function(id,divId){
         Swal.fire({
                     title: "Yakin akan menghapus File ini?",
@@ -1458,12 +1402,11 @@ height: 100vh !important;
                     }).then(function(isConfirm){
                         if (isConfirm){
                             //
-                            $.get('/penerbit/isbn/permohonan/delete-file/' + id);
+                            $.get('{{ url("/penerbit/isbn/permohonan/delete-file") }}' +'/' +id);
                             $(divId).html('');
                         }
                 });
     };
-    var selectKab = $('#select2-kabupaten');
 
     $('.onhover').css('display', 'none');
     $('.hoverEvent').hover(function () {
@@ -1561,7 +1504,7 @@ height: 100vh !important;
                                         }
                                 }).then(function(isConfirm){
                                     if (isConfirm){
-                                        window.location.href = "/penerbit/isbn/permohonan/detail/" + xhr.noresi 
+                                        window.location.href = "{{url('/penerbit/isbn/permohonan/detail')}}" + "/" + xhr.noresi 
                                     }
                                 });
                         },

@@ -49,24 +49,29 @@
             contentType: false,
             processData: false,
             success: function(response) {
-				let status_permohonan = "", cek_disini = "", link = "http://demo321.online/ISBN_Back_Office/", note="Permohonan ";
+				let status_permohonan = "", cek_disini = "", link = "{{ config('app.isbn_file_location') }}", note="Permohonan ";
 				for(var i=0; i< response.length; i++){
 					switch(response[i]['NOTE']){
 						case 'Permohonan baru': 
 							status_permohonan = '<span class="badge badge-primary">BARU</span>';
-							cek_disini = `<a href="/penerbit/isbn/permohonan/detail/`+response[i]['NORESI']+`">Cek disini.</a>`;
+							cek_disini = `<a href="{{ url('/penerbit/isbn/permohonan/detail/') }}`+'/' +response[i]['NORESI']+`">Cek disini.</a>`;
+							break;
+						case 'Permohonan lanjutan': 
+							note = "Permohonan ";
+							status_permohonan = '<span class="badge badge-primary">JILID LANJUTAN</span>';
+							cek_disini = `<a href="{{ url('/penerbit/isbn/permohonan/detail/') }}`+'/'+response[i]['NORESI']+`">Cek disini.</a>`;
 							break;
 						case 'Set status diterima': 
 							status_permohonan = '<span class="badge badge-success">DITERIMA</span>';
-							cek_disini = `<a href="/penerbit/isbn/data">Cek disini.</a>`;
+							cek_disini = `<a href="{{ url('/penerbit/isbn/data') }}">Cek disini.</a>`;
 							break;
 						case 'Set status bermasalah': 
 							status_permohonan = '<span class="badge badge-danger">BERMASALAH</span>';
-							cek_disini = `<a href="/penerbit/isbn/permohonan/detail/`+response[i]['NORESI']+`">Cek disini.</a>`;
+							cek_disini = `<a href="{{ url('/penerbit/isbn/permohonan/detail/') }}`+'/'+response[i]['NORESI']+`">Cek disini.</a>`;
 							break;
 						case 'Set status batal': 
 							status_permohonan = '<span class="badge badge-light-danger">BATAL</span>';
-							cek_disini = `<a href="/penerbit/isbn/permohonan/batal">Cek disini.</a>`;
+							cek_disini = `<a href="{{ url('/penerbit/isbn/permohonan/batal') }}">Cek disini.</a>`;
 							break;
 						default: 
 							note = response[i]['NOTE'].replace("href='", "href='" +link);

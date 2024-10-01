@@ -472,11 +472,11 @@ class PermohonanController extends Controller
                 pt.title,  pt.jilid_volume, pt.author, pt.kepeng, pt.sinopsis, pt.distributor, pt.tempat_terbit, pt.edisi, pt.seri, pt.bulan_terbit, pt.tahun_terbit,
                 pt.jml_hlm, pt.ketebalan as dimensi, pt.jenis_media, pt.jenis_terbitan, pt.jenis_pustaka, pt.jenis_kategori, pt.jenis_kelompok, pt.jenis_penelitian
                 FROM ISBN_RESI ir
-                JOIN penerbit_terbitan pt on ir.penerbit_terbitan_id = pt.id
+                LEFT JOIN penerbit_terbitan pt on ir.penerbit_terbitan_id = pt.id
                 WHERE ir.PENERBIT_ID =$id ";
 
-        $sqlFiltered = "SELECT ir.id FROM ISBN_RESI ir JOIN PENERBIT_TERBITAN pt on ir.penerbit_terbitan_id = pt.id
-                        JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
+        $sqlFiltered = "SELECT ir.id FROM ISBN_RESI ir LEFT JOIN PENERBIT_TERBITAN pt on ir.penerbit_terbitan_id = pt.id
+                        LEFT JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
                         WHERE ir.penerbit_id = $id ";
         $sqlWhere = "";
         $query = [];
