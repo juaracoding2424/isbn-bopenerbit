@@ -170,7 +170,7 @@
 	var pulihkanPermohonan = function(id){
 		var title = '';
 		$.ajax({
-            url: '/penerbit/isbn/batal/detail/'+id+'/get',
+            url: '{{ url("/penerbit/isbn/batal/detail") }}' + '/'+id+'/get',
             type: 'GET',
 			async:false,
 			beforeSend: function(){
@@ -195,7 +195,7 @@
             	}).then(function(e) {
 						if(e.isConfirmed == true) {
 							$.ajax({
-								url: '/penerbit/isbn/batal/pulihkan-permohonan/'+id,
+								url: '{{ url("/penerbit/isbn/batal/pulihkan-permohonan") }} ' + '/'+id,
 								type: 'GET',
 								async:false,
 								beforeSend: function(){

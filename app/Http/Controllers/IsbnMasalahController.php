@@ -82,7 +82,7 @@ class IsbnMasalahController extends Controller
                 $noresi = $val['NORESI'] ? $val['NORESI'] : $val['ID'];
                 $response['data'][] = [
                     $nomor,
-                    '<a class="badge badge-primary h-20px m-1" href="/penerbit/isbn/permohonan/detail/'.$noresi.'" target="_self">Perbaiki permohonan</a><a class="badge badge-danger h-20px m-1" onclick="batalkanPermohonan('.$id.')">Batalkan Permohonan</a>',
+                    '<a class="badge badge-primary h-20px m-1" href="'. url('/penerbit/isbn/permohonan/detail/'.$noresi).'" target="_self">Perbaiki permohonan</a><a class="badge badge-danger h-20px m-1" onclick="batalkanPermohonan('.$id.')">Batalkan Permohonan</a>',
                     $val['NORESI'],
                     $val['TITLE'],
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],

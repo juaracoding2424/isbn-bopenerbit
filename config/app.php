@@ -128,4 +128,5 @@ return [
     'expires' => env('TOKEN_EXPIRES', '+30 days'),
 
     'pendaftaran' => env('APP_PENDAFTARAN'),
+    'isbn_file_location' => env('ISBN_FILE_LOCATION', 'http://demo321.online/ISBN_Back_Office/'),
 ];

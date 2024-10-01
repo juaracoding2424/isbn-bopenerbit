@@ -295,11 +295,11 @@
 	var onBtnClicked = function(ev, id){
 		switch(ev) {
 			case 'print' : 
-				location.href = '/penerbit/isbn/data/generate-pdf/' + id;
+				location.href = '{{url("/penerbit/isbn/data/generate-pdf")}}' + '/' + id;
 				break;
 			case 'copy' : break;
 			case 'view' : 
-				location.href = '/penerbit/isbn/data/view-kdt/' + id;
+				location.href = '{{url("/penerbit/isbn/data/view-kdt")}}' + '/' + id;
 				break;
 			}
 	}

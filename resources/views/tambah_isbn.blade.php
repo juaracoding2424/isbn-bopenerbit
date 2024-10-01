@@ -1018,12 +1018,10 @@
 </body>
 <!--end::Body-->
 <script>
-    var urlProvinsi = "{{url('location/province')}}" + "/";
-    var urlKabupaten = "{{url('location/kabupaten')}}" + "/";
-    var urlJilid = "{{url('penerbit/isbn/permohonan/jilid-lengkap') }}";
+    var urlJilid = "{{ url('penerbit/isbn/permohonan/jilid-lengkap') }}";
 
     function clearOptions(id) {
-        console.log("on clearOptions :" + id);
+        //console.log("on clearOptions :" + id);
         //$('#' + id).val(null);
         $('#' + id).empty().trigger('change');
     }
@@ -1046,27 +1044,7 @@
             data: data
         })
     });
-    $.getJSON(urlProvinsi, function (res) {
 
-        res = $.map(res, function (obj) {
-            obj.text = obj.nama
-            return obj;
-        });
-
-        data = [{
-            id: "",
-            nama: "- Pilih Provinsi -",
-            text: "- Pilih Provinsi -"
-        }].concat(res);
-
-        //implemen data ke select provinsi
-        $("#select2-provinsi").select2({
-            dropdownAutoWidth: true,
-            width: '100%',
-            data: data
-        })
-    });
-    var selectProv = $('#select2-provinsi');
     var dropZoneJilid = function(jilid_ke, file_type){
         let dropzoneId = "", inputFileId ="", acceptedFiles = "", maxFilesize = 5;
         switch(file_type){
@@ -1091,7 +1069,7 @@
             default:break;
         }
         new Dropzone(dropzoneId, {
-            url: '/penerbit/dropzone/store',
+            url: '{{ url("/penerbit/dropzone/store") }}',
             paramName: "file",
             maxFiles: 1,
             maxFilesize: maxFilesize, // MB
@@ -1112,26 +1090,26 @@
                 });
                 this.on("sending", function (file, xhr, formData) {
                     // Additional data can be sent here if required
-                    console.log('Sending file:', file);
+                    //console.log('Sending file:', file);
                 });
                 this.on("success", function (file, response) {
                     $(inputFileId).val(response[0]['name']);
                     // Handle the response from the server after the file is uploaded
-                    console.log('File uploaded successfully', response);
+                    //console.log('File uploaded successfully', response);
                 });
                 this.on("error", function (file, response) {
                     // Handle the errors
-                    console.error('Upload error', response);
+                    //console.error('Upload error', response);
                 });
                 this.on("queuecomplete", function () {
                     // Called when all files in the queue have been processed
-                    console.log('All files have been uploaded');
+                    //console.log('All files have been uploaded');
                 });
                 this.on("removedfile", function (file) {
-                    console.log(file, 'hakim delete', file.serverFileName)
+                    //console.log(file, 'delete file', file.serverFileName)
                     if (file.serverFileName) {
                         $.ajax({
-                            url: '/penerbit/dropzone/delete',
+                            url: '{{ url("/penerbit/dropzone/delete") }}',
                             type: 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -1291,7 +1269,7 @@
         }
     });
     $('#select2-isbn-jilid').on("change", function(){
-        $.getJSON("/penerbit/isbn/permohonan/detail-jilid/" + $(this).val(), function (res) {
+        $.getJSON("{{url('/penerbit/isbn/permohonan/detail-jilid') }}" + "/" +$(this).val(), function (res) {
             $('textarea[name=title]').val(res['detail']['TITLE']);
             var kepeng =res['detail']['KEPENG'];
             var kepengs = kepeng.split(";");
@@ -1382,45 +1360,6 @@
             $('#labelKetJumlahHalaman').text('Jilid');
 	    });
     });
-    $.getJSON(urlProvinsi, function (res) {
-		data = [{
-				id: "",
-				nama: "- Pilih Provinsi -",
-				text: "- Pilih Provinsi -"
-		}].concat(res);
-
-			//implemen data ke select provinsi
-		$("#select2-provinsi").select2({
-				dropdownAutoWidth: true,
-				width: '100%',
-				data: data
-		}) ;
-	});
-
-	var selectProv = $('#select2-provinsi');
-	$(selectProv).change(function () {
-		var value = $(selectProv).val();
-		clearOptions('select2-kabupaten');
-		if (value) {
-			var text = $('#select2-provinsi :selected').text();
-			$.getJSON(urlKabupaten + value, function(res) {
-				data = [{
-						id: "",
-						nama: "- Pilih Kabupaten -",
-						text: "- Pilih Kabupaten -"
-				}].concat(res);
-
-						//implemen data ke select provinsi
-				$("#select2-kabupaten").select2({
-						dropdownAutoWidth: true,
-						width: '100%',
-						data: data,
-						async : false,
-				});
-			})
-		}
-	});
-
 
     $('.onhover').css('display', 'none');
     $('.hoverEvent').hover(function () {
@@ -1563,7 +1502,7 @@ Nasional dan Perpustakaan Provinsi, termasuk edisi revisi.<br/>
                         }
                     }).then(function (isConfirm) {
                         if (isConfirm) {
-                            window.location.href = "/penerbit/isbn/permohonan/detail/" + xhr.noresi
+                            window.location.href = '{{ url("/penerbit/isbn/permohonan/detail/") }}' + '/'+ xhr.noresi
                         }
                     });
                 },
