@@ -28,10 +28,10 @@ class ISBNController extends Controller
                 pt.is_kdt_valid, pi.RECEIVED_DATE_KCKR, pi.RECEIVED_DATE_PROV,pi.acceptdate
                 FROM penerbit_isbn pi
                 JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
-                JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id
+                LEFT JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id
                 WHERE pi.PENERBIT_ID =$id ";
 
-        $sqlFiltered = "SELECT pt.id FROM penerbit_terbitan pt JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
+        $sqlFiltered = "SELECT pt.id FROM penerbit_terbitan pt LEFT JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
                         JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
                         WHERE ir.penerbit_id = $id ";
         $sqlWhere = "";

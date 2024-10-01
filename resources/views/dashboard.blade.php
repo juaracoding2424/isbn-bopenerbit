@@ -351,7 +351,7 @@
         });
 	}
 	$.ajax({
-            url: '{{ url('penerbit/dashboard/total-isbn') }}' + '?status=diterima',
+            url: "{{ url('penerbit/dashboard/total-isbn') }}" + '?status=diterima',
             type: 'GET',
             contentType: false,
             processData: false,
@@ -366,7 +366,7 @@
             }
         });
 	$.ajax({
-        url: '{{ url('penerbit/dashboard/total-isbn') }}' + '?status=permohonan',
+        url: "{{ url('penerbit/dashboard/total-isbn') }}" + '?status=permohonan',
         type: 'GET',
         contentType: false,
         processData: false,
@@ -381,7 +381,7 @@
         }
     });
 	$.ajax({
-        url: '{{ url('penerbit/dashboard/total-isbn') }}' + '?status=pending',
+        url: "{{ url('penerbit/dashboard/total-isbn') }}" + '?status=pending',
         type: 'GET',
         contentType: false,
         processData: false,
@@ -397,7 +397,7 @@
     });
 	function getBerita(){
 		$.ajax({
-            url: '{{ url('penerbit/dashboard/berita') }}',
+            url: "{{ url('penerbit/dashboard/berita') }}",
             type: 'GET',
             contentType: false,
             processData: false,
