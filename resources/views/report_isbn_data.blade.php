@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
     <link href="https://code.jquery.com/ui/1.14.0/themes/cupertino/jquery-ui.css" />
     <link href="https://cdn.datatables.net/2.1.6/css/dataTables.dataTables.min.css" rel="stylesheet" type="text/css" />
-    <link href="http://localhost:8081/assets/css/style.bundle.css" rel="stylesheet" type="text/css">
+    <link href="{{ asset('/assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css">
 </head>
 <style>
     @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,800i,900|Quicksand:300,400,500,700&subset=cyrillic,cyrillic-ext,latin-ext,vietnamese');
