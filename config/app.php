@@ -129,4 +129,5 @@ return [
 
     'pendaftaran' => env('APP_PENDAFTARAN'),
     'isbn_file_location' => env('ISBN_FILE_LOCATION', 'http://demo321.online/ISBN_Back_Office/'),
+    'token_landing_page' => env('TOKEN_LANDING_PAGE', 'xYjJgfpor3d87dfcvoklwas'),
 ];

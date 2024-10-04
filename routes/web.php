@@ -94,6 +94,8 @@ Route::post('reset-password/send', [AuthController::class, 'resetPasswordSend'])
 Route::get('reset-password-next', [AuthController::class, 'resetPasswordNext']);
 Route::post('reset-password-next', [AuthController::class, 'resetPasswordNextSubmit']);
 Route::post('auth/submit', [AuthController::class, 'submit']);
+Route::post('page/redirect', [AuthController::class, 'redirectFromLandingPage']);
+//Route::get('page/redirect', [AuthController::class, 'redirectFromLandingPage']);
 Route::get('penerbit/isbn/data/view-kdt/{id}', [IsbnDataController::class, 'viewPDF']);
 
 

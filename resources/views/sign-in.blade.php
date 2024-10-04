@@ -27,7 +27,7 @@
 		<!--begin::Root-->
 		<div class="d-flex flex-column flex-root" id="kt_app_root">
 			<!--begin::Page bg image-->
-			<style>body { background-image: url('assets/media/auth/bg10.jpeg'); } [data-bs-theme="dark"] body { background-image: url('assets/media/auth/bg10-dark.jpeg'); }</style>
+			<style>body { background-image: url('{{ asset("assets/media/auth/bg10.jpeg") }}'); } [data-bs-theme="dark"] body { background-image: url('{{ asset("assets/media/auth/bg10-dark.jpeg") }}'); }</style>
 			<!--end::Page bg image-->
 			<!--begin::Authentication - Sign-in -->
 			<div class="d-flex flex-column flex-lg-row flex-column-fluid">
@@ -36,8 +36,8 @@
 					<!--begin::Content-->
 					<div class="d-flex flex-column flex-center pb-0 pb-lg-10 p-10 w-100">
 						<!--begin::Image-->
-						<img class="theme-light-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20" src="assets/media/auth/agency.png" alt="" />
-						<img class="theme-dark-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20" src="assets/media/auth/agency-dark.png" alt="" />
+						<img class="theme-light-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20" src="{{ asset('assets/media/auth/agency.png') }}" alt="" />
+						<img class="theme-dark-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20" src="{{ asset('assets/media/auth/agency-dark.png') }}" alt="" />
 						<!--end::Image-->
 						<!--begin::Title-->
 						<h1 class="text-gray-800 fs-2qx fw-bold text-center mb-7">Selamat datang, para penerbit di Indonesia!</h1>
@@ -60,6 +60,28 @@
 						<div class="d-flex flex-center flex-column align-items-stretch h-lg-100 w-md-400px">
 							<!--begin::Wrapper-->
 							<div class="d-flex flex-center flex-column flex-column-fluid pb-15 pb-lg-20">
+							@if(isset($status))
+								@if($status == 200)
+								<div class="alert alert-success d-flex align-items-center p-2 mb-5">
+								<i class="ki-solid ki-check fs-2hx text-success me-0"></i>
+									<div class="rounded  p-5  d-flex flex-column">
+										<div class="d-flex flex-column">
+											<h2 class="mb-1 text-success">{{$pesan}} </h2>										
+										</div>
+									</div>
+								</div>
+								@endif
+								@if($status == 500)
+								<div class="alert alert-danger d-flex align-items-center p-2 mb-5">
+								<i class="ki-solid ki-shield-cross fs-2hx text-danger me-0"></i>
+										<div class="rounded p-2  d-flex flex-column">
+											<div class="d-flex flex-column">
+												<h2 class="mb-1 text-danger">{{$pesan}} </h2>										
+											</div>
+										</div>
+									</div>
+								@endif
+							@endif
 								<!--begin::Form-->
 								<form class="form w-100" id="signin_form" action="#">
 								@csrf
