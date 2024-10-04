@@ -1278,6 +1278,8 @@ height: 100vh !important;
     if(jilid_lepas == 'lepas'){
         $('#jml_hlm').val("{{$detail['JML_HLM']}}");
         $('input[type=radio][name="status"][value="'+jilid_lepas+'"]').prop('checked', true);
+        $('#judul_buku_1').css('display', 'none');
+        $('#btnTambahJilid').css('display', 'none');
     } else {
         $('#jml_hlm').attr("type", "text").val("{{$detail['JML_JILID_REQ']}}").attr('disabled', true);
         $('#labelJumlahHalaman').text('Jumlah jilid yang diminta');
