@@ -38,10 +38,10 @@ class IsbnMasalahController extends Controller
         $sql  = "SELECT pt.id, m.isi, m.createdate, ir.noresi, pt.title, pt.kepeng, pt.author, pt.tahun_terbit, pt.mohon_date
                     FROM PENERBIT_ISBN_MASALAH m 
                     JOIN PENERBIT_TERBITAN pt ON m.PENERBIT_TERBITAN_ID = pt.ID 
-                    JOIN ISBN_RESI ir on ir.id = m.isbn_resi_id
+                    LEFT JOIN ISBN_RESI ir on ir.id = m.isbn_resi_id
                     WHERE m.IS_SOLVE = 0 AND pt.PENERBIT_ID='$id' AND ir.status='pending'";
         $sqlFiltered = "SELECT count(*) JUMLAH FROM PENERBIT_ISBN_MASALAH m 
-                    JOIN ISBN_RESI ir ON m.isbn_resi_id = ir.ID 
+                    LEFT JOIN ISBN_RESI ir ON m.isbn_resi_id = ir.ID 
                     JOIN PENERBIT_TERBITAN pt ON m.PENERBIT_TERBITAN_ID = pt.ID 
                     WHERE m.IS_SOLVE = 0 AND ir.PENERBIT_ID='$id' AND ir.status='pending'";
 
