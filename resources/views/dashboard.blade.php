@@ -339,7 +339,7 @@
 				for(var i=0; i< response.length; i++){
 					$('#isbn_year').append('<div class="menu-item px-3"><a href="#chart_isbn_month" class="menu-link px-3"onclick="changeChart('+response[i]['YEAR']+')">'+response[i]['YEAR']+'</a></div>');
 				}
-				let lenRes = response.length - 2;
+				let lenRes = response.length - 1;
 				changeChart(response[lenRes]['YEAR']);
             },
             error: function() {
