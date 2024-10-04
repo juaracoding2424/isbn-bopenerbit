@@ -152,15 +152,15 @@
 			    <tr class="text-start text-gray-500 fw-bold fs-8 text-uppercase gs-0">
 					<th class="70px">No</th>
 					<th width="150px">ISBN</th>
-					<th width="250px">Judul</th>
-                    <th width="150px">Jenis Terbitan</th>
+					<th width="230px">Judul</th>
+                    <th width="100px">Jenis Terbitan</th>
                     <th width="100px">Sumber Data</th>
 					<th width="200px">Kepengarangan</th>
 					<th width="100px">Bulan/Tahun Terbit</th>
-					<th width="150px">Tanggal Permohonan</th>
-					<th width="150px">Tanggal Disetujui</th>
-					<th width="150px">Penyerahan Perpusnas</th>
-					<th width="150px">Penyerahan Provinsi</th>
+					<th width="120px">Tanggal Permohonan</th>
+					<th width="120px">Tanggal Disetujui</th>
+					<th width="120px">Penyerahan Perpusnas</th>
+					<th width="120px">Penyerahan Provinsi</th>
 			    </tr>
 			</thead>
             <tbody>
