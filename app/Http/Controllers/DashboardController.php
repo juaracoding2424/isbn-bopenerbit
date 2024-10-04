@@ -32,7 +32,7 @@ class DashboardController extends Controller
         } 
         if($status == 'pending') {
             $sql = "SELECT count(*) JUMLAH
-                FROM PENERBIT_ISBN_MASALAH m JOIN ISBN_RESI ir on ir.id = m.isbn_resi_id
+                FROM PENERBIT_ISBN_MASALAH m LEFT JOIN ISBN_RESI ir on ir.id = m.isbn_resi_id
                 WHERE m.IS_SOLVE = 0 AND ir.PENERBIT_ID='$id' AND ir.status='pending'";
         }
         if($status == 'diterima'){
@@ -47,11 +47,16 @@ class DashboardController extends Controller
     public function getYear()
     {
         $id = session('penerbit')['ID'];   
-        $sql = "SELECT to_char(VALIDATION_DATE, 'YYYY') year
+        /*$sql = "SELECT to_char(VALIDATION_DATE, 'YYYY') year
                     FROM PENERBIT_TERBITAN 
                     WHERE PENERBIT_ID = '$id'
                     GROUP BY to_char(VALIDATION_DATE, 'YYYY')
-                    ORDER BY to_char(VALIDATION_DATE, 'YYYY')";
+                    ORDER BY to_char(VALIDATION_DATE, 'YYYY')";*/
+        $sql = "SELECT to_char(ACCEPTDATE, 'YYYY') year
+                    FROM PENERBIT_ISBN 
+                    WHERE PENERBIT_ID = '$id'
+                    GROUP BY to_char(ACCEPTDATE, 'YYYY')
+                    ORDER BY to_char(ACCEPTDATE, 'YYYY')";
         $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"];
         return $data;
     }
@@ -60,12 +65,12 @@ class DashboardController extends Controller
     {
         $year = request('year');   
         $id = session('penerbit')['ID'];  
-        $sql = "SELECT count(*) jumlah, to_char(VALIDATION_DATE, 'MON') month, to_char(VALIDATION_DATE, 'MM') month_numb
-                    FROM PENERBIT_TERBITAN 
+        $sql = "SELECT count(*) jumlah, to_char(ACCEPTDATE, 'MON') month, to_char(ACCEPTDATE, 'MM') month_numb
+                    FROM PENERBIT_ISBN
                     WHERE PENERBIT_ID = '$id'
-                    AND VALIDATION_DATE BETWEEN TO_DATE('01-01-$year','dd-mm-yyyy') AND TO_DATE('31-12-$year','dd-mm-yyyy')
-                    GROUP BY to_char(VALIDATION_DATE, 'MON'), to_char(VALIDATION_DATE, 'MM')
-                    ORDER BY to_char(VALIDATION_DATE, 'MM')";
+                    AND ACCEPTDATE BETWEEN TO_DATE('01-01-$year','dd-mm-yyyy') AND TO_DATE('31-12-$year','dd-mm-yyyy')
+                    GROUP BY to_char(ACCEPTDATE, 'MON'), to_char(ACCEPTDATE, 'MM')
+                    ORDER BY to_char(ACCEPTDATE, 'MM')";
         $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"];
         return $data;
     }

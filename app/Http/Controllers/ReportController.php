@@ -220,12 +220,12 @@ class ReportController extends Controller
 				ir.id as isbn_resi_id, ir.source, ir.jenis, pt.title,  pt.jml_jilid, pt.jilid_volume, pi.ACCEPTDATE, pt.call_number, pt.sinopsis, pt.subjek,
                 pt.is_kdt_valid
                 FROM penerbit_isbn pi
-                JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
-                JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id
+                LEFT JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
+                LEFT JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id
                 WHERE pi.PENERBIT_ID =$id ";
 
-        $sqlFiltered = "SELECT pt.id FROM penerbit_terbitan pt JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
-                        JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
+        $sqlFiltered = "SELECT pt.id FROM penerbit_terbitan pt LEFT JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
+                        LEFT JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
                         WHERE ir.penerbit_id = $id ";
         if($request->input('advSearch')) {
             $advSearch_ = json_decode($request->input('advSearch'), true);
