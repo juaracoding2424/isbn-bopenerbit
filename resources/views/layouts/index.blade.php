@@ -49,8 +49,8 @@
             contentType: false,
             processData: false,
             success: function(response) {
-				let status_permohonan = "", cek_disini = "", link = "{{ config('app.isbn_file_location') }}", note="Permohonan ";
 				for(var i=0; i< response.length; i++){
+					let status_permohonan = "", cek_disini = "", link = "{{ config('app.isbn_file_location') }}", note="Permohonan ";
 					switch(response[i]['NOTE']){
 						case 'Permohonan baru': 
 							status_permohonan = '<span class="badge badge-primary">BARU</span>';
