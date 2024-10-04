@@ -227,19 +227,20 @@
 	var cetakBarcode = function(id){
 		let link= "{{url('/penerbit/isbn/data/generate-barcode/') }}" + '/'+  id;
 		Swal.fire({
-                    html: "<iFrame src='"+link+"' height='100px' width='280px'/>",
-                    showCancelButton: !0,
+                    html: `<div><iFrame src='`+link+`' height='100px' width='280px' id='iBarcode'></iFrame> 
+							<button class='btn btn-primary' onclick='barcodeSave()'>Simpan Barcode</button>
+							</div>`,
+                    //showCancelButton: !0,
                     buttonsStyling: !1,
-                    confirmButtonText: "Simpan Barcode",
-                    cancelButtonText: "Close",
-                    customClass: {
-                        confirmButton: "btn fw-bold btn-primary",
-                        cancelButton: "btn fw-bold btn-active-light-danger"
-                    }
+					showConfirmButton: false,
+  					showCloseButton: true,
+                    //customClass: {
+                    //    cancelButton: "btn fw-bold btn-active-light-danger"
+                    //}
 				})
 	};
-	/*var saveSvg = function (svgEl, name) {
-		svgEl.attr("xmlns", "http://www.w3.org/2000/svg");
+	var saveSvg = function (svgEl, name) {
+		svgEl.setAttribute("xmlns", "http://www.w3.org/2000/svg");
 		var svgData = svgEl.outerHTML;
 		var preface = '<?xml version="1.0" standalone="no"?>\r\n';
 		var svgBlob = new Blob([preface, svgData], {type:"image/svg+xml;charset=utf-8"});
@@ -251,7 +252,11 @@
 		downloadLink.click();
 		document.body.removeChild(downloadLink);
 	}
-    saveSvg(document.getElementById('barcode'), 'barcode.svg');*/
+	var barcodeSave = function() {
+		var iframe = document.getElementById('iBarcode');
+		var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    	saveSvg(innerDoc.getElementById('barcode'), 'barcode.svg');
+	}
 	var cetakKDT = function(id){
 		$.ajax({
             url: "{{ url('penerbit/isbn/data/kdt/') }}" + '/' + id,
