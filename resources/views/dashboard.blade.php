@@ -16,7 +16,7 @@
 									<!--begin::Card widget 8-->
 									<div class="card overflow-hidden mb-5 mb-xl-10">
 										<!--begin::Card body-->
-										<a class="card-body d-flex justify-content-between flex-column px-0 pb-0" href="/penerbit/isbn/data">
+										<a class="card-body d-flex justify-content-between flex-column px-0 pb-0" href="{{ url('/penerbit/isbn/data') }}">
 											<!--begin::Statistics-->
 											<div class="mb-10 px-9">
 												<!--begin::Info-->
@@ -41,7 +41,7 @@
 									<!--begin::Card widget 5-->
 									<div class="card bg-gray-100 overflow-hidden mb-5 mb-xl-10">
 										<!--begin::Header-->
-										<a class="card-body d-flex justify-content-between flex-column px-0 pb-0" href="/penerbit/isbn/permohonan">
+										<a class="card-body d-flex justify-content-between flex-column px-0 pb-0" href="{{ url('/penerbit/isbn/permohonan') }}">
 											<!--begin::Title-->
 											<div class="mb-10 px-9">
 												<!--begin::Info-->
@@ -66,7 +66,7 @@
 									<div class="card bg-danger overflow-hidden mb-5 mb-xl-10">
 										<!--begin::Card body-->
 										<a class="card-body d-flex justify-content-between flex-column px-0 pb-0"
-											href="/penerbit/isbn/masalah">
+											href="{{ url('/penerbit/isbn/masalah') }}">
 											<!--begin::Statistics-->
 											<div class="mb-10 px-9">
 												<!--begin::Statistics-->
@@ -190,7 +190,7 @@
 <script src="https://cdn.amcharts.com/lib/5/geodata/usaLow.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZonesLow.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZoneAreasLow.js"></script>
-<script src="{{ url('assets/plugins/custom/datatables/datatables.bundle.js ') }}"></script>
+<script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js ') }}"></script>
 <script src="//cdn.amcharts.com/lib/5/themes/Responsive.js"></script>
 <!--end::Vendors Javascript-->
 <!--begin::Custom Javascript(used for this page only)-->
