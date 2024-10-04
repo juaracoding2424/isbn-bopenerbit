@@ -154,6 +154,7 @@
 					<th width="150px">ISBN</th>
 					<th width="250px">Judul</th>
                     <th width="150px">Jenis Terbitan</th>
+                    <th width="100px">Sumber Data</th>
 					<th width="200px">Kepengarangan</th>
 					<th width="100px">Bulan/Tahun Terbit</th>
 					<th width="150px">Tanggal Permohonan</th>
