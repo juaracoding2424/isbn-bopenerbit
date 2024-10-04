@@ -168,6 +168,7 @@
 										<th class="min-w-200px">Judul</th>
 										<th class="min-w-200px">Kepengarangan</th>
 										<th class="min-w-200px">Bulan/Tahun Terbit</th>
+										<th class="min-w-100px">Link Buku</th>
 										<th class="min-w-200px">Tanggal Permohonan</th>
 										<th class="min-w-200px">Tanggal Verifikasi</th>
 										<th class="min-w-200px">Penyerahan Perpusnas</th>
@@ -228,7 +229,7 @@
 		let link= "{{url('/penerbit/isbn/data/generate-barcode/') }}" + '/'+  id;
 		Swal.fire({
                     html: `<div><iFrame src='`+link+`' height='100px' width='280px' id='iBarcode'></iFrame> 
-							<button class='btn btn-primary' onclick='barcodeSave()'>Simpan Barcode</button>
+							<span class='btn btn-light-info p-2 m-0 fs-8' onclick='barcodeSave()'>Simpan Barcode</span>
 							</div>`,
                     //showCancelButton: !0,
                     buttonsStyling: !1,

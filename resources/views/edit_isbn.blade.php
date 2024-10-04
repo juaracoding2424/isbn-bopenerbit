@@ -158,7 +158,7 @@ height: 100vh !important;
                                                     <!--begin::Col-->
                                                     <div class="col-md-4 col-lg-12 col-xxl-4 hoverEvent">
                                                         <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-2"
                                                             data-kt-button="true">
                                                             <!--begin::Radio button-->
                                                             <span
@@ -177,7 +177,7 @@ height: 100vh !important;
                                                     <!--begin::Col-->
                                                     <div class="col-md-4 col-lg-12 col-xxl-4 hoverEvent">
                                                         <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-2"
                                                             data-kt-button="true">
                                                             <!--begin::Radio button-->
                                                             <span
@@ -196,7 +196,7 @@ height: 100vh !important;
 													<!--begin::Col-->
                                                     <div class="col-md-4 col-lg-12 col-xxl-4 hoverEvent">
                                                         <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-2"
                                                             data-kt-button="true">
                                                             <!--begin::Radio button-->
                                                             <span
@@ -215,7 +215,7 @@ height: 100vh !important;
 													<!--begin::Col-->
                                                     <div class="col-md-4 col-lg-12 col-xxl-4 hoverEvent">
                                                         <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-2"
                                                             data-kt-button="true">
                                                             <!--begin::Radio button-->
                                                             <span
@@ -234,7 +234,7 @@ height: 100vh !important;
                                                     <!--begin::Col-->
                                                     <div class="col-md-4 col-lg-12 col-xxl-4 hoverEvent">
                                                         <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-2"
                                                             data-kt-button="true">
                                                             <!--begin::Radio button-->
                                                             <span
@@ -277,7 +277,7 @@ height: 100vh !important;
                                                     <!--begin::Col-->
                                                     <div class="col-md-4 col-lg-12 col-xxl-4">
                                                         <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-2"
                                                             data-kt-button="true">
                                                             <!--begin::Radio button-->
                                                             <span
@@ -295,7 +295,7 @@ height: 100vh !important;
                                                     <!--begin::Col-->
                                                     <div class="col-md-4 col-lg-12 col-xxl-4">
                                                         <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-2"
                                                             data-kt-button="true">
                                                             <!--begin::Radio button-->
                                                             <span
@@ -313,7 +313,7 @@ height: 100vh !important;
 													<!--begin::Col-->
                                                     <div class="col-md-4 col-lg-12 col-xxl-4">
                                                         <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-2"
                                                             data-kt-button="true">
                                                             <!--begin::Radio button-->
                                                             <span
@@ -355,7 +355,7 @@ height: 100vh !important;
                                                     <!--begin::Col-->
                                                     <div class="col-md-6 col-lg-12 col-xxl-6">
                                                         <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-2"
                                                             data-kt-button="true">
                                                             <!--begin::Radio button-->
                                                             <span
@@ -373,7 +373,7 @@ height: 100vh !important;
                                                     <!--begin::Col-->
                                                     <div class="col-md-6 col-lg-12 col-xxl-6">
                                                         <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-2"
                                                             data-kt-button="true">
                                                             <!--begin::Radio button-->
                                                             <span
@@ -414,7 +414,7 @@ height: 100vh !important;
                                                     <!--begin::Col-->
                                                     <div class="col-md-6 col-lg-12 col-xxl-6">
                                                         <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-2"
                                                             data-kt-button="true">
                                                             <!--begin::Radio button-->
                                                             <span
@@ -432,7 +432,7 @@ height: 100vh !important;
                                                     <!--begin::Col-->
                                                     <div class="col-md-6 col-lg-12 col-xxl-6">
                                                         <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-2"
                                                             data-kt-button="true">
                                                             <!--begin::Radio button-->
                                                             <span
@@ -473,7 +473,7 @@ height: 100vh !important;
                                                     <!--begin::Col-->
                                                     <div class="col-md-4 col-lg-12 col-xxl-4">
                                                         <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-2"
                                                             data-kt-button="true">
                                                             <!--begin::Radio button-->
                                                             <span
@@ -491,7 +491,7 @@ height: 100vh !important;
                                                     <!--begin::Col-->
                                                     <div class="col-md-4 col-lg-12 col-xxl-4">
                                                         <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-2"
                                                             data-kt-button="true">
                                                             <!--begin::Radio button-->
                                                             <span
@@ -509,7 +509,7 @@ height: 100vh !important;
 													<!--begin::Col-->
                                                     <div class="col-md-4 col-lg-12 col-xxl-4">
                                                         <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-2"
                                                             data-kt-button="true">
                                                             <!--begin::Radio button-->
                                                             <span
@@ -548,7 +548,7 @@ height: 100vh !important;
                                                     <!--begin::Col-->
                                                     <div class="col-md-6 col-lg-12 col-xxl-6">
                                                         <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-2"
                                                             data-kt-button="true">
                                                             <!--begin::Radio button-->
                                                             <span
@@ -566,7 +566,7 @@ height: 100vh !important;
                                                     <!--begin::Col-->
                                                     <div class="col-md-6 col-lg-12 col-xxl-6">
                                                         <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-2"
                                                             data-kt-button="true">
                                                             <!--begin::Radio button-->
                                                             <span
@@ -778,7 +778,7 @@ height: 100vh !important;
                                                     <!--begin::Col-->
                                                     <div class="col-md-6 col-lg-12 col-xxl-6">
                                                         <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-2"
                                                             data-kt-button="true">
                                                             <!--begin::Radio button-->
                                                             <span
@@ -799,7 +799,7 @@ height: 100vh !important;
                                                     <!--begin::Col-->
                                                     <div class="col-md-6 col-lg-12 col-xxl-6">
                                                         <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-6"
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-2"
                                                             data-kt-button="true">
                                                             <!--begin::Radio button-->
                                                             <span

@@ -41,7 +41,7 @@ class IsbnDataController extends Controller
         $end = $start + $length;
 
         $sql = "SELECT pi.penerbit_terbitan_id, ir.mohon_date, pt.author, pt.kepeng, pi.prefix_element, pi.publisher_element,pi.item_element, pi.check_digit,
-                pi.RECEIVED_DATE_KCKR, pi.RECEIVED_DATE_PROV,pt.VALIDATION_DATE, pi.keterangan_jilid, pi.id as piid,
+                pi.RECEIVED_DATE_KCKR, pi.RECEIVED_DATE_PROV,pt.VALIDATION_DATE, pi.keterangan_jilid, pi.id as piid, pi.link_buku,
                 pi.isbn_no, pt.bulan_terbit, pt.tahun_terbit,
 				ir.id as isbn_resi_id, ir.source, ir.jenis,
                 pt.title,  pt.jml_jilid, pt.jilid_volume, pi.ACCEPTDATE, pt.call_number, pt.sinopsis, pt.subjek,
@@ -129,11 +129,12 @@ class IsbnDataController extends Controller
                 $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="badge badge-success h-20px m-1" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : "";//'KDT Belum Ada';
                 $response['data'][] = [
                     $nomor,
-                    '<a class="badge badge-info h-30px m-1" onclick="cetakBarcode('.$val['PIID'].')">Barcode</a>' .$kdt, //<a class="badge badge-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',
+                    '<a class="btn btn-light-info fs-8 p-2 m-0" onclick="cetakBarcode('.$val['PIID'].')">Barcode</a>' .$kdt, //<a class="badge badge-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',
                     $val['PREFIX_ELEMENT'] .'-' . $val['PUBLISHER_ELEMENT'] . '-' . $val['ITEM_ELEMENT'] . '-' . $val['CHECK_DIGIT']  . '<br/>' . $val['KETERANGAN_JILID'],
                     $val['TITLE'] . "<br/>$jenis $source",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
                     $val['BULAN_TERBIT'] .' ' . $val['TAHUN_TERBIT'],
+                    $val['LINK_BUKU'],
                     $val['MOHON_DATE'],
                     $val['ACCEPTDATE'],
                     $val['RECEIVED_DATE_KCKR'] ? $val['RECEIVED_DATE_KCKR'] : '<a class="badge badge-danger wrap" href="https://edeposit.perpusnas.go.id/login" target="_blank">Serahkan ke Perpusnas</a>',
