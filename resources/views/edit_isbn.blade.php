@@ -955,8 +955,6 @@ height: 100vh !important;
                                     <!--begin::Actions-->
                                     <div class="card-footer d-flex justify-content-end py-6 px-9">
                                         <button type="submit" class="btn btn-primary" id="btnSave">Simpan</button>
-                                        <button type="submit" class="btn btn-success ms-3" id="btnSaveNext">Simpan dan
-                                            Selanjutnya</button>
                                     </div>
                                     <!--end::Actions-->
                                 </form>
