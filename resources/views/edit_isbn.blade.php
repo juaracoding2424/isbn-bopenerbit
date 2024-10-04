@@ -61,8 +61,8 @@ height: 100vh !important;
                                             class="path1"></span><span class="path2"></span></i>
                                     <div class="rounded border p-10  d-flex flex-column">
                                         <div class="d-flex flex-column">
-                                            <h2 class="mb-1 text-danger">Detail masalah</h2>
-                                                <span>{!! $masalah["Data"]["Items"][0]["ISI"] !!}</span>
+                                            <h2 class="mb-1 text-danger">Detail masalah</h2><small>{!! $masalah["Data"]["Items"][0]["CREATEDATE"] !!}</small>
+                                                <p>{!! $masalah["Data"]["Items"][0]["ISI"] !!}</p>
                                         </div>
                                     </div>
                                 </div>
