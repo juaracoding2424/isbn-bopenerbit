@@ -30,7 +30,7 @@ class ReportController extends Controller
 				ir.id as isbn_resi_id, ir.source, ir.jenis, pt.title,  pt.jml_jilid, pt.jilid_volume, pi.ACCEPTDATE, pt.call_number, pt.sinopsis, pt.subjek,
                 pt.is_kdt_valid
                 FROM penerbit_isbn pi
-                JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
+                LEFT JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
                 LEFT JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id
                 WHERE pi.PENERBIT_ID =$id ";
 
@@ -135,9 +135,10 @@ class ReportController extends Controller
         }
         $queryData = [];
         if($request->input('action') == 'view' || $request->input('action') == 'pdf' || $request->input('action') == 'xls'){
-            for($i = 0; $i < round($totalData/$length); $i++){
+            for($i = 0; $i < ceil($totalData/$length); $i++){
                 $start = $i * $length;
                 $end = $start + $length;
+                
                 $res = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql ) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
                 $queryData = array_merge($queryData, $res);
             }
@@ -325,7 +326,7 @@ class ReportController extends Controller
         }
         $queryData = [];
         if($request->input('action') == 'view' || $request->input('action') == 'pdf' || $request->input('action') == 'xls'){
-        for($i = 0; $i < round($totalData/$length); $i++){
+        for($i = 0; $i < ceil($totalData/$length); $i++){
                 $start = $i * $length;
                 $end = $start + $length;
                 $res = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql ) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
@@ -334,7 +335,6 @@ class ReportController extends Controller
         } else {
             $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql ) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
         }
-        
         $totalFiltered = kurl("get","getlistraw", "", "SELECT COUNT(*) JUMLAH FROM ($sqlFiltered )", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         
         $response['data'] = [];

@@ -368,7 +368,7 @@
 			date_end.val('');
 
 			if(year_start.val() && year_end.val()) {
-				$('#iFrameReport').attr('src', "{{ url('/penerbit/report/isbn/show-data?action=datatable&param=tahunan&date_start=') }}" + year_start.val() + 
+				$('#iFrameReport').attr('src', "{{ url('/penerbit/report/isbn/show-data?action=datatable') }}" + "&param=tahunan&date_start=" + year_start.val() + 
 				"&date_end=" + year_end.val() + '&jenisTerbitan=' +jenisTerbitan + '&=kdtValid=' + kdtValid + '&statusKckr=' + statusKckr + 
 				'&sumber=' + sumber + '&advSearch=' + advSearchString + '&periode=tahunan');
 				set_size(1000);
@@ -382,7 +382,7 @@
 			date_end.val('');
 
 			if(month_start.val() && year_start2.val() && month_end.val() && year_end2.val()) {
-				$('#iFrameReport').attr('src', "{{ url('/penerbit/report/isbn/show-data?action=datatable&param=bulanan&date_start=') }} " + year_start2.val() +'-'+month_start.val() + 
+				$('#iFrameReport').attr('src', "{{ url('/penerbit/report/isbn/show-data?action=datatable') }}" + "&param=bulanan&date_start=" + year_start2.val() +'-'+month_start.val() + 
 				"&date_end=" + year_end2.val() +'-'+ month_end.val()  + '&jenisTerbitan=' +jenisTerbitan + '&=kdtValid=' + kdtValid + 
 				'&statusKckr=' + statusKckr + '&sumber=' + sumber + '&advSearch=' + advSearchString + '&periode=bulanan');
 				set_size(1000);
@@ -399,7 +399,7 @@
 
 			if(date_start.val() && date_end.val()) {
 				//loadDataTable(param);
-				$('#iFrameReport').attr('src', "{{ url('/penerbit/report/isbn/show-data?action=datatable&param=tahunan&date_start=') }}" + date_start.val() + "&date_end=" + date_end.val() +
+				$('#iFrameReport').attr('src', "{{ url('/penerbit/report/isbn/show-data?action=datatable') }}" + "&param=tahunan&date_start=" + date_start.val() + "&date_end=" + date_end.val() +
 				'&jenisTerbitan=' +jenisTerbitan + '&=kdtValid=' + kdtValid + '&statusKckr=' + statusKckr + 
 				'&sumber=' + sumber + '&advSearch=' + advSearchString + '&periode=harian');	
 				set_size(1000);
