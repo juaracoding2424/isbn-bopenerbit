@@ -129,7 +129,7 @@ class PermohonanController extends Controller
                 $id = $res['Data']['ID'];
                 //INSERT HISTORY PENERBIT TERBITAN
                 $history = [
-                    [ "name" => "TABLENAME", "Value"=> "PENERBI_TERBITAN"],
+                    [ "name" => "TABLENAME", "Value"=> "PENERBIT_TERBITAN"],
                     [ "name" => "IDREF", "Value"=> $id],
                     [ "name" => "ACTION" , "Value"=> "Add"],
                     //[ "name" => "ACTIONDATE", "Value"=> now()->addHours(7)->format('Y-m-d H:i:s') ],
