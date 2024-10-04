@@ -255,5 +255,35 @@ class AuthController extends Controller
             ], 200);
         }
     }
+    public function redirectFromLandingPage()
+    {
+        $pesan = request('pesan');
+        $status = request('status');
+        $action = request('action');
+        $token = request('token'); 
 
+        if (session('penerbit') == null) {
+            if($token == config('app.token_landing_page')) {
+                return view('sign-in', [
+                    'pesan' => $pesan,
+                    'status' => $status,
+                    'action' => $action
+                ]);
+            } else {
+                return view('sign-in', [
+                    'pesan' => "Server error!",
+                    'status' => 500,
+                    'action' => 'registrasi-gagal'
+                ]);
+            }
+        } else {
+            return redirect('penerbit/dashboard');
+        }
+        /* Method=post
+        http://demo321.online:8222/page/redirect?pesan=isi pesan yg akan ditampilkan&status=&action=&token=xYjJgfpor3d87dfcvoklwas
+
+        Status bisa diisi dengan codestatus request: 200,404,500, dst
+        action: registrasi-success, registrasi-gagal 
+        */
+    }
 }

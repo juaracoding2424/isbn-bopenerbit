@@ -28,6 +28,10 @@ return Application::configure(basePath: dirname(__DIR__))
             //'penerbit' => \App\Http\Middleware\PenerbitMiddleware::class,
             //'guest'    => \App\Http\Middleware\RedirectIfAuthenticated::class,
         ]);*/
+        $middleware->validateCsrfTokens(except: [
+            'page/redirect' // <-- exclude this route
+        ]);
+
         $middleware->append(\App\Http\Middleware\RedirectIfAuthenticated::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {

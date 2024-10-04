@@ -60,6 +60,28 @@
 						<div class="d-flex flex-center flex-column align-items-stretch h-lg-100 w-md-400px">
 							<!--begin::Wrapper-->
 							<div class="d-flex flex-center flex-column flex-column-fluid pb-15 pb-lg-20">
+							@if(isset($status))
+								@if($status == 200)
+								<div class="alert alert-success d-flex align-items-center p-2 mb-5">
+								<i class="ki-solid ki-check fs-2hx text-success me-0"></i>
+									<div class="rounded  p-5  d-flex flex-column">
+										<div class="d-flex flex-column">
+											<h2 class="mb-1 text-success">{{$pesan}} </h2>										
+										</div>
+									</div>
+								</div>
+								@endif
+								@if($status == 500)
+								<div class="alert alert-danger d-flex align-items-center p-2 mb-5">
+								<i class="ki-solid ki-shield-cross fs-2hx text-danger me-0"></i>
+										<div class="rounded p-2  d-flex flex-column">
+											<div class="d-flex flex-column">
+												<h2 class="mb-1 text-danger">{{$pesan}} </h2>										
+											</div>
+										</div>
+									</div>
+								@endif
+							@endif
 								<!--begin::Form-->
 								<form class="form w-100" id="signin_form" action="#">
 								@csrf
