@@ -146,7 +146,7 @@
 	<footer>
 		<table style="font-size:x-small;">
 			<tr>
-				<td align="right" style="vertical-align: bottom;">Created at {{ date('d-M-Y H:m:s')}}</td>
+				<td align="right" style="vertical-align: bottom;">Dikirim pada {{ now()->addHours(7)->format('Y-m-d H:i:s') }}</td>
 			</tr>
 		</table>
 	</footer>

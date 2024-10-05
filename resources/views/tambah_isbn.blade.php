@@ -133,7 +133,7 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                        <div class="row mb-6">
+                                        <div class="row mb-6" id="row-isbnjilid">
                                             <!--begin::Label-->
                                             <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
                                                 <span>ISBN lanjutan</span>
@@ -1343,7 +1343,7 @@
             $('#jml_hlm').val(jml_jilid);
             $('#labelJumlahHalaman').text('Jumlah Jilid');
             $('#labelKetJumlahHalaman').text('Jilid');
-            $('input[type="radio"][name="status"]').prop('disabled', true);
+            //$('input[type="radio"][name="status"]').prop('disabled', true);
             $('input[type=radio][name="status"][value="jilid"]').prop('checked', true);           
             $('#edisi').val(res['detail']['EDISI']);
             $('#seri').val(res['detail']['SERI']);
@@ -1382,6 +1382,8 @@
             $('#jml_hlm').attr("type", "number");
             $('#jml_hlm').val(0);
             $('#jml_hlm').removeAttr("disabled");
+            $('#row-isbnjilid').hide();
+            $('#select2-isbn-jilid').val('').trigger('change');
         } else {
             $('#judul_buku_1').css('display', 'block');
             $('#btnTambahJilid').css('display', 'block');
@@ -1390,8 +1392,10 @@
             $('#jml_hlm').attr("type", "text");
             $('#jml_hlm').val(jumlah_buku + " jil");
             $('#jml_hlm').attr("disabled", "disabled");
+            $('#row-isbnjilid').show();
         }
     });
+    $('#row-isbnjilid').hide();
     $('#judul_buku_1').css('display', 'none');
     $('#btnTambahJilid').css('display', 'none');
     var kepengarangan = 1;

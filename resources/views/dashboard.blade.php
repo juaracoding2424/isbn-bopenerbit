@@ -178,7 +178,7 @@
 @stop
 @section('script')
 <!--begin::Vendors Javascript(used for this page only)-->
-<script src="{{ url('assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') }}"></script>
+<script src="{{ asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') }}"></script>
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
@@ -194,8 +194,8 @@
 <script src="//cdn.amcharts.com/lib/5/themes/Responsive.js"></script>
 <!--end::Vendors Javascript-->
 <!--begin::Custom Javascript(used for this page only)-->
-<script src="{{ url('assets/js/widgets.bundle.js') }}"></script>
-<script src="{{ url('assets/js/custom/widgets.js') }}"></script>
+<script src="{{ asset('assets/js/widgets.bundle.js') }}"></script>
+<script src="{{ asset('assets/js/custom/widgets.js') }}"></script>
 <!--end::Custom Javascript-->
 <!--end::Javascript-->
 </body>
@@ -340,6 +340,9 @@
 					$('#isbn_year').append('<div class="menu-item px-3"><a href="#chart_isbn_month" class="menu-link px-3"onclick="changeChart('+response[i]['YEAR']+')">'+response[i]['YEAR']+'</a></div>');
 				}
 				let lenRes = response.length - 1;
+				if(response[lenRes]['YEAR'] == ''){
+					lenRes -= 1;
+				}
 				changeChart(response[lenRes]['YEAR']);
             },
             error: function() {
