@@ -168,7 +168,7 @@ class IsbnDataController extends Controller
     }
 
     public function getKDT($id){
-        $query = "SELECT TITLE || (CASE WHEN LENGTH(TRIM(KEPENG)) > 0 THEN (' / ' || TRIM(KEPENG) || '.') ELSE '' END) || 
+        $query = "SELECT TITLE || (CASE WHEN LENGTH(TRIM(TRANSLATE(KEPENG using char_cs)))  > 0 THEN (' / ' || TRIM(TRANSLATE(KEPENG using char_cs))  || '.') ELSE '' END) || 
         (CASE WHEN LENGTH(TRIM(EDISI)) > 0 THEN (' -- ' || TRIM(EDISI) || '.') ELSE '' END)|| 
         (CASE WHEN LENGTH(TRIM((CASE WHEN LENGTH(TRIM(TEMPAT_TERBIT)) > 0 THEN (' -- ' || TRIM(TEMPAT_TERBIT) || ' : ' || PENERBIT.NAME || 
         (CASE WHEN LENGTH(TRIM(TAHUN_TERBIT)) > 0 THEN (', ' || TRIM(TAHUN_TERBIT)) ELSE (' -- ' || PENERBIT.NAME || 
