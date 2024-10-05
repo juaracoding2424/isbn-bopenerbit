@@ -127,7 +127,7 @@ return [
     'inlis_api_token' => env('INLIS_API_TOKEN'),
     'expires' => env('TOKEN_EXPIRES', '+30 days'),
 
-    'pendaftaran' => env('APP_PENDAFTARAN'),
+    'fo' => env('APP_FO'),
     'isbn_file_location' => env('ISBN_FILE_LOCATION', 'http://demo321.online/ISBN_Back_Office/'),
     'token_landing_page' => env('TOKEN_LANDING_PAGE', 'xYjJgfpor3d87dfcvoklwas'),
 ];

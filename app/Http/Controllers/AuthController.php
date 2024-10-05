@@ -112,7 +112,7 @@ class AuthController extends Controller
     public function resetPasswordSend()
     {
         $email = request('email');
-        $queryData = kurl("get", "getlistraw", "", "SELECT * FROM PENERBIT WHERE EMAIL1='$email' OR EMAIL2 = '$email'", 'sql', '')["Data"]["Items"];
+        $queryData = kurl("get", "getlistraw", "", "SELECT * FROM PENERBIT WHERE UPPER(EMAIL1)='" .strtoupper($email)."' OR UPPER(EMAIL2) = '". strtoupper($email) . "'", 'sql', '')["Data"]["Items"];
         if (!isset($queryData[0])) {
             return response()->json([
                 'status' => 'Failed',
@@ -140,12 +140,12 @@ class AuthController extends Controller
             Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=HISTORYDATA&ListAddItem=" . urlencode(json_encode($history)));
             $params = [
                 ["name" => "NamaPenerbit", "Value" => $queryData[0]['NAME']],
-                ["name" => "AlamatEmailPenerbit", "Value" => $email],
+                ["name" => "AlamatEmailPenerbit", "Value" => strtolower($email)],
                 ["name" => "TautanResetPassword", "Value" => "<a href='" . url("/reset-password-next?reset-token=$resetToken") . "' style='color: #fff !important;
                     border-color:  #1b84ff !important;  background-color:  #1b84ff !important;padding: 10px; border-radius: 5px;'>LINK RESET PASSWORD</a>", ],
                 ["name" => "EmailDukungan", "Value" => "isbn@mail.perpusnas.go.id"],
             ];
-            $res = sendMail(2, $params, $email, 'PERMOHONAN RESET PASSWORD [#' . date('Y-m-d H:i:s') . ']');
+            $res = sendMail(2, $params, $email, 'PERMOHONAN RESET PASSWORD [#' . now()->addHours(7)->format('Y-m-d H:i:s') . ']');
 
             return response()->json([
                 'status' => 'Success',
@@ -264,13 +264,13 @@ class AuthController extends Controller
 
         if (session('penerbit') == null) {
             if($token == config('app.token_landing_page')) {
-                return view('sign-in', [
+                return redirect('login')->with([
                     'pesan' => $pesan,
                     'status' => $status,
                     'action' => $action
                 ]);
             } else {
-                return view('sign-in', [
+                return redirect('login')->with([
                     'pesan' => "Server error!",
                     'status' => 500,
                     'action' => 'registrasi-gagal'

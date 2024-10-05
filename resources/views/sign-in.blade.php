@@ -60,23 +60,23 @@
 						<div class="d-flex flex-center flex-column align-items-stretch h-lg-100 w-md-400px">
 							<!--begin::Wrapper-->
 							<div class="d-flex flex-center flex-column flex-column-fluid pb-15 pb-lg-20">
-							@if(isset($status))
-								@if($status == 200)
+							@if(session('status') != null)
+								@if(session('status') == 200)
 								<div class="alert alert-success d-flex align-items-center p-2 mb-5">
 								<i class="ki-solid ki-check fs-2hx text-success me-0"></i>
 									<div class="rounded  p-5  d-flex flex-column">
 										<div class="d-flex flex-column">
-											<h2 class="mb-1 text-success">{{$pesan}} </h2>										
+											<h2 class="mb-1 text-success">{{session('pesan')}} </h2>										
 										</div>
 									</div>
 								</div>
 								@endif
-								@if($status == 500)
+								@if(session('status') == 500)
 								<div class="alert alert-danger d-flex align-items-center p-2 mb-5">
 								<i class="ki-solid ki-shield-cross fs-2hx text-danger me-0"></i>
 										<div class="rounded p-2  d-flex flex-column">
 											<div class="d-flex flex-column">
-												<h2 class="mb-1 text-danger">{{$pesan}} </h2>										
+												<h2 class="mb-1 text-danger">{{session('pesan')}} </h2>										
 											</div>
 										</div>
 									</div>
@@ -131,7 +131,7 @@
 									<!--end::Submit button-->
 									<!--begin::Sign up-->
 									<div class="text-gray-500 text-center fw-semibold fs-6">Belum memiliki akun? 
-									<a href="{{config('app.pendaftaran')}}" class="link-primary">Pendaftaran penerbit</a></div>
+									<a href="{{config('app.fo')}}pendaftaran_online" class="link-primary">Pendaftaran penerbit</a></div>
 									<!--end::Sign up-->
 								</form>
 								<!--end::Form-->
@@ -141,9 +141,9 @@
 							<div class="d-flex flex-stack">
 								<!--begin::Links-->
 								<div class="d-flex fw-semibold text-primary fs-base gap-5">
-									<a href="pages/team.html" target="_blank">Terms</a>
-									<a href="pages/pricing/column.html" target="_blank">Plans</a>
-									<a href="pages/contact.html" target="_blank">Contact Us</a>
+									<a href="{{ config('app.fo')}}detail_fnq" target="_blank">FAQ</a>
+									<a href="{{ config('app.fo')}}bip" target="_blank">BIP</a>
+									<a href="{{ config('app.fo')}}surat" target="_blank">SURAT</a>
 								</div>
 								<!--end::Links-->
 							</div>
