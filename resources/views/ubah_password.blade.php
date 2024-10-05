@@ -106,8 +106,8 @@
 									message: 'Password baru minimal terdiri dari 8 karakter'
 								},
 								regexp: {
-									regexp: /^[a-zA-Z0-9_]+$/,
-									message: 'Password hanya dapat berisi huruf, angka dan underscore'
+									regexp: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/,
+									message: 'Password wajib terdiri dari huruf besar, huruf kecil, dan angka'
 								}
                             }
                         },
@@ -127,8 +127,8 @@
 									message: 'Password baru minimal terdiri dari 8 karakter'
 								},
 								regexp: {
-									regexp: /^[a-zA-Z0-9_]+$/,
-									message: 'Password hanya dapat berisi huruf, angka dan underscore'
+									regexp: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/,
+									message: 'Password wajib terdiri dari huruf besar, huruf kecil, dan angka'
 								}
                             }
                         }

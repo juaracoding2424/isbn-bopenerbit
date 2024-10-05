@@ -39,13 +39,16 @@ class ChangePasswordController extends Controller
                         'message' => "Password baru tidak boleh sama dengan password lama!",
                 ], 500);
             } else {
-                $encryptedPassword = urlencode(getMd5Hash($request->input('new_password')));
-                $encryptedPasswordOld = urlencode(getMd5Hash($request->input('current_password')));
-                $encryptedPassword2 = urlencode(rijndaelEncryptPassword($request->input('new_password')));
+                \Log::info($request->all());
+                $encryptedPassword = getMd5Hash(trim($request->input('new_password')));
+                $encryptedPasswordOld = getMd5Hash(trim($request->input('current_password')));
+                $encryptedPasswordOld2 = rijndaelEncryptPassword(trim($request->input('current_password')));
+                $encryptedPassword2 = rijndaelEncryptPassword(trim($request->input('new_password')));
                 $penerbit = session('penerbit');
                 $id = session('penerbit')['ID'];
                 if($penerbit['STATUS'] == 'valid') {
-                    $old = Http::post(config('app.inlis_api_url') ."?token=". config('app.inlis_api_token') ."&op=getlistraw&sql=". urlencode("SELECT * FROM PENERBIT WHERE ID='".$id."' AND ISBN_PASSWORD1='$encryptedPasswordOld'"))["Data"]["Items"];
+                    $old = Http::post(config('app.inlis_api_url') ."?token=". config('app.inlis_api_token') ."&op=getlistraw&sql=". urlencode("SELECT * FROM PENERBIT WHERE ID='".$id."' AND (ISBN_PASSWORD1='$encryptedPasswordOld' OR ISBN_PASSWORD2='$encryptedPasswordOld2' OR ISBN_PASSWORD='$encryptedPasswordOld')"))["Data"]["Items"];
+                    \Log::info(config('app.inlis_api_url') ."?token=". config('app.inlis_api_token') ."&op=getlistraw&sql=". urlencode("SELECT * FROM PENERBIT WHERE ID='".$id."' AND (ISBN_PASSWORD1='$encryptedPasswordOld' OR ISBN_PASSWORD2='$encryptedPasswordOld2' OR ISBN_PASSWORD='$encryptedPasswordOld')"));
                     if(isset($old[0])){
                         
                         $updated = [
