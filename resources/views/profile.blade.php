@@ -685,6 +685,13 @@
                                 }
                             }
                         },
+						nama_gedung:{
+							validators: {
+                                notEmpty: {
+                                    message: "Nama gedung diperlukan. Tidak boleh kosong!"
+                                }
+                            }
+						},
 						alamat_penerbit: {
                             validators: {
                                 notEmpty: {

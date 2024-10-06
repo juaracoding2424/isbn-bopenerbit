@@ -1,9 +1,12 @@
 @extends('layouts.index')
 @section('content')
 <style>
-    swal-height {
-height: 100vh !important;
+.swal-height {
+    height: 100vh !important;
 }
+.invalid-feedback {
+        font-weight: 600 !important
+    }
 </style>
 <div class="d-flex flex-column flex-column-fluid">
     <div id="kt_app_toolbar" class="app-toolbar pt-7 pt-lg-10">
@@ -141,7 +144,7 @@ height: 100vh !important;
 										<!--begin::Input group-->
                                         <div class="row mb-8">
                                             <!--begin::Col-->
-                                            <div class="col-xl-3">
+                                            <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Media Terbitan ISBN </span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
                                                         title="Pilih jenis media terbitan ISBN">
@@ -151,7 +154,7 @@ height: 100vh !important;
                                             </div>
                                             <!--end::Col-->
                                             <!--begin::Col-->
-                                            <div class="col-xl-9">
+                                            <div class="col-lg-9">
                                                 <!--begin::Row-->
                                                 <div class="row g-9" data-kt-buttons="true"
                                                     data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
@@ -260,7 +263,7 @@ height: 100vh !important;
                                         <!--begin::Input group-->
                                         <div class="row mb-8">
                                             <!--begin::Col-->
-                                            <div class="col-xl-3">
+                                            <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Kelompok Pembaca</span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
                                                         title="Pilih kelompok pembaca">
@@ -270,7 +273,7 @@ height: 100vh !important;
                                             </div>
                                             <!--end::Col-->
                                             <!--begin::Col-->
-                                            <div class="col-xl-9">
+                                            <div class="col-lg-9">
                                                 <!--begin::Row-->
                                                 <div class="row g-9" data-kt-buttons="true"
                                                     data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
@@ -338,7 +341,7 @@ height: 100vh !important;
                                         <!--begin::Input group-->
                                          <div class="row mb-8">
                                             <!--begin::Col-->
-                                            <div class="col-xl-3">
+                                            <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Jenis Pustaka</span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
                                                         title="Pilih jenis pustaka">
@@ -348,7 +351,7 @@ height: 100vh !important;
                                             </div>
                                             <!--end::Col-->
                                             <!--begin::Col-->
-                                            <div class="col-xl-9">
+                                            <div class="col-lg-9">
                                                 <!--begin::Row-->
                                                 <div class="row g-9" data-kt-buttons="true"
                                                     data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
@@ -397,7 +400,7 @@ height: 100vh !important;
                                         <!--begin::Input group-->
                                         <div class="row mb-8">
                                             <!--begin::Col-->
-                                            <div class="col-xl-3">
+                                            <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Kategori Jenis Pustaka</span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
                                                         title="Pilih jenis pustaka">
@@ -407,7 +410,7 @@ height: 100vh !important;
                                             </div>
                                             <!--end::Col-->
                                             <!--begin::Col-->
-                                            <div class="col-xl-9">
+                                            <div class="col-lg-9">
                                                 <!--begin::Row-->
                                                 <div class="row g-9" data-kt-buttons="true"
                                                     data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
@@ -456,7 +459,7 @@ height: 100vh !important;
                                         <!--begin::Input group-->
                                         <div class="row mb-8">
                                             <!--begin::Col-->
-                                            <div class="col-xl-3">
+                                            <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Golongan Terbitan ISBN </span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
                                                         title="Pilih golongan terbitan ISBN">
@@ -466,7 +469,7 @@ height: 100vh !important;
                                             </div>
                                             <!--end::Col-->
                                             <!--begin::Col-->
-                                            <div class="col-xl-9">
+                                            <div class="col-lg-9">
                                                 <!--begin::Row-->
                                                 <div class="row g-9" data-kt-buttons="true"
                                                     data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
@@ -531,7 +534,7 @@ height: 100vh !important;
                                         <!--begin::Input group-->
                                         <div class="row mb-8">
                                             <!--begin::Col-->
-                                            <div class="col-xl-3">
+                                            <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Apakah termasuk penelitian? </span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
                                                         title="Pilih golongan terbitan ISBN">
@@ -541,7 +544,7 @@ height: 100vh !important;
                                             </div>
                                             <!--end::Col-->
                                             <!--begin::Col-->
-                                            <div class="col-xl-9">
+                                            <div class="col-lg-9">
                                                 <!--begin::Row-->
                                                 <div class="row g-9" data-kt-buttons="true"
                                                     data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
@@ -760,7 +763,7 @@ height: 100vh !important;
                                         <!--begin::Input group-->
                                         <div class="row mb-8">
                                             <!--begin::Col-->
-                                            <div class="col-xl-3">
+                                            <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Jenis
                                                         Permohonan ISBN </span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
@@ -771,7 +774,7 @@ height: 100vh !important;
                                             </div>
                                             <!--end::Col-->
                                             <!--begin::Col-->
-                                            <div class="col-xl-9">
+                                            <div class="col-lg-9">
                                                 <!--begin::Row-->
                                                 <div class="row g-9" data-kt-buttons="true"
                                                     data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
@@ -937,7 +940,7 @@ height: 100vh !important;
                                                 </label>
                                                 <!--end::Label-->
                                                 <!--begin::Col-->
-                                                <div class="col-lg-6 fv-row">
+                                                <div class="col-lg-9 fv-row">
                                                 <input type="text" name="url[]" id="url1"
                                                         class="form-control fs-8 form-control-lg form-control-solid"
                                                         placeholder="url/link buku"/>
@@ -990,7 +993,109 @@ height: 100vh !important;
         //$('#' + id).val(null);
         $('#' + id).empty().trigger('change');
     }
-
+    FormValidation.formValidation(
+			document.getElementById('form_isbn'),
+			{
+                    fields: {
+                        title: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Judul tidak boleh kosong!"
+                                },
+                                remote: {
+                                    method: 'POST',
+                                    url: "{{ url('penerbit/isbn/permohonan/check/title') }}" + "?penerbit_terbitan_id={{$detail['PENERBIT_TERBITAN_ID']}}",
+                                },
+                            }
+                        },
+                        status :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Pilih jenis permohonan ISBN! (lepas / jilid)"
+                                },
+                            }
+                        },
+                        jenis_media :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Pilih media terbitan ISBN! (cetak, pdf, epub, audio book, audio visual)"
+                                },
+                            }
+                        },
+                        jenis_kelompok :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Pilih kelompok pembaca ISBN! (anak/dewasa/semua umur)"
+                                },
+                            }
+                        },
+                        jenis_pustaka :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Pilih jenis pustaka ISBN! (fiksi/non fiksi)"
+                                },
+                            }
+                        },
+                        jenis_kategori :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Pilih kategori jenis pustaka ISBN! (terjemahan/non terjemahan)"
+                                },
+                            }
+                        },
+                        jenis_terbitan :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Pilih golongan terbitan ISBN! (swasta/perguruan tinggi/pemerintah)"
+                                },
+                            }
+                        },
+                        jenis_penelitian :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Pilih jenis penelitian! (non penelitian/penelitian)!"
+                                },
+                            }
+                        },
+                        tempat_terbit :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Anda belum mengisi tempat terbit"
+                                },
+                            }
+                        },
+                        deskripsi :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Anda belum mengisi deskripsi / sinopsis buku"
+                                },
+                                stringLength: {
+									min: 200,
+									message: 'Deskripsi buku minimal terdiri dari 200 karakter'
+								},
+                            }
+                        },
+                        'url[]' :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Anda belum mengisi URL buku"
+                                },
+                            }
+                        }
+                    },
+                    plugins: {
+                        trigger: new FormValidation.plugins.Trigger,
+                        bootstrap: new FormValidation.plugins.Bootstrap5({
+                            rowSelector: ".col-lg-9"
+                        }),
+						submitButton: new FormValidation.plugins.SubmitButton(),
+						icon: new FormValidation.plugins.Icon({
+                            valid: 'fa fa-check',
+                            invalid: 'fa fa-times',
+                            validating: 'fa fa-refresh',
+                        }),
+                    }
+            });
     var dropZoneJilid = function(jilid_ke, file_type){
         let dropzoneId = "", inputFileId ="", acceptedFiles = "", maxFilesize = 5;
         switch(file_type){
@@ -1149,7 +1254,7 @@ height: 100vh !important;
                     <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
                 </span>
             </label>
-            <div class="col-lg-6 fv-row">
+            <div class="col-lg-9 fv-row">
                 <input type="text" name="url[]" class="form-control fs-8 form-control-lg form-control-solid" id="url`+jumlah_buku+`"
                     placeholder="url/link buku" />
             </div>

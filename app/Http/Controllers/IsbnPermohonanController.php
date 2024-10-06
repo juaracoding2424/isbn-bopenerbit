@@ -799,11 +799,28 @@ class IsbnPermohonanController extends Controller
         return $arr;
     }
 
-    function checkTitle($title, $id)
+    function checkTitleExists(Request $request)
     {
-        $title = strtoupper(preg_replace("/[^a-zA-Z0-9]/", "", $title));
-        $count = kurl("get","getlistraw", "", "SELECT count(*) JML FROM PENERBIT_TERBITAN WHERE  REGEXP_REPLACE(UPPER(TITLE), '[^[:alnum:]]', '') = '$title' AND penerbit_id='$id'", 'sql', '')["Data"]["Items"][0]["JML"];
-        return intval($count);
+        $title = $request->input('title');
+        $penerbit_id = session('penerbit')['ID'];
+        if($request->input('penerbit_terbitan_id') != ""){
+            $penerbit_terbitan_id = $request->input('penerbit_terbitan_id');
+        } else {
+            $penerbit_terbitan_id = 0;
+        }
+        $count = checkTitle($title, $penerbit_id, $penerbit_terbitan_id);
+        if($count > 0){
+            return response()->json([
+                'valid' => false,
+                'message' => 'Judul buku ' . $title . ' sudah ada!'
+            ]);
+        } else {
+            return response()->json([
+                'valid' => true,
+                'message' => 'Judul buku ' . $title . ' dapat digunakan.',
+                'meta' => 'the aditional',
+            ]);
+        }
     }
 
     function deleteFile($id)

@@ -7,6 +7,9 @@
     .swal2-container .swal2-html-container{
         max-height: 700px !important;
     }
+    .invalid-feedback {
+        font-weight: 600 !important
+    }
 </style>
 <div class="d-flex flex-column flex-column-fluid">
     <div id="kt_app_toolbar" class="app-toolbar pt-7 pt-lg-10">
@@ -69,7 +72,7 @@
                                         <!--begin::Input group-->
                                         <div class="row mb-8">
                                             <!--begin::Col-->
-                                            <div class="col-xl-3">
+                                            <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Jenis
                                                         Permohonan ISBN </span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
@@ -80,7 +83,7 @@
                                             </div>
                                             <!--end::Col-->
                                             <!--begin::Col-->
-                                            <div class="col-xl-9">
+                                            <div class="col-lg-9">
                                                 <!--begin::Row-->
                                                 <div class="row g-9" data-kt-buttons="true"
                                                     data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
@@ -213,7 +216,7 @@
                                         <!--begin::Input group-->
                                         <div class="row mb-8">
                                             <!--begin::Col-->
-                                            <div class="col-xl-3">
+                                            <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Media
                                                         Terbitan ISBN </span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
@@ -224,7 +227,7 @@
                                             </div>
                                             <!--end::Col-->
                                             <!--begin::Col-->
-                                            <div class="col-xl-9">
+                                            <div class="col-lg-9">
                                                 <!--begin::Row-->
                                                 <div class="row g-9" data-kt-buttons="true"
                                                     data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
@@ -359,7 +362,7 @@
                                         <!--begin::Input group-->
                                         <div class="row mb-8">
                                             <!--begin::Col-->
-                                            <div class="col-xl-3">
+                                            <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Kelompok
                                                         Pembaca</span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
@@ -370,7 +373,7 @@
                                             </div>
                                             <!--end::Col-->
                                             <!--begin::Col-->
-                                            <div class="col-xl-9">
+                                            <div class="col-lg-9">
                                                 <!--begin::Row-->
                                                 <div class="row g-9" data-kt-buttons="true"
                                                     data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
@@ -439,7 +442,7 @@
                                         <!--begin::Input group-->
                                         <div class="row mb-8">
                                             <!--begin::Col-->
-                                            <div class="col-xl-3">
+                                            <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Jenis
                                                         Pustaka</span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
@@ -450,7 +453,7 @@
                                             </div>
                                             <!--end::Col-->
                                             <!--begin::Col-->
-                                            <div class="col-xl-9">
+                                            <div class="col-lg-9">
                                                 <!--begin::Row-->
                                                 <div class="row g-9" data-kt-buttons="true"
                                                     data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
@@ -499,7 +502,7 @@
                                         <!--begin::Input group-->
                                         <div class="row mb-8">
                                             <!--begin::Col-->
-                                            <div class="col-xl-3">
+                                            <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Kategori
                                                         Jenis Pustaka</span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
@@ -510,7 +513,7 @@
                                             </div>
                                             <!--end::Col-->
                                             <!--begin::Col-->
-                                            <div class="col-xl-9">
+                                            <div class="col-lg-9">
                                                 <!--begin::Row-->
                                                 <div class="row g-9" data-kt-buttons="true"
                                                     data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
@@ -561,7 +564,7 @@
                                         <!--begin::Input group-->
                                         <div class="row mb-8">
                                             <!--begin::Col-->
-                                            <div class="col-xl-3">
+                                            <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Golongan
                                                         Terbitan ISBN </span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
@@ -572,7 +575,7 @@
                                             </div>
                                             <!--end::Col-->
                                             <!--begin::Col-->
-                                            <div class="col-xl-9">
+                                            <div class="col-lg-9">
                                                 <!--begin::Row-->
                                                 <div class="row g-9" data-kt-buttons="true"
                                                     data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
@@ -639,7 +642,7 @@
                                         <!--begin::Input group-->
                                         <div class="row mb-8">
                                             <!--begin::Col-->
-                                            <div class="col-xl-3">
+                                            <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Apakah
                                                         termasuk penelitian? </span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
@@ -650,7 +653,7 @@
                                             </div>
                                             <!--end::Col-->
                                             <!--begin::Col-->
-                                            <div class="col-xl-9">
+                                            <div class="col-lg-9">
                                                 <!--begin::Row-->
                                                 <div class="row g-9" data-kt-buttons="true"
                                                     data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
@@ -970,7 +973,7 @@
                                                 </label>
                                                 <!--end::Label-->
                                                 <!--begin::Col-->
-                                                <div class="col-lg-6 fv-row">
+                                                <div class="col-lg-9 fv-row">
                                                     <input type="text" name="url[]"
                                                         class="form-control fs-8 form-control-lg form-control-solid"
                                                         placeholder="url/link buku" />
@@ -1031,7 +1034,85 @@
                             validators: {
                                 notEmpty: {
                                     message: "Judul tidak boleh kosong!"
-                                }
+                                },
+                                remote: {
+                                    method: 'POST',
+                                    url: "{{ url('penerbit/isbn/permohonan/check/title') }}",
+                                },
+                            }
+                        },
+                        status :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Pilih jenis permohonan ISBN! (lepas / jilid)"
+                                },
+                            }
+                        },
+                        jenis_media :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Pilih media terbitan ISBN! (cetak, pdf, epub, audio book, audio visual)"
+                                },
+                            }
+                        },
+                        jenis_kelompok :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Pilih kelompok pembaca ISBN! (anak/dewasa/semua umur)"
+                                },
+                            }
+                        },
+                        jenis_pustaka :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Pilih jenis pustaka ISBN! (fiksi/non fiksi)"
+                                },
+                            }
+                        },
+                        jenis_kategori :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Pilih kategori jenis pustaka ISBN! (terjemahan/non terjemahan)"
+                                },
+                            }
+                        },
+                        jenis_terbitan :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Pilih golongan terbitan ISBN! (swasta/perguruan tinggi/pemerintah)"
+                                },
+                            }
+                        },
+                        jenis_penelitian :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Pilih jenis penelitian! (non penelitian/penelitian)!"
+                                },
+                            }
+                        },
+                        tempat_terbit :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Anda belum mengisi tempat terbit"
+                                },
+                            }
+                        },
+                        deskripsi :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Anda belum mengisi deskripsi / sinopsis buku"
+                                },
+                                stringLength: {
+									min: 200,
+									message: 'Deskripsi buku minimal terdiri dari 200 karakter'
+								},
+                            }
+                        },
+                        'url[]' :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Anda belum mengisi URL buku"
+                                },
                             }
                         }
                     },
@@ -1226,7 +1307,7 @@
                         <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
                     </span>
                 </label>
-                <div class="col-lg-6 fv-row">
+                <div class="col-lg-9 fv-row">
                     <input type="text" name="url[]" class="form-control fs-8 form-control-lg form-control-solid"
                         placeholder="url/link buku" />
                 </div>

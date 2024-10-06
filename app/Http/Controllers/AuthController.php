@@ -91,7 +91,7 @@ class AuthController extends Controller
                     } else {
                         return response()->json([
                             'status' => 'Failed',
-                            'message' => 'Username tidak ditemukan, mohon cek kembali username dan password yang Anda masukan!',
+                            'message' => 'Username atau password salah. Mohon cek kembali username dan password yang Anda masukan!',
                         ], 500);
                     }
                 }
