@@ -112,6 +112,76 @@ class ProfilController extends Controller
         }
     }
 
+    function changeEmail(Request $request)
+    {
+        $id = session('penerbit')['ID'];
+        $ip = $request->ip();
+        //encript password
+        $encryptedPassword = urlencode(getMd5Hash($request->input('confirmemailpassword')));
+        $encryptedPassword2 = urlencode(rijndaelEncryptPassword($request->input('confirmemailpassword'))); 
+        $penerbit = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=getlistraw&sql=" . urlencode("SELECT * FROM PENERBIT WHERE ID='" . $id . "' AND (ISBN_PASSWORD1='$encryptedPassword' OR ISBN_PASSWORD2='$encryptedPassword2' OR ISBN_PASSWORD='$encryptedPassword')"));
+        if (isset($penerbit["Data"]['Items'][0])) {
+            $updated = [
+                ["name" => "EMAIL2", "Value" => $request->input('alternateemailaddress')],
+            ];
+            Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&id=$id&op=update&table=PENERBIT&ListUpdateItem=" . urlencode(json_encode($updated)));
+            
+            //INSERT HISTORY
+            $history = [
+                ["name" => "TABLENAME", "Value" => "PENERBIT"],
+                ["name" => "IDREF", "Value" => $id],
+                ["name" => "ACTION", "Value" => "Update"],
+                ["name" => "ACTIONBY", "Value" => session('penerbit')['USERNAME']],
+                ["name" => "ACTIONDATE", "Value" => now()->addHours(7)->format('Y-m-d H:i:s')],
+                ["name" => "ACTIONTERMINAL", "Value" => $ip],
+                ["name" => "NOTE", "Value" => "Email alternatif berhasil diganti menjadi " . $request->input('alternateemailaddress')],
+            ];
+            Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=HISTORYDATA&ListAddItem=" . urlencode(json_encode($history)));
+            
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Berhasil ubah email alternatif.'
+            ], 200);
+        } else {
+            //cari di tabel registrasi isbn
+            $penerbit_belum_verifikasi = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=getlistraw&sql=" . urlencode("SELECT * FROM ISBN_REGISTRASI_PENERBIT WHERE id='" . $id . "' AND (PASSWORD='$encryptedPassword' OR PASSWORD2='$encryptedPassword2')"));
+            if (isset($penerbit_belum_verifikasi["Data"]['Items'][0])) {
+                if($penerbit_belum_verifikasi["Data"]['Items'][0]['VALIDASI'] == 'Y'){
+                    return response()->json([
+                        'status' => 'Failed',
+                        'message' => 'Password yang Anda masukan salah!',
+                    ], 500);
+                }
+                $penerbit_belum_verifikasi = $penerbit_belum_verifikasi["Data"]['Items'][0];
+                $updated = [
+                    ["name" => "ALTERNATE_EMAIL", "Value" => $request->input('alternateemailaddress')],
+                ];
+                Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&id=$id&op=update&table=ISBN_REGISTRASI_PENERBIT&ListUpdateItem=" . urlencode(json_encode($updated)));
+                
+                //INSERT HISTORY
+                $history = [
+                    ["name" => "TABLENAME", "Value" => "ISBN_REGISTRASI_PENERBIT"],
+                    ["name" => "IDREF", "Value" => $id],
+                    ["name" => "ACTION", "Value" => "Update"],
+                    ["name" => "ACTIONBY", "Value" => session('penerbit')['USERNAME']],
+                    ["name" => "ACTIONDATE", "Value" => now()->addHours(7)->format('Y-m-d H:i:s')],
+                    ["name" => "ACTIONTERMINAL", "Value" => $ip],
+                    ["name" => "NOTE", "Value" => "Email alternatif berhasil diganti menjadi " . $request->input('alternateemailaddress')],
+                ];
+                Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=HISTORYDATA&ListAddItem=" . urlencode(json_encode($history)));
+                return response()->json([
+                    'status' => 'Success',
+                    'message' => 'Berhasil ubah email alternatif.'
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => 'Failed',
+                    'message' => 'Password salah. Mohon cek kembali konfirmasi password yang Anda masukan!',
+                ], 500);
+            }
+        }         
+    }
+
     function index()
     {
         return view('profile');

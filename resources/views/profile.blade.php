@@ -390,7 +390,6 @@
 												<!--end::Card body-->
 												<!--begin::Actions-->
 												<div class="card-footer d-flex justify-content-end py-6 px-9">
-													<button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</button>
 													<button type="submit" class="btn btn-primary" >Save Changes</button>
 												</div>
 												<!--end::Actions-->
@@ -796,6 +795,7 @@
 												}
 										}).then(function(isConfirm){
 											if (isConfirm){
+												$('#email2').text()
 												//$('#new_password').val(''),$('#current_password').val(''), $('#confirm_password').val('')
 											}
 										});
@@ -1013,6 +1013,89 @@
 			//$('#' + id).val(null);
 		$('#' + id).empty().trigger('change');
 	}
+
+	$('#kt_signin_email_button').on('click', function(){
+		$('#kt_signin_email_edit').removeClass('d-none');
+		$('#kt_signin_email').addClass('d-none');
+		$(this).addClass('d-none');
+	});
+	$('#kt_signin_submit').on('click', function(){
+		let form = document.getElementById('change_email');
+		let formData = new FormData(form); 
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('input[name="_token"]').val()
+			}
+		});
+		$.ajax({
+							url :"{{ url('/penerbit/profile/change-email') }}",
+							type: 'post',
+							dataType: 'json',
+							processData: false,
+							contentType:  false,
+							async:false,
+							data: formData,
+							beforeSend: function(){
+								$('.loader').css('display','block');
+							},
+							complete: function(){
+								$('.loader').css('display','none');
+							},
+							statusCode: {
+								422: function(xhr) {
+									var error = '<div class="alert alert-danger d-flex align-items-center p-5 mb-10"><div class="d-flex flex-column" style="text-align: left;"><ul>';
+									$.each(xhr.responseJSON.err, function(key, value){
+										error+='<li>'+value[0]+'</li>';
+									}); 
+									error+='</ul></div></div>';
+									Swal.fire({
+											title: "Validation Error!",
+											html: error,
+											buttonsStyling: !1,
+											confirmButtonText: "Ok!",
+											width: '800px',
+											heightAuto:false,
+											height: '800px',
+											customClass: { 
+												confirmButton: "btn fw-bold btn-primary",
+												content: "swal-height"
+											}
+										});
+								},
+								200: function(xhr) {
+									Swal.fire({
+											title: "Berhasil Ubah Email Alternatif!",
+											html: xhr.message,
+											icon: "success",
+											buttonsStyling: !1,
+											confirmButtonText: "Ok!",
+											customClass: {
+												confirmButton: "btn fw-bold btn-primary"
+												}
+										}).then(function(isConfirm){
+											if (isConfirm){
+												$('#kt_signin_email_edit').addClass('d-none');
+												$('#kt_signin_email').removeClass('d-none');
+												$('#kt_signin_submit').addClass('d-none');
+												$('#alternateemailaddress').val();
+											}
+										});
+								},
+								500: function(xhr) {
+									Swal.fire({
+											text: xhr.responseJSON.message,
+											icon: "failed",
+											buttonsStyling: !1,
+											confirmButtonText: "Ok!",
+											customClass: {
+												confirmButton: "btn fw-bold btn-danger"
+												}
+										});
+								},
+							}
+					});
+
+	})
 </script>
 
 @stop

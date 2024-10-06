@@ -76,6 +76,7 @@ Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
         Route::get('penerbit/profile', [ProfilController::class, 'index']);
         Route::get('penerbit/profile/detail', [ProfilController::class, 'getDetail']);
         Route::post('penerbit/profile/submit', [ProfilController::class, 'submit']);
+        Route::post('penerbit/profile/change-email', [ProfilController::class, 'changeEmail']);
 
         Route::get('auth/logout', [AuthController::class, 'logout']);
 
