@@ -227,19 +227,6 @@
 </body>
 <!--end::Body-->
 <script>
-	var images = [
-		'https://m.media-amazon.com/images/I/81jRqrKKObL._AC_UL800_FMwebp_QL65_.jpg',
-		'https://m.media-amazon.com/images/I/81JgX8VgZiL._AC_UL800_FMwebp_QL65_.jpg',
-		'https://m.media-amazon.com/images/I/71CBWHK035L._AC_UL800_FMwebp_QL65_.jpg',
-		'https://m.media-amazon.com/images/I/91pXKpUfGgL._AC_UL800_FMwebp_QL65_.jpg',
-		'https://m.media-amazon.com/images/I/41On-kU2qfL._AC_SF480,480_.jpg',
-		'https://m.media-amazon.com/images/I/51J+Tc3E1eL._AC_SF480,480_.jpg',
-		'https://m.media-amazon.com/images/I/51XBtKdStML._AC_SF480,480_.jpg',
-		'https://m.media-amazon.com/images/I/41CSLTOp7LL._AC_SF480,480_.jpg',
-		'https://m.media-amazon.com/images/I/51l-BqdoMsL._UX300undefined_.jpg',
-		'https://m.media-amazon.com/images/I/510GvscKODL._AC_SF480,480_.jpg',
-		'https://m.media-amazon.com/images/I/41PUsvw0kuL._AC_SF480,480_.jpg'
-	];
 	var cetakBarcode = function(id){
 		let link= "{{url('/penerbit/isbn/data/generate-barcode/') }}" + '/'+  id;
 		Swal.fire({
