@@ -1023,7 +1023,31 @@
         //$('#' + id).val(null);
         $('#' + id).empty().trigger('change');
     }
-
+    FormValidation.formValidation(
+			document.getElementById('form_isbn'),
+			{
+                    fields: {
+                        title: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Judul tidak boleh kosong!"
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        trigger: new FormValidation.plugins.Trigger,
+                        bootstrap: new FormValidation.plugins.Bootstrap5({
+                            rowSelector: ".col-lg-9"
+                        }),
+						submitButton: new FormValidation.plugins.SubmitButton(),
+						icon: new FormValidation.plugins.Icon({
+                            valid: 'fa fa-check',
+                            invalid: 'fa fa-times',
+                            validating: 'fa fa-refresh',
+                        }),
+                    }
+            });
     $.getJSON(urlJilid, function (res) {
         res = $.map(res, function (obj) {
             return obj;

@@ -35,7 +35,7 @@ class IsbnBatalController extends Controller
         $end = $start + $length;
 
         $sql  = "SELECT ir.id, pt.title, pt.author, pt.kepeng,pt.bulan_terbit, pt.tahun_terbit, ir.noresi, ir.createdate, 
-                        ir.mohon_date, ir.jml_jilid_req, ir.jenis, ir.status, ir.source  
+                        ir.mohon_date, ir.jml_jilid_req, ir.jenis, ir.status, ir.source  , pt.jenis_media
                     FROM ISBN_RESI ir 
                     JOIN PENERBIT_TERBITAN pt  ON ir.penerbit_terbitan_id = pt.id  
                     WHERE pt.PENERBIT_ID='$id' AND ir.status = 'batal' ";
@@ -64,6 +64,10 @@ class IsbnBatalController extends Controller
                 }
             }
         }
+        if($request->input('jenisMedia') !=''){
+            $sqlFiltered .= " AND pt.jenis_media = '".$request->input('jenisMedia')."'";
+            $sql .= " AND pt.jenis_media = '".$request->input('jenisMedia')."'";  
+        } 
         if($request->input('jenisTerbitan') !=''){
             $sqlFiltered .= " AND UPPER(ir.jenis) = '" . strtoupper($request->input('jenisTerbitan')) ."'";
             $sql .= " AND UPPER(ir.jenis) = '" . strtoupper($request->input('jenisTerbitan')) ."'";
@@ -81,6 +85,14 @@ class IsbnBatalController extends Controller
         if (count($queryData) > 0) {
             $nomor = $start + 1;
             foreach ($queryData as $val) {
+                switch($val['JENIS_MEDIA']){
+                    case '1': $jenis_media = 'Cetak'; break;
+                    case '2': $jenis_media = 'Digital (PDF)'; break;
+                    case '3': $jenis_media = 'Digital (EPUB)'; break;
+                    case '4': $jenis_media = 'Audio Book'; break;
+                    case '5': $jenis_media = 'Audio Visual Book'; break;
+                    default: break;
+                }
                 $id = $val['ID'];
                 $noresi = $val['NORESI'] ? $val['NORESI'] : $val['ID'];
                
@@ -90,7 +102,7 @@ class IsbnBatalController extends Controller
                     $nomor,
                     '<a class="badge badge-primary h-20px m-1" href="#" onclick="pulihkanPermohonan('.$id.')">Pulihkan Permohonan</a>',
                     $noresi ."<br/>" .$source,
-                    $val['TITLE'] . "<br/>$jenis",
+                    $val['TITLE'] . "<br/>$jenis <span class='text-success'><i>$jenis_media</i></span>",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
                     $val['BULAN_TERBIT'] . ' ' .$val['TAHUN_TERBIT'],
                     $val['MOHON_DATE']  

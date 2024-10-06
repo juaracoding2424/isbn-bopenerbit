@@ -66,6 +66,17 @@
 							<div class="card-title">
 								<!--begin::Search-->
 								<div  id="advanceSearch">
+									<div class="d-flex align-items-center position-relative my-0">
+										<div class="w-200px fs-8 p-2 m-0">Jenis Media</div>
+										<select class="select2 form-select w-400px fs-8 p-2 m-0" name="selectJenisMedia" id="selectJenisMedia">
+														<option value="">--Semua--</option>
+														<option value="1">Cetak</option>
+														<option value="2">Digital (PDF)</option>
+														<option value="3">Digital (EPUB)</option>
+														<option value="4">Audio Book</option>
+														<option value="5">Audio Visual</option>
+										</select>
+									</div>
 									<div class="d-flex align-items-center position-relative my-0" id="advanceSearch_0">
 										<select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectParameter">
 											<option value="title">Judul</option>
@@ -239,7 +250,8 @@
 			ajax: {
 				url: '{{ url("penerbit/isbn/masalah/datatable") }}',
 				data: {
-					advSearch : advSearch
+					advSearch : advSearch,
+					jenisMedia : $('#selectJenisMedia').val(),
 				}
 			},
 		});
@@ -259,7 +271,11 @@
 	};
 	$('#btnSearch').on("click", function(){
 		loadDataTable();
-	})
+	});
+	$('#selectJenisMedia').on("change", function(){
+		loadDataTable();
+		exportButtons();
+	});
 </script>
 @stop
 </html>

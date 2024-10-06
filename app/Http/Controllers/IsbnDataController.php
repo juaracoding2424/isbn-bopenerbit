@@ -42,7 +42,7 @@ class IsbnDataController extends Controller
 
         $sql = "SELECT pi.penerbit_terbitan_id, ir.mohon_date, pt.author, pt.kepeng, pi.prefix_element, pi.publisher_element,pi.item_element, pi.check_digit,
                 pi.RECEIVED_DATE_KCKR, pi.RECEIVED_DATE_PROV,pt.VALIDATION_DATE, pi.keterangan_jilid, pi.id as piid, pi.link_buku,
-                pi.isbn_no, pt.bulan_terbit, pt.tahun_terbit,
+                pi.isbn_no, pt.bulan_terbit, pt.tahun_terbit, pt.jenis_media,
 				ir.id as isbn_resi_id, ir.source, ir.jenis,
                 pt.title,  pt.jml_jilid, pt.jilid_volume, pi.ACCEPTDATE, pt.call_number, pt.sinopsis, pt.subjek,
                 pt.is_kdt_valid
@@ -76,6 +76,10 @@ class IsbnDataController extends Controller
                 }
             }
         }
+        if($request->input('jenisMedia') !=''){
+            $sqlFiltered .= " AND pt.jenis_media = '".$request->input('jenisMedia')."'";
+            $sql .= " AND pt.jenis_media = '".$request->input('jenisMedia')."'";  
+        }
         if($request->input('jenisTerbitan') !=''){
             $sqlFiltered .= " AND upper(ir.jenis) = '".strtoupper($request->input('jenisTerbitan'))."'";
             $sql .= " AND upper(ir.jenis) = '".strtoupper($request->input('jenisTerbitan'))."'";  
@@ -106,9 +110,7 @@ class IsbnDataController extends Controller
                     $sqlFiltered .= " AND pi.received_date_prov is  null ";
                     $sql .= " AND pi.received_date_prov is  null ";
                     break;
-
             }
-           
         }
         $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM PENERBIT_ISBN WHERE PENERBIT_ID='$id'  ", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         
@@ -127,11 +129,19 @@ class IsbnDataController extends Controller
                 $source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge badge-primary'>".$val['SOURCE']."</span>";
                 $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
                 $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="badge badge-success h-20px m-1" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : "";//'KDT Belum Ada';
+                switch($val['JENIS_MEDIA']){
+                    case '1': $jenis_media = 'Cetak'; break;
+                    case '2': $jenis_media = 'Digital (PDF)'; break;
+                    case '3': $jenis_media = 'Digital (EPUB)'; break;
+                    case '4': $jenis_media = 'Audio Book'; break;
+                    case '5': $jenis_media = 'Audio Visual Book'; break;
+                    default: break;
+                }
                 $response['data'][] = [
                     $nomor,
                     '<a class="btn btn-light-info fs-8 p-2 m-0" onclick="cetakBarcode('.$val['PIID'].')">Barcode</a>' .$kdt, //<a class="badge badge-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',
                     $val['PREFIX_ELEMENT'] .'-' . $val['PUBLISHER_ELEMENT'] . '-' . $val['ITEM_ELEMENT'] . '-' . $val['CHECK_DIGIT']  . '<br/>' . $val['KETERANGAN_JILID'],
-                    $val['TITLE'] . "<br/>$jenis $source",
+                    $val['TITLE'] . "<br/>$jenis $source <span class='text-success'><i>$jenis_media</i></span>",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
                     $val['BULAN_TERBIT'] .' ' . $val['TAHUN_TERBIT'],
                     $val['LINK_BUKU'],

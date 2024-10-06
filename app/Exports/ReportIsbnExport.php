@@ -32,7 +32,14 @@ class ReportIsbnExport implements FromArray, WithHeadings
             'Tanggal Permohonan',
             'Tanggal Disetujui',
             'Penyerahan Perpusnas',
-            'Penyerahan Provinsi'
+            'Penyerahan Provinsi',
+            'KDT',
+            'Jenis Media',
+            'Jenis Terbitan',
+            'Jenis Penelitian',
+            'Jenis Kelompok',
+            'Jenis Pustaka',
+            'Jenis Kategori'
         ];
     }
 }

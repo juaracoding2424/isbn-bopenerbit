@@ -26,7 +26,8 @@ class ReportController extends Controller
         $end = $start + $length;
 
         $sql = "SELECT pi.penerbit_terbitan_id, ir.mohon_date, pt.author, pt.kepeng, pi.prefix_element, pi.publisher_element,pi.item_element, pi.check_digit,
-                pi.RECEIVED_DATE_KCKR, pi.RECEIVED_DATE_PROV,pt.VALIDATION_DATE, pi.isbn_no, pt.bulan_terbit, pt.tahun_terbit,
+                pi.RECEIVED_DATE_KCKR, pi.RECEIVED_DATE_PROV,pt.VALIDATION_DATE, pi.isbn_no, pt.bulan_terbit, pt.tahun_terbit, 
+                pt.jenis_media, pt.jenis_penelitian, pt.jenis_kelompok, pt.jenis_pustaka, pt.jenis_kategori, pt.jenis_terbitan,
 				ir.id as isbn_resi_id, ir.source, ir.jenis, pt.title,  pt.jml_jilid, pt.jilid_volume, pi.ACCEPTDATE, pt.call_number, pt.sinopsis, pt.subjek,
                 pt.is_kdt_valid
                 FROM penerbit_isbn pi
@@ -155,7 +156,42 @@ class ReportController extends Controller
             foreach ($queryData as $val) {
                 $source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge badge-primary'>".$val['SOURCE']."</span>";
                 $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
-                $kdt = $val['IS_KDT_VALID'] == 1 ? url("/penerbit/isbn/data/view-kdt/") : "";
+                $kdt = $val['IS_KDT_VALID'] == 1 ? url("/penerbit/isbn/data/view-kdt/") : "Belum ada KDT";
+                switch($val['JENIS_MEDIA']){
+                    case '1': $jenis_media = 'Cetak'; break;
+                    case '2': $jenis_media = 'Digital (PDF)'; break;
+                    case '3': $jenis_media = 'Digital (EPUB)'; break;
+                    case '4': $jenis_media = 'Audio Book'; break;
+                    case '5': $jenis_media = 'Audio Visual Book'; break;
+                    default: $jenis_media = ''; break;
+                }
+                switch($val['JENIS_TERBITAN']){
+                    case '1': $jt = 'Pemerintah'; break;
+                    case '2': $jt = 'Perguruan Tinggi'; break;
+                    case '3': $jt = 'Swasta'; break;
+                    default: $jt = ''; break;
+                }
+                switch($val['JENIS_PENELITIAN']){
+                    case '1': $jp = 'Penelitian'; break;
+                    case '2': $jp = 'Non Penelitian'; break;
+                    default: $jp = ''; break;
+                }
+                switch($val['JENIS_KELOMPOK']){
+                    case '1': $jk = 'Anak'; break;
+                    case '2': $jk = 'Dewasa'; break;
+                    case '3': $jk = 'Semua Umur'; break;
+                    default: $jk = ''; break;
+                }
+                switch($val['JENIS_PUSTAKA']){
+                    case '1': $jpu = 'Fiksi'; break;
+                    case '2': $jpu = 'Non Fiksi'; break;
+                    default: $jpu = ''; break;
+                }
+                switch($val['JENIS_KATEGORI']){
+                    case '1': $jkt = 'Terjemahan'; break;
+                    case '2': $jkt = 'Non Terjemahan'; break;
+                    default: $jkt = ''; break;
+                }
                 $response['data'][] = [
                     $nomor,
                     $val['PREFIX_ELEMENT'] .'-' . $val['PUBLISHER_ELEMENT'] . '-' . $val['ITEM_ELEMENT'] . '-' . $val['CHECK_DIGIT'] ,
@@ -169,6 +205,12 @@ class ReportController extends Controller
                     $val['RECEIVED_DATE_KCKR'] ? $val['RECEIVED_DATE_KCKR'] : 'belum diserahkan',
                     $val['RECEIVED_DATE_PROV'] ? $val['RECEIVED_DATE_PROV'] : 'belum diserahkan',
                     $kdt,
+                    $jenis_media,
+                    $jt,
+                    $jp,
+                    $jk,
+                    $jpu,
+                    $jkt
                 ];
                 $nomor++;
             }

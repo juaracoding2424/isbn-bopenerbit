@@ -35,7 +35,7 @@ class IsbnMasalahController extends Controller
         
         $end = $start + $length;
 
-        $sql  = "SELECT pt.id, m.isi, m.createdate, ir.noresi, pt.title, pt.kepeng, pt.author, pt.tahun_terbit, pt.mohon_date
+        $sql  = "SELECT pt.id, m.isi, m.createdate, ir.noresi, pt.title, pt.kepeng, pt.author, pt.tahun_terbit, pt.mohon_date, pt.jenis_media
                     FROM PENERBIT_ISBN_MASALAH m 
                     JOIN PENERBIT_TERBITAN pt ON m.PENERBIT_TERBITAN_ID = pt.ID 
                     LEFT JOIN ISBN_RESI ir on ir.id = m.isbn_resi_id
@@ -69,6 +69,10 @@ class IsbnMasalahController extends Controller
                 }
             }
         }
+        if($request->input('jenisMedia') !=''){
+            $sqlFiltered .= " AND pt.jenis_media = '".$request->input('jenisMedia')."'";
+            $sql .= " AND pt.jenis_media = '".$request->input('jenisMedia')."'";  
+        }
         //\Log::info("SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end");
         //\Log::info($sqlFiltered);
         $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
@@ -78,13 +82,21 @@ class IsbnMasalahController extends Controller
         if (count($queryData) > 0) {
             $nomor = $start + 1;
             foreach ($queryData as $val) {
+                switch($val['JENIS_MEDIA']){
+                    case '1': $jenis_media = 'Cetak'; break;
+                    case '2': $jenis_media = 'Digital (PDF)'; break;
+                    case '3': $jenis_media = 'Digital (EPUB)'; break;
+                    case '4': $jenis_media = 'Audio Book'; break;
+                    case '5': $jenis_media = 'Audio Visual Book'; break;
+                    default: break;
+                }
                 $id = $val['ID'];
                 $noresi = $val['NORESI'] ? $val['NORESI'] : $val['ID'];
                 $response['data'][] = [
                     $nomor,
                     '<a class="badge badge-primary h-20px m-1" href="'. url('/penerbit/isbn/permohonan/detail/'.$noresi).'" target="_self">Perbaiki permohonan</a><a class="badge badge-danger h-20px m-1" onclick="batalkanPermohonan('.$id.')">Batalkan Permohonan</a>',
                     $val['NORESI'],
-                    $val['TITLE'],
+                    $val['TITLE']  . "<span class='text-success'><i>$jenis_media</i></span>",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
                     $val['TAHUN_TERBIT'],
                     $val['MOHON_DATE'],
