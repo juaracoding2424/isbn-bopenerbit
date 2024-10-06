@@ -795,7 +795,6 @@
 												}
 										}).then(function(isConfirm){
 											if (isConfirm){
-												$('#email2').text()
 												//$('#new_password').val(''),$('#current_password').val(''), $('#confirm_password').val('')
 											}
 										});
@@ -1077,7 +1076,7 @@
 												$('#kt_signin_email_edit').addClass('d-none');
 												$('#kt_signin_email').removeClass('d-none');
 												$('#kt_signin_submit').addClass('d-none');
-												$('#alternateemailaddress').val();
+												$('#email2').text($('#alternateemailaddress').val());
 											}
 										});
 								},
