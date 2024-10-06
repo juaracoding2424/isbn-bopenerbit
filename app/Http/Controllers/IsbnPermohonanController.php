@@ -812,7 +812,7 @@ class IsbnPermohonanController extends Controller
         if($count > 0){
             return response()->json([
                 'valid' => false,
-                'message' => 'Judul buku ' . $title . ' sudah ada!'
+                'message' => 'Judul buku "' . $title . '" sudah ada!'
             ]);
         } else {
             return response()->json([
