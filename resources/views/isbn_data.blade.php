@@ -22,6 +22,9 @@
 		top:50%;
 		left:50%;
 	}
+	.swal-height {
+		height: 80vh;
+	}
 
 </style>
 	<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
@@ -283,10 +286,9 @@
                     buttonsStyling: !1,
 					showConfirmButton: false,
   					showCloseButton: true,
+					heightAuto: false,
                     //confirmButtonText: "Ok, got it!",
-                    //customClass: {
-                    //	confirmButton: "btn fw-bold btn-primary"
-                    //    }
+                    height: '400px'
                 });
             },
             error: function() {

@@ -34,9 +34,10 @@ class ReportController extends Controller
                 LEFT JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id
                 WHERE pi.PENERBIT_ID =$id ";
 
-        $sqlFiltered = "SELECT pt.id FROM penerbit_terbitan pt LEFT JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
-                        JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
-                        WHERE ir.penerbit_id = $id ";
+        $sqlFiltered = "SELECT pt.id FROM penerbit_isbn pi
+                        LEFT JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
+                        LEFT JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id
+                        WHERE pi.PENERBIT_ID =$id ";
         if($request->input('advSearch')) {
             $advSearch_ = json_decode($request->input('advSearch'), true);
 
@@ -128,7 +129,7 @@ class ReportController extends Controller
             }
             
         }
-        $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM (SELECT penerbit_terbitan_id FROM PENERBIT_ISBN WHERE PENERBIT_ID='$id' GROUP BY penerbit_terbitan_id) ", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
+        $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM PENERBIT_ISBN WHERE PENERBIT_ID='$id' ", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         
         if($length == '-1'){
             $end = $totalData;
