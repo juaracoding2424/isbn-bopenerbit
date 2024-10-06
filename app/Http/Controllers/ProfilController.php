@@ -52,7 +52,7 @@ class ProfilController extends Controller
                 'phone.required' => 'Anda belum mengisi nomor telp/hp kantor yang bisa dihubungi',
                 //'phone.numeric' => 'Nomor telp/hp kantor hanya boleh diisi oleh angka!',
                 'alamat_penerbit.required' => 'Anda belum mengisi alamat kantor',
-                'nama_gedung.required' => 'Anda belum mengisi jenis terbitan buku',
+                'nama_gedung.required' => 'Anda belum mengisi nama gedung',
                 'provinsi.required' => 'Anda belum mengisi provinsi tempat domisili kantor',
                 'kabkot.required' => 'Anda belum mengisi kota/kabupaten tempat domisili kantor',
                 'kecamatan.required' => 'Anda belum mengisi kecamatan tempat domisili kantor',
