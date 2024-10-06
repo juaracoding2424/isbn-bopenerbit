@@ -1037,7 +1037,7 @@
                                 },
                                 remote: {
                                     method: 'POST',
-                                    url: "{{ url('penerbit/isbn/permohonan/check/title') }}",
+                                    url: "{{ url('penerbit/isbn/permohonan/check/title?penerbit_terbitan_id=') }}" + $('#select2-isbn-jilid').val(),
                                 },
                             }
                         },
