@@ -20,9 +20,11 @@ class DepositController extends Controller
             ], 500);
         } 
         $validator = \Validator::make($request->all(), [
-            'datetime'        => 'date_format:Y-m-d H:i:s',
+            'datetime'  => 'required|date_format:Y-m-d H:i:s',
+            'token'     => 'required',
+            'isbn'      => 'required',      
         ], [
-            'datetime.date_format' => 'Format tanggal dan waktu tidak sesuai. Format yang benar adalah Y-m-d H:i:s. Contoh: 2024-07-27 17:18:09'
+            'datetime.date_format' => 'Format tanggal dan waktu tidak sesuai. Format yang benar adalah Y-m-d H:i:s. Contoh: 2024-07-27 17:18:09',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -72,7 +74,9 @@ class DepositController extends Controller
             ], 500);
         } 
         $validator = \Validator::make($request->all(), [
-            'datetime'        => 'date_format:Y-m-d H:i:s',
+            'datetime'  => 'required|date_format:Y-m-d H:i:s',
+            'token'     => 'required',
+            'isbn'      => 'required',  
         ], [
             'datetime.date_format' => 'Format tanggal dan waktu tidak sesuai. Format yang benar adalah Y-m-d H:i:s. Contoh: 2024-07-27 17:18:09'
         ]);
@@ -122,12 +126,19 @@ class DepositController extends Controller
                 'message' => 'Token mismatch',
             ], 500);
         } 
-        if($isbn == "") {
+        $validator = \Validator::make($request->all(), [
+            'token'     => 'required',
+            'isbn'      => 'required',  
+        ], [
+            'isbn.required' => 'ISBN is required!'
+        ]);
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 'Failed',
-                'message' => 'ISBN is required',
-            ], 500);
-        }
+                'message' => 'Gagal! Cek kembali data yang Anda masukan!',
+                'err' => $validator->errors(),
+            ], 422);
+        } 
         
         $penerbit = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=getlistraw&sql=" . urlencode("SELECT * FROM PENERBIT_ISBN pi LEFT JOIN PENERBIT_TERBITAN pt ON pi.penerbit_terbitan_id = pt.id WHERE ISBN_NO='$isbn'"));
 
