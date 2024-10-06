@@ -6,6 +6,8 @@ use App\Http\Controllers\API\TokenController;
 use App\Http\Controllers\API\PermohonanController;
 use App\Http\Controllers\API\PenerbitController;
 use App\Http\Controllers\API\ISBNController;
+use App\Http\Controllers\API\SSOController;
+use App\Http\Controllers\API\DepositController;
 
 Route::match(array('GET', 'POST'),'/token', [TokenController::class, 'getToken']);
 
@@ -18,3 +20,8 @@ Route::group(['middleware' => JWTValidation::class], function () {
 
     Route::match(array('GET', 'POST'), '/isbn/data', [ISBNController::class, 'data']);
 });
+
+Route::post('/sso/login', [SSOController::class, 'login']);
+Route::post('/isbn/detail', [DepositController::class, 'getIsbn']);
+Route::post('/isbn/terima/perpusnas', [DepositController::class, 'receivedPerpusnas']);
+Route::post('/isbn/terima/provinsi', [DepositController::class, 'receivedProvinsi']);
