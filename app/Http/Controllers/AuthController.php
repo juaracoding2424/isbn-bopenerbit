@@ -39,8 +39,7 @@ class AuthController extends Controller
                 $ip = $request->ip();
                 //encript password
                 $encryptedPassword = urlencode(getMd5Hash($request->input('password')));
-                $encryptedPassword2 = urlencode(rijndaelEncryptPassword($request->input('password')));
-                //\Log::info(config('app.inlis_api_url') ."?token=". config('app.inlis_api_token') ."&op=getlistraw&sql=". "SELECT * FROM PENERBIT WHERE ISBN_USER_NAME='" . $request->input('username'). "' AND (ISBN_PASSWORD1='$encryptedPassword' OR ISBN_PASSWORD2='$encryptedPassword2' OR ISBN_PASSWORD='$encryptedPassword')");
+                $encryptedPassword2 = urlencode(rijndaelEncryptPassword($request->input('password'))); 
                 $penerbit = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=getlistraw&sql=" . urlencode("SELECT * FROM PENERBIT WHERE ISBN_USER_NAME='" . $request->input('username') . "' AND (ISBN_PASSWORD1='$encryptedPassword' OR ISBN_PASSWORD2='$encryptedPassword2' OR ISBN_PASSWORD='$encryptedPassword')"));
                 if (isset($penerbit["Data"]['Items'][0])) {
                     $penerbit = $penerbit["Data"]['Items'][0];
@@ -65,6 +64,12 @@ class AuthController extends Controller
                     //cari di tabel registrasi isbn
                     $penerbit_belum_verifikasi = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=getlistraw&sql=" . urlencode("SELECT * FROM ISBN_REGISTRASI_PENERBIT WHERE USER_NAME='" . $request->input('username') . "' AND (PASSWORD='$encryptedPassword' OR PASSWORD2='$encryptedPassword2')"));
                     if (isset($penerbit_belum_verifikasi["Data"]['Items'][0])) {
+                        if($penerbit_belum_verifikasi["Data"]['Items'][0]['VALIDASI'] == 'Y'){
+                            return response()->json([
+                                'status' => 'Failed',
+                                'message' => 'Password yang Anda masukan salah!',
+                            ], 500);
+                        }
                         $penerbit_belum_verifikasi = $penerbit_belum_verifikasi["Data"]['Items'][0];
                         //\Log::info($penerbit_belum_verifikasi);
                         session([
@@ -86,7 +91,7 @@ class AuthController extends Controller
                     } else {
                         return response()->json([
                             'status' => 'Failed',
-                            'message' => 'Username atau password salah!',
+                            'message' => 'Username tidak ditemukan, mohon cek kembali username dan password yang Anda masukan!',
                         ], 500);
                     }
                 }

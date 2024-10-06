@@ -24,14 +24,15 @@
 </head>
 <!--end::Head-->
 <!--begin::Body-->
-<style> .loader {
+<style> 
+.loader {
     position: fixed;
     background-color: #FFF;
     opacity: 0.8;
     height: 100%;
     width: 100%;
     z-index: 10;
-    background-image: url(/assets/media/loader.gif);
+    background-image: url("{{ asset('/assets/media/loader.gif') }}");
     background-repeat: no-repeat;
     background-size: cover;
 	display:none;
