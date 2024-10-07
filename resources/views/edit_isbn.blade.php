@@ -85,7 +85,7 @@
                                     <!--begin::Card body-->
                                     <div class="card-body border-top p-9">
                                         <!--begin::Input group-->
-                                        <div class="row mb-6">
+                                        <div class="row mb-2">
                                             <!--begin::Label-->
                                             <label class="col-lg-3 col-form-label fs-8 required fw-semibold">Judul
                                                 Buku</label>
@@ -100,7 +100,7 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                        <div class="row mb-6">
+                                        <div class="row mb-2">
                                             <!--begin::Label-->
                                             <label class="col-lg-3 col-form-label fs-8 fw-semibold">
                                                 <span class="required">Kepengarangan</span>
@@ -142,7 +142,7 @@
                                         <!--end::Input group-->
                                         
 										<!--begin::Input group-->
-                                        <div class="row mb-8">
+                                        <div class="row mb-2">
                                             <!--begin::Col-->
                                             <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Media Terbitan ISBN </span>
@@ -171,7 +171,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Cetak</span>
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Cetak</span>
                                                                 <span class="fw-semibold fs-8 text-gray-600 onhover">Sesuai UU 13.th 2018: Penerbit wajib mengirimkan sebanyak 2 eks buku cetak kepada Perpusnas, dan 1 eks buku cetak kepada Perpustakaan Provinsi sesuai domisili</span>
                                                              </span>
                                                         </label>
@@ -190,7 +190,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Digital (PDF)</span>
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Digital (PDF)</span>
                                                                 <span class="fw-semibold fs-8 text-gray-600 onhover">Sesuai UU 13.th 2018: Penerbit wajib serah simpan dengan cara mengunggah mandiri file PDF melalui https://edeposit.perpusnas.go.id</span>
                                                             </span>
                                                         </label>
@@ -209,7 +209,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Digital (EPUB)</span>
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Digital (EPUB)</span>
                                                                 <span class="fw-semibold fs-8 text-gray-600 onhover">Sesuai UU 13.th 2018: Penerbit wajib serah simpan dengan cara mengunggah mandiri file EPUB melalui https://edeposit.perpusnas.go.id</span>
                                                             </span>
                                                         </label>
@@ -228,7 +228,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Audio Book</span>
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Audio Book</span>
                                                                 <span class="fw-semibold fs-8 text-gray-600 onhover">Sesuai UU 13.th 2018: Penerbit wajib serah simpan dengan cara mengunggah mandiri file MP3/WAV melalui https://edeposit.perpusnas.go.id</span>
                                                             </span>
                                                         </label>
@@ -247,7 +247,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Audio Visual</span> 
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Audio Visual</span> 
                                                                 <span class="fw-semibold fs-8 text-gray-600 onhover">Sesuai UU 13.th 2018: Penerbit wajib serah simpan dengan cara mengunggah mandiri file MP4/MPEG melalui https://edeposit.perpusnas.go.id</span>
                                                             </span>
                                                         </label>
@@ -261,7 +261,7 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                        <div class="row mb-8">
+                                        <div class="row mb-2">
                                             <!--begin::Col-->
                                             <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Kelompok Pembaca</span>
@@ -290,7 +290,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Anak</span>
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Anak</span>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -308,7 +308,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Dewasa</span>
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Dewasa</span>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -326,7 +326,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Semua Umur (SU)</span>
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Semua Umur (SU)</span>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -339,7 +339,7 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                         <div class="row mb-8">
+                                         <div class="row mb-2">
                                             <!--begin::Col-->
                                             <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Jenis Pustaka</span>
@@ -368,7 +368,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Fiksi</span>
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Fiksi</span>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -386,7 +386,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Non Fiksi</span>
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Non Fiksi</span>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -398,7 +398,7 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                        <div class="row mb-8">
+                                        <div class="row mb-2">
                                             <!--begin::Col-->
                                             <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Kategori Jenis Pustaka</span>
@@ -427,7 +427,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Terjemahan</span>
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Terjemahan</span>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -445,7 +445,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Non Terjemahan</span>
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Non Terjemahan</span>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -457,7 +457,7 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                        <div class="row mb-8">
+                                        <div class="row mb-2">
                                             <!--begin::Col-->
                                             <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Golongan Terbitan ISBN </span>
@@ -486,7 +486,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Pemerintah</span>
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Pemerintah</span>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -504,7 +504,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Perguruan Tinggi</span>
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Perguruan Tinggi</span>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -522,7 +522,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Swasta</span>
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Swasta</span>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -532,7 +532,7 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                        <div class="row mb-8">
+                                        <div class="row mb-2">
                                             <!--begin::Col-->
                                             <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Apakah termasuk penelitian? </span>
@@ -561,7 +561,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Penelitian</span>
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Penelitian</span>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -579,7 +579,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Non Penelitian</span>
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Non Penelitian</span>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -591,7 +591,7 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                        <div class="row mb-6">
+                                        <div class="row mb-2">
                                             <!--begin::Label-->
                                             <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
                                                 <span class="required">Perkiraan bulan dan tahun terbit</span>
@@ -634,7 +634,7 @@
 
                                         
                                         <!--begin::Input group-->
-                                        <div class="row mb-6">
+                                        <div class="row mb-2">
                                             <!--begin::Label-->
                                             <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
                                                 <span class="required">Tempat Terbit</span>
@@ -653,7 +653,7 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                        <div class="row mb-6">
+                                        <div class="row mb-2">
                                             <!--begin::Label-->
                                             <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
                                                 <span >Distributor</span>
@@ -672,7 +672,7 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                        <div class="row mb-6">
+                                        <div class="row mb-2">
                                             <!--begin::Label-->
                                             <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
                                                 <span class="required">Deskripsi / Abstrak buku</span>
@@ -691,7 +691,7 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                        <div class="row mb-6" id="divIsbnLanjutan">
+                                        <div class="row mb-2" id="divIsbnLanjutan">
                                             <!--begin::Label-->
                                             <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
                                                 <span>ISBN lanjutan</span>
@@ -703,13 +703,13 @@
                                             <!--end::Label-->
                                             <!--begin::Col-->
                                             <div class="col-lg-9 fv-row">
-                                                <input type="text" value="" id="isbn-jilid-lanjutan" class="form-control fs-6 form-control-lg form-control-solid">
+                                                <input type="text" value="" id="isbn-jilid-lanjutan" class="form-control fs-8 form-control-lg form-control-solid">
                                             </div>
                                             <!--end::Col-->
                                         </div>
                                         <!--end::Input group-->
                                             <!--begin::Input group-->
-                                            <div class="row mb-6">
+                                            <div class="row mb-2">
                                                 <!--begin::Label-->
                                                 <label class="col-lg-3 col-form-label fs-8 required fw-semibold fs-8" id="labelJumlahHalaman">Jumlah
                                                     Halaman</label>
@@ -736,7 +736,7 @@
                                             </div>
                                             <!--end::Input group-->
                                             <!--begin::Input group-->
-                                            <div class="row mb-6">
+                                            <div class="row mb-2">
                                                 <!--begin::Label-->
                                                 <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">Edisi Buku</label>
                                                 <!--end::Label-->
@@ -761,7 +761,7 @@
                                             </div>
 
                                         <!--begin::Input group-->
-                                        <div class="row mb-8">
+                                        <div class="row mb-2">
                                             <!--begin::Col-->
                                             <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Jenis
@@ -791,7 +791,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Lepas</span>
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Lepas</span>
                                                                 <span class="fw-semibold fs-8 text-gray-600">Penerbit
                                                                     akan mendapatkan 1 nomor ISBN untuk setiap judul
                                                                     yang diminta.</span>
@@ -812,7 +812,7 @@
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-6 fw-bold mb-1 d-block">Jilid</span>
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Jilid</span>
                                                                 <span class="fw-semibold fs-8 text-gray-600">Anda wajib
                                                                     memasukan minimal 2 jilid untuk permohonan ISBN
                                                                     berjilid.</span>
@@ -833,7 +833,7 @@
                                             <input type="hidden" name="file_cover[]" id="file_cover1">
 
                                             <!--begin::Input group-->
-                                            <div class="row mb-6">
+                                            <div class="row mb-2">
                                                 <!--begin::Label-->
                                                 
                                                 <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">File
@@ -846,11 +846,11 @@
                                                 <!--end:: Label-->
                                                 <div class="col-lg-6 d-flex align-items-center">
                                                     <!--begin::Dropzone-->
-                                                    <div class="dropzone" id="attachments1" style="width:100%">
+                                                    <div class="dropzone p-0" id="attachments1" style="width:100%">
                                                         <!--begin::Message-->
                                                         <div class="dz-message needsclick align-items-center">
                                                             <!--begin::Icon-->
-                                                            <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
+                                                            <i class="ki-outline ki-file-up fs-2hx text-primary"></i>
                                                             <!--end::Icon-->
                                                             <!--begin::Info-->
                                                             <div class="ms-4">
@@ -867,7 +867,7 @@
                                             </div>
                                             <!--end::Input group-->
                                             <!--end::Input group-->
-                                            <div class="row mb-6">
+                                            <div class="row mb-2">
                                                 <!--begin::Label-->
                                                 <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">Dummy Buku yang akan
                                                     terbit</label>
@@ -877,11 +877,11 @@
                                                 <!--end:: Label-->
                                                 <div class="col-lg-6 d-flex align-items-center">
                                                     <!--begin::Dropzone-->
-                                                    <div class="dropzone" id="dummy1">
+                                                    <div class="dropzone p-0" id="dummy1" style="width:100%">
                                                         <!--begin::Message-->
                                                         <div class="dz-message needsclick align-items-center">
                                                             <!--begin::Icon-->
-                                                            <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
+                                                            <i class="ki-outline ki-file-up fs-2hx text-primary"></i>
                                                             <!--end::Icon-->
                                                             <!--begin::Info-->
                                                             <div class="ms-4">
@@ -899,7 +899,7 @@
                                             </div>
                                             <!--end::Input group-->
                                              <!--end::Input group-->
-                                             <div class="row mb-6">
+                                             <div class="row mb-2">
                                                 <!--begin::Label-->
                                                 <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">File Cover Buku </label>
                                                 <div class="col-lg-3 col-form-label fs-8 " id="viewcover_1">
@@ -908,11 +908,11 @@
                                                 <!--end:: Label-->
                                                 <div class="col-lg-6 d-flex align-items-center">
                                                     <!--begin::Dropzone-->
-                                                    <div class="dropzone" id="cover1">
+                                                    <div class="dropzone p-0" id="cover1">
                                                         <!--begin::Message-->
                                                         <div class="dz-message needsclick align-items-center">
                                                             <!--begin::Icon-->
-                                                            <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
+                                                            <i class="ki-outline ki-file-up fs-2hx text-primary"></i>
                                                             <!--end::Icon-->
                                                             <!--begin::Info-->
                                                             <div class="ms-4">
@@ -930,7 +930,7 @@
                                             </div>
                                             <!--end::Input group-->
                                             <!--begin::Input group-->
-                                            <div class="row mb-6">
+                                            <div class="row mb-2">
                                                 <!--begin::Label-->
                                                 <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
                                                     <span class="required">URL / LINK publikasi buku</span>
@@ -946,7 +946,7 @@
                                                         placeholder="url/link buku"/>
                                                 </div>
                                                 <div class="col-lg-3 fv-row" id="btnTambahJilid">
-                                                    <span class="btn btn-success">Tambah Jilid</span>
+                                                    <span class="btn btn-success p-2 fs-8">Tambah Jilid</span>
                                                 </div>
                                                 <!--end::Col-->
                                             </div>
@@ -1204,14 +1204,14 @@
         <input type='hidden' id='file_dummy`+jumlah_buku+`' name='file_dummy[]'>
         <input type='hidden' id='file_lampiran`+jumlah_buku+`' name='file_lampiran[]'>
         <input type='hidden' id='file_cover`+jumlah_buku+`' name='file_cover[]'>  
-        <div class="row mb-6">
+        <div class="row mb-2">
             <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">File
                 Attachment</label>
             <div class="col-lg-3 col-form-label fs-8 " id="viewlampiran_`+jumlah_buku+`"></div>
             <div class="col-lg-6 d-flex align-items-center">
-                <div class="dropzone" id="attachments`+jumlah_buku+`" style="width:100%">
+                <div class="dropzone p-0" id="attachments`+jumlah_buku+`" style="width:100%">
                     <div class="dz-message needsclick align-items-center">
-                        <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
+                        <i class="ki-outline ki-file-up fs-2hx text-primary"></i>
                         <div class="ms-4">
                             <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan
                                 attachment</h3>
@@ -1221,14 +1221,14 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-6">
+        <div class="row mb-2">
             <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">Dummy Buku yang akan
                 terbit</label>
             <div class="col-lg-3 col-form-label fs-8 " id="viewdummy_`+jumlah_buku+`"></div>
             <div class="col-lg-6 d-flex align-items-center">
-                <div class="dropzone" id="dummy`+jumlah_buku+`">
+                <div class="dropzone p-0" id="dummy`+jumlah_buku+`">
                     <div class="dz-message needsclick align-items-center">
-                        <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
+                        <i class="ki-outline ki-file-up fs-2hx text-primary"></i>
                         <div class="ms-4">
                             <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan file
                                 dummy buku</h3>
@@ -1239,14 +1239,14 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-6">
+        <div class="row mb-2">
             <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">File
                 Cover Buku</label>
             <div class="col-lg-3 col-form-label fs-8 " id="viewcover_`+jumlah_buku+`"></div>
             <div class="col-lg-6 d-flex align-items-center">
-                <div class="dropzone" id="cover`+jumlah_buku+`" style="width:100%">
+                <div class="dropzone p-0" id="cover`+jumlah_buku+`" style="width:100%">
                     <div class="dz-message needsclick align-items-center">
-                        <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
+                        <i class="ki-outline ki-file-up fs-2hx text-primary"></i>
                         <div class="ms-4">
                             <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan
                                 file cover buku</h3>
@@ -1256,7 +1256,7 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-6">
+        <div class="row mb-2">
             <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
                 <span class="required">URL / LINK publikasi buku</span>
                 <span class="ms-1" data-bs-toggle="tooltip" title="url">
@@ -1268,7 +1268,7 @@
                     placeholder="url/link buku" />
             </div>
             <div class="col-lg-3 fv-row hapusJilid">
-                <span class="btn btn-danger active">Hapus Jilid</span>
+                <span class="btn btn-danger active p-2 fs-8">Hapus Jilid</span>
             </div>
         </div></div>`;
     
@@ -1641,7 +1641,7 @@
                         $('.loader').css('display','none');
                     },
             });
-    });
+    };
     var deleteKepengarangan = function(numb) {
         $('#kepengarangan_' + numb).remove();
     };

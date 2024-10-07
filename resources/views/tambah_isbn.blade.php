@@ -70,7 +70,7 @@
                                     <!--begin::Card body-->
                                     <div class="card-body border-top p-9">
                                         <!--begin::Input group-->
-                                        <div class="row mb-8">
+                                        <div class="row mb-2">
                                             <!--begin::Col-->
                                             <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Jenis
@@ -150,7 +150,7 @@
                                             <div class="col-lg-9 fv-row">
                                                 <select id="isbn-jilid" name="isbn-jilid" data-control="select2"
                                                     data-placeholder="Masukan nomor ISBN Jilid..."
-                                                    class="form-select form-select-solid form-select-lg fw-semibold">
+                                                    class="form-select form-select-solid form-select-lg fw-semibold fs-8">
                                                 </select>
                                             </div>
                                             <!--end::Col-->
@@ -214,7 +214,7 @@
                                         <!--end::Input group-->
 
                                         <!--begin::Input group-->
-                                        <div class="row mb-8">
+                                        <div class="row mb-2">
                                             <!--begin::Col-->
                                             <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Media
@@ -360,7 +360,7 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                        <div class="row mb-8">
+                                        <div class="row mb-2">
                                             <!--begin::Col-->
                                             <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Kelompok
@@ -440,7 +440,7 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                        <div class="row mb-8">
+                                        <div class="row mb-2">
                                             <!--begin::Col-->
                                             <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Jenis
@@ -500,7 +500,7 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                        <div class="row mb-8">
+                                        <div class="row mb-2">
                                             <!--begin::Col-->
                                             <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Kategori
@@ -562,7 +562,7 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                        <div class="row mb-8">
+                                        <div class="row mb-2">
                                             <!--begin::Col-->
                                             <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Golongan
@@ -640,7 +640,7 @@
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
-                                        <div class="row mb-8">
+                                        <div class="row mb-2">
                                             <!--begin::Col-->
                                             <div class="col-lg-3">
                                                 <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Apakah
@@ -979,7 +979,7 @@
                                                         placeholder="url/link buku" />
                                                 </div>
                                                 <div class="col-lg-3 fv-row" id="btnTambahJilid">
-                                                    <span class="btn btn-success">Tambah Jilid</span>
+                                                    <span class="btn btn-success p-2 fs-8">Tambah Jilid</span>
                                                 </div>
                                                 <!--end::Col-->
                                             </div>
@@ -1340,7 +1340,7 @@
                         placeholder="url/link buku" />
                 </div>
                 <div class="col-lg-3 fv-row hapusJilid">
-                    <span class="btn btn-danger active">Hapus Jilid</span>
+                    <span class="btn btn-danger active p-2 fs-8">Hapus Jilid</span>
                 </div>
             </div></div>`;
         $('#isbn_detail').append(html);
