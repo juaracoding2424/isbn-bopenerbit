@@ -140,7 +140,6 @@ class IsbnPermohonanController extends Controller
     function submit(Request $request)
     {
         $penerbit = session('penerbit');
-        //\Log::info(request()->all());
         try{   
             if(request('penerbit_terbitan_id') == ''){ //form baru
                 if(request('isbn-jilid') == ''){
@@ -401,7 +400,6 @@ class IsbnPermohonanController extends Controller
                         );
                         $id = request('isbn-jilid');
                         $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=PENERBIT_TERBITAN&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
-                        //\Log::info($res);
                     } else {
                         array_push($ListData, 
                                 [ "name"=>"MOHON_DATE", "Value"=> now()->addHours(7)->format('Y-m-d H:i:s') ],

@@ -43,7 +43,7 @@ class AuthController extends Controller
                 $penerbit = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=getlistraw&sql=" . urlencode("SELECT * FROM PENERBIT WHERE ISBN_USER_NAME='" . $request->input('username') . "' AND (ISBN_PASSWORD1='$encryptedPassword' OR ISBN_PASSWORD2='$encryptedPassword2' OR ISBN_PASSWORD='$encryptedPassword')"));
                 if (isset($penerbit["Data"]['Items'][0])) {
                     $penerbit = $penerbit["Data"]['Items'][0];
-                    //\Log::info($penerbit);
+
                     session([
                         'penerbit' => [
                             'STATUS' => 'valid',
@@ -71,7 +71,7 @@ class AuthController extends Controller
                             ], 500);
                         }
                         $penerbit_belum_verifikasi = $penerbit_belum_verifikasi["Data"]['Items'][0];
-                        //\Log::info($penerbit_belum_verifikasi);
+
                         session([
                             'penerbit' => [
                                 'STATUS' => 'notvalid',

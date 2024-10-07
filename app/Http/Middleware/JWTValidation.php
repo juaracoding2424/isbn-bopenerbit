@@ -24,11 +24,7 @@ class JWTValidation
                 'status'    => 'Failed'
             ], 401);
         }
-        //\Log::info($authorization);
-        //\Log::info(urlencode("SELECT * FROM PENERBIT WHERE JWT='$authorization'"));
         $authapi = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT WHERE JWT='$authorization'", 'sql', '')["Data"]["Items"];
-        //\Log::info($authapi);
-
         if(!isset($authapi[0])){
             return response()->json([
                 'message'   => 'Token not valid!',
@@ -36,7 +32,7 @@ class JWTValidation
             ], 401);
         } 
         if($authorization != $authapi[0]['JWT']){
-            //\Log::info("func 2");
+
             return response()->json([
                 'message'   => 'Token not valid.',
                 'status'    => 'Failed'

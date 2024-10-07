@@ -122,7 +122,7 @@ function kurl_cover($method, $penerbit, $terbitan_id, $file, $ip_user) {
             'filename' => $file->getClientOriginalName(),
         ],
     ]);
-    //\Log::info($response);
+
     if ($response->successful()) {
         $data = $response->json();
         return $data;

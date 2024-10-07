@@ -412,7 +412,6 @@ class PermohonanController extends Controller
                         pt.jenis_kelompok, pt.jenis_penelitian
                         FROM PENERBIT_TERBITAN pt JOIN ISBN_RESI ir ON ir.penerbit_terbitan_id = pt.id WHERE ir.id=" . $data[0]['ID'];
             $data_terbitan = kurl("get", "getlistraw", "", $sql_terbitan, 'sql', '')["Data"]["Items"][0];
-            //\Log::info($res);
             return response()->json([
                 'status' => 'Success',
                 'message' => 'Data permohonan berhasil diubah.',
@@ -436,7 +435,6 @@ class PermohonanController extends Controller
                     pt.jml_hlm, pt.ketebalan as dimensi,  pt.jenis_media, pt.jenis_terbitan, pt.jenis_pustaka, pt.jenis_kategori,
                     pt.jenis_kelompok, pt.jenis_penelitian
                     FROM PENERBIT_TERBITAN pt JOIN ISBN_RESI ir ON ir.penerbit_terbitan_id = pt.id WHERE ir.noresi='$noresi'";
-        //\Log::info($sql);
         $data = kurl("get", "getlistraw", "", $sql, 'sql', '')["Data"]["Items"];
         if (isset($data[0])) {
             if($data[0]['STATUS'] == 'pending'){
@@ -586,9 +584,7 @@ class PermohonanController extends Controller
             ]);
         }
 
-        //\Log::info("SELECT outer.* FROM (SELECT ROWNUM nomor, inner.* FROM ($sql $sqlWhere) inner) outer WHERE nomor >$start AND nomor <= $end");
         $data = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM nomor, inner.* FROM ($sql $sqlWhere) inner) outer WHERE nomor >$start AND nomor <= $end", 'sql', '')["Data"]["Items"];  
-        // \Log::info("SELECT COUNT(*) JML FROM PENERBIT_ISBN WHERE PENERBIT_ID=$id");
         $totalData = kurl("get","getlistraw", "", "SELECT COUNT(*) JML FROM ISBN_RESI WHERE PENERBIT_ID=$id",'sql', '')["Data"]["Items"][0]["JML"];    
         $totalFiltered = kurl("get","getlistraw", "", "SELECT COUNT(*) JML FROM ($sqlFiltered  $sqlWhere)",'sql', '')["Data"]["Items"][0]["JML"];        
         
@@ -690,7 +686,6 @@ class PermohonanController extends Controller
                 'bulan_terbit.bulan_terbit_min' => 'Bulan terbit yang Anda masukan tidak boleh kurang dari bulsn ' . date('m-Y'),
             ]);
         }
-        //\Log::info([$rules, $messages]);
         return [$rules, $messages];
     }
     public function validasiJilid(Request $request, $id, $penerbit_terbitan_id,$perbaikan = false)
@@ -788,14 +783,12 @@ class PermohonanController extends Controller
 
     public function upload_file($file, $penerbit, $terbitan_id, $ip, $keterangan, $resi_id, $is_masalah = false)
     {
-        //\Log::info($file);
         $gagal = [];
         if($keterangan  != "") {
             $jilid = "_" . explode("jilid ", $keterangan)[1];
         } else {
             $jilid = "";
         }
-        //\Log::info($jilid);
         
         if ($is_masalah) {
             //file lampiran  
@@ -816,7 +809,6 @@ class PermohonanController extends Controller
         } else {
             //file lampiran
             if ($file["file_lampiran".$jilid]) {
-                //\Log::info("nemu " . "file_lampiran".$jilid );
                 $filePath_one = $this->uploadToLocal($file["file_lampiran" . $jilid]);
                 if (File::exists(public_path('file_tmp_upload/') . $filePath_one)) {
                     $file_one = new UploadedFile(
@@ -865,7 +857,6 @@ class PermohonanController extends Controller
 
     function uploadToLocal($file)
     {
-        //\Log::info($file);
         $path = public_path('file_tmp_upload');
         $name = uniqid() . '_' . trim($file->getClientOriginalName());
         $file->move($path, $name);
