@@ -115,6 +115,21 @@ class ProfilController extends Controller
     {
         $id = session('penerbit')['ID'];
         $ip = $request->ip();
+        $validator = \Validator::make($request->all(), [
+            'confirmemailpassword'     => 'required',
+            'alternateemailaddress'      => 'required',  
+        ], [
+            'confirmemailpassword.required' => 'Konfirmasi password diperlukan untuk mengubah email alternatif!',
+            'alternateemailaddress.required' => 'Email alternatif tidak boleh kosong!'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Gagal! Cek kembali data yang Anda masukan!',
+                'err' => $validator->errors(),
+            ], 422);
+        } 
+
         //encript password
         $encryptedPassword = urlencode(getMd5Hash($request->input('confirmemailpassword')));
         $encryptedPassword2 = urlencode(rijndaelEncryptPassword($request->input('confirmemailpassword'))); 

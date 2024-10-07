@@ -52,7 +52,7 @@
 								<!--begin: Pic-->
 								<div class="me-7 mb-4">
 									<div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-										<img src="/assets/media/avatars/300-1.jpg" alt="image" />
+										<img src="{{ asset('/assets/media/avatars/300-1.jpg') }}" alt="image" />
 										<div
 											class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-body h-20px w-20px">
 										</div>
@@ -73,7 +73,7 @@
 											</div>
 											<!--end::Name-->
 											<!--begin::Info-->
-											<div class="d-flex flex-wrap fw-semibold fs-6 mb-4 pe-2">
+											<div class="d-flex flex-wrap fw-semibold fs-8 mb-4 pe-2">
 												<a href="#"
 													class="d-flex align-items-center text-gray-500 text-hover-primary me-5 mb-2">
 													<i class="ki-outline ki-geolocation fs-4 me-1"></i><span id="spanLocation"></span></a>
@@ -106,7 +106,7 @@
 													</div>
 													<!--end::Number-->
 													<!--begin::Label-->
-													<div class="fw-semibold fs-6 text-gray-500">ISBN</div>
+													<div class="fw-semibold fs-8 text-gray-500">ISBN</div>
 													<!--end::Label-->
 												</div>
 												<!--end::Stat-->
@@ -120,7 +120,7 @@
 													</div>
 													<!--end::Number-->
 													<!--begin::Label-->
-													<div class="fw-semibold fs-6 text-gray-500">KCKR Perpusnas</div>
+													<div class="fw-semibold fs-8 text-gray-500">KCKR Perpusnas</div>
 													<!--end::Label-->
 												</div>
 												<!--end::Stat-->
@@ -135,7 +135,7 @@
 													</div>
 													<!--end::Number-->
 													<!--begin::Label-->
-													<div class="fw-semibold fs-6 text-gray-500">KCKR Provinsi</div>
+													<div class="fw-semibold fs-8 text-gray-500">KCKR Provinsi</div>
 													<!--end::Label-->
 												</div>
 												<!--end::Stat-->
@@ -146,8 +146,8 @@
 										<!--begin::Progress-->
 										<div class="d-flex align-items-center w-300px w-sm-500px flex-column mt-3">
 											<div class="d-flex justify-content-between w-100 mt-auto mb-2">
-												<span class="fw-semibold fs-6 text-gray-500">Serah Simpan ke Perpusnas</span>
-												<span class="fw-bold fs-6" id="divKepatuhanPerpusnas">35%</span>
+												<span class="fw-semibold fs-8 text-gray-500">Serah Simpan ke Perpusnas</span>
+												<span class="fw-bold fs-8" id="divKepatuhanPerpusnas">35%</span>
 											</div>
 											<div class="h-5px mx-3 w-100 bg-light mb-3">
 												<div class="bg-success rounded h-5px" role="progressbar"
@@ -155,8 +155,8 @@
 													aria-valuemax="100" id="progressKepatuhanPerpusnas"></div>
 											</div>
 											<div class="d-flex justify-content-between w-100 mt-auto mb-2">
-												<span class="fw-semibold fs-6 text-gray-500">Serah Simpan ke Penerbit</span>
-												<span class="fw-bold fs-6" id="divKepatuhanProvinsi">20%</span>
+												<span class="fw-semibold fs-8 text-gray-500">Serah Simpan ke Penerbit</span>
+												<span class="fw-bold fs-8" id="divKepatuhanProvinsi">20%</span>
 											</div>
 											<div class="h-5px mx-3 w-100 bg-light mb-3">
 												<div class="bg-primary rounded h-5px" role="progressbar"
@@ -194,7 +194,7 @@
 													<!--begin::Input group-->
 													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label fw-semibold fs-6">Avatar</label>
+														<label class="col-lg-4 col-form-label fw-semibold fs-8">Avatar</label>
 														<!--end::Label-->
 														<!--begin::Col-->
 														<div class="col-lg-8">
@@ -234,7 +234,7 @@
 													<!--begin::Input group-->
 													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label required fw-semibold fs-6">Nama Penerbit</label>
+														<label class="col-lg-4 col-form-label required fw-semibold fs-8">Nama Penerbit</label>
 														<!--end::Label-->
 														<!--begin::Col-->
 														<div class="col-lg-8">
@@ -242,7 +242,7 @@
 															<div class="row">
 																<!--begin::Col-->
 																<div class="col-lg-8 fv-row">
-																	<input type="text" name="name" class="form-control form-control-lg form-control-solid" placeholder="Nama Penerbit" value="" />
+																	<input type="text" name="name" class="form-control form-control-lg form-control-solid fs-8" placeholder="Nama Penerbit" value="" />
 																</div>
 																<!--end::Col-->
 															</div>
@@ -254,11 +254,11 @@
 													<!--begin::Input group-->
 													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label required fw-semibold fs-6">Username</label>
+														<label class="col-lg-4 col-form-label required fw-semibold fs-8">Username</label>
 														<!--end::Label-->
 														<!--begin::Col-->
 														<div class="col-lg-8 fv-row">
-															<input type="text" name="username" class="form-control form-control-lg form-control-solid" placeholder="username" value="" />
+															<input type="text" name="username" class="form-control form-control-lg form-control-solid fs-8" placeholder="username" value="" />
 														</div>
 														<!--end::Col-->
 													</div>
@@ -266,16 +266,16 @@
 													<!--begin::Input group-->
 													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label fw-semibold fs-6">
+														<label class="col-lg-4 col-form-label fw-semibold fs-8">
 															<span class="required">Nomor Telepon</span>
 															<span class="ms-1" data-bs-toggle="tooltip" title="Phone number must be active">
-																<i class="ki-outline ki-information-5 text-gray-500 fs-6"></i>
+																<i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
 															</span>
 														</label>
 														<!--end::Label-->
 														<!--begin::Col-->
 														<div class="col-lg-8 fv-row">
-															<input type="tel" name="phone" class="form-control form-control-lg form-control-solid" placeholder="Phone number" value="" />
+															<input type="tel" name="phone" class="form-control form-control-lg form-control-solid fs-8" placeholder="Phone number" value="" />
 														</div>
 														<!--end::Col-->
 													</div>
@@ -283,11 +283,11 @@
 													<!--begin::Input group-->
 													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label fw-semibold fs-6">Alamat</label>
+														<label class="col-lg-4 col-form-label fw-semibold fs-8">Alamat</label>
 														<!--end::Label-->
 														<!--begin::Col-->
 														<div class="col-lg-8 fv-row">
-															<input type="text" name="alamat_penerbit" class="form-control form-control-lg form-control-solid" placeholder="Alamat / Nama Jalan" />
+															<input type="text" name="alamat_penerbit" class="form-control form-control-lg form-control-solid fs-8" placeholder="Alamat / Nama Jalan" />
 														</div>
 														<!--end::Col-->
 													</div>
@@ -295,11 +295,11 @@
 													<!--begin::Input group-->
 													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label fw-semibold fs-6">Nama Gedung</label>
+														<label class="col-lg-4 col-form-label fw-semibold fs-8">Nama Gedung</label>
 														<!--end::Label-->
 														<!--begin::Col-->
 														<div class="col-lg-8 fv-row">
-															<input type="text" name="nama_gedung" class="form-control form-control-lg form-control-solid" placeholder="Nama Gedung" />
+															<input type="text" name="nama_gedung" class="form-control form-control-lg form-control-solid fs-8" placeholder="Nama Gedung" />
 														</div>
 														<!--end::Col-->
 													</div>
@@ -307,16 +307,16 @@
 													<!--begin::Input group-->
 													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label fw-semibold fs-6">
+														<label class="col-lg-4 col-form-label fw-semibold fs-8">
 															<span class="required">Provinsi</span>
 															<span class="ms-1" data-bs-toggle="tooltip" title="Provinsi">
-																<i class="ki-outline ki-information-5 text-gray-500 fs-6"></i>
+																<i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
 															</span>
 														</label>
 														<!--end::Label-->
 														<!--begin::Col-->
 														<div class="col-lg-8 fv-row">
-															<select id="select2-provinsi" name="provinsi" aria-label="Select a Country" data-control="select2" data-placeholder="Pilih provinsi..." class="form-select form-select-solid form-select-lg fw-semibold">
+															<select id="select2-provinsi" name="provinsi" aria-label="Select a Country" data-control="select2" data-placeholder="Pilih provinsi..." class="form-select form-select-solid fs-8 form-select-lg fw-semibold">
 																<option value="">Pilih Provinsi...</option>
 															</select>
 														</div>
@@ -326,16 +326,16 @@
 													<!--begin::Input group-->
 													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label fw-semibold fs-6">
+														<label class="col-lg-4 col-form-label fw-semibold fs-8">
 															<span class="required">Kabupaten / Kota</span>
 															<span class="ms-1" data-bs-toggle="tooltip" title="Kabupaten/Kota">
-																<i class="ki-outline ki-information-5 text-gray-500 fs-6"></i>
+																<i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
 															</span>
 														</label>
 														<!--end::Label-->
 														<!--begin::Col-->
 														<div class="col-lg-8 fv-row">
-															<select id="select2-kabupaten" name="kabkot" aria-label="Pilih Kabupaten/kota" data-control="select2" data-placeholder="Pilih kabupaten/kota..." class="form-select form-select-solid form-select-lg fw-semibold">
+															<select id="select2-kabupaten" name="kabkot" aria-label="Pilih Kabupaten/kota" data-control="select2" data-placeholder="Pilih kabupaten/kota..." class="form-select form-select-solid fs-8 form-select-lg fw-semibold">
 																<option value="">Pilih Kabupaten/Kota...</option>
 															</select>
 														</div>
@@ -345,16 +345,16 @@
 													<!--begin::Input group-->
 													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label fw-semibold fs-6">
+														<label class="col-lg-4 col-form-label fw-semibold fs-8">
 															<span class="required">Kecamatan</span>
 															<span class="ms-1" data-bs-toggle="tooltip" title="Kecamatan">
-																<i class="ki-outline ki-information-5 text-gray-500 fs-6"></i>
+																<i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
 															</span>
 														</label>
 														<!--end::Label-->
 														<!--begin::Col-->
 														<div class="col-lg-8 fv-row">
-															<select id="select2-kecamatan" name="kecamatan" aria-label="Pilih kecamatan" data-control="select2" data-placeholder="Pilih kecamatan" class="form-select form-select-solid form-select-lg fw-semibold">
+															<select id="select2-kecamatan" name="kecamatan" aria-label="Pilih kecamatan" data-control="select2" data-placeholder="Pilih kecamatan" class="form-select form-select-solid fs-8 form-select-lg fw-semibold">
 																<option value="">Pilih Kecamatan...</option>
 															</select>
 														</div>
@@ -364,16 +364,16 @@
 													<!--begin::Input group-->
 													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label fw-semibold fs-6">
+														<label class="col-lg-4 col-form-label fw-semibold fs-8">
 															<span class="required">Kelurahan</span>
 															<span class="ms-1" data-bs-toggle="tooltip" title="Kelurahan">
-																<i class="ki-outline ki-information-5 text-gray-500 fs-6"></i>
+																<i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
 															</span>
 														</label>
 														<!--end::Label-->
 														<!--begin::Col-->
 														<div class="col-lg-8 fv-row">
-															<select id="select2-kelurahan" name="kelurahan" aria-label="Pilih kelurahan" data-control="select2" data-placeholder="Pilih Kelurahan..." class="form-select form-select-solid form-select-lg fw-semibold">
+															<select id="select2-kelurahan" name="kelurahan" aria-label="Pilih kelurahan" data-control="select2" data-placeholder="Pilih Kelurahan..." class="form-select form-select-solid fs-8 form-select-lg fw-semibold">
 																<option value="">Pilih Kelurahan...</option>
 															</select>
 														</div>
@@ -409,7 +409,7 @@
 												<!--begin::Alternate Email Address-->
 												<div class="d-flex flex-wrap align-items-center">
 													<div id="alternateemail">
-														<div class="fs-6 fw-bold mb-1">Primary Email</div>
+														<div class="fs-8 fw-bold mb-1">Primary Email</div>
 														<div class="fw-semibold text-gray-600" id="email1"></div>
 													</div>
 												</div>
@@ -419,7 +419,7 @@
 												<div class="d-flex flex-wrap align-items-center">
 													<!--begin::Label-->
 													<div id="kt_signin_email">
-														<div class="fs-6 fw-bold mb-1">Alternate Email</div>
+														<div class="fs-8 fw-bold mb-1">Alternate Email</div>
 														<div class="fw-semibold text-gray-600" id="email2"></div>
 													</div>
 													
@@ -431,14 +431,14 @@
 															<div class="row mb-6">
 																<div class="col-lg-6 mb-4 mb-lg-0">
 																	<div class="fv-row mb-0">
-																		<label for="emailaddress" class="form-label fs-6 fw-bold mb-3">Enter New Alternate Email Address</label>
-																		<input type="email" class="form-control form-control-lg form-control-solid" id="alternateemailaddress" placeholder="Email Address" name="alternateemailaddress" value="" />
+																		<label for="emailaddress" class="form-label fs-8 fw-bold mb-3">Enter New Alternate Email Address</label>
+																		<input type="email" class="form-control form-control-lg fs-8" id="alternateemailaddress" placeholder="Email Address" name="alternateemailaddress" value="" />
 																	</div>
 																</div>
 																<div class="col-lg-6">
 																	<div class="fv-row mb-0">
-																		<label for="confirmemailpassword" class="form-label fs-6 fw-bold mb-3">Confirm Password</label>
-																		<input type="password" class="form-control form-control-lg form-control-solid" name="confirmemailpassword" id="confirmemailpassword" />
+																		<label for="confirmemailpassword" class="form-label fs-8 fw-bold mb-3">Confirm Password</label>
+																		<input type="password" class="form-control form-control-lg fs-8" name="confirmemailpassword" id="confirmemailpassword" />
 																	</div>
 																</div>
 															</div>
@@ -475,176 +475,19 @@
 			<!--end::Content-->
 		</div>
 		<!--end::Content wrapper-->
-		<!--begin::Modal - Two-factor authentication-->
-		<div class="modal fade" id="kt_modal_two_factor_authentication" tabindex="-1" aria-hidden="true">
-			<!--begin::Modal header-->
-			<div class="modal-dialog modal-dialog-centered mw-650px">
-				<!--begin::Modal content-->
-				<div class="modal-content">
-					<!--begin::Modal header-->
-					<div class="modal-header flex-stack">
-						<!--begin::Title-->
-						<h2>Choose An Authentication Method</h2>
-						<!--end::Title-->
-						<!--begin::Close-->
-						<div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
-							<i class="ki-outline ki-cross fs-1"></i>
-						</div>
-						<!--end::Close-->
-					</div>
-					<!--begin::Modal header-->
-					<!--begin::Modal body-->
-					<div class="modal-body scroll-y pt-10 pb-15 px-lg-17">
-						<!--begin::Options-->
-						<div data-kt-element="options">
-							<!--begin::Notice-->
-							<p class="text-muted fs-5 fw-semibold mb-10">In addition to your username and password, you’ll have to enter a code (delivered via app or SMS) to log into your account.</p>
-							<!--end::Notice-->
-							<!--begin::Wrapper-->
-							<div class="pb-10">
-								<!--begin::Option-->
-								<input type="radio" class="btn-check" name="auth_option" value="apps" checked="checked" id="kt_modal_two_factor_authentication_option_1" />
-								<label class="btn btn-outline btn-outline-dashed btn-active-light-primary p-7 d-flex align-items-center mb-5" for="kt_modal_two_factor_authentication_option_1">
-									<i class="ki-outline ki-setting-2 fs-4x me-4"></i>
-									<span class="d-block fw-semibold text-start">
-										<span class="text-gray-900 fw-bold d-block fs-3">Authenticator Apps</span>
-										<span class="text-muted fw-semibold fs-6">Get codes from an app like Google Authenticator, Microsoft Authenticator, Authy or 1Password.</span>
-									</span>
-								</label>
-								<!--end::Option-->
-								<!--begin::Option-->
-								<input type="radio" class="btn-check" name="auth_option" value="sms" id="kt_modal_two_factor_authentication_option_2" />
-								<label class="btn btn-outline btn-outline-dashed btn-active-light-primary p-7 d-flex align-items-center" for="kt_modal_two_factor_authentication_option_2">
-									<i class="ki-outline ki-message-text-2 fs-4x me-4"></i>
-									<span class="d-block fw-semibold text-start">
-										<span class="text-gray-900 fw-bold d-block fs-3">SMS</span>
-										<span class="text-muted fw-semibold fs-6">We will send a code via SMS if you need to use your backup login method.</span>
-									</span>
-								</label>
-								<!--end::Option-->
-							</div>
-							<!--end::Options-->
-							<!--begin::Action-->
-							<button class="btn btn-primary w-100" data-kt-element="options-select">Continue</button>
-							<!--end::Action-->
-						</div>
-						<!--end::Options-->
-						<!--begin::Apps-->
-						<div class="d-none" data-kt-element="apps">
-							<!--begin::Heading-->
-							<h3 class="text-gray-900 fw-bold mb-7">Authenticator Apps</h3>
-							<!--end::Heading-->
-							<!--begin::Description-->
-							<div class="text-gray-500 fw-semibold fs-6 mb-10">Using an authenticator app like 
-							<a href="https://support.google.com/accounts/answer/1066447?hl=en" target="_blank">Google Authenticator</a>, 
-							<a href="https://www.microsoft.com/en-us/account/authenticator" target="_blank">Microsoft Authenticator</a>, 
-							<a href="https://authy.com/download/" target="_blank">Authy</a>, or 
-							<a href="https://support.1password.com/one-time-passwords/" target="_blank">1Password</a>, scan the QR code. It will generate a 6 digit code for you to enter below. 
-							<!--begin::QR code image-->
-							<div class="pt-5 text-center">
-								<img src="assets/media/misc/qr.png" alt="" class="mw-150px" />
-							</div>
-							<!--end::QR code image--></div>
-							<!--end::Description-->
-							<!--begin::Notice-->
-							<div class="notice d-flex bg-light-warning rounded border-warning border border-dashed mb-10 p-6">
-								<!--begin::Icon-->
-								<i class="ki-outline ki-information fs-2tx text-warning me-4"></i>
-								<!--end::Icon-->
-								<!--begin::Wrapper-->
-								<div class="d-flex flex-stack flex-grow-1">
-									<!--begin::Content-->
-									<div class="fw-semibold">
-										<div class="fs-6 text-gray-700">If you having trouble using the QR code, select manual entry on your app, and enter your username and the code: 
-										<div class="fw-bold text-gray-900 pt-2">KBSS3QDAAFUMCBY63YCKI5WSSVACUMPN</div></div>
-									</div>
-									<!--end::Content-->
-								</div>
-								<!--end::Wrapper-->
-							</div>
-							<!--end::Notice-->
-							<!--begin::Form-->
-							<form data-kt-element="apps-form" class="form" action="#">
-								<!--begin::Input group-->
-								<div class="mb-10 fv-row">
-									<input type="text" class="form-control form-control-lg form-control-solid" placeholder="Enter authentication code" name="code" />
-								</div>
-								<!--end::Input group-->
-								<!--begin::Actions-->
-								<div class="d-flex flex-center">
-									<button type="reset" data-kt-element="apps-cancel" class="btn btn-light me-3">Cancel</button>
-									<button type="submit" data-kt-element="apps-submit" class="btn btn-primary">
-										<span class="indicator-label">Submit</span>
-										<span class="indicator-progress">Please wait... 
-										<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-									</button>
-								</div>
-								<!--end::Actions-->
-							</form>
-							<!--end::Form-->
-						</div>
-						<!--end::Options-->
-						<!--begin::SMS-->
-						<div class="d-none" data-kt-element="sms">
-							<!--begin::Heading-->
-							<h3 class="text-gray-900 fw-bold fs-3 mb-5">SMS: Verify Your Mobile Number</h3>
-							<!--end::Heading-->
-							<!--begin::Notice-->
-							<div class="text-muted fw-semibold mb-10">Enter your mobile phone number with country code and we will send you a verification code upon request.</div>
-							<!--end::Notice-->
-							<!--begin::Form-->
-							<form data-kt-element="sms-form" class="form" action="#">
-								<!--begin::Input group-->
-								<div class="mb-10 fv-row">
-									<input type="text" class="form-control form-control-lg form-control-solid" placeholder="Mobile number with country code..." name="mobile" />
-								</div>
-								<!--end::Input group-->
-								<!--begin::Actions-->
-								<div class="d-flex flex-center">
-									<button type="reset" data-kt-element="sms-cancel" class="btn btn-light me-3">Cancel</button>
-									<button type="submit" data-kt-element="sms-submit" class="btn btn-primary">
-										<span class="indicator-label">Submit</span>
-										<span class="indicator-progress">Please wait... 
-										<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-									</button>
-								</div>
-								<!--end::Actions-->
-							</form>
-							<!--end::Form-->
-						</div>
-						<!--end::SMS-->
-					</div>
-					<!--begin::Modal body-->
-				</div>
-				<!--end::Modal content-->
-			</div>
-			<!--end::Modal header-->
-		</div>
-		<!--end::Modal - Two-factor authentication-->
 @stop
 		
 <!--begin::Javascript-->
 @section('script')
 <!--begin::Custom Javascript(used for this page only)-->
+<script src="{{ asset('/assets/js/widgets.bundle.js') }}"></script>
+<script src="{{ asset('/assets/js/custom/widgets.js') }}"></script>
 
-		<script src="{{ asset('/assets/js/widgets.bundle.js') }}"></script>
-		<script src="{{ asset('/assets/js/custom/widgets.js') }}"></script>
-		<!--script src="/assets/js/custom/apps/chat/chat.js"></script>
-		<script src="/assets/js/custom/utilities/modals/upgrade-plan.js"></script>
-		<script src="/assets/js/custom/utilities/modals/create-campaign.js"></script>
-		<script src="/assets/js/custom/utilities/modals/offer-a-deal/type.js"></script>
-		<script src="/assets/js/custom/utilities/modals/offer-a-deal/details.js"></script>
-		<script src="/assets/js/custom/utilities/modals/offer-a-deal/finance.js"></script>
-		<script src="/assets/js/custom/utilities/modals/offer-a-deal/complete.js"></script>
-		<script src="/assets/js/custom/utilities/modals/offer-a-deal/main.js"></script>
-		<script src="/assets/js/custom/utilities/modals/two-factor-authentication.js"></script>
-		<script src="/assets/js/custom/utilities/modals/users-search.js"></script>
-		<end::Custom Javascript-->
 <!--begin::Custom Javascript(used for this page only)-->
 
 <!--end::Body-->
 <script>
-		document.addEventListener('DOMContentLoaded', function(e) {
+	document.addEventListener('DOMContentLoaded', function(e) {
 		FormValidation.formValidation(
 			document.getElementById('form_akun'),
 			{
@@ -808,6 +651,42 @@
 					});
 
 				})
+	})
+	document.addEventListener('DOMContentLoaded', function(e) {
+		FormValidation.formValidation(
+			document.getElementById('change_email'),
+			{
+                    fields: {
+                        confirmemailpassword: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Konfirmasi password diperlukan untuk mengubah email alternatif!"
+                                },
+                            }
+                        },
+						alternateemailaddress: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Email alternatif tidak boleh kosong!"
+                                }
+                            }
+                        },
+                    },
+                    plugins: {
+                        trigger: new FormValidation.plugins.Trigger,
+                        bootstrap: new FormValidation.plugins.Bootstrap5({
+                            rowSelector: ".col-lg-6"
+                        }),
+						submitButton: new FormValidation.plugins.SubmitButton(),
+						icon: new FormValidation.plugins.Icon({
+                            valid: 'fa fa-check',
+                            invalid: 'fa fa-times',
+                            validating: 'fa fa-refresh',
+                        }),
+                    }
+            }).on('core.form.valid', function() {
+				submitForm();
+		});
 	})
 </script>
 <script>
@@ -1023,7 +902,7 @@
 		$('#kt_signin_email').removeClass('d-none');
 		$('#kt_signin_email_button').removeClass('d-none');
 	});
-	$('#kt_signin_submit').on('click', function(){
+	var submitForm = function(){
 		let form = document.getElementById('change_email');
 		let formData = new FormData(form); 
 		$.ajaxSetup({
@@ -1098,8 +977,10 @@
 								},
 							}
 					});
-
-	})
+	}
+	$('#kt_signin_submit').on('click', function(){
+		submitForm();
+	});
 </script>
 
 @stop
