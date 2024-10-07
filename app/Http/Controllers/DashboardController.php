@@ -89,7 +89,14 @@ class DashboardController extends Controller
         $sql = "SELECT count(*) jumlah FROM PENERBIT_ISBN
                     WHERE PENERBIT_ID = '$id' AND RECEIVED_DATE_KCKR IS NOT NULL ";
         $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
-        return $data;
+
+        $sql_total = "SELECT count(*) jumlah FROM PENERBIT_ISBN
+                    WHERE PENERBIT_ID = '$id' ";
+        $data_total = kurl("get","getlistraw", "", $sql_total, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
+
+        $kepatuhan = number_format(intval($data) / intval($data_total) * 100, 2, '.', '')  ; 
+
+        return [$data, $kepatuhan];
     }
 
     public function getKckrProvinsi()
@@ -99,7 +106,13 @@ class DashboardController extends Controller
         $sql = "SELECT count(*) jumlah FROM PENERBIT_ISBN
                     WHERE PENERBIT_ID = '$id' AND RECEIVED_DATE_PROV IS NOT NULL ";
         $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
-        return $data;
+
+        $sql_total = "SELECT count(*) jumlah FROM PENERBIT_ISBN
+                    WHERE PENERBIT_ID = '$id' ";
+        $data_total = kurl("get","getlistraw", "", $sql_total, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
+
+        $kepatuhan = number_format(intval($data) / intval($data_total) * 100, 2, '.', '')  ; 
+        return [$data, $kepatuhan];
     }
     
 }

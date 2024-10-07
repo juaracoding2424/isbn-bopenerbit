@@ -87,21 +87,6 @@
 											<!--end::Info-->
 										</div>
 										<!--end::User-->
-										<!--begin::Actions-->
-										<div class="d-flex my-4">
-											<a href="#" class="btn btn-sm btn-light me-2" id="kt_user_follow_button">
-												<i class="ki-outline ki-check fs-3 d-none"></i>
-												<!--begin::Indicator label-->
-												<span class="indicator-label">Follow</span>
-												<!--end::Indicator label-->
-												<!--begin::Indicator progress-->
-												<span class="indicator-progress">Please wait...
-													<span
-														class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-												<!--end::Indicator progress-->
-											</a>
-										</div>
-										<!--end::Actions-->
 									</div>
 									<!--end::Title-->
 									<!--begin::Stats-->
@@ -159,15 +144,24 @@
 										</div>
 										<!--end::Wrapper-->
 										<!--begin::Progress-->
-										<div class="d-flex align-items-center w-200px w-sm-300px flex-column mt-3">
+										<div class="d-flex align-items-center w-300px w-sm-500px flex-column mt-3">
 											<div class="d-flex justify-content-between w-100 mt-auto mb-2">
-												<span class="fw-semibold fs-6 text-gray-500">Kepatuhan Penerbit</span>
-												<span class="fw-bold fs-6" id="divKepatuhan">35%</span>
+												<span class="fw-semibold fs-6 text-gray-500">Serah Simpan ke Perpusnas</span>
+												<span class="fw-bold fs-6" id="divKepatuhanPerpusnas">35%</span>
 											</div>
 											<div class="h-5px mx-3 w-100 bg-light mb-3">
 												<div class="bg-success rounded h-5px" role="progressbar"
 													style="width: 35%;" aria-valuenow="35" aria-valuemin="0"
-													aria-valuemax="100" id="progressKepatuhan"></div>
+													aria-valuemax="100" id="progressKepatuhanPerpusnas"></div>
+											</div>
+											<div class="d-flex justify-content-between w-100 mt-auto mb-2">
+												<span class="fw-semibold fs-6 text-gray-500">Serah Simpan ke Penerbit</span>
+												<span class="fw-bold fs-6" id="divKepatuhanProvinsi">20%</span>
+											</div>
+											<div class="h-5px mx-3 w-100 bg-light mb-3">
+												<div class="bg-primary rounded h-5px" role="progressbar"
+													style="width: 20%;" aria-valuenow="20" aria-valuemin="0"
+													aria-valuemax="100" id="progressKepatuhanProvinsi"></div>
 											</div>
 										</div>
 										<!--end::Progress-->
@@ -974,8 +968,11 @@
 				contentType: false,
 				processData: false,
 				success: function(response) {
-					$('#divKckrPerpusnas').text(response);
-					$('#divKckrPerpusnas').attr('data-kt-countup-value',response );
+					$('#divKckrPerpusnas').text(response[0]);
+					$('#divKckrPerpusnas').attr('data-kt-countup-value',response[0] );
+					$('#divKepatuhanPerpusnas').text(response[1] + '%');
+					$('#progressKepatuhanPerpusnas').attr('aria-valuenow', response[1]);
+					$('#progressKepatuhanPerpusnas').css('width', response[1] + '%');
 				},
 				error: function() {
 					Toast.fire({
@@ -990,8 +987,11 @@
 				contentType: false,
 				processData: false,
 				success: function(response) {
-					$('#divKckrProvinsi').text(response);
-					$('#divKckrProvinsi').attr('data-kt-countup-value',response );
+					$('#divKckrProvinsi').text(response[0]);
+					$('#divKckrProvinsi').attr('data-kt-countup-value',response[0] );
+					$('#divKepatuhanProvinsi').text(response[1] + '%');
+					$('#progressKepatuhanProvinsi').attr('aria-valuenow', response[1]);
+					$('#progressKepatuhanProvinsi').css('width', response[1] + '%');
 				},
 				error: function() {
 					Toast.fire({
