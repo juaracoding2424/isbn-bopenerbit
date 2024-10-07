@@ -1037,7 +1037,7 @@
                                 },
                                 remote: {
                                     method: 'POST',
-                                    url: "{{ url('penerbit/isbn/permohonan/check/title?penerbit_terbitan_id=') }}" + ($('#select2-isbn-jilid').val() == null ? 0 : $('#select2-isbn-jilid').val()),
+                                    url: "{{ url('penerbit/isbn/permohonan/check/title?penerbit_terbitan_id=') }}" + ($('#select2-isbn-jilid :selected').val() == null ? 0 : $('#select2-isbn-jilid :selected').val()),
                                 },
                             }
                         },
@@ -1128,6 +1128,8 @@
                             validating: 'fa fa-refresh',
                         }),
                     }
+            }).on('core.form.valid', function() {
+                formSubmit();
             });
     $.getJSON(urlJilid, function (res) {
         res = $.map(res, function (obj) {
@@ -1520,8 +1522,8 @@
         $('#kepengarangan').append(htmlAppend);
         kepengarangan += 1;
     });
-    $('form#form_isbn').submit(function (e) {
-        e.preventDefault();
+    var formSubmit = function () {
+        event.preventDefault();
         let htmlSwal = 
         Swal.fire({
                     html: `<h2>Anda yakin akan mengajukan permohonan ISBN baru?</h2> <br/> <div class="flex-column" style="text-align: left;">
@@ -1558,7 +1560,7 @@ Nasional dan Perpustakaan Provinsi, termasuk edisi revisi.<br/>
         })
         $('.loader').css('display', 'block');
         
-    });
+    };
     var postForm = function(){
         let form = document.getElementById('form_isbn');
         let formData = new FormData(form);

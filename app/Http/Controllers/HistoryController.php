@@ -127,7 +127,6 @@ class HistoryController extends Controller
                         $status_permohonan = '' ;
                         break;
                 }
-                \Log::info($cek_disini);
                 if($val['TABLENAME'] == 'PENERBIT_TERBITAN'){
                     $notes = $note . $status_permohonan . " : '" .$val['TITLE'] ."'. ". $cek_disini;
                 } else {

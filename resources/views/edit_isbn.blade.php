@@ -1095,6 +1095,8 @@
                             validating: 'fa fa-refresh',
                         }),
                     }
+            }).on('core.form.valid', function() {
+                formSubmit();
             });
     var dropZoneJilid = function(jilid_ke, file_type){
         let dropzoneId = "", inputFileId ="", acceptedFiles = "", maxFilesize = 5;
@@ -1558,8 +1560,8 @@
     $('#btnSubmit').on('click', function(){
         $('form#form_isbn').submit();
     })
-    $('form#form_isbn').submit(function(e){
-        e.preventDefault();
+    var formSubmit = function(){
+        event.preventDefault();
         let form = document.getElementById('form_isbn');
         let formData = new FormData(form); 
         formData.append('jumlah_jilid', jumlah_buku);
