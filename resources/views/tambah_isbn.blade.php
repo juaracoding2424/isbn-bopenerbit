@@ -148,7 +148,7 @@
                                             <!--end::Label-->
                                             <!--begin::Col-->
                                             <div class="col-lg-9 fv-row">
-                                                <select id="select2-isbn-jilid" name="isbn-jilid" data-control="select2"
+                                                <select id="isbn-jilid" name="isbn-jilid" data-control="select2"
                                                     data-placeholder="Masukan nomor ISBN Jilid..."
                                                     class="form-select form-select-solid form-select-lg fw-semibold">
                                                 </select>
@@ -1037,7 +1037,12 @@
                                 },
                                 remote: {
                                     method: 'POST',
-                                    url: "{{ url('penerbit/isbn/permohonan/check/title?penerbit_terbitan_id=') }}" + ($('#select2-isbn-jilid :selected').val() == null ? 0 : $('#select2-isbn-jilid :selected').val()),
+                                    data: function(validator) {
+                                        return {
+                                            penerbit_terbitan_id: $('#isbn-jilid').val()
+                                        };
+                                    },
+                                    url: "{{ url('penerbit/isbn/permohonan/check/title') }}",
                                 },
                             }
                         },
@@ -1143,7 +1148,7 @@
         }].concat(res);
 
         //implemen data ke select provinsi
-        $("#select2-isbn-jilid").select2({
+        $("#isbn-jilid").select2({
             dropdownAutoWidth: true,
             width: '100%',
             data: data
@@ -1243,7 +1248,7 @@
     $('#btnTambahJilid').on('click', function () {
         jumlah_buku += 1;
         let idJilid = jumlah_buku;
-        if($('#select2-isbn-jilid').val() != ""){
+        if($('#isbn-jilid').val() != ""){
             idJilid = jumlah_buku - jml_jilid + 1;
             $('#keterangan_jilid_1').val('jilid ' + (jumlah_buku - 1));
         }
@@ -1321,7 +1326,7 @@
         if (jumlah_buku > 2) {
             var objJilids = $('.jilidbaru').find();
             for (var i = 0; i <= objJilids.prevObject.length; i++) {
-                if($('#select2-isbn-jilid').val()!=""){
+                if($('#isbn-jilid').val()!=""){
                     if (i < jumlah_buku - jml_jilid - 1) {
                         var btnHapus = $(objJilids.prevObject[i]).find('.btn-danger').first();
                         btnHapus.removeClass("active");
@@ -1342,7 +1347,7 @@
             var objJilids = $('.jilidbaru').find();
             for (var i = 0; i <= objJilids.prevObject.length; i++) {
                 var btnHapus = $(objJilids.prevObject[i]).find('.btn-danger').first();
-                if($('#select2-isbn-jilid').val()!=""){
+                if($('#isbn-jilid').val()!=""){
                     if (i < idJilid) {
                         btnHapus.removeClass("active");
                         btnHapus.addClass('disabled');
@@ -1363,7 +1368,7 @@
                 }
             }
         });
-        if($('#select2-isbn-jilid').val()!=""){ 
+        if($('#isbn-jilid').val()!=""){ 
             dropZoneJilid(idJilid, "lampiran");
             dropZoneJilid(idJilid, "cover");
             dropZoneJilid(idJilid, "dummy");
@@ -1373,7 +1378,7 @@
             dropZoneJilid(jumlah_buku, "dummy");
         }
     });
-    $('#select2-isbn-jilid').on("change", function(){
+    $('#isbn-jilid').on("change", function(){
         $.getJSON("{{url('/penerbit/isbn/permohonan/detail-jilid') }}" + "/" +$(this).val(), function (res) {
             $('textarea[name=title]').val(res['detail']['TITLE']);
             var kepeng =res['detail']['KEPENG'];
@@ -1490,7 +1495,7 @@
             $('#jml_hlm').val(0);
             $('#jml_hlm').removeAttr("disabled");
             $('#row-isbnjilid').hide();
-            $('#select2-isbn-jilid').val('').trigger('change');
+            $('#isbn-jilid').val('').trigger('change');
         } else {
             $('#judul_buku_1').css('display', 'block');
             $('#btnTambahJilid').css('display', 'block');
