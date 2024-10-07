@@ -8,7 +8,7 @@
         max-height: 700px !important;
     }
     .invalid-feedback {
-        font-weight: 600 !important
+        font-weight: 500 !important
     }
 </style>
 <div class="d-flex flex-column flex-column-fluid">
@@ -862,8 +862,6 @@
                                                 <hr />
                                             </span>
                                             <input type='hidden' name='keterangan_jilid[]' value='jilid 1' id="keterangan_jilid_1">
-                                            <input type="hidden" name="file_lampiran[]" id="file_lampiran1">
-                                            <input type="hidden" name="file_dummy[]" id="file_dummy1">
                                             <input type="hidden" name="file_cover[]" id="file_cover1">
 
                                             <div class="row mb-6">
@@ -875,7 +873,8 @@
                                                     <a><i class="bi bi-filetype-pdf fs-1"></i> DummyBuku.pdf</a>
                                                 </div>-->
                                                 <!--end:: Label-->
-                                                <div class="col-lg-6 d-flex align-items-center">
+                                                <div class="col-lg-9 d-flex align-items-center">
+                                                <input type="hidden" name="file_lampiran[]" id="file_lampiran1">
                                                     <!--begin::Dropzone-->
                                                     <div class="dropzone" id="dummy1">
                                                         <!--begin::Message-->
@@ -911,7 +910,8 @@
                                                     <a><i class="bi bi-filetype-pdf fs-1"></i> SuratKeaslianKarya.pdf</a>
                                                 </div>-->
                                                 <!--end:: Label-->
-                                                <div class="col-lg-6 d-flex align-items-center">
+                                                <div class="col-lg-9 d-flex align-items-center">
+                                                <input type="hidden" name="file_dummy[]" id="file_dummy1">
                                                     <!--begin::Dropzone-->
                                                     <div class="dropzone" id="attachments1" style="width:100%">
                                                         <!--begin::Message-->
@@ -1127,6 +1127,20 @@
                                 },
                             }
                         },
+                        'file_lampiran[]' : {
+                            validators: {
+                                notEmpty: {
+                                    message: "Anda wajib mengunggah File Lampiran"
+                                },
+                            }
+                        },
+                        'file_dummy[]' : {
+                            validators: {
+                                notEmpty: {
+                                    message: "Anda wajib mengunggah File Dummy buku"
+                                },
+                            }
+                        }
                     },
                     plugins: {
                         trigger: new FormValidation.plugins.Trigger,
@@ -1263,13 +1277,12 @@
         let html =
             `<div class='jilidbaru'><span><h4>Data buku jilid ` + jumlah_buku + `</h4><hr/></span>
             <input type='hidden' name='keterangan_jilid[]' value='jilid `+jumlah_buku+`'>
-            <input type='hidden' id='file_dummy`+ idJilid + `' name='file_dummy[]'>
-            <input type='hidden' id='file_lampiran`+ idJilid + `' name='file_lampiran[]'>
             <input type='hidden' id='file_cover`+ idJilid + `' name='file_cover[]'>
             <div class="row mb-6">
                 <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">File
                     Attachment</label>
-                <div class="col-lg-6 d-flex align-items-center">
+                <div class="col-lg-9 d-flex align-items-center">
+                    <input type='hidden' id='file_lampiran`+ idJilid + `' name='file_lampiran[]' class="file_lampiran`+ idJilid + `">
                     <div class="dropzone" id="attachments`+ idJilid + `" style="width:100%">
                         <div class="dz-message needsclick align-items-center">
                             <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
@@ -1285,7 +1298,8 @@
             <div class="row mb-6">
                 <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">Dummy Buku yang akan
                     terbit</label>
-                <div class="col-lg-6 d-flex align-items-center">
+                <div class="col-lg-9 d-flex align-items-center">
+                <input type='hidden' id='file_dummy`+ idJilid + `' name='file_dummy[]' class="file_dummy`+ idJilid + `">
                     <div class="dropzone" id="dummy`+ idJilid + `">
                         <div class="dz-message needsclick align-items-center">
                             <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
@@ -1301,7 +1315,7 @@
             </div>
             <div class="row mb-6">
                 <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">Cover Buku</label>
-                <div class="col-lg-6 d-flex align-items-center">
+                <div class="col-lg-9 d-flex align-items-center">
                     <div class="dropzone" id="cover`+ idJilid + `" style="width:100%">
                         <div class="dz-message needsclick align-items-center">
                             <i class="ki-outline ki-file-up fs-3hx text-primary"></i>
@@ -1384,6 +1398,40 @@
             dropZoneJilid(jumlah_buku, "cover");
             dropZoneJilid(jumlah_buku, "dummy");
         }
+
+        FormValidation.formValidation(
+			document.getElementById('form_isbn'), { 
+                fields : {
+                    'file_lampiran[]' : {
+                        selector: '.file_lampiran'+idJilid,
+                        validators: {
+                            notEmpty: {
+                                 message: "Anda wajib mengunggah File Lampiran jilid " + idJilid
+                            },
+                        }
+                    },
+                    'file_dummy[]' : {
+                        selector: '.file_dummy'+idJilid,
+                        validators: {
+                            notEmpty: {
+                                message: "Anda wajib mengunggah File Dummy buku jilid " + idJilid
+                            },
+                        }
+                    }
+                },
+                plugins: {
+                        trigger: new FormValidation.plugins.Trigger,
+                        bootstrap: new FormValidation.plugins.Bootstrap5({
+                            rowSelector: ".col-lg-9"
+                        }),
+						submitButton: new FormValidation.plugins.SubmitButton(),
+						icon: new FormValidation.plugins.Icon({
+                            valid: 'fa fa-check',
+                            invalid: 'fa fa-times',
+                            validating: 'fa fa-refresh',
+                        }),
+                    }
+        });
     });
     $('#isbn-jilid').on("change", function(){
         $.getJSON("{{url('/penerbit/isbn/permohonan/detail-jilid') }}" + "/" +$(this).val(), function (res) {

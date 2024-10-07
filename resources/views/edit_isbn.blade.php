@@ -5,7 +5,7 @@
     height: 100vh !important;
 }
 .invalid-feedback {
-        font-weight: 600 !important
+        font-weight: 500 !important
     }
 </style>
 <div class="d-flex flex-column flex-column-fluid">
