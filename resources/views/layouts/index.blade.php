@@ -87,7 +87,7 @@
 						<div class="timeline-content mb-10 mt-n1">
 							<div class="pe-3 mb-5"> `;
 					if(response[i]['TABLENAME'] == 'PENERBIT_TERBITAN'){
-						penerbit_terbitan += `<div class="fs-5 fw-semibold mb-2">`+note + status_permohonan + ` : "`+response[i]['TITLE']+`. `+cek_disini+`</div>`;
+						penerbit_terbitan += `<div class="fs-5 fw-semibold mb-2">`+note + status_permohonan + ` : "`+response[i]['TITLE']+`". `+cek_disini+`</div>`;
 					} else {
 						penerbit_terbitan += `<div class="fs-5 fw-semibold mb-2">`+note + status_permohonan + `</div>`;
 					}
