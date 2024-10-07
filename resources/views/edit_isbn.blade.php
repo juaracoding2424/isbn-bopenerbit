@@ -1081,7 +1081,14 @@
                                     message: "Anda belum mengisi URL buku"
                                 },
                             }
-                        }
+                        },
+                        'namaPengarang[]' :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Anda wajib mengisi minimal 1 nama pengarang/orang"
+                                },
+                            }
+                        },
                     },
                     plugins: {
                         trigger: new FormValidation.plugins.Trigger,

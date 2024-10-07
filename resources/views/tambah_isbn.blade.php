@@ -809,7 +809,7 @@
                                                     Halaman</label>
                                                 <!--end::Label-->
                                                 <!--begin::Col-->
-                                                <div class="col-lg-2 fv-row">
+                                                <div class="col-xl-2 col-lg-9 fv-row">
                                                     <input type="number" name="jml_hlm" id="jml_hlm"
                                                         class="form-control fs-8 form-control-lg form-control-solid"
                                                         placeholder="Jumlah Halaman" value="" />
@@ -1119,7 +1119,14 @@
                                     message: "Anda belum mengisi URL buku"
                                 },
                             }
-                        }
+                        },
+                        'namaPengarang[]' :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Anda wajib mengisi minimal 1 nama pengarang/orang"
+                                },
+                            }
+                        },
                     },
                     plugins: {
                         trigger: new FormValidation.plugins.Trigger,
