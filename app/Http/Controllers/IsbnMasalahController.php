@@ -73,8 +73,6 @@ class IsbnMasalahController extends Controller
             $sqlFiltered .= " AND pt.jenis_media = '".$request->input('jenisMedia')."'";
             $sql .= " AND pt.jenis_media = '".$request->input('jenisMedia')."'";  
         }
-        //\Log::info("SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end");
-        //\Log::info($sqlFiltered);
         $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
         $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM ISBN_RESI WHERE PENERBIT_ID='$id' AND status='pending'", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         $totalFiltered = kurl("get","getlistraw", "", $sqlFiltered, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
