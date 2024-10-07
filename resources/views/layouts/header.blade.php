@@ -117,9 +117,9 @@
 											<!--end::Avatar-->
 											<!--begin::Username-->
 											<div class="d-flex flex-column">
-												<div class="fw-bold d-flex align-items-center fs-5">{{ session('penerbit')['NAME'] }}</div>
+												<div class="fw-bold d-flex align-items-center fs-8">{{ session('penerbit')['NAME'] }}</div>
 												<a href="#"
-													class="fw-semibold text-muted text-hover-primary fs-7">{{ session('penerbit')['EMAIL'] }}</a>
+													class="fw-semibold text-muted text-hover-primary fs-9">{{ session('penerbit')['EMAIL'] }}</a>
 											</div>
 											<!--end::Username-->
 										</div>
