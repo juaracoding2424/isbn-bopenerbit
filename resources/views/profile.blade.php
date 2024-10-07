@@ -1018,6 +1018,11 @@
 		$('#kt_signin_email').addClass('d-none');
 		$(this).addClass('d-none');
 	});
+	$('#kt_signin_cancel').on('click', function(){
+		$('#kt_signin_email_edit').addClass('d-none');
+		$('#kt_signin_email').removeClass('d-none');
+		$('#kt_signin_email_button').removeClass('d-none');
+	});
 	$('#kt_signin_submit').on('click', function(){
 		let form = document.getElementById('change_email');
 		let formData = new FormData(form); 

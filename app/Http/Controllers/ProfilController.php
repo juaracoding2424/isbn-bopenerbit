@@ -121,8 +121,14 @@ class ProfilController extends Controller
         $encryptedPassword2 = urlencode(rijndaelEncryptPassword($request->input('confirmemailpassword'))); 
         $penerbit = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=getlistraw&sql=" . urlencode("SELECT * FROM PENERBIT WHERE ID='" . $id . "' AND (ISBN_PASSWORD1='$encryptedPassword' OR ISBN_PASSWORD2='$encryptedPassword2' OR ISBN_PASSWORD='$encryptedPassword')"));
         if (isset($penerbit["Data"]['Items'][0])) {
+            if(checkEmail($request->input('alternateemailaddress'), $id, 'penerbit') > 0){
+                return response()->json([
+                    'status' => 'Failed',
+                    'message' => 'Email ' . strtolower($request->input('alternateemailaddress')) . ' sudah dipakai!'
+                ], 500);
+            }
             $updated = [
-                ["name" => "EMAIL2", "Value" => $request->input('alternateemailaddress')],
+                ["name" => "EMAIL2", "Value" => strtolower($request->input('alternateemailaddress'))],
             ];
             Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&id=$id&op=update&table=PENERBIT&ListUpdateItem=" . urlencode(json_encode($updated)));
             
@@ -134,7 +140,7 @@ class ProfilController extends Controller
                 ["name" => "ACTIONBY", "Value" => session('penerbit')['USERNAME']],
                 ["name" => "ACTIONDATE", "Value" => now()->addHours(7)->format('Y-m-d H:i:s')],
                 ["name" => "ACTIONTERMINAL", "Value" => $ip],
-                ["name" => "NOTE", "Value" => "Email alternatif berhasil diganti menjadi " . $request->input('alternateemailaddress')],
+                ["name" => "NOTE", "Value" => "Email alternatif berhasil diganti menjadi " . strtolower($request->input('alternateemailaddress'))],
             ];
             Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=HISTORYDATA&ListAddItem=" . urlencode(json_encode($history)));
             
@@ -152,9 +158,15 @@ class ProfilController extends Controller
                         'message' => 'Password yang Anda masukan salah!',
                     ], 500);
                 }
+                if(checkEmail($request->input('alternateemailaddress'), $id, 'isbn_registrasi_penerbit') > 0){
+                    return response()->json([
+                        'status' => 'Failed',
+                        'message' => 'Email ' . strtolower($request->input('alternateemailaddress')) . ' sudah dipakai!'
+                    ], 500);
+                }
                 $penerbit_belum_verifikasi = $penerbit_belum_verifikasi["Data"]['Items'][0];
                 $updated = [
-                    ["name" => "ALTERNATE_EMAIL", "Value" => $request->input('alternateemailaddress')],
+                    ["name" => "ALTERNATE_EMAIL", "Value" => strtolower($request->input('alternateemailaddress'))],
                 ];
                 Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&id=$id&op=update&table=ISBN_REGISTRASI_PENERBIT&ListUpdateItem=" . urlencode(json_encode($updated)));
                 
@@ -166,7 +178,7 @@ class ProfilController extends Controller
                     ["name" => "ACTIONBY", "Value" => session('penerbit')['USERNAME']],
                     ["name" => "ACTIONDATE", "Value" => now()->addHours(7)->format('Y-m-d H:i:s')],
                     ["name" => "ACTIONTERMINAL", "Value" => $ip],
-                    ["name" => "NOTE", "Value" => "Email alternatif berhasil diganti menjadi " . $request->input('alternateemailaddress')],
+                    ["name" => "NOTE", "Value" => "Email alternatif berhasil diganti menjadi " . strtolower($request->input('alternateemailaddress'))],
                 ];
                 Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=HISTORYDATA&ListAddItem=" . urlencode(json_encode($history)));
                 return response()->json([
@@ -186,4 +198,5 @@ class ProfilController extends Controller
     {
         return view('profile');
     }
+
 }
