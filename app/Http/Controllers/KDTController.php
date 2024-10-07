@@ -45,7 +45,7 @@ class KDTController extends Controller
                 case 
                     when upper(ir.jenis) = 'LEPAS' then listagg(pi.isbn_no, ', ') within group (order by pi.isbn_no)
                     when upper(ir.jenis) = 'JILID' then listagg(pi.isbn_no || ' (' || pi.KETERANGAN_JILID || ') ', ', ') within group (order by pi.isbn_no) 
-                    else upper(ir.jenis) = 'LEPAS' then listagg(pi.isbn_no, ', ') within group (order by pi.isbn_no)
+                    else listagg(pi.isbn_no, ', ') within group (order by pi.isbn_no)
                 End isbn_no_gab, pt.bulan_terbit, pt.tahun_terbit, pt.call_number, pt.sinopsis, pt.subjek,
 				ir.id as isbn_resi_id, ir.source,ir.jenis,pt.title,  pt.jml_jilid, pt.jilid_volume, 
                 pt.validator_by, pt.is_kdt_valid
