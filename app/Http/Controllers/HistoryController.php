@@ -16,12 +16,26 @@ class HistoryController extends Controller
     public function data()
     {
         try{
-            $sql = "SELECT * FROM (SELECT h.actiondate, h.note, pt.title, pi.isbn_no, ir.noresi, h.tablename from historydata h 
-                    JOIN penerbit_terbitan pt on pt.id = h.idref 
-                    LEFT JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
-                    LEFT JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
-                    WHERE upper(h.tablename) = 'PENERBIT_TERBITAN'  
-                    AND pt.penerbit_id = " . session('penerbit')['ID'] . " order by actiondate desc) WHERE rownum <= 20";
+            $sql = "SELECT * FROM (SELECT h.id,
+                        h.ACTION,
+                        h.ACTIONBY,
+                        h.ACTIONDATE,
+                        h.ACTIONTERMINAL,
+                        h.TABLENAME,
+                        h.idref,
+                        h.NOTE, 
+                        pt.title,
+                        COALESCE(p.name, irp.nama_penerbit) as penerbit_name,
+                        ir.noresi, pi.isbn_no
+                    FROM HISTORYDATA h
+                    left join penerbit p on p.id = h.idref and h.TABLENAME = 'PENERBIT'
+                    left join penerbit_terbitan pt on pt.id = h.idref and h.TABLENAME = 'PENERBIT_TERBITAN'
+                    left join isbn_resi ir on ir.penerbit_terbitan_id = pt.id and h.TABLENAME = 'PENERBIT_TERBITAN'
+                    left join ISBN_REGISTRASI_PENERBIT irp on irp.id = h.idref and h.TABLENAME = 'ISBN_REGISTRASI_PENERBIT'
+                    LEFT JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id and h.TABLENAME = 'PENERBIT_TERBITAN'
+                    WHERE (TABLENAME = 'PENERBIT' OR TABLENAME = 'PENERBIT_TERBITAN' OR TABLENAME = 'ISBN_REGISTRASI_PENERBIT')
+                    AND (h.ACTIONBY = '" . session('penerbit')['USERNAME']. "' or h.ACTIONBY ='" . session('penerbit')['USERNAME']. "-api')
+                    ORDER BY h.ACTIONDATE desc ) WHERE rownum <=20 ";
             $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"];
             if(isset($data[0])){
                 return response()->json($data);
@@ -48,7 +62,7 @@ class HistoryController extends Controller
 
         $start  = $request->input('start');
         $length = $request->input('length');
-        $order  = $whereLike[$request->input('order.0.column')];
+        //$order  = $whereLike[$request->input('order.1.column')];
         $dir    = $request->input('order.0.dir');
         $search = $request->input('search.value');
         $id = session('penerbit')['ID'];

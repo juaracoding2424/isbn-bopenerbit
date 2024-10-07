@@ -85,9 +85,13 @@
 							<i class="ki-outline ki-notification-circle fs-2 text-gray-500"></i>
 						</div>
 						<div class="timeline-content mb-10 mt-n1">
-							<div class="pe-3 mb-5">
-								<div class="fs-5 fw-semibold mb-2">`+note + status_permohonan + ` : "`+response[i]['TITLE']+`. `+cek_disini+`</div>
-								<div class="d-flex align-items-center mt-1 fs-6">
+							<div class="pe-3 mb-5"> `;
+					if(response[i]['TABLENAME'] == 'PENERBIT_TERBITAN'){
+						penerbit_terbitan += `<div class="fs-5 fw-semibold mb-2">`+note + status_permohonan + ` : "`+response[i]['TITLE']+`. `+cek_disini+`</div>`;
+					} else {
+						penerbit_terbitan += `<div class="fs-5 fw-semibold mb-2">`+note + status_permohonan + `</div>`;
+					}
+						penerbit_terbitan += `<div class="d-flex align-items-center mt-1 fs-6">
 									<div class="text-muted me-2 fs-7">`+response[i]['ACTIONDATE']+`</div>
 								</div>
 							</div>
