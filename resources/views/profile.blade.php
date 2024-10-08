@@ -622,7 +622,7 @@
 								},
 								200: function(xhr) {
 									Swal.fire({
-											title: "Berhasil Ubah Password!",
+											title: "Berhasil ubah data",
 											html: xhr.message,
 											icon: "success",
 											buttonsStyling: !1,
