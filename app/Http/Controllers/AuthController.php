@@ -190,7 +190,7 @@ class AuthController extends Controller
             ];
             Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=HISTORYDATA&ListAddItem=" . urlencode(json_encode($history)));
             $params = [
-                ["name" => "NamaPenerbit", "Value" => $penerbit_belum_verifikasi[0]['NAMa_PENERBIT']],
+                ["name" => "NamaPenerbit", "Value" => $penerbit_belum_verifikasi[0]['NAMA_PENERBIT']],
                 ["name" => "AlamatEmailPenerbit", "Value" => strtolower($email)],
                 ["name" => "TautanResetPassword", "Value" => "<a href='" . url("/reset-password-next?reset-token=$resetToken") . "' style='color: #fff !important;
                     border-color:  #1b84ff !important;  background-color:  #1b84ff !important;padding: 10px; border-radius: 5px;'>LINK RESET PASSWORD</a>", ],
