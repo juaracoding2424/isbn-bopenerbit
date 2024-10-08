@@ -63,9 +63,7 @@ Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
         Route::post('penerbit/dropzone/store', [DropZoneController::class, 'store']);
         Route::post('penerbit/dropzone/delete', [DropZoneController::class, 'delete']);
 
-        Route::get('penerbit/history', [HistoryController::class, 'index']);
-        Route::get('penerbit/history/data', [HistoryController::class, 'data']);
-        Route::get('penerbit/history/datatable', [HistoryController::class, 'datatable']);
+       
 
         Route::get('penerbit/report/isbn', [ReportController::class, 'index']);
         Route::get('penerbit/report/isbn/show-data', [ReportController::class, 'showData']);
@@ -87,6 +85,10 @@ Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
         Route::get('location/kabupaten/{id}', [LocationController::class, 'getKabupaten']);
         Route::get('location/kecamatan/{id}', [LocationController::class, 'getKecamatan']);
         Route::get('location/kelurahan/{id}', [LocationController::class, 'getKelurahan']);
+
+        Route::get('penerbit/history', [HistoryController::class, 'index']);
+        Route::get('penerbit/history/data', [HistoryController::class, 'data']);
+        Route::get('penerbit/history/datatable', [HistoryController::class, 'datatable']);
 
 });
 Route::get('/', [AuthController::class, 'login']);
