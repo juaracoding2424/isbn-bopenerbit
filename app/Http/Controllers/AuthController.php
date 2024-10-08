@@ -308,10 +308,10 @@ class AuthController extends Controller
                     border-color:  #1b84ff !important;  background-color:  #1b84ff !important;padding: 10px; border-radius: 5px;'>LINK LOGIN</a>", ],
                 ["name" => "EmailDukungan", "Value" => "isbn@mail.perpusnas.go.id"],
             ];
-            sendMail(15, $params, $penerbit_belum_verifikasi[0]['ADMIN_EMAIL'], 'Konfirmasi: Password Akun ISBN Anda Telah Berhasil Direset [#' . date('Y-m-d H:i:s') . ']');
+            sendMail(15, $params, $penerbit_belum_verifikasi[0]['ADMIN_EMAIL'], 'Konfirmasi: Password Akun ISBN Anda Telah Berhasil Direset [#' . now()->addHours(7)->format('Y-m-d H:i:s') . ']');
             
             if($penerbit_belum_verifikasi[0]['ALTERNATE_EMAIL'] != '' && ($penerbit_belum_verifikasi[0]['ALTERNATE_EMAIL'] != $penerbit_belum_verifikasi[0]['ADMIN_EMAIL'])){
-                sendMail(15, $params, $penerbit_belum_verifikasi[0]['ALTERNATE_EMAIL'], 'Konfirmasi: Password Akun ISBN Anda Telah Berhasil Direset [#' . date('Y-m-d H:i:s') . ']');
+                sendMail(15, $params, $penerbit_belum_verifikasi[0]['ALTERNATE_EMAIL'], 'Konfirmasi: Password Akun ISBN Anda Telah Berhasil Direset [#' . now()->addHours(7)->format('Y-m-d H:i:s') . ']');
             }
 
             return response()->json([
@@ -367,10 +367,10 @@ class AuthController extends Controller
                     border-color:  #1b84ff !important;  background-color:  #1b84ff !important;padding: 10px; border-radius: 5px;'>LINK LOGIN</a>", ],
                 ["name" => "EmailDukungan", "Value" => "isbn@mail.perpusnas.go.id"],
             ];
-            sendMail(15, $params, $queryData[0]['EMAIL1'], 'Konfirmasi: Password Akun ISBN Anda Telah Berhasil Direset [#' . date('Y-m-d H:i:s') . ']');
+            sendMail(15, $params, $queryData[0]['EMAIL1'], 'Konfirmasi: Password Akun ISBN Anda Telah Berhasil Direset [#' . now()->addHours(7)->format('Y-m-d H:i:s') . ']');
             
             if($queryData[0]['EMAIL2'] != '' && ($queryData[0]['EMAIL2'] != $queryData[0]['EMAIL1'])){
-                sendMail(15, $params, $queryData[0]['EMAIL2'], 'Konfirmasi: Password Akun ISBN Anda Telah Berhasil Direset [#' . date('Y-m-d H:i:s') . ']');
+                sendMail(15, $params, $queryData[0]['EMAIL2'], 'Konfirmasi: Password Akun ISBN Anda Telah Berhasil Direset [#' . now()->addHours(7)->format('Y-m-d H:i:s') . ']');
             }
 
             return response()->json([
