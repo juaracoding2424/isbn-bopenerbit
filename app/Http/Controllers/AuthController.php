@@ -149,7 +149,7 @@ class AuthController extends Controller
                 ["name" => "IDREF", "Value" => $id],
                 ["name" => "ACTION", "Value" => "Update"],
                 ["name" => "ACTIONBY", "Value" => $queryData[0]["ISBN_USER_NAME"]],
-                //["name" => "ACTIONDATE", "Value" => now()->format('Y-m-d H:i:s')],
+                ["name" => "ACTIONDATE", "Value" => now()->addHours(7)->format('Y-m-d H:i:s')],
                 ["name" => "ACTIONTERMINAL", "Value" => \Request::ip()],
                 ["name" => "NOTE", "Value" => "Permintaan reset password"],
             ];
@@ -184,7 +184,7 @@ class AuthController extends Controller
                 ["name" => "IDREF", "Value" => $id],
                 ["name" => "ACTION", "Value" => "Update"],
                 ["name" => "ACTIONBY", "Value" => $penerbit_belum_verifikasi[0]["USER_NAME"]],
-                //["name" => "ACTIONDATE", "Value" => now()->format('Y-m-d H:i:s')],
+                ["name" => "ACTIONDATE", "Value" => now()->addHours(7)->format('Y-m-d H:i:s')],
                 ["name" => "ACTIONTERMINAL", "Value" => \Request::ip()],
                 ["name" => "NOTE", "Value" => "Permintaan reset password"],
             ];
@@ -216,10 +216,24 @@ class AuthController extends Controller
             $token = request('reset-token');
             $queryData = kurl("get", "getlistraw", "", "SELECT * FROM PENERBIT WHERE RESET_TOKEN='$token'", 'sql', '')["Data"]["Items"];
             if (!isset($queryData[0])) {
-                $return = [
-                    'status' => 'Failed',
-                    'message' => 'Reset password link not found.',
-                ];
+                $penerbit_belum_verifikasi = kurl("get", "getlistraw", "", "SELECT * FROM ISBN_REGISTRASI_PENERBIT WHERE RESET_TOKEN='$token'", 'sql', '')["Data"]["Items"];
+                if(!isset($penerbit_belum_verifikasi[0])){
+                    $return = [
+                        'status' => 'Failed',
+                        'message' => 'Reset password link not found.',
+                    ];
+                }
+                if ((strtotime(date('Y-m-d H:i:s')) > strtotime($penerbit_belum_verifikasi[0]["RESET_EXPIRED"]))) {
+                    $return = [
+                        'message' => 'Your reset password link has expired.',
+                        'status' => 'Failed',
+                    ];
+                } else {
+                    $return = [
+                        'status' => 'Success',
+                    ];
+                }
+               
             } else {
                 if ((strtotime(date('Y-m-d H:i:s')) > strtotime($queryData[0]["RESET_EXPIRED"]))) {
                     $return = [
@@ -245,9 +259,65 @@ class AuthController extends Controller
     public function resetPasswordNextSubmit(Request $request)
     {
         $token = $request->input('reset-token');
+        $encryptedPassword = getMd5Hash(trim($request->input('password')));
+        $encryptedPassword2 = rijndaelEncryptPassword(trim($request->input('password')));
         $queryData = kurl("get", "getlistraw", "", "SELECT * FROM PENERBIT WHERE RESET_TOKEN='$token'", 'sql', '')["Data"]["Items"];
 
         if (!isset($queryData[0])) {
+            $penerbit_belum_verifikasi = kurl("get", "getlistraw", "", "SELECT * FROM ISBN_REGISTRASI_PENERBIT WHERE RESET_TOKEN='$token'", 'sql', '')["Data"]["Items"];
+            if ((strtotime(date('Y-m-d H:i:s')) > strtotime($penerbit_belum_verifikasi[0]["RESET_EXPIRED"]))) {
+                return response()->json([
+                    'message' => 'Your reset password link has expired.',
+                    'status' => 'Failed',
+                ], 401);
+            }
+            $id = $penerbit_belum_verifikasi[0]['ID'];
+
+            if($encryptedPassword == $penerbit_belum_verifikasi[0]['PASSWORD']){
+                return response()->json([
+                    'message' => 'The password you entered is the same as your previous password. 
+                                    The reset password feature is intended for those who have forgotten their password, but it seems like you haven’t. 
+                                    Please log in using your previous password.',
+                    'status' => 'Failed',
+                ], 401);
+            }
+            //UPDATE TABEL PENERBIT
+            $updated = [
+                ["name" => "PASSWORD", "Value" => $encryptedPassword],
+                ["name" => "PASSWORD2", "Value" => $encryptedPassword2],
+            ];
+            Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&id=$id&op=update&table=ISBN_REGISTRASI_PENERBIT&ListUpdateItem=" . urlencode(json_encode($updated)));
+
+            //INSERT HISTORY
+            $history = [
+                ["name" => "TABLENAME", "Value" => "ISBN_REGISTRASI_PENERBIT"],
+                ["name" => "IDREF", "Value" => $id],
+                ["name" => "ACTION", "Value" => "Update"],
+                ["name" => "ACTIONBY", "Value" => $penerbit_belum_verifikasi[0]["USER_NAME"]],
+                //["name" => "ACTIONDATE", "Value" => now()->format('Y-m-d H:i:s')],
+                ["name" => "ACTIONTERMINAL", "Value" => \Request::ip()],
+                ["name" => "NOTE", "Value" => "Reset password sukses"],
+            ];
+            Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=HISTORYDATA&ListAddItem=" . urlencode(json_encode($history)));
+            
+            //KIRIM EMAIL
+            $params = [
+                ["name" => "NamaPenerbit", "Value" => $queryData[0]['NAME']],
+                ["name" => "AlamatEmailPenerbit", "Value" => $queryData[0]['EMAIL1']],
+                ["name" => "TautanLogin", "Value" => "<a href='" . url("/login") . "' style='color: #fff !important;
+                    border-color:  #1b84ff !important;  background-color:  #1b84ff !important;padding: 10px; border-radius: 5px;'>LINK LOGIN</a>", ],
+                ["name" => "EmailDukungan", "Value" => "isbn@mail.perpusnas.go.id"],
+            ];
+            sendMail(15, $params, $queryData[0]['EMAIL1'], 'Konfirmasi: Password Akun ISBN Anda Telah Berhasil Direset [#' . date('Y-m-d H:i:s') . ']');
+            
+            if($queryData[0]['EMAIL2'] != '' && ($queryData[0]['EMAIL2'] != $queryData[0]['EMAIL1'])){
+                sendMail(15, $params, $queryData[0]['EMAIL2'], 'Konfirmasi: Password Akun ISBN Anda Telah Berhasil Direset [#' . date('Y-m-d H:i:s') . ']');
+            }
+
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Successfully reset the password.',
+            ], 200);
             return response()->json([
                 'status' => 'Failed',
                 'message' => 'Your reset password link is invalid. Please double check your email for correct reset password link.',
@@ -261,8 +331,6 @@ class AuthController extends Controller
                 ], 401);
             }
             $id = $queryData[0]['ID'];
-            $encryptedPassword = getMd5Hash(trim($request->input('password')));
-            $encryptedPassword2 = rijndaelEncryptPassword(trim($request->input('password')));
             if($encryptedPassword == $queryData[0]['ISBN_PASSWORD1']){
                 return response()->json([
                     'message' => 'The password you entered is the same as your previous password. 
