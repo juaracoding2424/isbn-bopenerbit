@@ -37,41 +37,57 @@ class AuthController extends Controller
                 ], 422);
             } else {
                 $ip = $request->ip();
-                //encript password
-                $encryptedPassword = urlencode(getMd5Hash($request->input('password')));
-                $encryptedPassword2 = urlencode(rijndaelEncryptPassword($request->input('password'))); 
-                $penerbit = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=getlistraw&sql=" . urlencode("SELECT * FROM PENERBIT WHERE ISBN_USER_NAME='" . $request->input('username') . "' AND (ISBN_PASSWORD1='$encryptedPassword' OR ISBN_PASSWORD2='$encryptedPassword2' OR ISBN_PASSWORD='$encryptedPassword')"));
+                //enkripsi password
+                $encryptedPassword = getMd5Hash(trim($request->input('password')));
+                $encryptedPassword2 = rijndaelEncryptPassword(trim($request->input('password'))); 
+                $username = strtoupper($request->input('username'));
+                $penerbit = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=getlistraw&sql=" . 
+                                urlencode("SELECT * FROM PENERBIT WHERE upper(ISBN_USER_NAME)='$username' OR upper(EMAIL1)= '$username' OR upper(EMAIL2)='$username'"));
                 if (isset($penerbit["Data"]['Items'][0])) {
                     $penerbit = $penerbit["Data"]['Items'][0];
-
+                    //cek password di tabel penerbit
+                    if($penerbit['ISBN_PASSWORD1'] != $encryptedPassword && $penerbit['ISBN_PASSWORD2'] != $encryptedPassword2 && $penerbit['ISBN_PASSWORD'] != $encryptedPassword){
+                        return response()->json([
+                            'status' => 'Failed',
+                            'message' => 'Password yang Anda masukan salah! Mohon masukan password yang benar, atau lakukan forgot password.',
+                        ], 500);
+                    } 
                     session([
-                        'penerbit' => [
-                            'STATUS' => 'valid',
-                            'ID' => $penerbit['ID'],
-                            'USERNAME' => $penerbit['ISBN_USER_NAME'],
-                            'EMAIL' => $penerbit['EMAIL1'],
-                            'NAME' => $penerbit['NAME'],
-                            'PROVINCE_ID' => $penerbit['PROVINCE_ID'],
-                            'CITY_ID' => $penerbit['CITY_ID'],
-                            'DISTRICT_ID' => $penerbit['DISTRICT_ID'],
-                            'VILLAGE_ID' => $penerbit['VILLAGE_ID'],
-                        ]]);
+                            'penerbit' => [
+                                'STATUS' => 'valid',
+                                'ID' => $penerbit['ID'],
+                                'USERNAME' => $penerbit['ISBN_USER_NAME'],
+                                'EMAIL' => $penerbit['EMAIL1'],
+                                'NAME' => $penerbit['NAME'],
+                                'PROVINCE_ID' => $penerbit['PROVINCE_ID'],
+                                'CITY_ID' => $penerbit['CITY_ID'],
+                                'DISTRICT_ID' => $penerbit['DISTRICT_ID'],
+                                'VILLAGE_ID' => $penerbit['VILLAGE_ID'],
+                    ]]);
                     return response()->json([
                         'penerbitstatus' => 'valid',
                         'status' => 'Success',
                     ], 200);
+                    
                 } else {
                     //cari di tabel registrasi isbn
-                    $penerbit_belum_verifikasi = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=getlistraw&sql=" . urlencode("SELECT * FROM ISBN_REGISTRASI_PENERBIT WHERE USER_NAME='" . $request->input('username') . "' AND (PASSWORD='$encryptedPassword' OR PASSWORD2='$encryptedPassword2')"));
+                    $penerbit_belum_verifikasi = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=getlistraw&sql=" . 
+                                                    urlencode("SELECT * FROM ISBN_REGISTRASI_PENERBIT WHERE UPPER(USER_NAME)='$username' OR 
+                                                        upper(ADMIN_EMAIL)='$username' OR upper(ALTERNATE_EMAIL)='$username'"));
                     if (isset($penerbit_belum_verifikasi["Data"]['Items'][0])) {
-                        if($penerbit_belum_verifikasi["Data"]['Items'][0]['VALIDASI'] == 'Y'){
+                        $penerbit_belum_verifikasi = $penerbit_belum_verifikasi["Data"]['Items'][0];
+                        if($penerbit_belum_verifikasi['PASSWORD'] != $encryptedPassword && $penerbit_belum_verifikasi['PASSWORD2'] != $encryptedPassword2){
                             return response()->json([
                                 'status' => 'Failed',
-                                'message' => 'Password yang Anda masukan salah!',
+                                'message' => 'Password yang Anda masukan salah! Mohon masukan password yang benar, atau lakukan forgot password.',
                             ], 500);
                         }
-                        $penerbit_belum_verifikasi = $penerbit_belum_verifikasi["Data"]['Items'][0];
-
+                        if($penerbit_belum_verifikasi['REGISTRASI_VALID'] == ''){ //sudah divalidasi
+                            return response()->json([
+                                'status' => 'Failed',
+                                'message' => 'Anda belum melakukan verifikasi OTP, mohon cek email Anda!',
+                            ], 500);
+                        }
                         session([
                             'penerbit' => [
                                 'STATUS' => 'notvalid',
@@ -91,7 +107,7 @@ class AuthController extends Controller
                     } else {
                         return response()->json([
                             'status' => 'Failed',
-                            'message' => 'Username atau password salah. Mohon cek kembali username dan password yang Anda masukan!',
+                            'message' => 'Username atau email tidak ditemukan!',
                         ], 500);
                     }
                 }
