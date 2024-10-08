@@ -134,12 +134,7 @@ class AuthController extends Controller
     {
         $email = request('email');
         $queryData = kurl("get", "getlistraw", "", "SELECT * FROM PENERBIT WHERE UPPER(EMAIL1)='" .strtoupper($email)."' OR UPPER(EMAIL2) = '". strtoupper($email) . "'", 'sql', '')["Data"]["Items"];
-        if (!isset($queryData[0])) {
-            return response()->json([
-                'status' => 'Failed',
-                'message' => 'Email not found!',
-            ], 422);
-        } else {
+        if(isset($queryData[0])){
             $id = $queryData[0]['ID'];
             $resetToken = Str::random(60);
             $expired_at = Date('Y-m-d H:i:s', strtotime('+1 days'));
@@ -172,6 +167,46 @@ class AuthController extends Controller
                 'status' => 'Success',
                 'token' => $resetToken,
             ], status: 200);
+        } 
+        $penerbit_belum_verifikasi = kurl("get", "getlistraw", "", "SELECT * FROM ISBN_REGISTRASI_PENERBIT WHERE UPPER(ADMIN_EMAIL)='" .strtoupper($email)."' OR UPPER(ALTERNATE_EMAIL) = '". strtoupper($email) . "'", 'sql', '')["Data"]["Items"];
+        if(isset($penerbit_belum_verifikasi[0])){
+            $id = $penerbit_belum_verifikasi[0]['ID'];
+            $resetToken = Str::random(60);
+            $expired_at = Date('Y-m-d H:i:s', strtotime('+1 days'));
+            $ListToUpdate = [
+                ["name" => 'RESET_TOKEN', "Value" => $resetToken],
+                ["name" => 'RESET_EXPIRED', "Value" => $expired_at],
+            ];
+            Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=update&table=ISBN_REGISTRASI_PENERBIT&id=$id&ListUpdateItem=" . urlencode(json_encode($ListToUpdate)));
+            //INSERT HISTORY
+            $history = [
+                ["name" => "TABLENAME", "Value" => "ISBN_REGISTRASI_PENERBIT"],
+                ["name" => "IDREF", "Value" => $id],
+                ["name" => "ACTION", "Value" => "Update"],
+                ["name" => "ACTIONBY", "Value" => $penerbit_belum_verifikasi[0]["USER_NAME"]],
+                //["name" => "ACTIONDATE", "Value" => now()->format('Y-m-d H:i:s')],
+                ["name" => "ACTIONTERMINAL", "Value" => \Request::ip()],
+                ["name" => "NOTE", "Value" => "Permintaan reset password"],
+            ];
+            Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=HISTORYDATA&ListAddItem=" . urlencode(json_encode($history)));
+            $params = [
+                ["name" => "NamaPenerbit", "Value" => $penerbit_belum_verifikasi[0]['NAMa_PENERBIT']],
+                ["name" => "AlamatEmailPenerbit", "Value" => strtolower($email)],
+                ["name" => "TautanResetPassword", "Value" => "<a href='" . url("/reset-password-next?reset-token=$resetToken") . "' style='color: #fff !important;
+                    border-color:  #1b84ff !important;  background-color:  #1b84ff !important;padding: 10px; border-radius: 5px;'>LINK RESET PASSWORD</a>", ],
+                ["name" => "EmailDukungan", "Value" => "isbn@mail.perpusnas.go.id"],
+            ];
+            $res = sendMail(2, $params, $email, 'PERMOHONAN RESET PASSWORD [#' . now()->addHours(7)->format('Y-m-d H:i:s') . ']');
+
+            return response()->json([
+                'status' => 'Success',
+                'token' => $resetToken,
+            ], status: 200);
+        } else {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Email not found!',
+            ], 422);
         }
     }
 
