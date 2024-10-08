@@ -61,7 +61,14 @@
 					</button>
 					<!--end::Aside toggle-->
 					<!--begin::Logo image-->
-					<a href="index.php">
+					@php
+					if(session('penerbit')['STATUS'] == 'notvalid'){
+						$href = url('penerbit/dashboard/notvalid');
+					} else {
+						$href = url('penerbit/dashboard');
+					}
+					@endphp
+					<a href="{{ $href }}">
 						<img alt="Logo" src="https://www.isbn-international.org/themes/isbn8/logo.png"
 							class="h-35px d-sm-none d-inline theme-light-show" />
 						<img alt="Logo" src="https://www.isbn-international.org/themes/isbn8/logo.png"

@@ -82,24 +82,28 @@ class AuthController extends Controller
                                 'message' => 'Password yang Anda masukan salah! Mohon masukan password yang benar, atau lakukan forgot password.',
                             ], 500);
                         }
-                        if($penerbit_belum_verifikasi['REGISTRASI_VALID'] == ''){ //sudah divalidasi
+                        if($penerbit_belum_verifikasi['REGISTRASI_VALID'] == ''){ //belum verifikasi OTP
                             return response()->json([
                                 'status' => 'Failed',
                                 'message' => 'Anda belum melakukan verifikasi OTP, mohon cek email Anda!',
                             ], 500);
                         }
-                        session([
-                            'penerbit' => [
-                                'STATUS' => 'notvalid',
-                                'ID' => $penerbit_belum_verifikasi['ID'],
-                                'USERNAME' => $penerbit_belum_verifikasi['USER_NAME'],
-                                'EMAIL' => $penerbit_belum_verifikasi['ADMIN_EMAIL'],
-                                'NAME' => $penerbit_belum_verifikasi['NAMA_PENERBIT'],
-                                'PROVINCE_ID' => $penerbit_belum_verifikasi['PROVINCE_ID'],
-                                'CITY_ID' => $penerbit_belum_verifikasi['CITY_ID'],
-                                'DISTRICT_ID' => $penerbit_belum_verifikasi['DISTRICT_ID'],
-                                'VILLAGE_ID' => $penerbit_belum_verifikasi['VILLAGE_ID'],
-                            ]]);
+                        // sudah verifikasi OTP
+                            session([
+                                    'penerbit' => [
+                                        'STATUS' => 'notvalid',
+                                        'ID' => $penerbit_belum_verifikasi['ID'],
+                                        'USERNAME' => $penerbit_belum_verifikasi['USER_NAME'],
+                                        'EMAIL' => $penerbit_belum_verifikasi['ADMIN_EMAIL'],
+                                        'NAME' => $penerbit_belum_verifikasi['NAMA_PENERBIT'],
+                                        'PROVINCE_ID' => $penerbit_belum_verifikasi['PROVINCE_ID'],
+                                        'CITY_ID' => $penerbit_belum_verifikasi['CITY_ID'],
+                                        'DISTRICT_ID' => $penerbit_belum_verifikasi['DISTRICT_ID'],
+                                        'VILLAGE_ID' => $penerbit_belum_verifikasi['VILLAGE_ID'],
+                                        'KETERANGAN' => $penerbit_belum_verifikasi['KETERANGAN'],
+                                        'VALIDASI' => $penerbit_belum_verifikasi['VALIDASI']
+                                    ]
+                                ]);
                         return response()->json([
                             'penerbitstatus' => 'notvalid',
                             'status' => 'Success',

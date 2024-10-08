@@ -14,12 +14,23 @@
 								<i class="ki-solid ki-shield-cross fs-4hx text-danger me-4"><span
 										class="path1"></span><span class="path2"></span></i>
 								<div class="rounded border p-10  d-flex flex-column">
+									@if(session('penerbit')['VALIDASI'] == 'P')
 									<div class="d-flex flex-column">
-										<h2 class="mb-1 text-danger">Akun Anda saat ini belum diverifikasi oleh administrator website ISBN. </h2>
-										<span>Proses verifikasi akun memerlukan waktu maksimal <b>1x24 jam</b>. <br/>
-										Jika akun Anda belum terverifikasi dalam jangka waktu tersebut, silakan hubungi Customer Service kami untuk bantuan lebih lanjut.
-										<br/><br/>Terima kasih atas kesabaran dan pengertiannya</span>										
+										<h2 class="mb-1 text-danger">Pendaftaran akun Anda bermasalah, dengan alasan sebagai berikut. </h2>
+										<br/>
+										<span>{!!session('penerbit')['KETERANGAN']!!}</span>
+										<br/>
+										Harap perbaiki data Anda pada link berikut ini : <br/>
+										<a href='{{url("penerbit/profile")}}' class="btn btn-primary">PERBAIKI PENDAFTARAN</a>										
 									</div>
+									@else 
+										<div class="d-flex flex-column">
+											<h2 class="mb-1 text-danger">Akun Anda saat ini belum diverifikasi oleh administrator website ISBN. </h2>
+											<span>Proses verifikasi akun memerlukan waktu maksimal <b>1x24 jam</b>. <br/>
+											Jika akun Anda belum terverifikasi dalam jangka waktu tersebut, silakan hubungi Customer Service kami untuk bantuan lebih lanjut.
+											<br/><br/>Terima kasih atas kesabaran dan pengertiannya</span>										
+										</div>
+									@endif
 								</div>
 							</div>
 							<div class="text-center px-4">
