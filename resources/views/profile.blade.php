@@ -18,8 +18,15 @@
 							<!--begin::Breadcrumb-->
 							<ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0">
 								<!--begin::Item-->
+								@php
+								if(session('penerbit')['STATUS'] == 'notvalid'){
+									$href = url('penerbit/dashboard/notvalid');
+								} else {
+									$href = url('penerbit/dashboard');
+								}
+								@endphp
 								<li class="breadcrumb-item text-muted">
-									<a href="index.php" class="text-muted text-hover-primary">Home</a>
+									<a href="{{$href}}" class="text-muted text-hover-primary">Home</a>
 								</li>
 								<!--end::Item-->
 								<!--begin::Item-->
