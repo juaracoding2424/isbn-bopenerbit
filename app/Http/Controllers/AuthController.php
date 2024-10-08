@@ -149,7 +149,7 @@ class AuthController extends Controller
                 ["name" => "IDREF", "Value" => $id],
                 ["name" => "ACTION", "Value" => "Update"],
                 ["name" => "ACTIONBY", "Value" => $queryData[0]["ISBN_USER_NAME"]],
-                ["name" => "ACTIONDATE", "Value" => now()->addHours(7)->format('Y-m-d H:i:s')],
+                //["name" => "ACTIONDATE", "Value" => now()->addHours(7)->format('Y-m-d H:i:s')],
                 ["name" => "ACTIONTERMINAL", "Value" => \Request::ip()],
                 ["name" => "NOTE", "Value" => "Permintaan reset password"],
             ];
@@ -184,7 +184,7 @@ class AuthController extends Controller
                 ["name" => "IDREF", "Value" => $id],
                 ["name" => "ACTION", "Value" => "Update"],
                 ["name" => "ACTIONBY", "Value" => $penerbit_belum_verifikasi[0]["USER_NAME"]],
-                ["name" => "ACTIONDATE", "Value" => now()->addHours(7)->format('Y-m-d H:i:s')],
+                //["name" => "ACTIONDATE", "Value" => now()->addHours(7)->format('Y-m-d H:i:s')],
                 ["name" => "ACTIONTERMINAL", "Value" => \Request::ip()],
                 ["name" => "NOTE", "Value" => "Permintaan reset password"],
             ];
@@ -263,7 +263,7 @@ class AuthController extends Controller
         $encryptedPassword2 = rijndaelEncryptPassword(trim($request->input('password')));
         $queryData = kurl("get", "getlistraw", "", "SELECT * FROM PENERBIT WHERE RESET_TOKEN='$token'", 'sql', '')["Data"]["Items"];
 
-        if (!isset($queryData[0])) {
+        if (!isset($queryData[0])) { // jika tidak ada di tabel penerbit, maka cari di ISBN_REGISTRASI_PENERBIT
             $penerbit_belum_verifikasi = kurl("get", "getlistraw", "", "SELECT * FROM ISBN_REGISTRASI_PENERBIT WHERE RESET_TOKEN='$token'", 'sql', '')["Data"]["Items"];
             if ((strtotime(date('Y-m-d H:i:s')) > strtotime($penerbit_belum_verifikasi[0]["RESET_EXPIRED"]))) {
                 return response()->json([
@@ -302,16 +302,16 @@ class AuthController extends Controller
             
             //KIRIM EMAIL
             $params = [
-                ["name" => "NamaPenerbit", "Value" => $queryData[0]['NAME']],
-                ["name" => "AlamatEmailPenerbit", "Value" => $queryData[0]['EMAIL1']],
+                ["name" => "NamaPenerbit", "Value" => $penerbit_belum_verifikasi[0]['NAMA_PENERBIT']],
+                ["name" => "AlamatEmailPenerbit", "Value" => $penerbit_belum_verifikasi[0]['ADMIN_EMAIL']],
                 ["name" => "TautanLogin", "Value" => "<a href='" . url("/login") . "' style='color: #fff !important;
                     border-color:  #1b84ff !important;  background-color:  #1b84ff !important;padding: 10px; border-radius: 5px;'>LINK LOGIN</a>", ],
                 ["name" => "EmailDukungan", "Value" => "isbn@mail.perpusnas.go.id"],
             ];
-            sendMail(15, $params, $queryData[0]['EMAIL1'], 'Konfirmasi: Password Akun ISBN Anda Telah Berhasil Direset [#' . date('Y-m-d H:i:s') . ']');
+            sendMail(15, $params, $penerbit_belum_verifikasi[0]['ADMIN_EMAIL'], 'Konfirmasi: Password Akun ISBN Anda Telah Berhasil Direset [#' . date('Y-m-d H:i:s') . ']');
             
-            if($queryData[0]['EMAIL2'] != '' && ($queryData[0]['EMAIL2'] != $queryData[0]['EMAIL1'])){
-                sendMail(15, $params, $queryData[0]['EMAIL2'], 'Konfirmasi: Password Akun ISBN Anda Telah Berhasil Direset [#' . date('Y-m-d H:i:s') . ']');
+            if($penerbit_belum_verifikasi[0]['ALTERNATE_EMAIL'] != '' && ($penerbit_belum_verifikasi[0]['ALTERNATE_EMAIL'] != $penerbit_belum_verifikasi[0]['ADMIN_EMAIL'])){
+                sendMail(15, $params, $penerbit_belum_verifikasi[0]['ALTERNATE_EMAIL'], 'Konfirmasi: Password Akun ISBN Anda Telah Berhasil Direset [#' . date('Y-m-d H:i:s') . ']');
             }
 
             return response()->json([
