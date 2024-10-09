@@ -1266,7 +1266,7 @@
                 </span>
             </label>
             <div class="col-lg-9 fv-row">
-                <input type="text" name="url[]" class="form-control fs-8 form-control-lg form-control-solid" id="url`+jumlah_buku+`"
+                <input type="text" name="url[]" class="form-control fs-8 form-control-lg form-control-solid link_buku`+jumlah_buku+`" id="url`+jumlah_buku+`"
                     placeholder="url/link buku" />
             </div>
             <div class="col-lg-3 fv-row hapusJilid">

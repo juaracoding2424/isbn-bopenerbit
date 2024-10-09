@@ -1337,6 +1337,7 @@
             <div class="row mb-2">
                 <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">Cover Buku</label>
                 <div class="col-lg-9 d-flex align-items-center">
+                <input type='hidden' id='file_cover`+ idJilid + `' name='file_cover[]' class="file_cover`+ idJilid + `">
                     <div class="dropzone p-0" id="cover`+ idJilid + `" style="width:100%">
                         <div class="dz-message needsclick align-items-center">
                             <i class="ki-outline ki-file-up fs-2hx text-primary"></i>
@@ -1357,7 +1358,7 @@
                     </span>
                 </label>
                 <div class="col-lg-9 fv-row">
-                    <input type="text" name="url[]" class="form-control fs-8 form-control-lg form-control-solid"
+                    <input type="text" name="url[]" class="form-control fs-8 form-control-lg form-control-solid link_buku`+ idJilid + `"
                         placeholder="url/link buku" />
                 </div>
                 <div class="col-lg-3 fv-row hapusJilid">
@@ -1436,6 +1437,14 @@
                         validators: {
                             notEmpty: {
                                 message: "Anda wajib mengunggah File Dummy buku jilid " + idJilid
+                            },
+                        }
+                    },
+                    'url[]' : {
+                        selector: '.link_buku'+idJilid,
+                        validators: {
+                            notEmpty: {
+                                message: "Anda belum mengisi link buku jilid " + idJilid
                             },
                         }
                     }
