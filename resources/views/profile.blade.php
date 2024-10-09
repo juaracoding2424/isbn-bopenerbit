@@ -967,6 +967,7 @@
 												$('#kt_signin_email_edit').addClass('d-none');
 												$('#kt_signin_email').removeClass('d-none');
 												$('#kt_signin_submit').addClass('d-none');
+												$('kt_signin_email_button').removeClass('d-none');
 												$('#email2').text($('#alternateemailaddress').val());
 											}
 										});
