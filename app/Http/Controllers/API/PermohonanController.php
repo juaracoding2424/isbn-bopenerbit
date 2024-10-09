@@ -616,9 +616,7 @@ class PermohonanController extends Controller
                 'deskripsi' => 'required|min:100',
                 'jml_hlm' => 'required|numeric|min:40',
                 'tahun_terbit' => 'required|tahun_terbit_min',
-                'bulan_terbit' => 'required|bulan_terbit_min:' . $request->input('tahun_terbit'),
-                'tahun_terbit.tahun_terbit_min' => 'Tahun terbit yang Anda masukan tidak boleh kurang dari tahun ' . date('Y'),
-                'bulan_terbit.bulan_terbit_min' => 'Bulan terbit yang Anda masukan tidak boleh kurang dari bulsn ' . date('m-Y'),
+                'bulan_terbit' => 'required|bulan_terbit_min:' . $request->input('tahun_terbit'),  
             ]);
             $messages = array_merge($messages, [
                 'jenis_permohonan.required' => 'Anda belum mengisi jenis permohonan!',
@@ -639,6 +637,8 @@ class PermohonanController extends Controller
                 'jml_hlm.numeric' => 'Jumlah halaman hanya boleh berisi angka',
                 'jml_hlm.required' => 'Jumlah halaman wajiib diisi',
                 'jml_hlm.min' => 'Menurut UNESCO, jumlah halaman buku paling sedikit terdiri dari 40 halaman, tidak termasuk bagian preliminaries dan postliminaries',
+                'tahun_terbit.tahun_terbit_min' => 'Tahun terbit yang Anda masukan tidak boleh kurang dari tahun ' . date('Y'),
+                'bulan_terbit.bulan_terbit_min' => 'Bulan terbit yang Anda masukan tidak boleh kurang dari bulan ' . date('m-Y'),
             ]);
         } else {
             $rules = array_merge($rules, [

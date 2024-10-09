@@ -149,6 +149,8 @@ class IsbnPermohonanController extends Controller
                         'namaPengarang.0' => 'required',
                         //'provinsi' => 'required',
                         //'kabkot' => 'required',
+                        'tahun_terbit' => 'required|tahun_terbit_min',
+                        'bulan_terbit' => 'required|bulan_terbit_min:' . $request->input('tahun_terbit'),
                         'tempat_terbit' => 'required',
                         'jenis_media' => 'required',
                         'jenis_terbitan' => 'required',
@@ -169,6 +171,8 @@ class IsbnPermohonanController extends Controller
                         'namaPengarang.0.required' => 'Anda belum mengisi nama pengarang/penulis pertama',
                         //'provinsi.required' => 'Anda belum mengisi provinsi terbit buku',
                         //'kabkot.required' => 'Anda belum mengisi kota terbit buku',
+                        'tahun_terbit.required' => 'Anda belum mengisi tahun terbit buku',
+                        'bulan_terbit.required' => 'Anda belum mengisi bulan terbit buku',
                         'tempat_terbit.required' => 'Anda belum mengisi tempat terbit buku',
                         'jenis_media.required' => 'Anda belum mengisi jenis media terbitan buku',
                         'jenis_terbitan.required' => 'Anda belum mengisi jenis terbitan buku',
@@ -184,14 +188,18 @@ class IsbnPermohonanController extends Controller
                         'file_lampiran.required' => 'Anda belum mengunggah file lampiran buku',
                         'file_dummy.*.required' => 'Anda belum mengunggah file dummy buku',
                         'file_lampiran.*.required' => 'Anda belum mengunggah file lampiran buku',
+                        'tahun_terbit.tahun_terbit_min' => 'Tahun terbit yang Anda masukan tidak boleh kurang dari tahun ' . date('Y'),
+                        'bulan_terbit.bulan_terbit_min' => 'Bulan terbit yang Anda masukan tidak boleh kurang dari bulan ' . date('m-Y'),
                     ]);
-                } else {
+                } else { //permohonan jilid lanjutan
                     $validator = \Validator::make(request()->all(),[
                         'title' => 'required|title_exists:' . $penerbit['ID']. ',' . request('isbn-jilid'),
                         'namaPengarang' => 'required|array|min:1',
                         'namaPengarang.0' => 'required',
                         //'provinsi' => 'required',
                         //'kabkot' => 'required',
+                        'tahun_terbit' => 'required',
+                        'bulan_terbit' => 'required',
                         'tempat_terbit' => 'required',
                         'jenis_media' => 'required',
                         'jenis_terbitan' => 'required',
@@ -213,6 +221,7 @@ class IsbnPermohonanController extends Controller
                         //'provinsi.required' => 'Anda belum mengisi provinsi terbit buku',
                         //'kabkot.required' => 'Anda belum mengisi kota terbit buku',
                         'tempat_terbit.required' => 'Anda belum mengisi tempat terbit buku',
+                        'bulan_terbit.required' => 'Anda belum mengisi bulan terbit buku',
                         'jenis_media.required' => 'Anda belum mengisi jenis media terbitan buku',
                         'jenis_terbitan.required' => 'Anda belum mengisi jenis terbitan buku',
                         'jenis_kelompok.required' => 'Anda belum mengisi kelompok pembaca buku',
@@ -272,10 +281,27 @@ class IsbnPermohonanController extends Controller
                 if(request('status') == 'lepas') {
                     $rules = array_merge($rules, [
                         'jml_hlm' => 'required|min:40',
+                        'tahun_terbit' => 'required|tahun_terbit_min',
+                        'bulan_terbit' => 'required|bulan_terbit_min:' . $request->input('tahun_terbit'),
+                        
                     ]);
                     $messages = array_merge($messages ,[
                         'jml_hlm.required' => 'Anda wajib mengisi jumlah halaman buku',
                         'jml_hlm.min' => 'Menurut UNESCO, jumlah halaman buku paling sedikit terdiri dari 40 halaman, tidak termasuk bagian preliminaries dan postliminaries',
+                        'tahun_terbit.required' => 'Anda belum mengisi tahun terbit buku',
+                        'bulan_terbit.required' => 'Anda belum mengisi bulan terbit buku',
+                        'tahun_terbit.tahun_terbit_min' => 'Tahun terbit yang Anda masukan tidak boleh kurang dari tahun ' . date('Y'),
+                        'bulan_terbit.bulan_terbit_min' => 'Bulan terbit yang Anda masukan tidak boleh kurang dari bulan ' . date('m-Y'),
+                    ]);
+                } else {
+                    $rules = array_merge($rules, [
+                        'tahun_terbit' => 'required',
+                        'bulan_terbit' => 'required',
+                        
+                    ]);
+                    $messages = array_merge($messages ,[
+                        'tahun_terbit.required' => 'Anda belum mengisi tahun terbit buku',
+                        'bulan_terbit.required' => 'Anda belum mengisi bulan terbit buku',
                     ]);
                 }
                 $validator = \Validator::make(request()->all(), $rules, $messages);
