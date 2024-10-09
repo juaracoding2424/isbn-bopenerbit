@@ -121,7 +121,8 @@
 										<th class="min-w-200px">Kepengarangan</th>
 										<th class="min-w-200px bg-light-danger">Masalah</th>
 										<th class="min-w-200px">Bulan/Tahun Terbit</th>
-										<th class="min-w-200px">Tanggal Permohonan</th>									
+										<th class="min-w-200px">Tanggal Permohonan</th>	
+										<th class="min-w-200px">Tanggal Masalah</th>									
 									</tr>
 								</thead>
 

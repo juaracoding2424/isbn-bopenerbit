@@ -35,7 +35,8 @@ class IsbnMasalahController extends Controller
         
         $end = $start + $length;
 
-        $sql  = "SELECT pt.id, m.isi, m.createdate, ir.noresi, pt.title, pt.kepeng, pt.author, pt.tahun_terbit, pt.mohon_date, pt.jenis_media
+        $sql  = "SELECT pt.id, m.isi, m.createdate, ir.noresi, pt.title, pt.kepeng, pt.author,pt.bulan_terbit, pt.tahun_terbit, 
+                    pt.mohon_date, pt.jenis_media, m.createdate as tanggal_masalah
                     FROM PENERBIT_ISBN_MASALAH m 
                     JOIN PENERBIT_TERBITAN pt ON m.PENERBIT_TERBITAN_ID = pt.ID 
                     LEFT JOIN ISBN_RESI ir on ir.id = m.isbn_resi_id
@@ -94,11 +95,13 @@ class IsbnMasalahController extends Controller
                     $nomor,
                     '<a class="badge badge-primary h-20px m-1" href="'. url('/penerbit/isbn/permohonan/detail/'.$noresi).'" target="_self">Perbaiki permohonan</a><a class="badge badge-danger h-20px m-1" onclick="batalkanPermohonan('.$id.')">Batalkan Permohonan</a>',
                     $val['NORESI'],
-                    $val['TITLE']  . "<span class='text-success'><i>$jenis_media</i></span>",
+                    $val['TITLE']  . " <span class='text-success'><i>$jenis_media</i></span>",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
-                    $val['TAHUN_TERBIT'],
+                    $val['ISI'],     
+                    $val['BULAN_TERBIT'] . ' ' . $val['TAHUN_TERBIT'],
                     $val['MOHON_DATE'],
-                    $val['ISI'],        
+                    $val['TANGGAL_MASALAH']
+                      
                 ];
                 $nomor++;
             }
