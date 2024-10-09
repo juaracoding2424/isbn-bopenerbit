@@ -886,7 +886,7 @@
                                                             <div class="ms-4">
                                                                 <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan file
                                                                     dummy buku</h3>
-                                                                <span class="fw-semibold fs-7 text-gray-500">Max:
+                                                                <span class="fw-semibold fs-7 text-gray-500">Accepted Files: .pdf,.epub,.mp3,.mp4,.wav Max:
                                                                     100MB</span>
                                                             </div>
                                                             <!--end::Info-->
@@ -923,7 +923,7 @@
                                                             <div class="ms-4">
                                                                 <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan
                                                                     attachment</h3>
-                                                                <span class="fw-semibold fs-7 text-gray-500">Max:150MB</span>
+                                                                <span class="fw-semibold fs-7 text-gray-500">Max:15MB</span>
                                                             </div>
                                                             <!--end::Info-->
                                                         </div>
@@ -1204,7 +1204,7 @@
                 dropzoneId = "#attachments"+jilid_ke; 
                 inputFileId = "#file_lampiran"+jilid_ke; 
                 acceptedFiles = ".pdf";
-                maxFilesize = 150;
+                maxFilesize = 15;
                 break;
             case "cover": 
                 dropzoneId = "#cover"+jilid_ke; 
@@ -1310,7 +1310,7 @@
                             <div class="ms-4">
                                 <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan
                                     attachment</h3>
-                                <span class="fw-semibold fs-7 text-gray-500">Max:150MB</span>
+                                <span class="fw-semibold fs-7 text-gray-500">Max:15MB</span>
                             </div>
                         </div>
                     </div>
@@ -1327,7 +1327,7 @@
                             <div class="ms-4">
                                 <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan file
                                     dummy buku</h3>
-                                <span class="fw-semibold fs-7 text-gray-500">Max:
+                                <span class="fw-semibold fs-7 text-gray-500">Accepted Files: .pdf,.epub,.mp3,.mp4,.wav, Max:
                                     100MB</span>
                             </div>
                         </div>
