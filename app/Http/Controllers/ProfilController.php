@@ -135,6 +135,12 @@ class ProfilController extends Controller
         $encryptedPassword2 = urlencode(rijndaelEncryptPassword($request->input('confirmemailpassword'))); 
         $penerbit = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=getlistraw&sql=" . urlencode("SELECT * FROM PENERBIT WHERE ID='" . $id . "' AND (ISBN_PASSWORD1='$encryptedPassword' OR ISBN_PASSWORD2='$encryptedPassword2' OR ISBN_PASSWORD='$encryptedPassword')"));
         if (isset($penerbit["Data"]['Items'][0])) {
+            if(checkEmail($request->input('alternateemailaddress'), 0 , 'isbn_registrasi_penerbit') > 0){
+                return response()->json([
+                    'status' => 'Failed',
+                    'message' => 'Email ' . strtolower($request->input('alternateemailaddress')) . ' sudah dipakai!'
+                ], 500);
+            }
             if(checkEmail($request->input('alternateemailaddress'), $id, 'penerbit') > 0){
                 return response()->json([
                     'status' => 'Failed',
