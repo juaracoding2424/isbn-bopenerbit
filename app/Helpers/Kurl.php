@@ -197,19 +197,20 @@ function checkEmail($email, $penerbit_id, $type)
     if(strtolower(session('penerbit')['EMAIL']) == strtolower(trim($email))){
         return 1;
     }
+    $email = strtoupper($email);
     if($type == 'penerbit'){
         if($penerbit_id > 0){
-            $sql = "SELECT count(*) JML FROM PENERBIT WHERE (EMAIL1 = '$email' OR EMAIL2='$email') AND ID != $penerbit_id";
+            $sql = "SELECT count(*) JML FROM PENERBIT WHERE (UPPER(EMAIL1) = '$email' OR UPPER(EMAIL2)='$email') AND ID != $penerbit_id";
             $count = kurl("get", "getlistraw", "", $sql, 'sql', '')["Data"]["Items"][0]["JML"];
         } else {
-            $count = kurl("get", "getlistraw", "", "SELECT count(*) JML FROM PENERBIT WHERE (EMAIL1 = '$email' OR EMAIL2='$email')", 'sql', '')["Data"]["Items"][0]["JML"];
+            $count = kurl("get", "getlistraw", "", "SELECT count(*) JML FROM PENERBIT WHERE (UPPER(EMAIL1) = '$email' OR UPPER(EMAIL2)='$email')", 'sql', '')["Data"]["Items"][0]["JML"];
         }
     } else {
         if($penerbit_id > 0){
-            $sql = "SELECT count(*) JML FROM ISBN_REGISTRASI_PENERBIT WHERE (ADMIN_EMAIL = '$email' OR ALTERNATE_EMAIL='$email') AND ID != $penerbit_id";
+            $sql = "SELECT count(*) JML FROM ISBN_REGISTRASI_PENERBIT WHERE (upper(ADMIN_EMAIL) = '$email' OR upper(ALTERNATE_EMAIL)='$email') AND ID != $penerbit_id";
             $count = kurl("get", "getlistraw", "", $sql, 'sql', '')["Data"]["Items"][0]["JML"];
         } else {
-            $count = kurl("get", "getlistraw", "", "SELECT count(*) JML FROM ISBN_REGISTRASI_PENERBIT WHERE (ADMIN_EMAIL = '$email' OR ALTERNATE_EMAIL='$email')", 'sql', '')["Data"]["Items"][0]["JML"];
+            $count = kurl("get", "getlistraw", "", "SELECT count(*) JML FROM ISBN_REGISTRASI_PENERBIT WHERE (upper(ADMIN_EMAIL) = '$email' OR upper(ALTERNATE_EMAIL) = '$email')", 'sql', '')["Data"]["Items"][0]["JML"];
         }
     }
     return intval($count);
