@@ -35,8 +35,8 @@ class ProfilController extends Controller
         try {
             $id = session('penerbit')['ID'];
             $validator = \Validator::make(request()->all(),[
-                'name' => 'required:min:8',
-                'username' => 'required|min:6',
+                //'name' => 'required:min:8',
+                //'username' => 'required|min:6',
                 'phone' => 'required',
                 'alamat_penerbit' => 'required',
                 'nama_gedung' => 'required',
@@ -45,10 +45,10 @@ class ProfilController extends Controller
                 'kecamatan' => 'required',
                 'kelurahan' => 'required',
                 ],[
-                'name.required' => 'Anda belum mengisi nama penerbit',
-                'name.min' => 'Nama penerbit minimum terdiri dari 8 karakter',
-                'username.required' => 'Anda belum mengisi username',
-                'username.min' => 'Username minimal terdiri dari 6 karakter',
+                //'name.required' => 'Anda belum mengisi nama penerbit',
+                //'name.min' => 'Nama penerbit minimum terdiri dari 8 karakter',
+                //'username.required' => 'Anda belum mengisi username',
+                //'username.min' => 'Username minimal terdiri dari 6 karakter',
                 'phone.required' => 'Anda belum mengisi nomor telp/hp kantor yang bisa dihubungi',
                 //'phone.numeric' => 'Nomor telp/hp kantor hanya boleh diisi oleh angka!',
                 'alamat_penerbit.required' => 'Anda belum mengisi alamat kantor',
@@ -67,8 +67,8 @@ class ProfilController extends Controller
             } else {  
                 if(session('penerbit')['STATUS'] == 'valid'){
                     $ListData = [
-                        [ "name"=>"NAME", "Value"=> request('name') ],
-                        [ "name"=>"ISBN_USER_NAME", "Value"=> request('username') ],
+                        //[ "name"=>"NAME", "Value"=> request('name') ],
+                        //[ "name"=>"ISBN_USER_NAME", "Value"=> request('username') ],
                         [ "name"=>"TELP1", "Value"=> request('phone')],
                         [ "name"=>"ALAMAT", "Value"=> request('alamat_penerbit')],
                         [ "name"=>"NAMA_GEDUNG", "Value"=> request('nama_gedung') ],
@@ -82,8 +82,8 @@ class ProfilController extends Controller
                     $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=PENERBIT&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
                 } else {
                     $ListData = [
-                        [ "name"=>"NAMA_PENERBIT", "Value"=> request('name') ],
-                        [ "name"=>"USERNAME", "Value"=> request('username') ],
+                        //[ "name"=>"NAMA_PENERBIT", "Value"=> request('name') ],
+                        //[ "name"=>"USERNAME", "Value"=> request('username') ],
                         [ "name"=>"ADMIN_PHONE", "Value"=> request('phone')],
                         [ "name"=>"ALAMAT_PENERBIT", "Value"=> request('alamat_penerbit')],
                         [ "name"=>"NAMA_GEDUNG", "Value"=> request('nama_gedung') ],

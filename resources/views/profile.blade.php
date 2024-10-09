@@ -162,7 +162,7 @@
 													aria-valuemax="100" id="progressKepatuhanPerpusnas"></div>
 											</div>
 											<div class="d-flex justify-content-between w-100 mt-auto mb-2">
-												<span class="fw-semibold fs-8 text-gray-500">Serah Simpan ke Penerbit</span>
+												<span class="fw-semibold fs-8 text-gray-500">Serah Simpan ke Provinsi</span>
 												<span class="fw-bold fs-8" id="divKepatuhanProvinsi">20%</span>
 											</div>
 											<div class="h-5px mx-3 w-100 bg-light mb-3">
@@ -249,7 +249,7 @@
 															<div class="row">
 																<!--begin::Col-->
 																<div class="col-lg-8 fv-row">
-																	<input type="text" name="name" class="form-control form-control-lg form-control-solid fs-8" placeholder="Nama Penerbit" value="" />
+																	<input type="text" name="name" class="form-control form-control-lg form-control-solid fs-8" placeholder="Nama Penerbit" value="" readonly="true"/>
 																</div>
 																<!--end::Col-->
 															</div>
@@ -265,7 +265,7 @@
 														<!--end::Label-->
 														<!--begin::Col-->
 														<div class="col-lg-8 fv-row">
-															<input type="text" name="username" class="form-control form-control-lg form-control-solid fs-8" placeholder="username" value="" />
+															<input type="text" name="username" class="form-control form-control-lg form-control-solid fs-8" placeholder="username" value="" readonly="true"/>
 														</div>
 														<!--end::Col-->
 													</div>
