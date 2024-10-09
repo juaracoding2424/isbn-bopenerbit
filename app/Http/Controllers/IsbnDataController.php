@@ -11,8 +11,14 @@ class IsbnDataController extends Controller
 {
     public function index()
     {
+        if(session('penerbit')['GROUP'] != session('penerbit')['ID']) {
+            $semua_penerbit = kurl("get","getlistraw", "", "SELECT ID, NAME FROM PENERBIT WHERE ID IN(".session('penerbit')['GROUP'].")", 'sql', '')["Data"]["Items"];
+        } else {
+            $semua_penerbit = [];
+        }
         $data = [
-            'nama_penerbit' => session('penerbit')["NAME"]
+            'nama_penerbit' => session('penerbit')["NAME"],
+            'semua_penerbit' => $semua_penerbit
         ];
         return view('isbn_data', $data);
     }
@@ -37,7 +43,17 @@ class IsbnDataController extends Controller
         $dir    = $request->input('order.0.dir');
         $search = $request->input('search.value');
         $id = session('penerbit')['ID'];
-        
+
+        if(session('penerbit')['GROUP'] != session('penerbit')['ID']){
+            //kalau ada group nya//
+            if($request->input('penerbit') != '0'){
+                $where = " AND pi.PENERBIT_ID = " . $request->input('penerbit'); //jika difilter dengan penerbit id
+            } else {
+                $where = " WHERE pi.PENERBIT_ID IN (".session('penerbit')['GROUP'].") ";
+            }
+        } else {
+            $where = " WHERE pi.PENERBIT_ID =$id ";
+        }
         $end = $start + $length;
 
         $sql = "SELECT pi.penerbit_terbitan_id, ir.mohon_date, pt.author, pt.kepeng, pi.prefix_element, pi.publisher_element,pi.item_element, pi.check_digit,
@@ -48,12 +64,10 @@ class IsbnDataController extends Controller
                 pt.is_kdt_valid
                 FROM penerbit_isbn pi
                 LEFT JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
-                LEFT JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id
-                WHERE pi.PENERBIT_ID =$id ";
+                LEFT JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id " . $where;
 
         $sqlFiltered = "SELECT pt.id FROM penerbit_terbitan pt LEFT JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
-                        JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
-                        WHERE pt.penerbit_id = $id ";
+                        JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id " . $where;
        
         foreach($request->input('advSearch') as $advSearch){
             if($advSearch["value"] != '') {
@@ -236,4 +250,5 @@ class IsbnDataController extends Controller
         $queryData = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_ISBN WHERE id=$id", 'sql', '')["Data"]["Items"][0];
         return view('barcode', ["data" => $queryData]) ;
     }
+
 }

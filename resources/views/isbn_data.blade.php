@@ -86,6 +86,19 @@
 								<div class="row"><!--begin::Search-->
 								<div class="col-md-6">Advance Filter:
 									<div id="advanceSearch">
+										@if(isset(session('penerbit')['GROUP']))
+											@if(session('penerbit')['GROUP'] != session('penerbit')['ID'])
+											<div class="d-flex align-items-center position-relative my-0">
+												<div class="w-200px fs-8 p-2 m-0">Pilih Penerbit</div>
+												<select class="select2 form-select w-400px fs-8 p-2 m-0" name="selectPenerbit" id="selectPenerbit">
+													<option value="0">--Semua--</option>
+													@foreach($data['semua_penerbit'] as $d)
+															<option value="{{$d['ID']}}">{{$d['NAME']}}</option>
+													@endforeach
+												</select>
+											</div>
+											@endif
+										@endif
 										<div class="d-flex align-items-center position-relative my-0">
 											<div class="w-200px fs-8 p-2 m-0">Jenis Media</div>
 											<select class="select2 form-select w-400px fs-8 p-2 m-0" name="selectJenisMedia" id="selectJenisMedia">
@@ -403,6 +416,8 @@
 	};
 	
 	var t;
+	var group = "{{session('penerbit')['GROUP']}}";
+	var p_id = "{{session('penerbit')['ID']}}";
 	var loadDataTable = function(){
 		let selectParameter = $('select[name="selectParameter"] option:selected').map(function() {
 											return $(this).val();
@@ -411,6 +426,7 @@
 									return input.value;
 								});
 		let advSearch = [];
+		
 		for(var i = 0; i < selectParameter.length; i++){
 			if(searchValue.length > 0) {
 				advSearch.push({
@@ -440,6 +456,7 @@
 					statusKckr : $('#selectKckr').val(),
 					sumber : $('#selectSumber').val(),
 					jenisMedia : $('#selectJenisMedia').val(),
+					penerbit : group == p_id ? p_id : $('#selectPenerbit').val() ,
 				}
 			},
 		});
@@ -517,6 +534,10 @@
 		exportButtons();
 	});
 	$('#selectSumber').on("change", function(){
+		loadDataTable();
+		exportButtons();
+	});
+	$('#selectPenerbit').on("change", function(){
 		loadDataTable();
 		exportButtons();
 	});

@@ -52,6 +52,28 @@ class AuthController extends Controller
                             'message' => 'Password yang Anda masukan salah! Mohon masukan password yang benar, atau lakukan forgot password.',
                         ], 500);
                     } 
+                    if($penerbit['IS_LOCK'] == 1){
+                        return response()->json([
+                            'status' => 'Failed',
+                            'message' => 'Akun Anda terkunci. Harap menghubungi tim ISBN.',
+                        ], 500);
+                    } 
+                    if($penerbit['IS_DISABLE'] == 1){
+                        return response()->json([
+                            'status' => 'Failed',
+                            'message' => 'Akun Anda disable. Harap menghubungi tim ISBN.',
+                        ], 500);
+                    } 
+                    $id = $penerbit['ID']; $penerbits = [];
+                    if($penerbit['PARENT_ID'] != ''){
+                        $penerbit = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=getlistraw&sql=" . 
+                                    urlencode("SELECT * FROM PENERBIT WHERE ID = " . $penerbit['PARENT_ID']))["Data"]['Items'][0];
+                        $p = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=getlistraw&sql=" . 
+                        urlencode("SELECT ID FROM PENERBIT WHERE PARENT_ID = " .$penerbit['PARENT_ID']))["Data"]['Items'];
+                        array_push($penerbits, $p); 
+                    } 
+                    array_push($penerbits, $id); 
+                    $semua_id_penerbit = implode(",", $penerbits);
                     session([
                             'penerbit' => [
                                 'STATUS' => 'valid',
@@ -63,6 +85,7 @@ class AuthController extends Controller
                                 'CITY_ID' => $penerbit['CITY_ID'],
                                 'DISTRICT_ID' => $penerbit['DISTRICT_ID'],
                                 'VILLAGE_ID' => $penerbit['VILLAGE_ID'],
+                                'GROUP' => $semua_id_penerbit
                     ]]);
                     return response()->json([
                         'penerbitstatus' => 'valid',
