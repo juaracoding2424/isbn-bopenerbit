@@ -178,6 +178,12 @@ class ProfilController extends Controller
                         'message' => 'Password yang Anda masukan salah!',
                     ], 500);
                 }
+                if(checkEmail($request->input('alternateemailaddress'), 0 , 'penerbit') > 0){
+                    return response()->json([
+                        'status' => 'Failed',
+                        'message' => 'Email ' . strtolower($request->input('alternateemailaddress')) . ' sudah dipakai dan sudah pernah divalidasi pada akun lain!'
+                    ], 500);
+                }
                 if(checkEmail($request->input('alternateemailaddress'), $id, 'isbn_registrasi_penerbit') > 0){
                     return response()->json([
                         'status' => 'Failed',
