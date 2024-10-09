@@ -58,7 +58,7 @@ class AuthController extends Controller
                             'message' => 'Akun Anda terkunci. Harap menghubungi tim ISBN.',
                         ], 500);
                     } 
-                    if($penerbit['IS_DISABLE'] == 1){
+                    if($penerbit['IS_DISABLE'] == 1 && $penerbit['PARENT_ID'] == ''){
                         return response()->json([
                             'status' => 'Failed',
                             'message' => 'Akun Anda disable. Harap menghubungi tim ISBN.',
