@@ -206,7 +206,7 @@
             	}).then(function(e) {
 						if(e.isConfirmed == true) {
 							$.ajax({
-								url: '{{ url("/penerbit/isbn/batal/pulihkan-permohonan") }} ' + '/'+id,
+								url: '{{ url("/penerbit/isbn/batal/pulihkan-permohonan") }}' + '/'+id,
 								type: 'GET',
 								async:false,
 								beforeSend: function(){
