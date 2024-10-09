@@ -873,7 +873,7 @@ class IsbnPermohonanController extends Controller
     function checkTahunTerbitMin(Request $request)
     {
         $tahun_terbit = $request->input('tahun_terbit');
-        if(strtotime(date('Y')) >= strtotime($tahun_terbit)){
+        if(strtotime($tahun_terbit) >= strtotime(date('Y')) ){
             return response()->json([
                 'valid' => true,
                 'message' => 'ok!'
