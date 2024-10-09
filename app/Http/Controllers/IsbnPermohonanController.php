@@ -280,7 +280,7 @@ class IsbnPermohonanController extends Controller
                 }
                 if(request('status') == 'lepas') {
                     $rules = array_merge($rules, [
-                        'jml_hlm' => 'required|min:40',
+                        'jml_hlm' => 'required|numeric|min:40',
                         'tahun_terbit' => 'required|tahun_terbit_min',
                         'bulan_terbit' => 'required|bulan_terbit_min:' . $request->input('tahun_terbit'),
                         
@@ -379,10 +379,15 @@ class IsbnPermohonanController extends Controller
                 ];
                 $IsbnResi = [
                     [ "name" => "NORESI", "Value" => $noresi ],
-                    [ "name" => "JML_JILID_REQ", "Value" => count(request('keterangan_jilid'))],
+                    
                     [ "name" => "LINK_BUKU", "Value" => $urls ],
                     [ "name" => "SOURCE", "Value" => "web" ],
                 ];
+                if(request('status') == 'jilid'){
+                    array_push($IsbnResi, [ "name" => "JML_JILID_REQ", "Value" => count(request('keterangan_jilid'))]);
+                } else {
+                    array_push($IsbnResi, [ "name" => "JML_JILID_REQ", "Value" => 1]);
+                }
                 if(request('isbn-jilid') == ""){
                     array_push($IsbnResi,  [ "name" =>"JENIS", "Value" => request('status')]);
                 } else {
@@ -503,7 +508,7 @@ class IsbnPermohonanController extends Controller
                         //ganti file dummy kalau ada
                         if(isset($request->input('file_dummy_id')[0])) {
                             $params = [
-                                'penerbitisbnfile' => $request->input('file_dummy_id')[0],
+                                'penerbitisbnfileid' => $request->input('file_dummy_id')[0],
                                 'actionby' => session('penerbit')['USERNAME'],
                                 'terminal' => \Request::ip()
                             ];
@@ -514,7 +519,7 @@ class IsbnPermohonanController extends Controller
                         //ganti file cover kalau ada
                         if(isset($request->input('file_cover_id')[0])) {
                             $params = [
-                                'penerbitisbnfile' => $request->input('file_cover_id')[0],
+                                'penerbitisbnfileid' => $request->input('file_cover_id')[0],
                                 'actionby' => session('penerbit')['USERNAME'],
                                 'terminal' => \Request::ip()
                             ];
@@ -526,10 +531,10 @@ class IsbnPermohonanController extends Controller
                         $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), '', $id_resi, true);    
                     } else {
                         //kalau mau ganti lampiran permohonan 
-                        if(request('penerbit_isbn_masalah') == '' && isset($request->input('file_lampiran')[0])) {
+                        if(request('penerbit_isbn_masalah_id') == '' && isset($request->input('file_lampiran')[0])) {
                             if(isset($request->input('file_lampiran_id')[0])) {
                                 $params = [
-                                    'penerbitisbnfile' => $request->input('file_lampiran_id')[0],
+                                    'penerbitisbnfileid' => $request->input('file_lampiran_id')[0],
                                     'actionby' => session('penerbit')['USERNAME'],
                                     'terminal' => \Request::ip()
                                 ];
@@ -555,7 +560,7 @@ class IsbnPermohonanController extends Controller
                             //ganti file dummy kalau ada
                             if(isset($request->input('file_dummy_id')[$i - $start])) {
                                 $params = [
-                                    'penerbitisbnfile' => $request->input('file_dummy_id')[$i - $start],
+                                    'penerbitisbnfileid' => $request->input('file_dummy_id')[$i - $start],
                                     'actionby' => session('penerbit')['USERNAME'],
                                     'terminal' => \Request::ip()
                                 ];
@@ -566,7 +571,7 @@ class IsbnPermohonanController extends Controller
                             //ganti file cover kalau ada
                             if(isset($request->input('file_cover_id')[$i - $start])) {
                                 $params = [
-                                    'penerbitisbnfile' => $request->input('file_cover_id')[$i - $start],
+                                    'penerbitisbnfileid' => $request->input('file_cover_id')[$i - $start],
                                     'actionby' => session('penerbit')['USERNAME'],
                                     'terminal' => \Request::ip()
                                 ];
@@ -579,10 +584,10 @@ class IsbnPermohonanController extends Controller
                             $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), $keterangan, $id_resi, true);    
                         } else {
                             //kalau mau ganti lampiran permohonan 
-                            if(request('penerbit_isbn_masalah') == '' && isset($request->input('file_lampiran')[$i - $start])) {
+                            if(request('penerbit_isbn_masalah_id') == '' && isset($request->input('file_lampiran')[$i - $start])) {
                                 if(isset($request->input('file_lampiran_id')[$i - $start])) {
                                     $params = [
-                                        'penerbitisbnfile' => $request->input('file_lampiran_id')[$i - $start],
+                                        'penerbitisbnfileid' => $request->input('file_lampiran_id')[$i - $start],
                                         'actionby' => session('penerbit')['USERNAME'],
                                         'terminal' => \Request::ip()
                                     ];

@@ -1394,7 +1394,7 @@
     $('input[type=text][name="distributor"]').val('{{$detail['DISTRIBUTOR']}}');
     $('input[type=text][name="tempat_terbit"]').val('{{$detail['TEMPAT_TERBIT']}}');
     if(jilid_lepas == 'lepas'){
-        $('#jml_hlm').val("{{$detail['JML_HLM']}}");
+        $('#jml_hlm').attr("type","number").val(parseInt("{{$detail['JML_HLM']}}"));
         $('input[type=radio][name="status"][value="'+jilid_lepas+'"]').prop('checked', true);
         $('#judul_buku_1').css('display', 'none');
         $('#btnTambahJilid').css('display', 'none');
@@ -1573,9 +1573,11 @@
     })
     var formSubmit = function(){
         event.preventDefault();
+        $('input[type="radio"][name="status"]').prop('disabled', false);
         let form = document.getElementById('form_isbn');
         let formData = new FormData(form); 
         formData.append('jumlah_jilid', jumlah_buku);
+        
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -1643,6 +1645,7 @@
                     },
                     complete: function(){
                         $('.loader').css('display','none');
+                        $('input[type="radio"][name="status"]').prop('disabled', true);
                     },
             });
     };
@@ -1659,7 +1662,7 @@
         $('#btnTambahJilid').css('display', 'block');
         $('#btnTambahJilid').css('disabled', 'disabled');
         $('#jml_hlm').attr("type", "text");
-        $('#jml_hlm').attr("disabled", "disabled");
+        $('#jml_hlm').attr("readonly", "true");
         $('#divIsbnLanjutan').show();
         $('#btnTambahJilid').css('display', 'none');
     }
