@@ -716,11 +716,11 @@
                                                 <div class="row">
                                                     <!--begin::Col-->
                                                     <div class="col-lg-4 fv-row">
-                                                        <select name="bulan_terbit" class="select2 form-select fs-8">
+                                                        <select name="bulan_terbit" class="select2 form-select fs-8" id="bulan_terbit">
                                                             <option value="01">Januari</option>
                                                             <option value="02">Februari</option>
                                                             <option value="03">Maret</option>
-                                                            <option value="04">Aprit</option>
+                                                            <option value="04">April</option>
                                                             <option value="05">Mei</option>
                                                             <option value="06">Juni</option>
                                                             <option value="07">Juli</option>
@@ -732,7 +732,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="col-lg-4 fv-row">
-                                                        <select name="tahun_terbit" class="select2 form-select fs-8">
+                                                        <select name="tahun_terbit" class="select2 form-select fs-8" id="tahun_terbit">
                                                             <option>2024</option>
                                                             <option>2025</option>
                                                         </select>
@@ -1043,6 +1043,27 @@
                                         };
                                     },
                                     url: "{{ url('penerbit/isbn/permohonan/check/title') }}",
+                                },
+                            }
+                        },
+                        bulan_terbit: {
+                            validators : {
+                                remote: {
+                                    method: 'POST',
+                                    data: function(validator) {
+                                        return {
+                                            tahun_terbit: $('#tahun_terbit').val()
+                                        };
+                                    },
+                                    url: "{{ url('penerbit/isbn/permohonan/check/bulan-terbit-min') }}",
+                                },
+                            }
+                        },
+                        tahun_terbit: {
+                            validators : {
+                                remote: {
+                                    method: 'POST',
+                                    url: "{{ url('penerbit/isbn/permohonan/check/tahun-terbit-min') }}",
                                 },
                             }
                         },

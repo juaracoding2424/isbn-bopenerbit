@@ -29,7 +29,10 @@ return Application::configure(basePath: dirname(__DIR__))
             //'guest'    => \App\Http\Middleware\RedirectIfAuthenticated::class,
         ]);*/
         $middleware->validateCsrfTokens(except: [
-            'page/redirect','penerbit/isbn/permohonan/check/title' // <-- exclude this route
+            'page/redirect',
+            'penerbit/isbn/permohonan/check/title',
+            'penerbit/isbn/permohonan/check/bulan-terbit-min',
+            'penerbit/isbn/permohonan/check/tahun-terbit-min' // <-- exclude this route
         ]);
 
         $middleware->append(\App\Http\Middleware\RedirectIfAuthenticated::class);

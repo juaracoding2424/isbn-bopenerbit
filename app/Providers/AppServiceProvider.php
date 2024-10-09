@@ -60,7 +60,7 @@ class AppServiceProvider extends ServiceProvider
             }
         });
         \Validator::extend('tahun_terbit_min', function ($attribute, $value, $parameters, $validator) {
-            if(strtotime(date(format: 'Y')) >= strtotime(intval($value))){
+            if(strtotime(date('Y')) >= strtotime(intval($value))){
                 return true;
             } else {
                 return false;

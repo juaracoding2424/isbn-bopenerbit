@@ -619,8 +619,8 @@ class IsbnPermohonanController extends Controller
         } catch(\Exception $e){
             return response()->json([
                 'status' => 'Failed',
-                'message' => 'Data permohonan gagal disimpan. Server Error!',
-                'noresi' => $e->getMessage()
+                'message' => 'Data permohonan gagal disimpan. Server Error!' . $e->getMessage(),
+                'err' => $e->getMessage()
             ], 500);
         }
     }
@@ -842,7 +842,40 @@ class IsbnPermohonanController extends Controller
             return response()->json([
                 'valid' => true,
                 'message' => 'Judul buku ' . $title . ' dapat digunakan.',
-                'meta' => 'the aditional',
+            ]);
+        }
+    }
+
+    function checkBulanTerbitMin(Request $request)
+    {
+        $bulan_terbit = $request->input('bulan_terbit');
+        $tahun_terbit = $request->input('tahun_terbit');
+
+        if(strtotime(date('Y-m')) <= strtotime($tahun_terbit .'-'. str($bulan_terbit))){
+            return response()->json([
+                'valid' => true,
+                'message' => 'ok!'
+            ]);
+        } else {
+            return response()->json([
+                'valid' => false,
+                'message' => 'Bulan terbit yang Anda masukan tidak boleh kurang dari bulan ' . date('F Y'),
+            ]);
+        }
+    }
+
+    function checkTahunTerbitMin(Request $request)
+    {
+        $tahun_terbit = $request->input('tahun_terbit');
+        if(strtotime(date('Y')) >= strtotime($tahun_terbit)){
+            return response()->json([
+                'valid' => true,
+                'message' => 'ok!'
+            ]);
+        } else {
+            return response()->json([
+                'valid' => false,
+                'message' => 'Tahun terbit yang Anda masukan tidak boleh kurang dari tahun ' . date('Y'),
             ]);
         }
     }

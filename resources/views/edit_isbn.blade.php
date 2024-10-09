@@ -117,12 +117,14 @@
                                                         <div class="col-lg-4 fv-row mb-1">
                                                             <select name="authorRole[]" class="select2 form-select fs-8" id="authorRole0">
                                                                 <option selected="selected">penulis</option>
+                                                                <option>alih bahasa</option>
+                                                                <option>desain sampul</option>
+                                                                <option>editor</option>
+                                                                <option>ilustrator</option>
+                                                                <option>pemeriksa akhir</option>
+                                                                <option>penerjemah</option>
                                                                 <option>penyunting</option>
                                                                 <option>penyusun</option>
-                                                                <option>editor</option>
-                                                                <option>alih bahasa</option>
-                                                                <option>ilustrator</option>
-                                                                <option>desain sampul</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-lg-6 fv-row mb-1">
@@ -609,7 +611,7 @@
                                                             <option value="01">Januari</option>
                                                             <option value="02">Februari</option>
                                                             <option value="03">Maret</option>
-                                                            <option value="04">Aprit</option>
+                                                            <option value="04">April</option>
                                                             <option value="05">Mei</option>
                                                             <option value="06">Juni</option>
                                                             <option value="07">Juli</option>
@@ -1313,11 +1315,12 @@
     dropZoneJilid(jumlah_buku, "cover");
     var jilid_lepas = '{{$jenis}}';
     $('textarea[name=title]').val("{{ $detail['TITLE'] }}");
+    var kepengarangan = 1;
     var kdt_valid = "{{ $detail['IS_KDT_VALID']}}";
     var kepeng ="{{ $detail['KEPENG'] }}";
     var kepengs = kepeng.split(";");
     if(kepengs[0].includes(',')){
-        $('#authorRole0').val(kepengs[0].split(',')[0]);
+        $('#authorRole0').val(kepengs[0].split(',')[0].toLowerCase());
         $('#namaPengarang0').val(kepengs[0].split(',')[1]);
     }else {
         $('#authorRole0').val('penulis');
@@ -1326,33 +1329,34 @@
     for(var i = 1; i < kepengs.length; i++){
         if(kepengs[i].includes(',')){
             let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
-                '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select fs-8 id="authorRole'+i+'">';
+                '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select fs-8" id="authorRole'+i+'">';
             htmlAppend +=
-                '<option selected="">penulis</option><option>penyunting</option><option>penyusun</option><option>editor</option>';
+                '<option>alih bahasa</option><option>desain sampul</option><option>editor</option><option>ilustrator</option><option>pemeriksa akhir</option>';
             htmlAppend +=
-                '<option>alih bahasa</option><option>ilustrator</option><option>desain sampul</option></select></div>';
+                '<option>penulis</option><option>penerjemah</option><option>penyunting</option><option>penyusun</option></select></div>';
             htmlAppend +=
                 '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control fs-8 form-control-lg form-control-solid" placeholder="Nama orang" value="'+kepengs[i].split(',')[1]+'" /></div>';
             htmlAppend +=
                 '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger" onclick="deleteKepengarangan(' +
                 kepengarangan + ')"><i class="ki-outline ki-trash" ></i></span></div></div>';
             $('#kepengarangan').append(htmlAppend);
-            $('#authorRole'+i).val('penulis');
+            $('#authorRole'+i).val(kepengs[i].split(',')[0].toLowerCase());
         }else {
             let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
-                '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select fs-8 id="authorRole'+i+'">';
+                '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select fs-8" id="authorRole'+i+'">';
             htmlAppend +=
-                '<option selected="">penulis</option><option>penyunting</option><option>penyusun</option><option>editor</option>';
+                '<option>alih bahasa</option><option>desain sampul</option><option>editor</option><option>ilustrator</option><option>pemeriksa akhir</option>';
             htmlAppend +=
-                '<option>alih bahasa</option><option>ilustrator</option><option>desain sampul</option></select></div>';
+                '<option selected="">penulis</option><option>penerjemah</option><option>penyunting</option><option>penyusun</option></select></div>';
             htmlAppend +=
                 '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control fs-8 form-control-lg form-control-solid" placeholder="Nama orang" value="'+kepengs[i]+'" /></div>';
             htmlAppend +=
                 '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger" onclick="deleteKepengarangan(' +
                 kepengarangan + ')"><i class="ki-outline ki-trash" ></i></span></div></div>';
             $('#kepengarangan').append(htmlAppend);
-            $('#authorRole'+i).val(kepengs[i].split(',')[0]);
+            $('#authorRole'+i).val('penulis');
         } 
+        kepengarangan += 1;
     }
     var jenis_media = "{{$detail['JENIS_MEDIA']}}";
     var jenis_terbitan = "{{$detail['JENIS_TERBITAN']}}";
@@ -1547,15 +1551,15 @@
     });
     $('#judul_buku_1').css('display', 'none');
     //$('#btnTambahJilid').css('display', 'none');
-    var kepengarangan = 1;
+
     
     $('#btnTambahPengarang').on("click", function() {
         let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
             '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select fs-8">';
         htmlAppend +=
-            '<option selected="selected">penulis</option><option>penyunting</option><option>penyusun</option><option>editor</option>';
+                '<option>alih bahasa</option><option>desain sampul</option><option>editor</option><option>ilustrator</option><option>pemeriksa akhir</option>';
         htmlAppend +=
-            '<option>alih bahasa</option><option>ilustrator</option><option>desain sampul</option></select></div>';
+                '<option selected="">penulis</option><option >penerjemah</option><option>penyunting</option><option>penyusun</option></select></div>';
         htmlAppend +=
             '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control fs-8 form-control-lg form-control-solid" placeholder="Nama orang" /></div>';
         htmlAppend +=

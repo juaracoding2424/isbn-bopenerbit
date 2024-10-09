@@ -54,6 +54,8 @@ Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
         Route::get('penerbit/isbn/permohonan/delete/{id}', [IsbnPermohonanController::class, 'rollback_permohonan']);
         Route::get('penerbit/isbn/permohonan/delete-file/{id}', [IsbnPermohonanController::class, 'deleteFile']);
         Route::post('penerbit/isbn/permohonan/check/title', [IsbnPermohonanController::class, 'checkTitleExists']);
+        Route::post('penerbit/isbn/permohonan/check/bulan-terbit-min', [IsbnPermohonanController::class, 'checkBulanTerbitMin']);
+        Route::post('penerbit/isbn/permohonan/check/tahun-terbit-min', [IsbnPermohonanController::class, 'checkTahunTerbitMin']);
 
         Route::get('penerbit/isbn/batal', [IsbnBatalController::class, 'index']);
         Route::get('penerbit/isbn/batal/datatable', [IsbnBatalController::class, 'datatable']);
