@@ -328,7 +328,7 @@ class IsbnPermohonanController extends Controller
                     }
                 }
                 $jumlah_jilid = intval(request('jumlah_jilid'));
-                if(request('status') == 'jilid' && request('isbn-jilid') == "") { 
+                if(request('status') == 'jilid') { //kalau isbn lepas gmn?
                     #--------------VALIDASI JUMLAH JILID----------------------------------------------------------------
                     /*if($jumlah_jilid < 2) {
                         return response()->json([
@@ -342,6 +342,7 @@ class IsbnPermohonanController extends Controller
                 } else if(request('status') == 'lepas') {
                     $jml_hlm = request('jml_hlm');
                 }
+                
                 $urls = implode('¦', request('url'));
                 //if(request('isbn-jilid') != ""){
                 //    $start = ($jumlah_jilid - count(request('file_lampiran')));
