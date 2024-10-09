@@ -1410,6 +1410,7 @@
                     }
                 }
             }
+            $('#jml_hlm').val(jumlah_buku);
         });
         if($('#isbn-jilid').val()!=""){ 
             dropZoneJilid(idJilid, "lampiran");
@@ -1587,7 +1588,7 @@
             $('#labelJumlahHalaman').text('Jumlah Jilid');
             $('#labelKetJumlahHalaman').text('Jilid');
             $('#jml_hlm').attr("type", "text");
-            $('#jml_hlm').val(jumlah_buku + " jil");
+            $('#jml_hlm').val(jumlah_buku);
             $('#jml_hlm').attr("disabled", "disabled");
             $('#row-isbnjilid').show();
         }
