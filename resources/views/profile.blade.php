@@ -214,7 +214,7 @@
 																<label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
 																	<i class="ki-outline ki-pencil fs-7"></i>
 																	<!--begin::Inputs-->
-																	<input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+																	<input type="file" name="avatar" accept=".png, .jpg, .jpeg" id="avatar"/>
 																	<input type="hidden" name="avatar_remove" />
 																	<!--end::Inputs-->
 																</label>
@@ -394,9 +394,9 @@
 															<a><i class="bi bi-filetype-pdf fs-1"></i> DummyBuku.pdf</a>
 														</div>-->
 														<!--end:: Label-->
-														<div class="col-lg-3 col-form-label fs-8 " id="view_file_akta_notaris"></div>
+														<div class="col-lg-3 col-form-label fs-8 " id="view_file_akte_notaris"></div>
 														<div class="col-lg-5 d-flex align-items-center">
-														<input type="hidden" name="file_akta_notaris" id="file_akta_notaris">
+														<input type="hidden" name="file_akte_notaris" id="file_akte_notaris">
 															<!--begin::Dropzone-->
 															<div class="dropzone p-0" id="dropzone_ap" style="width:100%">
 																<!--begin::Message-->
@@ -677,6 +677,11 @@
 				submitForm();
 		});
 	})
+	var imageInputElement = document.querySelector(".image-input");
+	var imageInput = KTImageInput.getInstance(imageInputElement);
+	imageInput.on("kt.imageinput.changed", function() {
+			alert('woy!');
+	});
 </script>
 <script>
 	var status = "{{session('penerbit')['STATUS']}}";
@@ -706,7 +711,7 @@
 				$('input[name="nama_gedung"]').val(response['NAMA_GEDUNG']);
 				let loc_an = "{{config('app.isbn_file_location')}}"+ "files/penerbit/akte_notaris/" + response['FILE_AKTE_NOTARIS'];
 				let loc_sp = "{{config('app.isbn_file_location')}}"+ "files/penerbit/surat_pernyataan/" + response['FILE_SURAT_PERNYATAAN'];
-				$('#view_file_akta_notaris').html("<a href='"+loc_an+"' target='_blank'>Akta Notaris</a>");
+				$('#view_file_akte_notaris').html("<a href='"+loc_an+"' target='_blank'>Akte Notaris</a>");
 				$('#view_file_surat_pernyataan').html("<a href='"+loc_sp+"' target='_blank'>Surat Pernyataan</a>");
 				$('#email1').text(response['ADMIN_EMAIL']);
 				$('#email2').text(response['ALTERNATE_EMAIL']);
@@ -1073,9 +1078,9 @@
 	var dropZone = function(file_type){
         let dropzoneId = "", inputFileId ="", acceptedFiles = "", maxFilesize = 5;
         switch(file_type){
-            case "akte_perusahaan": 
+            case "akte_notaris": 
                 dropzoneId = "#dropzone_ap"; 
-                inputFileId = "#file_akte_perusahaan"; 
+                inputFileId = "#file_akte_notaris"; 
                 acceptedFiles = ".pdf";
                 maxFilesize = 20;
                 break;
@@ -1157,7 +1162,7 @@
 	$('#kt_signin_submit').on('click', function(){
 		submitForm();
 	});
-	dropZone('akte_perusahaan');
+	dropZone('akte_notaris');
 	dropZone('surat_pernyataan');
 
 </script>

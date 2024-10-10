@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use \Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\File;
 
 class ProfilController extends Controller
 {
@@ -31,7 +33,7 @@ class ProfilController extends Controller
         return $data;
     }
 
-    function submit()
+    function submit(Request $request)
     {
         try {
             $id = session('penerbit')['ID'];
@@ -67,21 +69,10 @@ class ProfilController extends Controller
                 ], 422);
             } else {  
                 $file = [
-                    'file_surat_pernyataan' => $request->input('file_surat_pernyataan') ?? null,
-                    'file_akte_perusahaan' => $request->input('file_akte_perusahaan') ?? null,
+                    'file_surat_pernyataan' => $request->file('file_surat_pernyataan') ?? null,
+                    'file_akte_notaris' => $request->file('file_akte_notaris') ?? null,
                 ];
 
-                if(request('penerbit_terbitan_id') != '' && isset($request->input('file_dummy')[0])){
-                    //ganti file dummy kalau ada
-                    if(isset($request->input('file_dummy_id')[0])) {
-                        $params = [
-                            'penerbitisbnfileid' => $request->input('file_dummy_id')[0],
-                            'actionby' => session('penerbit')['USERNAME'],
-                            'terminal' => \Request::ip()
-                        ];
-                        kurl("post", "deletefilelampiran",'', '', $params);
-                    }
-                }
                 if(session('penerbit')['STATUS'] == 'valid'){
                     $ListData = [
                         //[ "name"=>"NAME", "Value"=> request('name') ],
@@ -96,9 +87,63 @@ class ProfilController extends Controller
                         [ "name"=>"UPDATEBY", "Value"=> session('penerbit')["USERNAME"]], //nama user penerbit
                         [ "name"=>"UPDATETERMINAL", "Value"=> \Request::ip()]
                     ];
-                    
-                    
                     $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=PENERBIT&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
+                  
+                    //ganti file file_akte_notaris kalau ada
+                    if($request->hasFile('avatar')) {
+                        $params = [
+                            'penerbitid' => $id,
+                            'actionby' => session('penerbit')['USERNAME'],
+                            'terminal' => \Request::ip()
+                        ];
+                        kurl("post", "deletepenerbitfoto",'', '','', $params);
+                        \Log::info($request->input('avatar'));
+                        /*$file_foto = new UploadedFile(
+                            $filePath_an,
+                            $file['file_akte_notaris'],
+                            File::mimeType($filePath_an),
+                            null,
+                            true
+                        );*/
+                        kurl_upload_file_penerbit('uploadpenerbitfoto', session('penerbit'), 'penerbitid', $request->file('avatar'), \Request::ip());
+                    }
+                    //ganti file file_akte_notaris kalau ada
+                    if($request->hasFile('file_akte_notaris')) {
+                        $params = [
+                            'penerbitid' => $id,
+                            'actionby' => session('penerbit')['USERNAME'],
+                            'terminal' => \Request::ip()
+                        ];
+                        kurl("post", "deletefileaktenotaris",'', '','', $params);
+                        $filePath_an = public_path('file_tmp_upload/'.$file['file_akte_notaris']);
+                        $file_an = new UploadedFile(
+                            $filePath_an,
+                            $file['file_akte_notaris'],
+                            File::mimeType($filePath_an),
+                            null,
+                            true
+                        );
+                        kurl_upload_file_penerbit('uploadfileaktenotaris', session('penerbit'), 'penerbitid', $file_an, \Request::ip());
+                    }
+                    
+                    //ganti file surat pernyataan jika ada
+                    if($request->hasFile('file_surat_pernyataan') ) {
+                        $params = [
+                            'penerbitid' => $id,
+                            'actionby' => session('penerbit')['USERNAME'],
+                            'terminal' => \Request::ip()
+                        ];
+                        kurl("post", "deletefilesuratpernyataan",'', '', '', $params);
+                        $filePath_sp = public_path('file_tmp_upload/'.$file['file_surat_pernyataan']);
+                        $file_sp = new UploadedFile(
+                            $filePath_sp,
+                            $file['file_surat_pernyataan'],
+                            File::mimeType($filePath_sp),
+                            null,
+                            true
+                        );
+                        kurl_upload_file_penerbit('uploadfilesuratpernyataan', session('penerbit'), 'penerbitid', $file_sp, \Request::ip());
+                    }
                 } else {
                     $ListData = [
                         //[ "name"=>"NAMA_PENERBIT", "Value"=> request('name') ],
@@ -121,6 +166,43 @@ class ProfilController extends Controller
                         sendMail(18, $params, session('penerbit')['EMAIL'], 'Perbaikan pendaftaran akun penerbit ' . session('penerbit')['NAME']);
                     }
                     $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_REGISTRASI_PENERBIT&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
+                     //ganti file file_akte_notaris kalau ada
+                     if($request->hasFile('file_akte_notaris') !== null) {
+                        $params = [
+                            'isbn_registrasi_penerbit_id' => $id,
+                            'actionby' => session('penerbit')['USERNAME'],
+                            'terminal' => \Request::ip()
+                        ];
+                        kurl("post", "deletefileaktenotaris",'', '', '', $params);
+                        $filePath_an = public_path('file_tmp_upload/'.$file['file_akte_notaris']);
+                        $file_an = new UploadedFile(
+                            $filePath_an,
+                            $file['file_akte_notaris'],
+                            File::mimeType($filePath_an),
+                            null,
+                            true
+                        );
+                        kurl_upload_file_penerbit('uploadfileaktenotaris', session('penerbit'), 'isbn_registrasi_penerbit_id', $file_an, \Request::ip());
+                    }
+                    
+                    //ganti file surat pernyataan jika ada
+                    if($request->hasFile('file_surat_pernyataan') !== null ) {
+                        $params = [
+                            'isbn_registrasi_penerbit_id' => $id,
+                            'actionby' => session('penerbit')['USERNAME'],
+                            'terminal' => \Request::ip()
+                        ];
+                        kurl("post", "deletefilesuratpernyataan",'', '', '', $params);
+                        $filePath_sp = public_path('file_tmp_upload/'.$file['file_surat_pernyataan']);
+                        $file_sp = new UploadedFile(
+                            $filePath_sp,
+                            $file['file_surat_pernyataan'],
+                            File::mimeType($filePath_sp),
+                            null,
+                            true
+                        );
+                        kurl_upload_file_penerbit('uploadfilesuratpernyataan', session('penerbit'), 'isbn_registrasi_penerbit_id', $file_sp, \Request::ip());
+                    }
                 }
                 
 
