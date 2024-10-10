@@ -745,6 +745,9 @@ class IsbnPermohonanController extends Controller
 
     function detail($noresi)
     {
+        if(session('penerbit')['IS_LOCK'] == '1') {
+            return view('akun_lock', $data);
+        }
         $detail = kurl("get","getlistraw", "", "SELECT ir.id, ir.penerbit_terbitan_id, pt.title, pt.author, pt.distributor, pt.kepeng, 
         case when pt.jml_jilid is null then 1
         when pt.jml_jilid = 0 then 1
