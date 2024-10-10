@@ -25,7 +25,7 @@
 								</div>
 							</div>
 							<div class="text-center px-4">
-								<img class="mw-100 mh-300px" alt="" src="{{ url('assets/media/auth/account-deactivated.png') }}" />
+								<img class="mw-100 mh-300px" alt="" src="{{ url('assets/media/illustrations/sigma-1/21.png') }}" />
 							</div>
 						</div>
 						<!--end::Card body-->

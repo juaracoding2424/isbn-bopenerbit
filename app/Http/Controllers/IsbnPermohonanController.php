@@ -139,7 +139,7 @@ class IsbnPermohonanController extends Controller
         }
         $checkKuota = checkKuota(session('penerbit')['ID']);
 
-        if(!$checkKuota[0] == true){ //true kuota masih ada
+        if($checkKuota[0] == true){ //true kuota masih ada
             return view('tambah_isbn');
         } else {
             return view('kuota_habis', [ 'kuota' => $checkKuota]);
