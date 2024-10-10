@@ -461,6 +461,16 @@
 			},
 		});
 	};
+	var readmore = function(id){
+		$('.sinopsis'+id).removeClass('d-none');
+		$('#btnReadMore' + id).addClass('d-none');
+		$('#btnLess' + id).removeClass('d-none');
+	}
+	var less = function(id){
+		$('.sinopsis'+id).addClass('d-none');
+		$('#btnReadMore' + id).removeClass('d-none');
+		$('#btnLess' + id).addClass('d-none');
+	}
 	loadDataTable();
 	var exportButtons = () => {
 		var myInt = Number(new Date()).toString();

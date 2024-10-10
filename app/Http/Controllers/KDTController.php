@@ -48,14 +48,14 @@ class KDTController extends Controller
                     else listagg(pi.isbn_no, ', ') within group (order by pi.isbn_no)
                 End isbn_no_gab, pt.bulan_terbit, pt.tahun_terbit, pt.call_number, pt.sinopsis, pt.subjek,
 				ir.id as isbn_resi_id, ir.source,ir.jenis,pt.title,  pt.jml_jilid, pt.jilid_volume, 
-                pt.validator_by, pt.is_kdt_valid
+                pt.validator_by, pt.is_kdt_valid, pt.id
                 FROM penerbit_isbn pi
                 JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
                 LEFT JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id
                 WHERE pi.PENERBIT_ID =$id AND pt.is_kdt_valid=1";
         $sqlGroupBy = " GROUP BY pi.penerbit_terbitan_id, pt.title,  pt.jml_jilid, pt.jilid_volume, pt.bulan_terbit, pt.author, pt.kepeng,
                 pt.validation_date, pt.validator_by, pt.is_kdt_valid, ir.jenis, ir.mohon_date, ir.id, pt.tahun_terbit, ir.source, 
-                pt.call_number, pt.sinopsis, pt.subjek";
+                pt.call_number, pt.sinopsis, pt.subjek, pt.id";
 
         $sqlFiltered = "SELECT pt.id FROM penerbit_isbn pi
                         JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
@@ -118,6 +118,9 @@ class KDTController extends Controller
                 $source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge badge-primary'>".$val['SOURCE']."</span>";
                 $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
                 $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="btn btn-success p-2 m-1 fs-8" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : "";//'KDT Belum Ada';
+                $sinopsis_pendek = explode(" ", $val["SINOPSIS"]);
+                $first_part = implode(" ", array_splice($sinopsis_pendek, 0, 10));
+                $other_part = implode(" ", array_splice($sinopsis_pendek, 10));
                 $response['data'][] = [
                     $nomor,
                     $kdt,
@@ -127,7 +130,8 @@ class KDTController extends Controller
                     $val['BULAN_TERBIT'] .' ' . $val['TAHUN_TERBIT'],
                     $val['CALL_NUMBER'],
                     $val['SUBJEK'],
-                    $val['SINOPSIS']
+                    $first_part . "<a class='btn btn-light-primary p-1 m-0 fs-8 wrap' onclick='readmore(".$val['ID'] .")' id='btnReadMore".$val['ID']."'>Selanjutnya..</a>
+                    <span class='d-none sinopsis".$val['ID']."'>$other_part</span>   <a class='btn btn-light-primary p-1 m-0 fs-8 wrap d-none' onclick='less(".$val['ID'] .")' id='btnLess".$val['ID']."'>Tutup</a>",
                 ];
                 $nomor++;
             }
