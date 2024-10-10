@@ -39,7 +39,7 @@ class ProfilController extends Controller
                 //'username' => 'required|min:6',
                 'phone' => 'required',
                 'alamat_penerbit' => 'required',
-                'nama_gedung' => 'required',
+                //'nama_gedung' => 'required',
                 'provinsi' => 'required',
                 'kabkot' => 'required',
                 'kecamatan' => 'required',
@@ -52,7 +52,7 @@ class ProfilController extends Controller
                 'phone.required' => 'Anda belum mengisi nomor telp/hp kantor yang bisa dihubungi',
                 //'phone.numeric' => 'Nomor telp/hp kantor hanya boleh diisi oleh angka!',
                 'alamat_penerbit.required' => 'Anda belum mengisi alamat kantor',
-                'nama_gedung.required' => 'Anda belum mengisi nama gedung',
+                //'nama_gedung.required' => 'Anda belum mengisi nama gedung',
                 'provinsi.required' => 'Anda belum mengisi provinsi tempat domisili kantor',
                 'kabkot.required' => 'Anda belum mengisi kota/kabupaten tempat domisili kantor',
                 'kecamatan.required' => 'Anda belum mengisi kecamatan tempat domisili kantor',
@@ -79,6 +79,8 @@ class ProfilController extends Controller
                         [ "name"=>"UPDATEBY", "Value"=> session('penerbit')["USERNAME"]], //nama user penerbit
                         [ "name"=>"UPDATETERMINAL", "Value"=> \Request::ip()]
                     ];
+                    
+                    
                     $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=PENERBIT&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
                 } else {
                     $ListData = [
@@ -94,6 +96,9 @@ class ProfilController extends Controller
                         [ "name"=>"UPDATEBY", "Value"=> session('penerbit')["USERNAME"]], //nama user penerbit
                         [ "name"=>"UPDATETERMINAL", "Value"=> \Request::ip()]
                     ];
+                    if(session('penerbit')['VALIDASI'] == 'P'){
+                        array_push($ListData,  [ "name"=>"VALIDASI", "Value"=> '']);
+                    }
                     $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_REGISTRASI_PENERBIT&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
                 }
                 
