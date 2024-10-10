@@ -10,13 +10,13 @@
 					<div class="card">
 						<!--begin::Card body-->
 						<div class="card-body fs-6 py-15 px-10 py-lg-15 px-lg-15 text-gray-700">
-							<div class="alert alert-danger d-flex align-items-center p-5 mb-10">
-								<i class="ki-solid ki-shield-cross fs-4hx text-danger me-4"><span
+							<div class="alert alert-warning d-flex align-items-center p-5 mb-10">
+								<i class="ki-solid ki-shield-cross fs-4hx text-warning me-4"><span
 										class="path1"></span><span class="path2"></span></i>
 								<div class="rounded border p-10  d-flex flex-column">
 									@if(session('penerbit')['IS_LOCK'] == '1')
 									<div class="d-flex flex-column">
-										<h2 class="mb-1 text-danger">Akun anda terkunci. </h2>
+										<h2 class="mb-1 text-warning">Akun anda terkunci. </h2>
 										<br/>
 										<span>Akun Anda terkunci karena belum menyerahkan KCKR (Karya Cetak dan Karya Rekam) yang diwajibkan. 
                                             Silakan serahkan KCKR terlebih dahulu untuk membuka kembali akses ke akun dan dapat melakukan permohonan ISBN. <br/>
