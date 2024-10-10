@@ -14,10 +14,6 @@ class IsbnPermohonanController extends Controller
         $data = [
             'nama_penerbit' => session('penerbit')["NAME"]
         ];
-        if(session('penerbit')['IS_LOCK'] == '1') {
-            return view('akun_lock', $data);
-        }
-        
         return view('isbn_permohonan', $data);
     }
     function datatable(Request $request)
@@ -138,7 +134,16 @@ class IsbnPermohonanController extends Controller
 
     function new()
     {
-        return view('tambah_isbn');
+        if(session('penerbit')['IS_LOCK'] == '1') {
+            return view('akun_lock', $data);
+        }
+        $checkKuota = checkKuota(session('penerbit')['ID']);
+
+        if(!$checkKuota[0] == true){ //true kuota masih ada
+            return view('tambah_isbn');
+        } else {
+            return view('kuota_habis', [ 'kuota' => $checkKuota]);
+        }
     }
 
     function submit(Request $request)

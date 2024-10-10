@@ -236,3 +236,18 @@ function sendMail($id, $params, $emailTo, $subject)
         return $e->getMessage();
     }
 }
+
+function checkKuota($penerbit_id)
+{
+    $sql = "SELECT count(*) JML FROM ISBN_RESI WHERE penerbit_id='$penerbit_id' AND MOHON_DATE = TO_DATE('".date('Y-m-d')."', 'yyyy-mm-dd')";
+    $jml_permohonan = intval(kurl("get", "getlistraw", "", $sql, 'sql', '')["Data"]["Items"][0]["JML"]);
+    $sqlKuota = "SELECT KUOTA_PERMOHONAN FROM PENERBIT WHERE ID='$penerbit_id' ";
+    $jml_kuota = intval(kurl("get", "getlistraw", "", $sqlKuota, 'sql', '')["Data"]["Items"][0]["KUOTA_PERMOHONAN"]);
+    
+    if($jml_permohonan <= $jml_kuota){
+        return [true, $jml_kuota, $jml_permohonan]; // true jika kuota masih ada
+    } else {
+        return [false, $jml_kuota, $jml_permohonan];
+    }
+   
+}
