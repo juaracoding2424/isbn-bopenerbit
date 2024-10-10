@@ -47,7 +47,7 @@ class IsbnDataController extends Controller
         if(session('penerbit')['GROUP'] != session('penerbit')['ID']){
             //kalau ada group nya//
             if($request->input('penerbit') != '0'){
-                $where = " AND pi.PENERBIT_ID = " . $request->input('penerbit'); //jika difilter dengan penerbit id
+                $where = " WHERE pi.PENERBIT_ID = " . $request->input('penerbit'); //jika difilter dengan penerbit id
             } else {
                 $where = " WHERE pi.PENERBIT_ID IN (".session('penerbit')['GROUP'].") ";
             }
@@ -65,7 +65,7 @@ class IsbnDataController extends Controller
                 FROM penerbit_isbn pi
                 LEFT JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
                 LEFT JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id " . $where;
-
+        \Log::info($sql);
         $sqlFiltered = "SELECT pt.id FROM penerbit_terbitan pt LEFT JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
                         JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id " . $where;
        

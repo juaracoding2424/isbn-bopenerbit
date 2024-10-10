@@ -65,9 +65,18 @@ class AuthController extends Controller
                                     urlencode("SELECT * FROM PENERBIT WHERE ID = " . $penerbit['PARENT_ID']))["Data"]['Items'][0];
                         $p = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=getlistraw&sql=" . 
                         urlencode("SELECT ID FROM PENERBIT WHERE PARENT_ID = " .$penerbit['PARENT_ID']))["Data"]['Items'];
-                        array_push($penerbits, $p); 
-                    } 
+                        foreach($p as $p_){
+                            array_push($penerbits, $p_['ID']); 
+                        } 
+                    } else {
+                        $p = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=getlistraw&sql=" . 
+                        urlencode("SELECT ID FROM PENERBIT WHERE PARENT_ID = " .$penerbit['ID']))["Data"]['Items'];
+                        foreach($p as $p_){
+                            array_push($penerbits, $p_['ID']); 
+                        }
+                    }
                     array_push($penerbits, $id); 
+                    \Log::info($penerbits);
                     $semua_id_penerbit = implode(",", $penerbits);
                     session([
                             'penerbit' => [

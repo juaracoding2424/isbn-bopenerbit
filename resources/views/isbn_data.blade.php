@@ -92,7 +92,7 @@
 												<div class="w-200px fs-8 p-2 m-0">Pilih Penerbit</div>
 												<select class="select2 form-select w-400px fs-8 p-2 m-0" name="selectPenerbit" id="selectPenerbit">
 													<option value="0">--Semua--</option>
-													@foreach($data['semua_penerbit'] as $d)
+													@foreach($semua_penerbit as $d)
 															<option value="{{$d['ID']}}">{{$d['NAME']}}</option>
 													@endforeach
 												</select>

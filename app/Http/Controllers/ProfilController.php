@@ -66,6 +66,22 @@ class ProfilController extends Controller
                     'err' => $validator->errors(),
                 ], 422);
             } else {  
+                $file = [
+                    'file_surat_pernyataan' => $request->input('file_surat_pernyataan') ?? null,
+                    'file_akte_perusahaan' => $request->input('file_akte_perusahaan') ?? null,
+                ];
+
+                if(request('penerbit_terbitan_id') != '' && isset($request->input('file_dummy')[0])){
+                    //ganti file dummy kalau ada
+                    if(isset($request->input('file_dummy_id')[0])) {
+                        $params = [
+                            'penerbitisbnfileid' => $request->input('file_dummy_id')[0],
+                            'actionby' => session('penerbit')['USERNAME'],
+                            'terminal' => \Request::ip()
+                        ];
+                        kurl("post", "deletefilelampiran",'', '', $params);
+                    }
+                }
                 if(session('penerbit')['STATUS'] == 'valid'){
                     $ListData = [
                         //[ "name"=>"NAME", "Value"=> request('name') ],
