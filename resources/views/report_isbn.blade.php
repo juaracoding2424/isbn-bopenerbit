@@ -75,6 +75,17 @@
 								<div class="row mb-5"><!--begin::Search-->
 									<div class="col-md-6">Advance Filter:
 										<div id="advanceSearch">
+											<div class="d-flex align-items-center position-relative my-0">
+												<div class="w-200px fs-8 p-2 m-0">Jenis Media</div>
+												<select class="select2 form-select w-400px fs-8 p-2 m-0" name="selectJenisMedia" id="selectJenisMedia">
+															<option value="">--Semua--</option>
+															<option value="1">Cetak</option>
+															<option value="2">Digital (PDF)</option>
+															<option value="3">Digital (EPUB)</option>
+															<option value="4">Audio Book</option>
+															<option value="5">Audio Visual</option>
+												</select>
+											</div>
 											<div class="d-flex align-items-center position-relative my-0" id="advanceSearch_0">
 												<select class="select2  w-200px fs-8 p-2 m-0" name="selectParameter">
 													<option value="isbn">ISBN</option>
@@ -358,6 +369,7 @@
 		var kdtValid 		 = $('#selectKdt').val();
 		var statusKckr 		 = $('#selectKckr').val();
 		var sumber 			 = $('#selectSumber').val();
+		var jenisMedia 		 = $('#selectJenisMedia').val();
 
 		if(param == 'tahunan') {
 			month_start.val('');
@@ -370,7 +382,7 @@
 			if(year_start.val() && year_end.val()) {
 				$('#iFrameReport').attr('src', "{{ url('/penerbit/report/isbn/show-data?action=datatable') }}" + "&param=tahunan&date_start=" + year_start.val() + 
 				"&date_end=" + year_end.val() + '&jenisTerbitan=' +jenisTerbitan + '&=kdtValid=' + kdtValid + '&statusKckr=' + statusKckr + 
-				'&sumber=' + sumber + '&advSearch=' + advSearchString + '&periode=tahunan');
+				'&jenisMedia='+ jenisMedia + '&sumber=' + sumber + '&advSearch=' + advSearchString + '&periode=tahunan');
 				set_size(1000);
 			} else {
 				Swal.fire('Ooopss!!', 'Harap mengisi tahun awal dan tahun akhir.', 'warning');
@@ -384,7 +396,7 @@
 			if(month_start.val() && year_start2.val() && month_end.val() && year_end2.val()) {
 				$('#iFrameReport').attr('src', "{{ url('/penerbit/report/isbn/show-data?action=datatable') }}" + "&param=bulanan&date_start=" + year_start2.val() +'-'+month_start.val() + 
 				"&date_end=" + year_end2.val() +'-'+ month_end.val()  + '&jenisTerbitan=' +jenisTerbitan + '&=kdtValid=' + kdtValid + 
-				'&statusKckr=' + statusKckr + '&sumber=' + sumber + '&advSearch=' + advSearchString + '&periode=bulanan');
+				'&jenisMedia='+ jenisMedia + '&statusKckr=' + statusKckr + '&sumber=' + sumber + '&advSearch=' + advSearchString + '&periode=bulanan');
 				set_size(1000);
 			} else {
 				Swal.fire('Ooopss!!', 'Harap mengisi bulan tahun awal dan bulan tahun akhir.', 'warning');
@@ -401,7 +413,7 @@
 				//loadDataTable(param);
 				$('#iFrameReport').attr('src', "{{ url('/penerbit/report/isbn/show-data?action=datatable') }}" + "&param=tahunan&date_start=" + date_start.val() + "&date_end=" + date_end.val() +
 				'&jenisTerbitan=' +jenisTerbitan + '&=kdtValid=' + kdtValid + '&statusKckr=' + statusKckr + 
-				'&sumber=' + sumber + '&advSearch=' + advSearchString + '&periode=harian');	
+				'&jenisMedia='+ jenisMedia + '&sumber=' + sumber + '&advSearch=' + advSearchString + '&periode=harian');	
 				set_size(1000);
 			} else {
 				Swal.fire('Ooopss!!', 'Harap mengisi harian awal dan harian akhir.', 'warning');

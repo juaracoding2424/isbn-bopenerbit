@@ -164,6 +164,8 @@
 					<th width="150px">Tanggal Disetujui</th>
 					<th width="150px">Penyerahan Perpusnas</th>
 					<th width="150px">Penyerahan Provinsi</th>
+                    <th width="50px">KDT</th>
+                    <th width="100px">Media</th>
 			    </tr>
 			</thead>
             
@@ -191,22 +193,23 @@
     var date_start = urlParams.get('date_start');
     var date_end = urlParams.get('date_end');
     var periode = urlParams.get('periode');
+    var jenisMedia = urlParams.get('jenisMedia');
 
     var exportData = function(typeExport){
         if(typeExport  == 'pdf'){
             location.href='{{ url("/penerbit/report/isbn/show-data?action=pdf&param=") }}'+periode+'&date_start=' +date_start + 
 				"&date_end=" + date_end  + '&jenisTerbitan=' +jenisTerbitan + '&=kdtValid=' + kdtValid + 
-				'&statusKckr=' + statusKckr + '&sumber=' + sumber + '&advSearch=' + advSearch;
+				'&jenisMedia='+ jenisMedia + '&statusKckr=' + statusKckr + '&sumber=' + sumber + '&advSearch=' + advSearch;
         }
         if(typeExport  == 'xls'){
             location.href='{{ url("/penerbit/report/isbn/show-data?action=xls&param=") }}'+periode+'&date_start=' +date_start + 
 				"&date_end=" + date_end  + '&jenisTerbitan=' +jenisTerbitan + '&=kdtValid=' + kdtValid + 
-				'&statusKckr=' + statusKckr + '&sumber=' + sumber + '&advSearch=' + advSearch;
+				'&jenisMedia='+ jenisMedia + '&statusKckr=' + statusKckr + '&sumber=' + sumber + '&advSearch=' + advSearch;
         }
         if(typeExport  == 'csv'){
             location.href='{{ url("/penerbit/report/isbn/show-data?action=csv&param=") }}'+periode+'&date_start=' +date_start + 
 				"&date_end=" + date_end  + '&jenisTerbitan=' +jenisTerbitan + '&=kdtValid=' + kdtValid + 
-				'&statusKckr=' + statusKckr + '&sumber=' + sumber + '&advSearch=' + advSearch;
+				'&jenisMedia='+ jenisMedia + '&statusKckr=' + statusKckr + '&sumber=' + sumber + '&advSearch=' + advSearch;
         }
     }
     //var loadDataTable = function(){
@@ -232,7 +235,8 @@
 					sumber : sumber,
                     date_start : date_start,
                     date_end :date_end,
-                    periode : periode
+                    periode : periode,
+                    jenisMedia : jenisMedia
 				}
 			},
 		});

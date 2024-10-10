@@ -63,6 +63,10 @@ class ReportController extends Controller
                     }
                 }
             }
+            if($request->input('jenisMedia') !=''){
+                $sqlFiltered .= " AND pt.jenis_media = '".$request->input('jenisMedia')."'";
+                $sql .= " AND pt.jenis_media = '".$request->input('jenisMedia')."'";  
+            }
             if($request->input('jenisTerbitan') !=''){
                 $sqlFiltered .= " AND upper(ir.jenis) = '".strtoupper($request->input('jenisTerbitan'))."'";
                 $sql .= " AND upper(ir.jenis) = '".strtoupper($request->input('jenisTerbitan'))."'";  
@@ -196,7 +200,7 @@ class ReportController extends Controller
                 $response['data'][] = [
                     $nomor,
                     $val['PREFIX_ELEMENT'] .'-' . $val['PUBLISHER_ELEMENT'] . '-' . $val['ITEM_ELEMENT'] . '-' . $val['CHECK_DIGIT'] ,
-                    $val['TITLE'],
+                    $val['TITLE'] ." <span class='text-success'><i>$jenis_media</i></span> ",
                     $val['JENIS'],
                     $val['SOURCE'],
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],

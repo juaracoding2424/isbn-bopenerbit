@@ -70,9 +70,9 @@
     }
     body {
         margin-top: 2cm;
-        margin-left: 2cm;
+        margin-left: 1cm;
         margin-bottom: 2cm;
-        margin-right:2cm;
+        margin-right:1cm;
         font-family: 'Open Sans', sans-serif;
     }
     .main {
@@ -161,6 +161,8 @@
 					<th width="120px">Tanggal Disetujui</th>
 					<th width="120px">Penyerahan Perpusnas</th>
 					<th width="120px">Penyerahan Provinsi</th>
+                    <th width="50px">KDT</th>
+                    <th width="75px">Media</th>
 			    </tr>
 			</thead>
             <tbody>
