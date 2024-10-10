@@ -13,7 +13,6 @@ $params = untuk penambahan params pada saat req api (pagination dll)
 */
 
 function kurl($method, $action, $table, $data, $kategori, $params = null) { 
-
     $body = $action == 'getlistraw' ? $data : json_encode($data);
     $form_data = [
         'token' => config('app.inlis_api_token'),
@@ -82,6 +81,51 @@ function kurl_upload($method, $penerbit, $terbitan_id, $jenis, $file, $ip_user, 
     ];
     
     $response = Http::asMultipart()->$method(config('app.inlis_api_url'), $params );
+    if ($response->successful()) {
+        $data = $response->json();
+        return $data;
+
+    } else {
+        // Handle the error
+        $status = $response->status();
+        $error = $response->body();
+        return $status;
+    }
+}
+
+function kurl_upload_file_penerbit($method, $penerbit, $jenis, $file, $ip_user) {
+    
+    //$jenis : penerbitid, isbn_registrasi_penerbit_id
+    $params = [
+        [
+            'name'     => 'token',
+            'contents' => config('app.inlis_api_token'),
+        ],
+        [
+            'name'     => 'op',
+            'contents' => $method,
+        ],
+        [
+            'name'     => $jenis,
+            'contents' => $penerbit['ID'],
+        ],
+        [
+            'name'     => 'actionby',
+            'contents' => isset($penerbit['USERNAME']) ? $penerbit['USERNAME'] : $penerbit['ISBN_USER_NAME'] . '-api',
+        ],
+        [
+            'name'     => 'terminal',
+            'contents' => $ip_user,
+        ],
+        [
+            'name'     => 'file',
+            'contents' => fopen($file->getRealPath(), 'r'),
+            'filename' => $file->getClientOriginalName(),
+        ],
+    ];
+    \Log::info($params);
+    $response = Http::asMultipart()->$method(config('app.inlis_api_url'), $params );
+    \Log::info($response);
     if ($response->successful()) {
         $data = $response->json();
         return $data;
@@ -249,5 +293,13 @@ function checkKuota($penerbit_id)
     } else {
         return [false, $jml_kuota, $jml_permohonan];
     }
-   
+}
+
+function checkHariLibur()
+{
+    $value = kurl("get", "getlistraw", "", "SELECT VALUE FROM SETTING_PARAMETERS WHERE NAME='ISBN_Hari_Libur'", 'sql', '')["Data"]["Items"][0]['VALUE'];
+    if($value == 0){
+
+    }
+    return true;
 }
