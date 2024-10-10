@@ -134,6 +134,9 @@ class IsbnPermohonanController extends Controller
 
     function new()
     {
+        $data = [
+            'nama_penerbit' => session('penerbit')["NAME"]
+        ];
         if(session('penerbit')['IS_LOCK'] == '1') {
             return view('akun_lock', $data);
         }
