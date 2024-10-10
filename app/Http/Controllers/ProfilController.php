@@ -98,6 +98,10 @@ class ProfilController extends Controller
                     ];
                     if(session('penerbit')['VALIDASI'] == 'P'){
                         array_push($ListData,  [ "name"=>"VALIDASI", "Value"=> '']);
+                        $params = [
+                            ["name" => "NamaPenerbit", "Value" => session('penerbit')['NAME']],
+                        ];
+                        sendMail(18, $params, session('penerbit')['EMAIL'], 'Perbaikan pendaftaran akun penerbit ' . session('penerbit')['NAME']);
                     }
                     $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_REGISTRASI_PENERBIT&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
                 }
