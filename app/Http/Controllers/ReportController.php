@@ -50,8 +50,8 @@ class ReportController extends Controller
                         $sql .= " AND CONCAT('WIN',(upper(ISBN_NO))) like 'WIN%".$isbn."%'";
                     }
                     if($advSearch["param"] == 'title'){
-                        $sqlFiltered .= " AND CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%'";
-                        $sql .= " AND CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%')";
+                        $sqlFiltered .= " AND CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%' ";
+                        $sql .= " AND CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%' ";
                     }
                     if($advSearch["param"] == 'tahun_terbit'){
                         $sqlFiltered .= " AND pt.TAHUN_TERBIT like '%".$advSearch["value"]."%'";
@@ -145,9 +145,10 @@ class ReportController extends Controller
                 $queryData = array_merge($queryData, $res);
             }
         } else {
+            \Log::info("SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql ) inner) outer WHERE rn >$start AND rn <= $end");
             $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql ) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
         }
-        
+       
         $totalFiltered = kurl("get","getlistraw", "", "SELECT COUNT(*) JUMLAH FROM ($sqlFiltered )", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         
         $response['data'] = [];
