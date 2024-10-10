@@ -65,7 +65,7 @@ class IsbnDataController extends Controller
                 FROM penerbit_isbn pi
                 LEFT JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
                 LEFT JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id " . $where;
-        \Log::info($sql);
+        //\Log::info($sql);
         $sqlFiltered = "SELECT pt.id FROM penerbit_terbitan pt LEFT JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
                         JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id " . $where;
        
