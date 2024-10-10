@@ -528,13 +528,6 @@
                                 }
                             }
                         },
-						nama_gedung:{
-							validators: {
-                                notEmpty: {
-                                    message: "Nama gedung diperlukan. Tidak boleh kosong!"
-                                }
-                            }
-						},
 						alamat_penerbit: {
                             validators: {
                                 notEmpty: {
@@ -584,80 +577,8 @@
                         }),
                     }
             }).on('core.form.valid', function() {
-				let form = document.getElementById('form_akun');
-				let formData = new FormData(form); 
-			
-				$.ajaxSetup({
-					headers: {
-						'X-CSRF-TOKEN': $('input[name="_token"]').val()
-					}
-				});
-				$.ajax({
-							url :"{{ url('/penerbit/profile/submit') }}",
-							type: 'post',
-							dataType: 'json',
-							processData: false,
-							contentType:  false,
-							async:false,
-							data: formData,
-							beforeSend: function(){
-								$('.loader').css('display','block');
-							},
-							complete: function(){
-								$('.loader').css('display','none');
-							},
-							statusCode: {
-								422: function(xhr) {
-									var error = '<div class="alert alert-danger d-flex align-items-center p-5 mb-10"><div class="d-flex flex-column" style="text-align: left;"><ul>';
-									$.each(xhr.responseJSON.err, function(key, value){
-										error+='<li>'+value[0]+'</li>';
-									}); 
-									error+='</ul></div></div>';
-									Swal.fire({
-											title: "Validation Error!",
-											html: error,
-											buttonsStyling: !1,
-											confirmButtonText: "Ok!",
-											width: '800px',
-											heightAuto:false,
-											height: '800px',
-											customClass: { 
-												confirmButton: "btn fw-bold btn-primary",
-												content: "swal-height"
-											}
-										});
-								},
-								200: function(xhr) {
-									Swal.fire({
-											title: "Berhasil ubah data",
-											html: xhr.message,
-											icon: "success",
-											buttonsStyling: !1,
-											confirmButtonText: "Ok!",
-											customClass: {
-												confirmButton: "btn fw-bold btn-primary"
-												}
-										}).then(function(isConfirm){
-											if (isConfirm){
-												//$('#new_password').val(''),$('#current_password').val(''), $('#confirm_password').val('')
-											}
-										});
-								},
-								500: function(xhr) {
-									Swal.fire({
-											text: xhr.responseJSON.message,
-											icon: "failed",
-											buttonsStyling: !1,
-											confirmButtonText: "Ok!",
-											customClass: {
-												confirmButton: "btn fw-bold btn-danger"
-												}
-										});
-								},
-							}
-					});
-
-				})
+				profilSubmit();
+			})
 	})
 	document.addEventListener('DOMContentLoaded', function(e) {
 		FormValidation.formValidation(
@@ -909,6 +830,104 @@
 		$('#kt_signin_email').removeClass('d-none');
 		$('#kt_signin_email_button').removeClass('d-none');
 	});
+	var profilSubmit = function(){
+		//event.preventDefault();
+		Swal.fire({
+                    html: `<h2>Anda yakin menyimpan perubahan data akun Anda?</h2>`,
+					icon: "warning",
+                    width: "900px",
+                    height: "80vh",
+                    showCancelButton: !0,
+                    buttonsStyling: !1,
+                    confirmButtonText: "Ya, saya yakin!",
+                    cancelButtonText: "Tidak",
+                    
+                    customClass: {
+                        confirmButton: "btn fw-bold btn-success",
+                        cancelButton: "btn fw-bold btn-active-light-danger"
+                    }
+            	}).then(function(e) {
+					if(e.isConfirmed == true) {
+                        postFormProfil()
+                    } else {
+                        $('.loader').css('display', 'none');
+                    }
+        })
+	}
+	var postFormProfil = function(){
+		let form = document.getElementById('form_akun');
+		let formData = new FormData(form); 
+			
+		$.ajaxSetup({
+					headers: {
+						'X-CSRF-TOKEN': $('input[name="_token"]').val()
+					}
+		});
+		$.ajax({
+				url :"{{ url('/penerbit/profile/submit') }}",
+				type: 'post',
+				dataType: 'json',
+				processData: false,
+				contentType:  false,
+				async:false,
+				data: formData,
+				beforeSend: function(){
+					$('.loader').css('display','block');
+				},
+				complete: function(){
+					$('.loader').css('display','none');
+				},
+				statusCode: {
+						422: function(xhr) {
+								var error = '<div class="alert alert-danger d-flex align-items-center p-5 mb-10"><div class="d-flex flex-column" style="text-align: left;"><ul>';
+								$.each(xhr.responseJSON.err, function(key, value){
+									error+='<li>'+value[0]+'</li>';
+								}); 
+								error+='</ul></div></div>';
+								Swal.fire({
+									title: "Validation Error!",
+									html: error,
+									buttonsStyling: !1,
+									confirmButtonText: "Ok!",
+									width: '800px',
+									heightAuto:false,
+									height: '800px',
+									customClass: { 
+										confirmButton: "btn fw-bold btn-primary",
+										content: "swal-height"
+									}
+								});
+						},
+						200: function(xhr) {
+								Swal.fire({
+									title: "Berhasil ubah data",
+									html: xhr.message,
+									icon: "success",
+									buttonsStyling: !1,
+									confirmButtonText: "Ok!",
+									customClass: {
+										confirmButton: "btn fw-bold btn-primary"
+									}
+								}).then(function(isConfirm){
+									if (isConfirm){
+												//$('#new_password').val(''),$('#current_password').val(''), $('#confirm_password').val('')
+										}
+								});
+						},
+						500: function(xhr) {
+								Swal.fire({
+									text: xhr.responseJSON.message,
+									icon: "failed",
+									buttonsStyling: !1,
+									confirmButtonText: "Ok!",
+									customClass: {
+										confirmButton: "btn fw-bold btn-danger"
+									}
+								});
+						},
+				}
+		});
+	}
 	var submitForm = function(){
 		let form = document.getElementById('change_email');
 		let formData = new FormData(form); 
