@@ -136,7 +136,7 @@
 					<span><h2>Laporan Data ISBN</h2></span>
                     <span class="btn btn-light-success" onclick="exportData('pdf')">EXPORT PDF</span>
                     <span class="btn btn-light-primary" onclick="exportData('xls')">EXPORT EXCEL</span>
-                    <span class="btn btn-light-secondary" onclick="exportData('CSV')">EXPORT CSV</span>
+                    <span class="btn btn-light-secondary" onclick="exportData('csv')">EXPORT CSV</span>
 				</td
 			</tr>
 
