@@ -98,9 +98,13 @@ class IsbnBatalController extends Controller
                
                 $source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge badge-primary'>".$val['SOURCE']."</span>";
                 $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
+                $action =  '<a class="badge badge-primary h-20px m-1" href="#" onclick="pulihkanPermohonan('.$id.')">Pulihkan Permohonan</a>';
+                if(session('penerbit')['IS_LOCK'] == '1') {
+                    $action = "";
+                }
                 $response['data'][] = [
                     $nomor,
-                    '<a class="badge badge-primary h-20px m-1" href="#" onclick="pulihkanPermohonan('.$id.')">Pulihkan Permohonan</a>',
+                    $action,
                     $noresi ."<br/>" .$source,
                     $val['TITLE'] . "<br/>$jenis <span class='text-success'><i>$jenis_media</i></span>",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],

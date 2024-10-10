@@ -91,9 +91,13 @@ class IsbnMasalahController extends Controller
                 }
                 $id = $val['ID'];
                 $noresi = $val['NORESI'] ? $val['NORESI'] : $val['ID'];
+                $action = '<a class="badge badge-primary h-20px m-1" href="'. url('/penerbit/isbn/permohonan/detail/'.$noresi).'" target="_self">Perbaiki permohonan</a><a class="badge badge-danger h-20px m-1" onclick="batalkanPermohonan('.$id.')">Batalkan Permohonan</a>';
+                if(session('penerbit')['IS_LOCK'] == '1') {
+                    $action = "";
+                }
                 $response['data'][] = [
                     $nomor,
-                    '<a class="badge badge-primary h-20px m-1" href="'. url('/penerbit/isbn/permohonan/detail/'.$noresi).'" target="_self">Perbaiki permohonan</a><a class="badge badge-danger h-20px m-1" onclick="batalkanPermohonan('.$id.')">Batalkan Permohonan</a>',
+                    $action,
                     $val['NORESI'],
                     $val['TITLE']  . " <span class='text-success'><i>$jenis_media</i></span>",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
