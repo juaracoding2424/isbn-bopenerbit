@@ -52,12 +52,7 @@ class AuthController extends Controller
                             'message' => 'Password yang Anda masukan salah! Mohon masukan password yang benar, atau lakukan forgot password.',
                         ], 500);
                     } 
-                    if($penerbit['IS_LOCK'] == 1){
-                        return response()->json([
-                            'status' => 'Failed',
-                            'message' => 'Akun Anda terkunci. Harap menghubungi tim ISBN.',
-                        ], 500);
-                    } 
+                    
                     if($penerbit['IS_DISABLE'] == 1 && $penerbit['PARENT_ID'] == ''){
                         return response()->json([
                             'status' => 'Failed',
@@ -85,7 +80,8 @@ class AuthController extends Controller
                                 'CITY_ID' => $penerbit['CITY_ID'],
                                 'DISTRICT_ID' => $penerbit['DISTRICT_ID'],
                                 'VILLAGE_ID' => $penerbit['VILLAGE_ID'],
-                                'GROUP' => $semua_id_penerbit
+                                'GROUP' => $semua_id_penerbit,
+                                'IS_LOCK' => $penerbit['IS_LOCK']
                     ]]);
                     return response()->json([
                         'penerbitstatus' => 'valid',

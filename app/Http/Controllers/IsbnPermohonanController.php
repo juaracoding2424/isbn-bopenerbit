@@ -14,6 +14,10 @@ class IsbnPermohonanController extends Controller
         $data = [
             'nama_penerbit' => session('penerbit')["NAME"]
         ];
+        if(session('penerbit')['IS_LOCK'] == '1') {
+            return view('akun_lock', $data);
+        }
+        
         return view('isbn_permohonan', $data);
     }
     function datatable(Request $request)
