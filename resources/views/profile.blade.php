@@ -398,7 +398,7 @@
 														<div class="col-lg-5 d-flex align-items-center">
 														<input type="hidden" name="file_akta_notaris" id="file_akta_notaris">
 															<!--begin::Dropzone-->
-															<div class="dropzone p-0" id="dummy1" style="width:100%">
+															<div class="dropzone p-0" id="dropzone_ap" style="width:100%">
 																<!--begin::Message-->
 																<div class="dz-message needsclick align-items-center">
 																	<!--begin::Icon-->
@@ -407,8 +407,8 @@
 																	<!--begin::Info-->
 																	<div class="ms-4">
 																		<h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan file
-																			akta notaris</h3>
-																		<span class="fw-semibold fs-7 text-gray-500">Accepted Files: .pdf Max:
+																			akta notaris</h3> 
+																		<span class="fw-semibold fs-7 text-gray-500">Accepted Files: .pdf  Max:
 																			20MB</span>
 																	</div>
 																	<!--end::Info-->
@@ -430,7 +430,7 @@
 														<div class="col-lg-5 d-flex align-items-center">
 														<input type="hidden" name="file_surat_pernyataan" id="file_surat_pernyataan">
 															<!--begin::Dropzone-->
-															<div class="dropzone p-0" id="attachments1" style="width:100%">
+															<div class="dropzone p-0" id="dropzone_sp" style="width:100%">
 																<!--begin::Message-->
 																<div class="dz-message needsclick align-items-center">
 																	<!--begin::Icon-->
@@ -440,7 +440,7 @@
 																	<div class="ms-4">
 																		<h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan
 																			Surat Pernyataan</h3>
-																		<span class="fw-semibold fs-7 text-gray-500">Max:15MB</span>
+																		<span class="fw-semibold fs-7 text-gray-500">Accepted Files: .pdf  Max:15MB</span>
 																	</div>
 																	<!--end::Info-->
 																</div>
@@ -1070,9 +1070,96 @@
 							}
 					});
 	}
+	var dropZone = function(file_type){
+        let dropzoneId = "", inputFileId ="", acceptedFiles = "", maxFilesize = 5;
+        switch(file_type){
+            case "akte_perusahaan": 
+                dropzoneId = "#dropzone_ap"; 
+                inputFileId = "#file_akte_perusahaan"; 
+                acceptedFiles = ".pdf";
+                maxFilesize = 20;
+                break;
+            case "surat_pernyataan": 
+                dropzoneId = "#dropzone_sp"; 
+                inputFileId = "#file_surat_pernyataan"; 
+                acceptedFiles = ".pdf";
+                maxFilesize = 5;
+                break;
+            default:break;
+        }
+        new Dropzone(dropzoneId, {
+            url: '{{ url("/penerbit/dropzone/store") }}',
+            paramName: "file",
+            maxFiles: 1,
+            maxFilesize: maxFilesize, // MB
+            acceptedFiles: acceptedFiles,
+            autoProcessQueue: false,
+            addRemoveLinks: true, // Option to remove files from the dropzone
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')// CSRF token for Laravel
+            },
+            init: function () {
+                this.on("addedfile", function (file) {
+                    // Automatically process the file when it is added
+                    if (this.files.length > 1) {
+                        this.removeFile(this.files[0]);
+                    }
+
+                    this.processFile(file);
+                });
+                this.on("sending", function (file, xhr, formData) {
+                    // Additional data can be sent here if required
+                    console.log('Sending file:', file);
+                });
+                this.on("success", function (file, response) {
+                    $(inputFileId).val(response[0]['name']);
+                    // Handle the response from the server after the file is uploaded
+                    //console.log('File uploaded successfully', response);
+                });
+                this.on("error", function (file, response) {
+                    // Handle the errors
+                    //console.error('Upload error', response);
+                });
+                this.on("queuecomplete", function () {
+                    // Called when all files in the queue have been processed
+                    //console.log('All files have been uploaded');
+                });
+                this.on("removedfile", function (file) {
+                    //console.log(file, 'delete file', file.serverFileName)
+                    if (file.serverFileName) {
+                        $.ajax({
+                            url: '{{ url("/penerbit/dropzone/delete") }}',
+                            type: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            data: {
+                                filename: file.serverFileName[0]['name']
+                            },
+                            success: function (data) {
+                                $(inputFileId).val('');
+                                //console.log("File deleted successfully");
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                console.error('Failed to delete file:', errorThrown);
+                            }
+                        });
+                    }
+                });
+                this.on("success", function (file, response) {
+                    // Store the server file name for deletion purposes
+                    file.serverFileName = response;
+                });
+            }
+
+        });
+    }
 	$('#kt_signin_submit').on('click', function(){
 		submitForm();
 	});
+	dropZone('akte_perusahaan');
+	dropZone('surat_pernyataan');
+
 </script>
 
 @stop
