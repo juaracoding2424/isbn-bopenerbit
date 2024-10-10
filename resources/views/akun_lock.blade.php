@@ -19,7 +19,7 @@
 										<h2 class="mb-1 text-danger">Akun anda terkunci. </h2>
 										<br/>
 										<span>Akun Anda terkunci karena belum menyerahkan KCKR (Karya Cetak dan Karya Rekam) yang diwajibkan. 
-                                            Silakan serahkan KCKR terlebih dahulu untuk membuka kembali akses ke akun Anda. <br/>
+                                            Silakan serahkan KCKR terlebih dahulu untuk membuka kembali akses ke akun dan dapat melakukan permohonan ISBN. <br/>
                                             Jika Anda memerlukan bantuan atau informasi lebih lanjut, hubungi tim ISBN.</span>									
 									</div>
 									@endif
