@@ -387,6 +387,67 @@
 														<!--end::Col-->
 													</div>
 													<!--end::Input group-->
+													<div class="row mb-6">
+														<!--begin::Label-->
+														<label class="col-lg-4 col-form-label fs-8 fw-semibold fs-8">File Akta Notaris</label>
+														<!-- <div class="col-lg-3 col-form-label fs-8 ">
+															<a><i class="bi bi-filetype-pdf fs-1"></i> DummyBuku.pdf</a>
+														</div>-->
+														<!--end:: Label-->
+														<div class="col-lg-3 col-form-label fs-8 " id="view_file_akta_notaris"></div>
+														<div class="col-lg-5 d-flex align-items-center">
+														<input type="hidden" name="file_akta_notaris" id="file_akta_notaris">
+															<!--begin::Dropzone-->
+															<div class="dropzone p-0" id="dummy1" style="width:100%">
+																<!--begin::Message-->
+																<div class="dz-message needsclick align-items-center">
+																	<!--begin::Icon-->
+																	<i class="ki-outline ki-file-up fs-2hx text-primary"></i>
+																	<!--end::Icon-->
+																	<!--begin::Info-->
+																	<div class="ms-4">
+																		<h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan file
+																			akta notaris</h3>
+																		<span class="fw-semibold fs-7 text-gray-500">Accepted Files: .pdf Max:
+																			20MB</span>
+																	</div>
+																	<!--end::Info-->
+																</div>
+															</div>
+															<!--end::Dropzone-->
+														</div>
+														<!--begin::Label-->
+													</div>
+													<!--end::Input group-->
+													<!--begin::Input group-->
+													<div class="row mb-6">
+														<!--begin::Label-->
+
+														<label class="col-lg-4 col-form-label fs-8 fw-semibold fs-8">File
+															Surat Pernyataan</label>
+														<div class="col-lg-3 col-form-label fs-8 " id="view_file_surat_pernyataan"></div>
+														<!--end:: Label-->
+														<div class="col-lg-5 d-flex align-items-center">
+														<input type="hidden" name="file_surat_pernyataan" id="file_surat_pernyataan">
+															<!--begin::Dropzone-->
+															<div class="dropzone p-0" id="attachments1" style="width:100%">
+																<!--begin::Message-->
+																<div class="dz-message needsclick align-items-center">
+																	<!--begin::Icon-->
+																	<i class="ki-outline ki-file-up fs-2hx text-primary"></i>
+																	<!--end::Icon-->
+																	<!--begin::Info-->
+																	<div class="ms-4">
+																		<h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan
+																			Surat Pernyataan</h3>
+																		<span class="fw-semibold fs-7 text-gray-500">Max:15MB</span>
+																	</div>
+																	<!--end::Info-->
+																</div>
+															</div>
+															<!--end::Dropzone-->
+														</div>
+													</div>
 												</div>
 												<!--end::Card body-->
 												<!--begin::Actions-->
@@ -643,6 +704,10 @@
 				$('input[name="phone"]').val(response['ADMIN_PHONE']);
 				$('input[name="alamat_penerbit"]').val(response['ALAMAT_PENERBIT']);
 				$('input[name="nama_gedung"]').val(response['NAMA_GEDUNG']);
+				let loc_an = "{{config('app.isbn_file_location')}}"+ "files/penerbit/akte_notaris/" + response['FILE_AKTE_NOTARIS'];
+				let loc_sp = "{{config('app.isbn_file_location')}}"+ "files/penerbit/surat_pernyataan/" + response['FILE_SURAT_PERNYATAAN'];
+				$('#view_file_akta_notaris').html("<a href='"+loc_an+"' target='_blank'>Akta Notaris</a>");
+				$('#view_file_surat_pernyataan').html("<a href='"+loc_sp+"' target='_blank'>Surat Pernyataan</a>");
 				$('#email1').text(response['ADMIN_EMAIL']);
 				$('#email2').text(response['ALTERNATE_EMAIL']);
 				$('#alternateemailaddress').val(response['ALTERNATE_EMAIL']);
