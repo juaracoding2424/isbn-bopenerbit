@@ -21,6 +21,7 @@
 		<!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
 		<link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
 		<link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('/assets/css/style-admin.css') }}" rel="stylesheet" type="text/css" />
 		<!--end::Global Stylesheets Bundle-->
 		<script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
 	</head>
@@ -83,9 +84,10 @@
 					<div class="w-lg-500px d-flex flex-stack px-10 mx-auto">
 						<!--begin::Links-->
 						<div class="d-flex fw-semibold text-primary fs-base gap-5">
-							<a href="pages/team.html" target="_blank">Terms</a>
-							<a href="pages/pricing/column.html" target="_blank">Plans</a>
-							<a href="pages/contact.html" target="_blank">Contact Us</a>
+							<a href="{{ config('app.fo')}}detail_fnq" class="link-primary" target="_blank">FAQ</a>
+							<a href="{{ config('app.fo')}}isbn_info" class="link-primary" target="_blank">INFO</a>
+							<a href="{{ config('app.fo')}}home#section_2" class="link-primary" target="_blank">BIP</a>
+							<a href="{{ config('app.fo')}}home#section_2" class="link-primary" target="_blank">SURAT</a>
 						</div>
 						<!--end::Links-->
 					</div>
