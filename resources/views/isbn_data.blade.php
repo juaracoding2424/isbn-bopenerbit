@@ -235,6 +235,7 @@
 <script src="{{ asset('/assets/js/custom/widgets.js') }}"></script>
 <script src="{{ asset('/assets/js/custom/apps/chat/chat.js') }}"></script>
 <script src="//cdn.jsdelivr.net/jsbarcode/3.3.20/JsBarcode.all.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <!--end::Custom Javascript-->
 <!--end::Javascript-->
 </body>
@@ -243,10 +244,11 @@
 	var cetakBarcode = function(id){
 		let link= "{{url('/penerbit/isbn/data/generate-barcode/') }}" + '/'+  id;
 		Swal.fire({
-                    html: `<div><iFrame src='`+link+`' height='100px' width='280px' id='iBarcode'></iFrame> 
-							<span class='btn btn-light-info p-2 m-0 fs-8' onclick='barcodeSave()'>Simpan Barcode</span>
+                    html: `<div><iFrame src='`+link+`' height='150px' width='350px' id='iBarcode'></iFrame> 
+							<span class='btn btn-light-info p-2 m-0 fs-8' onclick='barcodeSave(`+id+`)'>Simpan Barcode</span>
 							</div>`,
                     //showCancelButton: !0,
+					width: '500px',
                     buttonsStyling: !1,
 					showConfirmButton: false,
   					showCloseButton: true,
@@ -255,23 +257,15 @@
                     //}
 				})
 	};
-	var saveSvg = function (svgEl, name) {
-		svgEl.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-		var svgData = svgEl.outerHTML;
-		var preface = '<?xml version="1.0" standalone="no"?>\r\n';
-		var svgBlob = new Blob([preface, svgData], {type:"image/svg+xml;charset=utf-8"});
-		var svgUrl = URL.createObjectURL(svgBlob);
-		var downloadLink = document.createElement("a");
-		downloadLink.href = svgUrl;
-		downloadLink.download = name;
-		document.body.appendChild(downloadLink);
-		downloadLink.click();
-		document.body.removeChild(downloadLink);
-	}
-	var barcodeSave = function() {
+	var barcodeSave = function(id) {
 		var iframe = document.getElementById('iBarcode');
 		var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-    	saveSvg(innerDoc.getElementById('barcode'), 'barcode.svg');
+		html2canvas(innerDoc.getElementById('content')).then(canvas => {
+            let link = document.createElement('a');
+            link.download = id + '.jpg';
+            link.href = canvas.toDataURL('image/jpeg');
+            link.click();
+        });
 	}
 	var cetakKDT = function(id){
 		$.ajax({

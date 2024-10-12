@@ -156,7 +156,7 @@ class IsbnDataController extends Controller
                 }
                 $response['data'][] = [
                     $nomor,
-                    '<a class="btn btn-light-info fs-8 p-2 m-0" onclick="cetakBarcode('.$val['PIID'].')">Barcode</a>' .$kdt, //<a class="badge badge-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',
+                    '<a class="btn btn-light-info fs-8 p-2 m-0" onclick="cetakBarcode('.$val['ISBN_NO'].')">Barcode</a>' .$kdt, //<a class="badge badge-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',
                     $val['PREFIX_ELEMENT'] .'-' . $val['PUBLISHER_ELEMENT'] . '-' . $val['ITEM_ELEMENT'] . '-' . $val['CHECK_DIGIT']  . '<br/>' . $val['KETERANGAN_JILID'],
                     $val['TITLE'] . "<br/>$jenis $source <span class='text-success'><i>$jenis_media</i></span>",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
@@ -251,7 +251,7 @@ class IsbnDataController extends Controller
 
     function generateBarcode($id)
     {
-        $queryData = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_ISBN WHERE id=$id", 'sql', '')["Data"]["Items"][0];
+        $queryData = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_ISBN WHERE ISBN_NO='$id'", 'sql', '')["Data"]["Items"][0];
         return view('barcode', ["data" => $queryData]) ;
     }
 

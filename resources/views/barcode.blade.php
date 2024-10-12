@@ -13,14 +13,17 @@
 </head>
 
 <body>
-	<div class="main" >
-        <svg id="barcode"></svg>
+	<div class="main" id="content" >
+        <span style="position: relative;width: 350px; display: flow;text-align: center; font-weight:600; font-size:16px; margin-bottom:-10px; z-index:99">
+            ISBN  {{ $data['PREFIX_ELEMENT'].'-'. $data['PUBLISHER_ELEMENT'] . '-' . $data['ITEM_ELEMENT'] . '-' . $data['CHECK_DIGIT']}}
+        </span>
+        <svg id="barcode" style="width:350px; z-index:1"></svg>
 	</div>
     <script>
     JsBarcode("#barcode","{{$data['ISBN_NO']}}", {
         format: "EAN13",
-        width: 2,
-        height: 40,
+        width: 2.5,
+        height: 45,
     })
     .blank(20)
     .render();
