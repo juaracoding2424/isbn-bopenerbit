@@ -96,7 +96,6 @@
 								@csrf
 									<!--begin::Heading-->
 									<div class="input-group mb-11">
-									<input type="hidden" name="_token" value="e3nT8DAAOTfdovMmpIfnvqFUbThgzMMzK8eaezOM" autocomplete="off">
 										<div class="logo col-md-5 input-group-text" style="
 										border:  none;
 										background: url('{{ asset('assets/media/logo.png') }}');
