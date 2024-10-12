@@ -145,9 +145,10 @@ License: For each use you must have a valid license purchased only from above li
 					<div class="w-lg-500px d-flex flex-stack px-10 mx-auto">
 						<!--begin::Links-->
 						<div class="d-flex fw-semibold text-primary fs-base gap-5">
-							<a href="pages/team.html" target="_blank">Terms</a>
-							<a href="pages/pricing/column.html" target="_blank">Plans</a>
-							<a href="pages/contact.html" target="_blank">Contact Us</a>
+							<a href="{{ config('app.fo')}}detail_fnq" class="link-primary" target="_blank">FAQ</a>
+							<a href="{{ config('app.fo')}}isbn_info" class="link-primary" target="_blank">INFO</a>
+							<a href="{{ config('app.fo')}}home#section_2" class="link-primary" target="_blank">BIP</a>
+							<a href="{{ config('app.fo')}}home#section_2" class="link-primary" target="_blank">SURAT</a>
 						</div>
 						<!--end::Links-->
 					</div>
