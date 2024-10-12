@@ -51,7 +51,7 @@
     background-repeat: no-repeat;
 '>
 				<!--begin::Body-->
-				<div class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center justify-content-lg-end p-12 " style=" height: 650px;">
+				<div class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center justify-content-lg-end p-12 " style="max-height: 650px;">
 				<div class="loader bg-body flex-column flex-center rounded-4 w-md-600px p-10"></div>
 					<!--begin::Wrapper-->
 					<div class="bg-body d-flex flex-column flex-center rounded-4 w-md-600px p-10 social-box">
@@ -85,23 +85,23 @@
 								<form class="form w-100" id="signin_form" action="#">
 								@csrf
 									<!--begin::Heading-->
-									<div class="input-group mb-11">
-										<div class="logo col-md-5 input-group-text" style="
+									<div class="mb-11 row">
+										<div class="logo col-md-5 col-6" style="
 										border:  none;
 										background: url('{{ asset('assets/media/logo.png') }}');
 										background-size: contain;
 										background-repeat: no-repeat;
 										background-position: center;
 									"></div>								
-										<div class="text-center col-md-7 form-control bg-transparent" style="
+										<div class="text-center col-md-7 col-6 bg-transparent" style="
 										border: none;
 										height: 120px;
 										">
 										<!--begin::Title-->
-										<h1 class="text-gray-900 fw-bolder mb-3 mt-5">Login</h1>
+										<h1 class="text-gray-900 fw-bolder mb-3 mt-5 pt-5">Login</h1>
 										<!--end::Title-->
 										<!--begin::Subtitle-->
-										<div class="text-gray-700 fw-semibold fs-6">Akun Penerbit</div>
+										<div class="text-gray-700 fw-semibold fs-4 ">Akun Penerbit</div>
 										<!--end::Subtitle=-->
 										</div>
 										</div>
