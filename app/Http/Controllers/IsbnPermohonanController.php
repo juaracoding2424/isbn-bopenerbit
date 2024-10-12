@@ -102,11 +102,11 @@ class IsbnPermohonanController extends Controller
                 $id = $val['ID'];
                 $noresi = $val['NORESI'] ? $val['NORESI'] : $val['ID'];
                 if($val['STATUS'] == 'lanjutan'){
-                    $noresi .= "<span class='badge badge-secondary'>JILID-LANJUTAN</span>";
+                    $noresi .= "<span class='badge btn-secondary'>JILID-LANJUTAN</span>";
                 }
-                $source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge badge-primary'>".$val['SOURCE']."</span>";
-                $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
-                $action =  '<a class="badge badge-light-info h-20px m-1" href="'.url('/penerbit/isbn/permohonan/detail/'.$val['NORESI']) . '">Ubah Data</a><a class="badge badge-light-danger h-20px m-1" href="#" onclick="batalkanPermohonan('.$id.')">Batalkan Permohonan</a>';
+                $source = $val['SOURCE'] == 'web' ? "<span class='badge btn-secondary'>".$val['SOURCE']."</span>" : "<span class='badge btn-primary'>".$val['SOURCE']."</span>";
+                $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge btn-light-success'>".$val['JENIS']."</span>" : "<span class='badge btn-light-warning'>".$val['JENIS']."</span>";
+                $action =  '<a class="badge btn-light-info h-20px m-1" href="'.url('/penerbit/isbn/permohonan/detail/'.$val['NORESI']) . '">Ubah Data</a><a class="badge btn-light-danger h-20px m-1" href="#" onclick="batalkanPermohonan('.$id.')">Batalkan Permohonan</a>';
                 if(session('penerbit')['IS_LOCK'] == '1') {
                     $action = "";
                 }

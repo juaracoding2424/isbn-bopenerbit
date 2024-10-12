@@ -14,7 +14,7 @@
 
 <body>
 	<div class="main" id="content" >
-        <span style="position: relative;width: 350px; display: flow;text-align: center; font-weight:600; font-size:16px; margin-bottom:-10px; z-index:99">
+        <span style="position: relative;width: 350px; display: flow;text-align: center; font-weight:600; font-size:16px; margin-bottom:-10px; z-index:99; background-color:#fff; color:#000">
             ISBN  {{ $data['PREFIX_ELEMENT'].'-'. $data['PUBLISHER_ELEMENT'] . '-' . $data['ITEM_ELEMENT'] . '-' . $data['CHECK_DIGIT']}}
         </span>
         <svg id="barcode" style="width:350px; z-index:1"></svg>

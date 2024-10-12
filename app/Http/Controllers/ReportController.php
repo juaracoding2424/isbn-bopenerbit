@@ -159,8 +159,8 @@ class ReportController extends Controller
         if ($queryData <> FALSE) {
             $nomor = 1;
             foreach ($queryData as $val) {
-                $source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge badge-primary'>".$val['SOURCE']."</span>";
-                $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
+                $source = $val['SOURCE'] == 'web' ? "<span class='badge btn-secondary'>".$val['SOURCE']."</span>" : "<span class='badge btn-primary'>".$val['SOURCE']."</span>";
+                $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge btn-light-success'>".$val['JENIS']."</span>" : "<span class='badge btn-light-warning'>".$val['JENIS']."</span>";
                 $kdt = $val['IS_KDT_VALID'] == 1 ? url("/penerbit/isbn/data/view-kdt/") : "Belum ada KDT";
                 switch($val['JENIS_MEDIA']){
                     case '1': $jenis_media = 'Cetak'; break;
@@ -389,8 +389,8 @@ class ReportController extends Controller
         if ($queryData <> FALSE) {
             $nomor = $start + 1;
             foreach ($queryData as $val) {
-                $source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge badge-primary'>".$val['SOURCE']."</span>";
-                $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
+                $source = $val['SOURCE'] == 'web' ? "<span class='badge btn-secondary'>".$val['SOURCE']."</span>" : "<span class='badge btn-primary'>".$val['SOURCE']."</span>";
+                $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge btn-light-success'>".$val['JENIS']."</span>" : "<span class='badge btn-light-warning'>".$val['JENIS']."</span>";
                 $kdt = $val['IS_KDT_VALID'] == 1 ? url("/penerbit/isbn/data/view-kdt/") : "";
                 $response['data'][] = [
                     $nomor,

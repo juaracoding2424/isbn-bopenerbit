@@ -115,8 +115,8 @@ class KDTController extends Controller
                 } else {
                     $jml_jilid = 1;
                 }*/
-                $source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge badge-primary'>".$val['SOURCE']."</span>";
-                $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
+                $source = $val['SOURCE'] == 'web' ? "<span class='badge btn-secondary'>".$val['SOURCE']."</span>" : "<span class='badge btn-primary'>".$val['SOURCE']."</span>";
+                $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge btn-light-success'>".$val['JENIS']."</span>" : "<span class='badge btn-light-warning'>".$val['JENIS']."</span>";
                 $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="btn btn-success p-2 m-1 fs-8" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : "";//'KDT Belum Ada';
                 $sinopsis_pendek = explode(" ", $val["SINOPSIS"]);
                 $first_part = implode(" ", array_splice($sinopsis_pendek, 0, 10));
