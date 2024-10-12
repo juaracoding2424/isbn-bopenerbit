@@ -74,7 +74,7 @@ License: For each use you must have a valid license purchased only from above li
 									<!--end::Title-->
 									<!--begin::Link-->
 									<div class="text-gray-500 fw-semibold fs-6">Have you already reset the password ? 
-									<a href="/login" class="link-primary fw-bold">Sign in</a></div>
+									<a href="{{url ('/login') }}" class="link-primary fw-bold">Sign in</a></div>
 									<!--end::Link-->
 								</div>
 								<!--begin::Heading-->
