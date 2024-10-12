@@ -55,11 +55,11 @@
 			<style>body { background-image: url("{{asset('assets/media/auth/bg10.jpeg') }}"); } [data-bs-theme="dark"] body { background-image: url("{{asset ('/assets/media/auth/bg10-dark.jpeg') }}"); }</style>
 			<!--end::Page bg image-->
 			<!--begin::Authentication - Sign-in -->
-			<div class="d-flex flex-column flex-lg-row flex-column-fluid" style="
-    background-image: url(http://localhost:81/isbn-bopenerbit/public/assets/media/bg-login.jpeg);
+			<div class="d-flex flex-column flex-lg-row flex-column-fluid" style='
+    background-image: url("{{ asset("assets/media/bg-login.jpeg") }} ");
     background-size: cover;
     background-repeat: no-repeat;
-">
+'>
 				<!--begin::Body-->
 				<div class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center justify-content-lg-end p-12 " style=" height: 650px;">
 				<div class="loader bg-body flex-column flex-center rounded-4 w-md-600px p-10"></div>
@@ -99,7 +99,7 @@
 									<input type="hidden" name="_token" value="e3nT8DAAOTfdovMmpIfnvqFUbThgzMMzK8eaezOM" autocomplete="off">
 										<div class="logo col-md-5 input-group-text" style="
 										border:  none;
-										background: url('http://localhost:81/isbn-bopenerbit/public/assets/media/logo.png');
+										background: url('{{ asset('assets/media/logo.png') }}');
 										background-size: contain;
 										background-repeat: no-repeat;
 										background-position: center;
