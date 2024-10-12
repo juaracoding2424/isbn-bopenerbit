@@ -33,6 +33,24 @@
 		display: none; 
 		background-size: cover;
 	}
+	.btn-primary {
+		color: #ffffff;
+		text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+		background-color: #4e6599;
+		background-image: -moz-linear-gradient(top, #647aab, #2c467e);
+		background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#647aab), to(#2c467e));
+		background-image: -webkit-linear-gradient(top, #647aab, #2c467e);
+		background-image: -o-linear-gradient(top, #647aab, #2c467e);
+		background-image: linear-gradient(to bottom, #647aab, #2c467e);
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff647aab', endColorstr='#ff2c467e', GradientType=0);
+		border-color: #2c467e #2c467e #182745;
+		border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+		filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+	}
+	.btn:hover,.btn:focus {
+	opacity: 0.6;
+	}
 	a.link-primary{
 		color: #2c467e !important;
 	}
