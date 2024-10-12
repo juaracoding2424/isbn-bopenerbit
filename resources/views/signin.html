@@ -16,6 +16,9 @@
 		<!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
 		<link href="{{ asset('/assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
 		<link href="{{ asset('/assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('css/social-jquery-ui-1.10.0.custom.css') }}" rel="stylesheet" />
+        <link href="{{ asset('css/social.css') }}" rel="stylesheet" />
+        <link href="{{ asset('css/social.plugins.css') }}" rel="stylesheet" />
 		<!--end::Global Stylesheets Bundle-->
 		<script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
 	</head>
@@ -23,28 +26,31 @@
 	<body id="kt_body" class="app-blank bgi-size-cover bgi-attachment-fixed bgi-position-center" onkeypress="clickPress(event)">
 	<style> 
 	.loader {
-		position: absolute;
+		position: fixed;
 		opacity: 0.8;
-		height: 572px;
-		width: 600px !important;
+		height: 655px;
+		width: 700px !important;
 		z-index: 10;
 		background-image: url("{{ asset('/assets/media/loader.gif') }}");
 		background-repeat: no-repeat;
 		display: none; 
-		background-size: cover;
+		background-size: auto;
 	}
-	a.link-primary{
-		color: #2c467e !important;
-	}
-	.bg-body{
-		background-color: #E4EDFF !important;
-	}
-	.social-box{
-		-moz-box-shadow: 0px 0px 20px #383844;
-		box-shadow: 0px 0px 20px #383844;
-		-webkit-border-radius: 3px;
-		-moz-border-radius: 3px;
-	}
+	.bg {
+                text-align: center;
+                height: 100%; width: 100%;
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                bottom: 0px;
+                left: 0px;
+                background-image: url('{{ asset("image/bg-login.jpeg") }}');
+                background-repeat: no-repeat;
+                background-size: cover;
+    }
+    .logo_main {
+                filter: drop-shadow(0px 1px 1px #101055);
+    }
 	</style>
 		<!--begin::Theme mode setup on page load-->
 		<script>var defaultThemeMode = "light"; var themeMode; if ( document.documentElement ) { if ( document.documentElement.hasAttribute("data-bs-theme-mode")) { themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); } else { if ( localStorage.getItem("data-bs-theme") !== null ) { themeMode = localStorage.getItem("data-bs-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-bs-theme", themeMode); }</script>
@@ -55,16 +61,33 @@
 			<style>body { background-image: url("{{asset('assets/media/auth/bg10.jpeg') }}"); } [data-bs-theme="dark"] body { background-image: url("{{asset ('/assets/media/auth/bg10-dark.jpeg') }}"); }</style>
 			<!--end::Page bg image-->
 			<!--begin::Authentication - Sign-in -->
-			<div class="d-flex flex-column flex-lg-row flex-column-fluid" style="
-    background-image: url(http://localhost:81/isbn-bopenerbit/public/assets/media/bg-login.jpeg);
-    background-size: cover;
-    background-repeat: no-repeat;
-">
+			<div class="d-flex flex-column flex-lg-row flex-column-fluid">
+				<!--begin::Aside-->
+				<div class="d-flex flex-lg-row-fluid">
+					<!--begin::Content-->
+					<div class="d-flex flex-column flex-center pb-0 pb-lg-10 p-10 w-100">
+						<!--begin::Image-->
+						<img class="theme-light-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20" src="{{asset ('assets/media/auth/agency.png') }}" alt="" />
+						<img class="theme-dark-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20" src="{{ asset('assets/media/auth/agency-dark.png') }}" alt="" />
+						<!--end::Image-->
+						<!--begin::Title-->
+						<h1 class="text-gray-800 fs-2qx fw-bold text-center mb-7">Selamat datang, para penerbit di Indonesia!</h1>
+						<!--end::Title-->
+						<!--begin::Text-->
+						<div class="text-gray-600 fs-base text-center fw-semibold">Penerbitan buku ber-ISBN berguna untuk memastikan identifikasi global,
+						 mempermudah distribusi internasional, serta meningkatkan kredibilitas dan profesionalisme dalam penerbitan. 
+						 <br/>
+						Mari, bersama-sama kita tingkatkan standar dalam industri penerbitan, dengan menggunakan nomor standar buku internasional (ISBN).</div>
+						<!--end::Text-->
+					</div>
+					<!--end::Content-->
+				</div>
+				<!--begin::Aside-->
 				<!--begin::Body-->
-				<div class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center justify-content-lg-end p-12 " style=" height: 650px;">
+				<div class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center justify-content-lg-end p-12 ">
 				<div class="loader bg-body flex-column flex-center rounded-4 w-md-600px p-10"></div>
 					<!--begin::Wrapper-->
-					<div class="bg-body d-flex flex-column flex-center rounded-4 w-md-600px p-10 social-box">
+					<div class="bg-body d-flex flex-column flex-center rounded-4 w-md-600px p-10">
 						<!--begin::Content-->
 						<div class="d-flex flex-center flex-column align-items-stretch h-lg-100 w-md-400px">
 							<!--begin::Wrapper-->
@@ -94,64 +117,78 @@
 								<!--begin::Form-->
 								<form class="form w-100" id="signin_form" action="#">
 								@csrf
-									<!--begin::Heading-->
-									<div class="input-group mb-11">
-									<input type="hidden" name="_token" value="e3nT8DAAOTfdovMmpIfnvqFUbThgzMMzK8eaezOM" autocomplete="off">
-										<div class="logo col-md-5 input-group-text" style="
-										border:  none;
-										background: url('http://localhost:81/isbn-bopenerbit/public/assets/media/logo.png');
-										background-size: contain;
-										background-repeat: no-repeat;
-										background-position: center;
-									"></div>								
-										<div class="text-center col-md-7 form-control bg-transparent" style="
-										border: none;
-										height: 120px;
-										">
-										<!--begin::Title-->
-										<h1 class="text-gray-900 fw-bolder mb-3 mt-5">Login</h1>
-										<!--end::Title-->
-										<!--begin::Subtitle-->
-										<div class="text-gray-700 fw-semibold fs-6">Akun Penerbit</div>
-										<!--end::Subtitle=-->
-										</div>
-										</div>
-									<!--begin::Heading-->
-									<!--begin::Input group=-->
-									<div class="fv-row mb-8">
-										<!--begin::Email-->
-										<input type="text" placeholder="Email or Username" name="username" autocomplete="off" class="form-control" />
-										<!--end::Email-->
-									</div>
-									<!--end::Input group=-->
-									<div class="fv-row mb-3">
-										<!--begin::Password-->
-										<input type="password" placeholder="Password" name="password" autocomplete="off" class="form-control" />
-										<!--end::Password-->
-									</div>
-									<!--end::Input group=-->
-									<!--begin::Wrapper-->
-									<div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
-										<div></div>
-										<!--begin::Link-->
-										<a href="{{url('/reset-password')}}" class="link-primary">Forgot Password ?</a>
-										<!--end::Link-->
-									</div>
-									<!--end::Wrapper-->
-									<!--begin::Submit button-->
-									<div class="d-grid mb-10">
-										<span id="submitBtn" class="btn btn-primary" onclick="submitBtnClick(event)">
-											<!--begin::Indicator label-->
-											<span class="indicator-label">Sign In</span>
-											<!--end::Indicator label-->
-											<!--begin::Indicator progress-->
-											<span class="indicator-progress">Please wait... 
-											<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-											<!--end::Indicator progress-->
-										</span>
-									</div>
-									<!--end::Submit button-->
-									<!--begin::Sign up-->
+								<table class="bg">
+									<tr>
+										<td>
+										<div style="padding: 0px 20px 20px 20px;">
+										<br />
+										<div class="container-fluid">
+													<div class="row-fluid" style="width: auto;">
+														<div class="span12" style="width: 40%; margin-left: 10%; margin-right: auto; float: none;">
+															<div class="social-box" style="opacity: 0.9; min-width: 520px;">
+																<div class="header" style="text-align: center">
+																	<h4><i class="fa fa-key" style="vertical-align: top; margin-top: 1px;"></i>Login Penerbit ISBN</h4>
+																</div>
+																<div>
+																	<div style="padding-top: 20px;">
+																		<table align="center" style="margin-left: auto; margin-right: auto;">
+																			<tr>
+																				<td style="vertical-align: top;">
+																					<img src="logo.jpeg" class="logo_main" alt="tes tes" style="margin: 10px; width: auto; height: 150px;"/>
+																				</td>
+																				<td style="padding-left: 20px;">
+																					<table>
+																						<tr>
+																							<td>
+																								Nama Pengguna / Email
+																							</td>
+																							<td style="width: 20px;">:</td>
+																							<td>
+																								<input type="text" id="txtUserName" runat="server" style="margin-right: 20px;"/>
+																							</td>
+																						</tr>
+																						<tr>
+																							<td>
+																								Kata Sandi
+																							</td>
+																							<td>:</td>
+																							<td>
+																								<input type="password" id="txtPassword" runat="server" Type="Password" style="margin-right: 20px;"/>
+																							</td>
+																						</tr>
+																						<tr>
+																							<td></td>
+																							<td></td>
+																							<td style="text-align: left; padding-top: 30px;">
+																								<button id="btSubmit" runat="server" class="btn btn-primary" style="width: 120px;" >Submit</button>
+																							</td>
+																						</tr>
+																						<tr id="trCapctha" runat="server">
+																							<td style="text-align: center" colspan="3">
+																								<div class="g-recaptcha" data-sitekey="6LeY4yEUAAAAAM3oavbStXTqJLSUCEwOhNODOD_M"></div>
+																							</td>
+																						</tr>
+																						<!--<tr>
+																							<td colspan="3" style="text-align: center;">
+																								<img src="images/logo_dca.png" class="logo_main" alt="<%= MyApplication.ApplicationName %>" style="height: 48px; margin-top: 10px;"/>
+																							</td>
+																						</tr>-->
+																					</table>
+																				</td>
+																			</tr>
+																		</table>
+																	</div>
+																	<br />
+																	<br />
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>             
+										</td>
+									</tr>
+								</table>
 									<div class="text-gray-500 text-center fw-semibold fs-6">Belum memiliki akun? 
 									<a href="{{config('app.fo')}}pendaftaran_online" class="link-primary">Pendaftaran penerbit</a></div>
 									<!--end::Sign up-->
@@ -163,10 +200,9 @@
 							<div class="d-flex flex-stack">
 								<!--begin::Links-->
 								<div class="d-flex fw-semibold text-primary fs-base gap-5">
-									<a href="{{ config('app.fo')}}detail_fnq" class="link-primary" target="_blank">FAQ</a>
-									<a href="{{ config('app.fo')}}isbn_info" class="link-primary" target="_blank">INFO</a>
-									<a href="{{ config('app.fo')}}home#section_2" class="link-primary" target="_blank">BIP</a>
-									<a href="{{ config('app.fo')}}home#section_2" class="link-primary" target="_blank">SURAT</a>
+									<a href="{{ config('app.fo')}}detail_fnq" target="_blank">FAQ</a>
+									<a href="{{ config('app.fo')}}bip" target="_blank">BIP</a>
+									<a href="{{ config('app.fo')}}surat" target="_blank">SURAT</a>
 								</div>
 								<!--end::Links-->
 							</div>
