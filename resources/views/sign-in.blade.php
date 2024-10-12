@@ -40,21 +40,21 @@
 		<script>var defaultThemeMode = "light"; var themeMode; if ( document.documentElement ) { if ( document.documentElement.hasAttribute("data-bs-theme-mode")) { themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); } else { if ( localStorage.getItem("data-bs-theme") !== null ) { themeMode = localStorage.getItem("data-bs-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-bs-theme", themeMode); }</script>
 		<!--end::Theme mode setup on page load-->
 		<!--begin::Root-->
-		<div class="d-flex flex-column flex-root" id="kt_app_root">
-			<!--begin::Page bg image-->
-			<style>body { background-image: url("{{asset('assets/media/auth/bg10.jpeg') }}"); } [data-bs-theme="dark"] body { background-image: url("{{asset ('/assets/media/auth/bg10-dark.jpeg') }}"); }</style>
-			<!--end::Page bg image-->
-			<!--begin::Authentication - Sign-in -->
-			<div class="d-flex flex-column flex-lg-row flex-column-fluid" style='
+		<div class="d-flex flex-column flex-root" id="kt_app_root" style='
     background-image: url("{{ asset("assets/media/bg-login.jpeg") }} ");
     background-size: cover;
     background-repeat: no-repeat;
 '>
+			<!--begin::Page bg image-->
+			<style>body { background-image: url("{{asset('assets/media/auth/bg10.jpeg') }}"); } [data-bs-theme="dark"] body { background-image: url("{{asset ('/assets/media/auth/bg10-dark.jpeg') }}"); }</style>
+			<!--end::Page bg image-->
+			<!--begin::Authentication - Sign-in -->
+			<!--div class="d-flex flex-column flex-lg-row flex-column-fluid" -->
 				<!--begin::Body-->
-				<div class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center justify-content-lg-end p-12 " style="max-height: 650px;">
+				<div class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center p-12 flex-center " style="height: 100%;">
 				<div class="loader bg-body flex-column flex-center rounded-4 w-md-600px p-10"></div>
 					<!--begin::Wrapper-->
-					<div class="bg-body d-flex flex-column flex-center rounded-4 w-md-600px p-10 social-box">
+					<div class="bg-body d-flex flex-column flex-center rounded-4 w-md-600px p-10 social-box " style="max-height: 650px;">
 						<!--begin::Content-->
 						<div class="d-flex flex-center flex-column align-items-stretch h-lg-100 w-md-400px">
 							<!--begin::Wrapper-->
@@ -166,7 +166,7 @@
 					<!--end::Wrapper-->
 				</div>
 				<!--end::Body-->
-			</div>
+			<!--/div-->
 			<!--end::Authentication - Sign-in-->
 		</div>
 		<!--end::Root-->
