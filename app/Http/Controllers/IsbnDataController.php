@@ -152,7 +152,7 @@ class IsbnDataController extends Controller
                     case '3': $jenis_media = 'Digital (EPUB)'; break;
                     case '4': $jenis_media = 'Audio Book'; break;
                     case '5': $jenis_media = 'Audio Visual Book'; break;
-                    default: break;
+                    default: $jenis_media = ''; break;
                 }
                 $response['data'][] = [
                     $nomor,
