@@ -276,17 +276,17 @@ class DepositController extends Controller
                 pt.jml_hlm, pt.ketebalan as dimensi, pt.subjek, pt.call_number, pi.keterangan_jilid,
                 pt.jenis_media, pt.jenis_terbitan, pt.jenis_pustaka, pt.jenis_kategori, pt.jenis_kelompok, pt.jenis_penelitian,
                 pt.is_kdt_valid, pi.RECEIVED_DATE_KCKR, pi.RECEIVED_DATE_PROV,pi.acceptdate, 
-                /*PROPINSI.NAMAPROPINSI,  KABUPATEN.NAMAKAB as NAMAKABKOT,*/
+                PROPINSI.NAMAPROPINSI,  KABUPATEN.NAMAKAB as NAMAKABKOT,
                 P.NAME, P.EMAIL1, P.EMAIL2, P.PROVINCE_ID, P.CITY_ID, P.DISTRICT_ID, P.VILLAGE_ID,
                 P.ALAMAT, P.ID as PENERBIT_ID, P.TELP1, P.TELP2, P.NAMA_GEDUNG,
                 P.KONTAK1, P.KONTAK2, P.WEBSITE, P.KODEPOS
                 FROM penerbit_isbn pi
                 JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
                 LEFT JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id
-                LEFT JOIN penerbit p on pt.penerbit_id = p.id WHERE 1 = 1";
-                //LEFT JOIN PROPINSI on propinsi.id = P.PROVINCE_ID
-                //LEFT JOIN KABUPATEN ON KABUPATEN.id = P.CITY_ID
-                //WHERE 1=1 ";
+                LEFT JOIN penerbit p on pt.penerbit_id = p.id 
+                LEFT JOIN PROPINSI on propinsi.id = P.PROVINCE_ID
+                LEFT JOIN KABUPATEN ON KABUPATEN.id = P.CITY_ID
+                WHERE 1=1 ";
        
         $sqlFiltered = "SELECT pt.id FROM penerbit_isbn pi
                         JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
