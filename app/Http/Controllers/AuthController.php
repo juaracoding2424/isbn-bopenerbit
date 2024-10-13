@@ -25,9 +25,12 @@ class AuthController extends Controller
             $validator = \Validator::make(request()->all(), [
                 'username' => 'required',
                 'password' => 'required',
+                'g-recaptcha-response' => 'required|captcha'
             ], [
                 'username.required' => 'Username wajib diisi',
                 'password.required' => 'Password wajib diisi',
+                'g-recaptcha-response.required' => 'Silakan verifikasi bahwa Anda bukan robot.',
+                'g-recaptcha-response.captcha' => 'Terjadi kesalahan captcha! Coba kembali.'
             ]);
             if ($validator->fails()) {
                 return response()->json([

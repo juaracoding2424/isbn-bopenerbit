@@ -126,12 +126,19 @@
 										<!--end::Email-->
 									</div>
 									<!--end::Input group=-->
+									<!--begin::Input group=-->
 									<div class="fv-row mb-3 input-group">
 										<!--begin::Password-->
 										<input type="password" placeholder="Password" name="password" autocomplete="off" class="form-control" id="password" />
 										<!--end::Password-->
 									</div>
+									<div class="fv-row mb-8">
 									<!--end::Input group=-->
+									<!--begin::Input group=-->
+									<div class="fv-row mb-8">
+									{!! NoCaptcha::renderJs() !!}
+									{!! NoCaptcha::display() !!}
+									</div>
 									<!--begin::Wrapper-->
 									<div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
 										<div></div>
@@ -142,7 +149,7 @@
 									<!--end::Wrapper-->
 									<!--begin::Submit button-->
 									<div class="d-grid mb-10">
-										<span id="submitBtn" class="btn btn-primary" onclick="submitBtnClick(event)">
+										<button id="submitBtn" class="btn btn-primary" type="submit">
 											<!--begin::Indicator label-->
 											<span class="indicator-label">Sign In</span>
 											<!--end::Indicator label-->
@@ -150,7 +157,7 @@
 											<span class="indicator-progress">Please wait... 
 											<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
 											<!--end::Indicator progress-->
-										</span>
+										</button>
 									</div>
 									<!--end::Submit button-->
 									<!--begin::Sign up-->
@@ -212,8 +219,44 @@
 				submitBtnClick(event);
 			}
 		}
-		var submitBtnClick = function(e){
-			e.preventDefault();
+		document.addEventListener('DOMContentLoaded', function(e) {
+		FormValidation.formValidation(
+			document.getElementById('signin_form'),
+			{
+                fields: {
+                        username: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Username / email diperlukan. Tidak boleh kosong!"
+                                },
+                            }
+                        },
+                        password: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Password diperlukan. Tidak boleh kosong!"
+                                },
+                            }
+                        },
+                    },
+                plugins: {
+                        trigger: new FormValidation.plugins.Trigger,
+                        bootstrap: new FormValidation.plugins.Bootstrap5({
+                            rowSelector: ".form-control"
+                        }),
+						submitButton: new FormValidation.plugins.SubmitButton(),
+						icon: new FormValidation.plugins.Icon({
+                            valid: 'fa fa-check',
+                            invalid: 'fa fa-times',
+                            validating: 'fa fa-refresh',
+                        }),
+                }
+            }).on('core.form.valid', function() {
+				submitBtnClick();
+			})
+	});
+		var submitBtnClick = function(){
+			event.preventDefault();
 			let form = document.getElementById('signin_form');
 			let formData = new FormData(form); 
 			$.ajaxSetup({
