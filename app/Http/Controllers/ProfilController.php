@@ -245,7 +245,6 @@ class ProfilController extends Controller
                         }
                     }
                 }
-                
                 return response()->json([
                     'status' => 'Success',
                     'message' => 'Perubahan data akun Anda berhasil disimpan.',

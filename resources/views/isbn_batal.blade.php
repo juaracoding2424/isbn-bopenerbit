@@ -226,6 +226,7 @@
 										}
 									})
 									loadDataTable();
+									refreshHistory();
 								}
 							});
 						} else {

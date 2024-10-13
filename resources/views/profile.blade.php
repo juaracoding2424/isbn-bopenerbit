@@ -54,6 +54,21 @@
 					<!--begin::Navbar-->
 					<div class="card mb-5 mb-xl-10">
 						<div class="card-body pt-9 pb-0">
+							@if(session('penerbit')['STATUS'] == 'notvalid' && session('penerbit')['VALIDASI'] == 'P')
+							<div class="alert alert-danger d-flex align-items-center p-5 mb-10">
+								<i class="ki-solid ki-shield-cross fs-4hx text-danger me-4"><span
+										class="path1"></span><span class="path2"></span></i>
+								<div class="rounded border p-10  d-flex flex-column">
+									<div class="d-flex flex-column">
+										<h2 class="mb-1 text-danger">Pendaftaran akun Anda bermasalah, dengan alasan sebagai berikut. </h2>
+										<br/>
+										<span>{!!session('penerbit')['KETERANGAN']!!}</span>
+										<br/>
+										Harap segera perbaiki data Anda.									
+									</div>
+								</div>
+							</div>
+							@endif
 							<!--begin::Details-->
 							<div class="d-flex flex-wrap flex-sm-nowrap">
 								<!--begin: Pic-->
