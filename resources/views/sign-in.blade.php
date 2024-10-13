@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 	<!--begin::Head-->
 	<head>
@@ -37,7 +38,19 @@
 	
 	</style>
 		<!--begin::Theme mode setup on page load-->
-		<script>var defaultThemeMode = "light"; var themeMode; if ( document.documentElement ) { if ( document.documentElement.hasAttribute("data-bs-theme-mode")) { themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); } else { if ( localStorage.getItem("data-bs-theme") !== null ) { themeMode = localStorage.getItem("data-bs-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-bs-theme", themeMode); }</script>
+		<script>var defaultThemeMode = "light"; var themeMode; if ( document.documentElement ) { 
+			if ( document.documentElement.hasAttribute("data-bs-theme-mode")) { 
+				themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); 
+			} else { 
+				if ( localStorage.getItem("data-bs-theme") !== null ) { themeMode = localStorage.getItem("data-bs-theme"); 
+
+				} else { 
+					themeMode = defaultThemeMode; } 
+				} if (themeMode === "system") { 
+					themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; 
+				} document.documentElement.setAttribute("data-bs-theme", themeMode); 
+			}
+		</script>
 		<!--end::Theme mode setup on page load-->
 		<!--begin::Root-->
 		<div class="d-flex flex-column flex-root" id="kt_app_root" style='
@@ -113,9 +126,9 @@
 										<!--end::Email-->
 									</div>
 									<!--end::Input group=-->
-									<div class="fv-row mb-3">
+									<div class="fv-row mb-3 input-group">
 										<!--begin::Password-->
-										<input type="password" placeholder="Password" name="password" autocomplete="off" class="form-control" />
+										<input type="password" placeholder="Password" name="password" autocomplete="off" class="form-control" id="password" />
 										<!--end::Password-->
 									</div>
 									<!--end::Input group=-->
@@ -177,6 +190,23 @@
 		<script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
 		<!--end::Global Javascript Bundle-->
 		<script>
+		var togglePasswordEye = '<span class="input-group-text" ><i class="fa fa-eye toggle-password-eye"></i></span>';
+		var togglePasswordEyeSlash = '<span class="input-group-text" ><i class="fa fa-eye-slash toggle-password-eye"></i></span>';
+
+		$(togglePasswordEyeSlash).insertAfter('input[type=password]');
+		$('input[type=password]').addClass('hidden-pass-input');
+
+		$('.toggle-password-eye').on('click', function (e) {
+			let password = $('#password');
+
+			if (password.attr('type') === 'password') {
+				password.attr('type', 'text');
+				$(this).addClass('fa-eye').removeClass('fa-eye-slash');
+			} else {
+				password.attr('type', 'password');
+				$(this).addClass('fa-eye-slash').removeClass('fa-eye');
+			}
+		});
 		var clickPress =  function(event) {
 			if (event.keyCode == 13) {
 				submitBtnClick(event);
