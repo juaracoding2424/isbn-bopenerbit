@@ -170,9 +170,9 @@ class IsbnPermohonanController extends Controller
                             'bulan_terbit' => 'required|bulan_terbit_min:' . $request->input('tahun_terbit'),
                             'tempat_terbit' => 'required',
                             'jenis_media' => 'required',
-                            'jenis_terbitan' => 'required',
+                            //'jenis_terbitan' => 'required',
                             'jenis_kelompok' => 'required',
-                            'jenis_penelitian' => 'required',
+                            //'jenis_penelitian' => 'required',
                             'jenis_kategori' => 'required',
                             'jenis_pustaka' => 'required',
                             'deskripsi' => 'required|min:100',
@@ -182,6 +182,7 @@ class IsbnPermohonanController extends Controller
                             'file_lampiran' => 'required|array|min:1',
                             'file_dummy.*' => 'required',
                             'file_lampiran.*' => 'required',
+                            'pengajuan_kdt' => 'required'
                             ],[
                             'title.required' => 'Anda belum mengisi judul buku',
                             'title.title_exists' => 'Judul buku sudah ada, Anda tidak dapat memohon ISBN baru dengan judul yang sama.',
@@ -192,9 +193,9 @@ class IsbnPermohonanController extends Controller
                             'bulan_terbit.required' => 'Anda belum mengisi bulan terbit buku',
                             'tempat_terbit.required' => 'Anda belum mengisi tempat terbit buku',
                             'jenis_media.required' => 'Anda belum mengisi jenis media terbitan buku',
-                            'jenis_terbitan.required' => 'Anda belum mengisi jenis terbitan buku',
+                            //'jenis_terbitan.required' => 'Anda belum mengisi jenis terbitan buku',
                             'jenis_kelompok.required' => 'Anda belum mengisi kelompok pembaca buku',
-                            'jenis_penelitian.required' => 'Anda belum mengisi jenis penilitian',
+                            //'jenis_penelitian.required' => 'Anda belum mengisi jenis penilitian',
                             'jenis_kategori.required' => 'Anda belum mengisi kategori buku terjemahan/non terjemahan',
                             'jenis_pustaka.required' => 'Anda belum mengisi jenis pustaka (fiksi/non fiksi)',
                             'deskripsi.required' => 'Anda belum mengisi abstrak/deskripsi buku',
@@ -207,6 +208,7 @@ class IsbnPermohonanController extends Controller
                             'file_lampiran.*.required' => 'Anda belum mengunggah file lampiran buku',
                             'tahun_terbit.tahun_terbit_min' => 'Tahun terbit yang Anda masukan tidak boleh kurang dari tahun ' . date('Y'),
                             'bulan_terbit.bulan_terbit_min' => 'Bulan terbit yang Anda masukan tidak boleh kurang dari bulan ' . date('m-Y'),
+                            'pengajuan_kdt.required' => 'Anda belum memilih apakah akan mengajukan KDT atau tidak',
                         ]);
                     } else { //permohonan jilid lanjutan
                         $validator = \Validator::make(request()->all(),[
@@ -219,9 +221,9 @@ class IsbnPermohonanController extends Controller
                             'bulan_terbit' => 'required',
                             'tempat_terbit' => 'required',
                             'jenis_media' => 'required',
-                            'jenis_terbitan' => 'required',
+                            //'jenis_terbitan' => 'required',
                             'jenis_kelompok' => 'required',
-                            'jenis_penelitian' => 'required',
+                            //'jenis_penelitian' => 'required',
                             'jenis_kategori' => 'required',
                             'jenis_pustaka' => 'required',
                             'deskripsi' => 'required|min:100',
@@ -231,6 +233,7 @@ class IsbnPermohonanController extends Controller
                             'file_lampiran' => 'required|array|min:1',
                             'file_dummy.*' => 'required',
                             'file_lampiran.*' => 'required',
+                            'pengajuan_kdt'=>'required'
                             ],[
                             'title.required' => 'Anda belum mengisi judul buku',
                             'title.title_exists' => 'Judul buku sudah ada, Anda tidak dapat memohon ISBN baru dengan judul yang sama.',
@@ -253,6 +256,7 @@ class IsbnPermohonanController extends Controller
                             'file_lampiran.required' => 'Anda belum mengunggah file lampiran buku',
                             'file_dummy.*.required' => 'Anda belum mengunggah file dummy buku',
                             'file_lampiran.*.required' => 'Anda belum mengunggah file lampiran buku',
+                            'pengajuan_kdt.required' => 'Anda belum memilih apakah akan mengajukan KDT atau tidak',
                         ]);
                     }
                 } else { //form perbaikan
@@ -262,13 +266,14 @@ class IsbnPermohonanController extends Controller
                         'namaPengarang.0' => 'required',
                         'tempat_terbit' => 'required',
                         'jenis_media' => 'required',
-                        'jenis_terbitan' => 'required',
+                        //'jenis_terbitan' => 'required',
                         'jenis_kelompok' => 'required',
-                        'jenis_penelitian' => 'required',
+                        //'jenis_penelitian' => 'required',
                         'jenis_kategori' => 'required',
                         'jenis_pustaka' => 'required',
                         'deskripsi' => 'required|min:100',
                         'url.*' => 'required',
+                        'pengajuan_kdt'=>'required'
                         ];
                     $messages = [
                         'title.required' => 'Anda belum mengisi judul buku',
@@ -276,14 +281,15 @@ class IsbnPermohonanController extends Controller
                         'namaPengarang.0.required' => 'Anda belum mengisi nama pengarang/penulis pertama',
                         'tempat_terbit.required' => 'Anda belum mengisi tempat terbit buku',
                         'jenis_media.required' => 'Anda belum mengisi jenis media terbitan buku',
-                        'jenis_terbitan.required' => 'Anda belum mengisi jenis terbitan buku',
+                        //'jenis_terbitan.required' => 'Anda belum mengisi jenis terbitan buku',
                         'jenis_kelompok.required' => 'Anda belum mengisi kelompok pembaca buku',
-                        'jenis_penelitian.required' => 'Anda belum mengisi jenis penilitian',
+                        //'jenis_penelitian.required' => 'Anda belum mengisi jenis penilitian',
                         'jenis_kategori.required' => 'Anda belum mengisi kategori buku terjemahan/non terjemahan',
                         'jenis_pustaka.required' => 'Anda belum mengisi jenis pustaka (fiksi/non fiksi)',
                         'deskripsi.required' => 'Anda belum mengisi abstrak/deskripsi buku',
                         'deskripsi.min' => 'Abstrak/deskripsi buku minimal terdiri dari 100 karakter',
                         'url.*.required' => 'Anda belum mengisi URL/Link publikasi buku',
+                        'pengajuan_kdt.required' => 'Anda belum memilih apakah akan mengajukan KDT atau tidak',
                     ];
                     if(request('penerbit_isbn_masalah_id') != ''){
                         $rules = array_merge($rules, [
@@ -387,16 +393,16 @@ class IsbnPermohonanController extends Controller
                             [ "name"=>"TEMPAT_TERBIT", "Value"=> request('tempat_terbit') ],
                             [ "name"=>"JENIS_KELOMPOK", "Value"=> request('jenis_kelompok') ],
                             [ "name"=>"JENIS_MEDIA", "Value"=> request('jenis_media') ],
-                            [ "name"=>"JENIS_TERBITAN", "Value"=> request('jenis_terbitan') ],
-                            [ "name"=>"JENIS_PENELITIAN", "Value"=> request('jenis_penelitian') ],
+                            //[ "name"=>"JENIS_TERBITAN", "Value"=> request('jenis_terbitan') ],
+                            //[ "name"=>"JENIS_PENELITIAN", "Value"=> request('jenis_penelitian') ],
                             [ "name"=>"JENIS_PUSTAKA", "Value"=> request('jenis_pustaka') ],
                             [ "name"=>"JENIS_KATEGORI", "Value"=> request('jenis_kategori') ],
                             [ "name"=>"KETEBALAN", "Value"=> request('ketebalan')],
+                            [ "name"=>"PENGAJUAN_KDT", "Value"=> request('pengajuan_kdt') ],
                             //[ "name"=>"JML_JILID", "Value" => request('jumlah_jilid_total')  ]
                     ];
                     $IsbnResi = [
                         [ "name" => "NORESI", "Value" => $noresi ],
-                        
                         [ "name" => "LINK_BUKU", "Value" => $urls ],
                         [ "name" => "SOURCE", "Value" => "web" ],
                     ];
@@ -619,6 +625,14 @@ class IsbnPermohonanController extends Controller
                     }
 
                     //KIRIM EMAIL NOTIFIKASI
+                    switch(request('jenis_media')){
+                        case '1': $jenis_media = 'Cetak'; break;
+                        case '2': $jenis_media = 'Digital (PDF)'; break;
+                        case '3': $jenis_media = 'Digital (EPUB)'; break;
+                        case '4': $jenis_media = 'Audio Book'; break;
+                        case '5': $jenis_media = 'Audio Visual Book'; break;
+                        default: $jenis_media = ''; break;
+                    }
                     $params = [
                         ["name" => "NoResi", "Value" => $noresi],
                         ["name" => "JenisPermohonan", "Value" => request('status')],
@@ -626,7 +640,7 @@ class IsbnPermohonanController extends Controller
                         ["name" => "Title", "Value" => '<b>' . request('title') . '</b>'],
                         ["name" => "Kepeng", "Value" => $authors ],
                         ["name" => "BulanTahunTerbit", "Value" => request('bulan_terbit') . '-' . request('tahun_terbit')],
-                        ["name" => "JenisTerbitan", "Value" => request('status') ],
+                        ["name" => "JenisTerbitan", "Value" => $jenis_media ],
                         ["name" => "Sinopsis", "Value" => request('deskripsi') ],
                         ["name" => "Distributor", "Value"=> request('distributor') ],
                         ["name" => "TempatTerbit", "Value"=> request('tempat_terbit') ],

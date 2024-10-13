@@ -462,9 +462,9 @@
                                         <div class="row mb-2">
                                             <!--begin::Col-->
                                             <div class="col-lg-3">
-                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Permohonan KDT?</span>
+                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Golongan Terbitan ISBN </span>
                                                     <span class="ms-1" data-bs-toggle="tooltip"
-                                                        title="Apakah Anda membutuhkan KDT?">
+                                                        title="Pilih golongan terbitan ISBN">
                                                         <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
                                                     </span>
                                                 </div>
@@ -476,7 +476,7 @@
                                                 <div class="row g-9" data-kt-buttons="true"
                                                     data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
                                                     <!--begin::Col-->
-                                                    <div class="col-md-6 col-lg-12 col-xxl-4">
+                                                    <div class="col-md-4 col-lg-12 col-xxl-4">
                                                         <label
                                                             class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-2"
                                                             data-kt-button="true">
@@ -484,12 +484,11 @@
                                                             <span
                                                                 class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
                                                                 <input class="form-check-input" type="radio"
-                                                                    name="pengajuan_kdt" value="1">
+                                                                    name="jenis_terbitan" value="1">
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span
-                                                                    class="fs-8 fw-bold mb-1 d-block">Ya</span>
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Pemerintah</span>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -503,17 +502,94 @@
                                                             <span
                                                                 class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
                                                                 <input class="form-check-input" type="radio"
-                                                                    name="pengajuan_kdt" value="0">
+                                                                    name="jenis_terbitan" value="2">
                                                             </span>
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
-                                                                <span class="fs-8 fw-bold mb-1 d-block">Tidak</span>
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Perguruan Tinggi</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+													<!--begin::Col-->
+                                                    <div class="col-md-4 col-lg-12 col-xxl-4">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-2"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jenis_terbitan" value="3">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Swasta</span>
                                                             </span>
                                                         </label>
                                                     </div>
                                                     <!--end::Col-->
                                                 </div>
                                             </div>
+                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
+                                        <div class="row mb-2">
+                                            <!--begin::Col-->
+                                            <div class="col-lg-3">
+                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Apakah termasuk penelitian? </span>
+                                                    <span class="ms-1" data-bs-toggle="tooltip"
+                                                        title="Pilih golongan terbitan ISBN">
+                                                        <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!--end::Col-->
+                                            <!--begin::Col-->
+                                            <div class="col-lg-9">
+                                                <!--begin::Row-->
+                                                <div class="row g-9" data-kt-buttons="true"
+                                                    data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-2"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jenis_penelitian" value="1">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Penelitian</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                    <!--begin::Col-->
+                                                    <div class="col-md-6 col-lg-12 col-xxl-6">
+                                                        <label
+                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-2"
+                                                            data-kt-button="true">
+                                                            <!--begin::Radio button-->
+                                                            <span
+                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="jenis_penelitian" value="2">
+                                                            </span>
+                                                            <!--end::Radio button-->
+                                                            <span class="ms-5">
+                                                                <span class="fs-8 fw-bold mb-1 d-block">Non Penelitian</span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <!--end::Col-->													
+                                                </div>
+                                                <!--end::Row-->
+                                            </div>
+                                            <!--end::Col-->
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
@@ -968,10 +1044,17 @@
                                 },
                             }
                         },
-                        pengajuan_kdt :{
+                        jenis_terbitan :{
                             validators: {
                                 notEmpty: {
-                                    message: "Pilih apakah Anda memerlukan KDT atau tidak"
+                                    message: "Pilih golongan terbitan ISBN! (swasta/perguruan tinggi/pemerintah)"
+                                },
+                            }
+                        },
+                        jenis_penelitian :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Pilih jenis penelitian! (non penelitian/penelitian)!"
                                 },
                             }
                         },
@@ -1275,6 +1358,8 @@
         kepengarangan += 1;
     }
     var jenis_media = "{{$detail['JENIS_MEDIA']}}";
+    var jenis_terbitan = "{{$detail['JENIS_TERBITAN']}}";
+    var jenis_penelitian = "{{$detail['JENIS_PENELITIAN']}}";
     var jenis_kategori = "{{$detail['JENIS_KATEGORI']}}";
     var jenis_pustaka = "{{$detail['JENIS_PUSTAKA']}}";
     var jenis_kelompok = "{{$detail['JENIS_KELOMPOK']}}";
@@ -1286,7 +1371,13 @@
     if(jenis_media != ''){
         $('input[type=radio][name="jenis_media"][value="'+jenis_media+'"]').prop('checked', true);
     }
-
+    //$('input[type=radio][name="status"][value="{{$status}}"]').prop("checked", true);
+    if(jenis_terbitan != ''){
+        $('input[type=radio][name="jenis_terbitan"][value="'+jenis_terbitan+'"]').prop('checked', true);
+    }
+    if(jenis_penelitian != ''){
+        $('input[type=radio][name="jenis_penelitian"][value="'+jenis_penelitian+'"]').prop('checked', true);
+    }
     if(jenis_kategori != ''){
         $('input[type=radio][name="jenis_kategori"][value="'+jenis_kategori+'"]').prop('checked', true);
     }
