@@ -134,7 +134,7 @@ class ISBNController extends Controller
                 "value" => $request->input('date_end')
             ]);
         }
-        $data = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM nomor, inner.* FROM ($sql $sqlWhere) inner) outer WHERE nomor >$start AND nomor <= $end", 'sql', '')["Data"]["Items"];  
+        $data = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM nomor, inner.* FROM ($sql $sqlWhere) inner WHERE rownum <=$end) outer WHERE nomor >$start", 'sql', '')["Data"]["Items"];  
         $totalData = kurl("get","getlistraw", "", "SELECT COUNT(*) JML FROM PENERBIT_ISBN WHERE PENERBIT_ID=$id",'sql', '')["Data"]["Items"][0]["JML"];    
         $totalFiltered = kurl("get","getlistraw", "", "SELECT COUNT(*) JML FROM ($sqlFiltered  $sqlWhere)",'sql', '')["Data"]["Items"][0]["JML"];        
         

@@ -91,7 +91,7 @@ class HistoryController extends Controller
                     ORDER BY h.ACTIONDATE desc";
         $sqlFiltered = "SELECT count(*) JUMLAH FROM HISTORYDATA WHERE (actionby = '".session('penerbit')['USERNAME']."' OR actionby = '".session('penerbit')['USERNAME']."-api') 
                         AND (TABLENAME = 'PENERBIT' OR TABLENAME = 'PENERBIT_TERBITAN' OR TABLENAME = 'ISBN_REGISTRASI_PENERBIT') ";
-        $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql) inner) outer WHERE rn >$start AND rn <= $end", 'sql', '')["Data"]["Items"];
+        $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql)  inner WHERE rownum <=$end) outer WHERE rn >$start", 'sql', '')["Data"]["Items"];
         $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM HISTORYDATA WHERE (actionby = '".session('penerbit')['USERNAME']."' OR actionby = '".session('penerbit')['USERNAME']."-api')
                          AND (TABLENAME = 'PENERBIT' OR TABLENAME = 'PENERBIT_TERBITAN' OR TABLENAME = 'ISBN_REGISTRASI_PENERBIT')", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         $totalFiltered = kurl("get","getlistraw", "", $sqlFiltered, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
