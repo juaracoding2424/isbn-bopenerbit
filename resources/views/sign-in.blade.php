@@ -67,7 +67,7 @@
 				<div class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center p-12 flex-center " style="height: 100%;">
 				<div class="loader bg-body flex-column flex-center rounded-4 w-md-600px p-10"></div>
 					<!--begin::Wrapper-->
-					<div class="bg-body d-flex flex-column flex-center rounded-4 w-md-600px p-10 social-box " style="max-height: 650px;">
+					<div class="bg-body d-flex flex-column flex-center rounded-4 w-md-600px p-10 social-box " style="max-height: 600px;">
 						<!--begin::Content-->
 						<div class="d-flex flex-center flex-column align-items-stretch h-lg-100 w-md-400px">
 							<!--begin::Wrapper-->
@@ -98,7 +98,7 @@
 								<form class="form w-100" id="signin_form" action="#">
 								@csrf
 									<!--begin::Heading-->
-									<div class="mb-11 row">
+									<div class="mb-5 row">
 										<div class="logo col-md-5 col-6" style="
 										border:  none;
 										background: url('{{ asset('assets/media/logo.png') }}');
@@ -120,22 +120,22 @@
 										</div>
 									<!--begin::Heading-->
 									<!--begin::Input group=-->
-									<div class="fv-row mb-8">
+									<div class="fv-row mb-2">
 										<!--begin::Email-->
 										<input type="text" placeholder="Email or Username" name="username" autocomplete="off" class="form-control" />
 										<!--end::Email-->
 									</div>
 									<!--end::Input group=-->
 									<!--begin::Input group=-->
-									<div class="fv-row mb-3 input-group">
+									<div class="fv-row mb-2 input-group">
 										<!--begin::Password-->
 										<input type="password" placeholder="Password" name="password" autocomplete="off" class="form-control" id="password" />
 										<!--end::Password-->
 									</div>
-									<div class="fv-row mb-8">
+									<div class="fv-row mb-0">
 									<!--end::Input group=-->
 									<!--begin::Input group=-->
-									<div class="fv-row mb-8">
+									<div class="fv-row mb-0">
 									{!! NoCaptcha::renderJs() !!}
 									{!! NoCaptcha::display() !!}
 									</div>
