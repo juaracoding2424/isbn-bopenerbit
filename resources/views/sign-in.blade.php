@@ -65,13 +65,13 @@
 			<!--div class="d-flex flex-column flex-lg-row flex-column-fluid" -->
 				<!--begin::Body-->
 				<div class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center p-12 flex-center " style="height: 100%;">
-				<div class="loader bg-body flex-column flex-center rounded-4 w-md-600px p-10"></div>
+				<div class="loader bg-body flex-column flex-center rounded-4 w-md-600px p-5"></div>
 					<!--begin::Wrapper-->
-					<div class="bg-body d-flex flex-column flex-center rounded-4 w-md-600px p-10 social-box " style="max-height: 600px;">
+					<div class="bg-body d-flex flex-column flex-center rounded-4 w-md-600px p-5 social-box " style="max-height: 600px;">
 						<!--begin::Content-->
 						<div class="d-flex flex-center flex-column align-items-stretch h-lg-100 w-md-400px">
 							<!--begin::Wrapper-->
-							<div class="d-flex flex-center flex-column flex-column-fluid pb-15 pb-lg-20">
+							<div class="d-flex flex-center flex-column flex-column-fluid pb-15 pb-lg-5">
 							@if(session('status') != null)
 								@if(session('status') == 200)
 								<div class="alert alert-success d-flex align-items-center p-2 mb-5">
@@ -169,7 +169,7 @@
 							</div>
 							<!--end::Wrapper-->
 							<!--begin::Footer-->
-							<div class="d-flex flex-stack">
+							<div class="d-flex flex-stack mt-5">
 								<!--begin::Links-->
 								<div class="d-flex fw-semibold text-primary fs-base gap-5">
 									<a href="{{ config('app.fo')}}detail_fnq" class="link-primary" target="_blank">FAQ</a>
