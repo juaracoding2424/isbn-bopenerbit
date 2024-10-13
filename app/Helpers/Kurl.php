@@ -93,7 +93,7 @@ function kurl_upload($method, $penerbit, $terbitan_id, $jenis, $file, $ip_user, 
     }
 }
 
-function kurl_upload_file_penerbit($method, $penerbit, $jenis, $file, $ip_user) {
+function kurl_upload_file_penerbit($method, $op, $penerbit, $jenis, $file, $ip_user) {
     
     //$jenis : penerbitid, isbn_registrasi_penerbit_id
     $params = [
@@ -103,7 +103,7 @@ function kurl_upload_file_penerbit($method, $penerbit, $jenis, $file, $ip_user) 
         ],
         [
             'name'     => 'op',
-            'contents' => $method,
+            'contents' => $op,
         ],
         [
             'name'     => $jenis,

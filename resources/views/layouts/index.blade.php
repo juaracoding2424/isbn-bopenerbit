@@ -110,6 +110,23 @@
         });
 	}
 	getHistory();
+	var refreshHistory = function(){
+		$('#log_aktifitas').html('');
+		getHistory();
+	}
+
+	var url = "{{ config('app.isbn_file_location') . 'files/penerbit/foto/' . session('penerbit')['ID'] . '.png' }}";
+	$.ajax({
+		url: url,
+		type: 'HEAD',
+		success: function() {
+			$('#imgAvatar1').attr('src', "{{ config('app.isbn_file_location') . 'files/penerbit/foto/' . session('penerbit')['ID'] . '.png' }}");
+			$('#imgAvatar2').attr('src', "{{ config('app.isbn_file_location') . 'files/penerbit/foto/' . session('penerbit')['ID'] . '.png' }}");
+		},
+		error: function() {
+			//alert('Image does not exist');
+		}
+	});
 </script>
 <!--end::Javascript-->
 </body>

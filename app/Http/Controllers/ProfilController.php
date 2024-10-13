@@ -16,7 +16,8 @@ class ProfilController extends Controller
             $sql = "SELECT 'VALID' STATUS, PROPINSI.NAMAPROPINSI,  KABUPATEN.NAMAKAB, KABUPATEN.CODE_SORT CODEKAB,
                         P.NAME NAMA_PENERBIT, P.EMAIL1 ADMIN_EMAIL, P.EMAIL2 ALTERNATE_EMAIL, P.PROVINCE_ID, P.CITY_ID, P.DISTRICT_ID, P.VILLAGE_ID,
                         P.ALAMAT ALAMAT_PENERBIT, P.ID, P.TELP1 ADMIN_PHONE, P.TELP2 ALTERNATE_PHONE, P.NAMA_GEDUNG, P.ISBN_USER_NAME USER_NAME,
-                        P.FILE_AKTE_NOTARIS, P.FILE_SP as FILE_SURAT_PERNYATAAN
+                        P.FILE_AKTE_NOTARIS, P.FILE_SP as FILE_SURAT_PERNYATAAN, P.KONTAK1 ADMIN_CONTACT_NAME, P.KONTAK2 ALTERNATE_CONTACT_NAME,
+                        P.WEBSITE WEBSITE_URL, P.KODEPOS
               FROM PENERBIT P 
                         LEFT JOIN PROPINSI on propinsi.id = P.PROVINCE_ID
                         LEFT JOIN KABUPATEN ON KABUPATEN.id = P.CITY_ID
@@ -47,6 +48,8 @@ class ProfilController extends Controller
                 'kabkot' => 'required',
                 'kecamatan' => 'required',
                 'kelurahan' => 'required',
+                'admin' => 'required',
+                'kodepos' => 'required',
                 ],[
                 //'name.required' => 'Anda belum mengisi nama penerbit',
                 //'name.min' => 'Nama penerbit minimum terdiri dari 8 karakter',
@@ -60,6 +63,8 @@ class ProfilController extends Controller
                 'kabkot.required' => 'Anda belum mengisi kota/kabupaten tempat domisili kantor',
                 'kecamatan.required' => 'Anda belum mengisi kecamatan tempat domisili kantor',
                 'kelurahan.required' => 'Anda belum mengisi kelurahan tempat domisili kantor',
+                'admin.required' => 'Anda belum mengisi nama admin pengelola ISBN',
+                'kodepos.required' => 'Anda belum mengisi kodepos domisili kantor',
             ]);
             if($validator->fails()){
                 return response()->json([
@@ -69,10 +74,10 @@ class ProfilController extends Controller
                 ], 422);
             } else {  
                 $file = [
-                    'file_surat_pernyataan' => $request->file('file_surat_pernyataan') ?? null,
-                    'file_akte_notaris' => $request->file('file_akte_notaris') ?? null,
+                    'file_surat_pernyataan' => $request->input('file_surat_pernyataan') ?? null,
+                    'file_akte_notaris' => $request->input('file_akte_notaris') ?? null,
                 ];
-
+                $foto = null;
                 if(session('penerbit')['STATUS'] == 'valid'){
                     $ListData = [
                         //[ "name"=>"NAME", "Value"=> request('name') ],
@@ -84,31 +89,34 @@ class ProfilController extends Controller
                         [ "name"=>"CITY_ID", "Value"=> request('kabkot') ],
                         [ "name"=>"DISTRICT_ID", "Value"=> request('kecamatan') ],
                         [ "name"=>"VILLAGE_ID", "Value"=> request('kelurahan') ],
+                        [ "name"=>"TELP2", "Value"=> request('phone_alternatif')],
+                        [ "name"=>"KONTAK1", "Value"=> request('admin')],
+                        [ "name"=>"KONTAK2", "Value"=> request('admin_alternatif') ],
+                        [ "name"=>"WEBSITE", "Value"=> request('website')],
+                        [ "name"=>"KODEPOS", "Value"=> request('kodepos')],
                         [ "name"=>"UPDATEBY", "Value"=> session('penerbit')["USERNAME"]], //nama user penerbit
                         [ "name"=>"UPDATETERMINAL", "Value"=> \Request::ip()]
                     ];
                     $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=PENERBIT&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
-                  
-                    //ganti file file_akte_notaris kalau ada
+
+                    //ganti file avatar kalau ada
                     if($request->hasFile('avatar')) {
                         $params = [
                             'penerbitid' => $id,
                             'actionby' => session('penerbit')['USERNAME'],
                             'terminal' => \Request::ip()
                         ];
-                        kurl("post", "deletepenerbitfoto",'', '','', $params);
-                        \Log::info($request->input('avatar'));
-                        /*$file_foto = new UploadedFile(
-                            $filePath_an,
-                            $file['file_akte_notaris'],
-                            File::mimeType($filePath_an),
-                            null,
-                            true
-                        );*/
-                        kurl_upload_file_penerbit('uploadpenerbitfoto', session('penerbit'), 'penerbitid', $request->file('avatar'), \Request::ip());
+                        kurl("post", "deletepenerbitfoto",'', '','', $params);            
+                        $foto = kurl_upload_file_penerbit('post','uploadpenerbitfoto', session('penerbit'), 'penerbitid', $request->file('avatar'), \Request::ip());
+                        if($foto["Status"] == "Success"){
+                            $foto = config('app.isbn_file_location') . $foto["Data"];
+                            $type = pathinfo($foto, PATHINFO_EXTENSION);
+                            $data = file_get_contents($foto);
+                            $foto = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                        }
                     }
                     //ganti file file_akte_notaris kalau ada
-                    if($request->hasFile('file_akte_notaris')) {
+                    if($file['file_akte_notaris']) {
                         $params = [
                             'penerbitid' => $id,
                             'actionby' => session('penerbit')['USERNAME'],
@@ -123,11 +131,14 @@ class ProfilController extends Controller
                             null,
                             true
                         );
-                        kurl_upload_file_penerbit('uploadfileaktenotaris', session('penerbit'), 'penerbitid', $file_an, \Request::ip());
+                        $response = kurl_upload_file_penerbit('post','uploadfileaktenotaris', session('penerbit'), 'penerbitid', $file_an, \Request::ip());
+                        if($response["Status"] == "Success"){
+                            $file['file_akte_notaris'] = config('app.isbn_file_location') . $response["Data"];
+                        }
                     }
                     
                     //ganti file surat pernyataan jika ada
-                    if($request->hasFile('file_surat_pernyataan') ) {
+                    if($file['file_surat_pernyataan'] ) {
                         $params = [
                             'penerbitid' => $id,
                             'actionby' => session('penerbit')['USERNAME'],
@@ -142,7 +153,10 @@ class ProfilController extends Controller
                             null,
                             true
                         );
-                        kurl_upload_file_penerbit('uploadfilesuratpernyataan', session('penerbit'), 'penerbitid', $file_sp, \Request::ip());
+                        $response =  kurl_upload_file_penerbit('post','uploadfilesuratpernyataan', session('penerbit'), 'penerbitid', $file_sp, \Request::ip());
+                        if($response["Status"] == "Success"){
+                            $file['file_surat_pernyataan'] = config('app.isbn_file_location') . $response["Data"];
+                        }
                     }
                 } else {
                     $ListData = [
@@ -155,6 +169,11 @@ class ProfilController extends Controller
                         [ "name"=>"CITY_ID", "Value"=> request('kabkot') ],
                         [ "name"=>"DISTRICT_ID", "Value"=> request('kecamatan') ],
                         [ "name"=>"VILLAGE_ID", "Value"=> request('kelurahan') ],
+                        [ "name"=>"ALTERNATE_PHONE", "Value"=> request('phone_alternatif')],
+                        [ "name"=>"ADMIN_CONTACT_NAME", "Value"=> request('admin')],
+                        [ "name"=>"ALTERNATE_CONTACT_NAME", "Value"=> request('admin_alternatif') ],
+                        [ "name"=>"WEBSITE_URL", "Value"=> request('website')],
+                        [ "name"=>"KODEPOS", "Value"=> request('kodepos')],
                         [ "name"=>"UPDATEBY", "Value"=> session('penerbit')["USERNAME"]], //nama user penerbit
                         [ "name"=>"UPDATETERMINAL", "Value"=> \Request::ip()]
                     ];
@@ -166,8 +185,24 @@ class ProfilController extends Controller
                         sendMail(18, $params, session('penerbit')['EMAIL'], 'Perbaikan pendaftaran akun penerbit ' . session('penerbit')['NAME']);
                     }
                     $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_REGISTRASI_PENERBIT&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
-                     //ganti file file_akte_notaris kalau ada
-                     if($request->hasFile('file_akte_notaris') !== null) {
+                    //ganti file avatar kalau ada
+                    if($request->hasFile('avatar')) {
+                        $params = [
+                            'isbn_registrasi_penerbit_id' => $id,
+                            'actionby' => session('penerbit')['USERNAME'],
+                            'terminal' => \Request::ip()
+                        ];
+                        kurl("post", "deletepenerbitfoto",'', '','', $params);            
+                        $foto = kurl_upload_file_penerbit('post','uploadpenerbitfoto', session('penerbit'), 'isbn_registrasi_penerbit_id', $request->file('avatar'), \Request::ip());
+                        if($foto["Status"] == "Success"){
+                            $foto = config('app.isbn_file_location') . $foto["Data"];
+                            $type = pathinfo($foto, PATHINFO_EXTENSION);
+                            $data = file_get_contents($foto);
+                            $foto = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                        }
+                    }
+                    //ganti file file_akte_notaris kalau ada
+                    if($file['file_akte_notaris']) {
                         $params = [
                             'isbn_registrasi_penerbit_id' => $id,
                             'actionby' => session('penerbit')['USERNAME'],
@@ -182,11 +217,14 @@ class ProfilController extends Controller
                             null,
                             true
                         );
-                        kurl_upload_file_penerbit('uploadfileaktenotaris', session('penerbit'), 'isbn_registrasi_penerbit_id', $file_an, \Request::ip());
+                        $response = kurl_upload_file_penerbit('post','uploadfileaktenotaris', session('penerbit'), 'isbn_registrasi_penerbit_id', $file_an, \Request::ip());
+                        if($response["Status"] == "Success"){
+                            $file['file_akte_notaris'] = config('app.isbn_file_location') .$response["Data"];
+                        }
                     }
                     
                     //ganti file surat pernyataan jika ada
-                    if($request->hasFile('file_surat_pernyataan') !== null ) {
+                    if($file['file_surat_pernyataan']) {
                         $params = [
                             'isbn_registrasi_penerbit_id' => $id,
                             'actionby' => session('penerbit')['USERNAME'],
@@ -201,14 +239,18 @@ class ProfilController extends Controller
                             null,
                             true
                         );
-                        kurl_upload_file_penerbit('uploadfilesuratpernyataan', session('penerbit'), 'isbn_registrasi_penerbit_id', $file_sp, \Request::ip());
+                        $response = kurl_upload_file_penerbit('post','uploadfilesuratpernyataan', session('penerbit'), 'isbn_registrasi_penerbit_id', $file_sp, \Request::ip());
+                        if($response["Status"] == "Success"){
+                            $file['file_surat_pernyataan'] = config('app.isbn_file_location') . $response["Data"];
+                        }
                     }
                 }
                 
-
                 return response()->json([
                     'status' => 'Success',
                     'message' => 'Perubahan data akun Anda berhasil disimpan.',
+                    'file' => $file,
+                    'foto' => $foto,
                 ], 200);
             }
         } catch(\Exception $e){

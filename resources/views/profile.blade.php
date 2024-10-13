@@ -59,7 +59,7 @@
 								<!--begin: Pic-->
 								<div class="me-7 mb-4">
 									<div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-										<img src="{{ asset('/assets/media/avatars/300-1.jpg') }}" alt="image" />
+										<img src="{{ asset('/assets/media/avatars/blank.png') }}" alt="image" id="imgAvatar" />
 										<div
 											class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-body h-20px w-20px">
 										</div>
@@ -154,20 +154,20 @@
 										<div class="d-flex align-items-center w-300px w-sm-500px flex-column mt-3">
 											<div class="d-flex justify-content-between w-100 mt-auto mb-2">
 												<span class="fw-semibold fs-8 text-gray-500">Serah Simpan ke Perpusnas</span>
-												<span class="fw-bold fs-8" id="divKepatuhanPerpusnas">35%</span>
+												<span class="fw-bold fs-8" id="divKepatuhanPerpusnas">0%</span>
 											</div>
 											<div class="h-5px mx-3 w-100 bg-light mb-3">
 												<div class="bg-success rounded h-5px" role="progressbar"
-													style="width: 35%;" aria-valuenow="35" aria-valuemin="0"
+													style="width: 0%;" aria-valuenow="0" aria-valuemin="0"
 													aria-valuemax="100" id="progressKepatuhanPerpusnas"></div>
 											</div>
 											<div class="d-flex justify-content-between w-100 mt-auto mb-2">
 												<span class="fw-semibold fs-8 text-gray-500">Serah Simpan ke Provinsi</span>
-												<span class="fw-bold fs-8" id="divKepatuhanProvinsi">20%</span>
+												<span class="fw-bold fs-8" id="divKepatuhanProvinsi">0%</span>
 											</div>
 											<div class="h-5px mx-3 w-100 bg-light mb-3">
 												<div class="bg-primary rounded h-5px" role="progressbar"
-													style="width: 20%;" aria-valuenow="20" aria-valuemin="0"
+													style="width: 0%;" aria-valuenow="0" aria-valuemin="0"
 													aria-valuemax="100" id="progressKepatuhanProvinsi"></div>
 											</div>
 										</div>
@@ -198,17 +198,18 @@
 											@csrf
 												<!--begin::Card body-->
 												<div class="card-body border-top p-9">
+													@if(session('penerbit')['STATUS'] == 'valid')
 													<!--begin::Input group-->
 													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label fw-semibold fs-8">Avatar</label>
+														<label class="col-lg-2 col-form-label fw-semibold fs-8">Avatar</label>
 														<!--end::Label-->
 														<!--begin::Col-->
 														<div class="col-lg-8">
 															<!--begin::Image input-->
-															<div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('assets/media/svg/avatars/blank.svg')">
+															<div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('{{ asset('assets/media/svg/avatars/blank.svg') }} ')">
 																<!--begin::Preview existing avatar-->
-																<div class="image-input-wrapper w-125px h-125px" style="background-image: url(assets/media/avatars/300-1.jpg)"></div>
+																<div class="image-input-wrapper w-125px h-125px" style="background-image: url('{{ asset('assets/media/avatars/blank.png') }}')" id="avatar_penerbit"></div>
 																<!--end::Preview existing avatar-->
 																<!--begin::Label-->
 																<label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
@@ -238,13 +239,14 @@
 														<!--end::Col-->
 													</div>
 													<!--end::Input group-->
+													@endif
 													<!--begin::Input group-->
 													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label required fw-semibold fs-8">Nama Penerbit</label>
+														<label class="col-lg-2 col-form-label required fw-semibold fs-8">Nama Penerbit</label>
 														<!--end::Label-->
 														<!--begin::Col-->
-														<div class="col-lg-8">
+														<div class="col-lg-5">
 															<!--begin::Row-->
 															<div class="row">
 																<!--begin::Col-->
@@ -256,15 +258,11 @@
 															<!--end::Row-->
 														</div>
 														<!--end::Col-->
-													</div>
-													<!--end::Input group-->
-													<!--begin::Input group-->
-													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label required fw-semibold fs-8">Username</label>
+														<label class="col-lg-2 col-form-label required fw-semibold fs-8">Username</label>
 														<!--end::Label-->
 														<!--begin::Col-->
-														<div class="col-lg-8 fv-row">
+														<div class="col-lg-3 fv-row">
 															<input type="text" name="username" class="form-control form-control-lg form-control-solid fs-8" placeholder="username" value="" readonly="true"/>
 														</div>
 														<!--end::Col-->
@@ -273,7 +271,7 @@
 													<!--begin::Input group-->
 													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label fw-semibold fs-8">
+														<label class="col-lg-2 col-form-label fw-semibold fs-8">
 															<span class="required">Nomor Telepon</span>
 															<span class="ms-1" data-bs-toggle="tooltip" title="Phone number must be active">
 																<i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
@@ -281,8 +279,22 @@
 														</label>
 														<!--end::Label-->
 														<!--begin::Col-->
-														<div class="col-lg-8 fv-row">
+														<div class="col-lg-4 fv-row">
 															<input type="tel" name="phone" class="form-control form-control-lg form-control-solid fs-8" placeholder="Phone number" value="" />
+														</div>
+														<!--end::Col-->
+													
+														<!--begin::Label-->
+														<label class="col-lg-2 col-form-label fw-semibold fs-8">
+															<span>Nomor Telepon Alternatif</span>
+															<span class="ms-1" data-bs-toggle="tooltip" title="Phone number must be active">
+																<i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+															</span>
+														</label>
+														<!--end::Label-->
+														<!--begin::Col-->
+														<div class="col-lg-4 fv-row">
+															<input type="tel" name="phone_alternatif" class="form-control form-control-lg form-control-solid fs-8" placeholder="Phone number" value="" />
 														</div>
 														<!--end::Col-->
 													</div>
@@ -290,7 +302,12 @@
 													<!--begin::Input group-->
 													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label fw-semibold fs-8">Alamat</label>
+														<label class="col-lg-2 col-form-label fw-semibold fs-8">
+															<span class="required">Alamat</span>
+															<span class="ms-1" data-bs-toggle="tooltip" title="Alamat diisi lengkap">
+																<i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+															</span>
+														</label>
 														<!--end::Label-->
 														<!--begin::Col-->
 														<div class="col-lg-8 fv-row">
@@ -302,7 +319,7 @@
 													<!--begin::Input group-->
 													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label fw-semibold fs-8">Nama Gedung</label>
+														<label class="col-lg-2 col-form-label fw-semibold fs-8">Nama Gedung</label>
 														<!--end::Label-->
 														<!--begin::Col-->
 														<div class="col-lg-8 fv-row">
@@ -314,7 +331,7 @@
 													<!--begin::Input group-->
 													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label fw-semibold fs-8">
+														<label class="col-lg-2 col-form-label fw-semibold fs-8">
 															<span class="required">Provinsi</span>
 															<span class="ms-1" data-bs-toggle="tooltip" title="Provinsi">
 																<i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
@@ -322,18 +339,14 @@
 														</label>
 														<!--end::Label-->
 														<!--begin::Col-->
-														<div class="col-lg-8 fv-row">
-															<select id="select2-provinsi" name="provinsi" aria-label="Select a Country" data-control="select2" data-placeholder="Pilih provinsi..." class="form-select form-select-solid fs-8 form-select-lg fw-semibold">
+														<div class="col-lg-3 fv-row">
+															<select id="select2-provinsi" name="provinsi" aria-label="Select a Country" data-control="select2" data-placeholder="Pilih provinsi..." class="form-select form-control form-select-solid fs-8 form-select-lg fw-semibold">
 																<option value="">Pilih Provinsi...</option>
 															</select>
 														</div>
 														<!--end::Col-->
-													</div>
-													<!--end::Input group-->
-													<!--begin::Input group-->
-													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label fw-semibold fs-8">
+														<label class="col-lg-2 col-form-label fw-semibold fs-8">
 															<span class="required">Kabupaten / Kota</span>
 															<span class="ms-1" data-bs-toggle="tooltip" title="Kabupaten/Kota">
 																<i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
@@ -341,8 +354,8 @@
 														</label>
 														<!--end::Label-->
 														<!--begin::Col-->
-														<div class="col-lg-8 fv-row">
-															<select id="select2-kabupaten" name="kabkot" aria-label="Pilih Kabupaten/kota" data-control="select2" data-placeholder="Pilih kabupaten/kota..." class="form-select form-select-solid fs-8 form-select-lg fw-semibold">
+														<div class="col-lg-3 fv-row">
+															<select id="select2-kabupaten" name="kabkot" aria-label="Pilih Kabupaten/kota" data-control="select2" data-placeholder="Pilih kabupaten/kota..." class="form-select  form-control form-select-solid fs-8 form-select-lg fw-semibold">
 																<option value="">Pilih Kabupaten/Kota...</option>
 															</select>
 														</div>
@@ -352,7 +365,7 @@
 													<!--begin::Input group-->
 													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label fw-semibold fs-8">
+														<label class="col-lg-2 col-form-label fw-semibold fs-8">
 															<span class="required">Kecamatan</span>
 															<span class="ms-1" data-bs-toggle="tooltip" title="Kecamatan">
 																<i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
@@ -360,9 +373,24 @@
 														</label>
 														<!--end::Label-->
 														<!--begin::Col-->
-														<div class="col-lg-8 fv-row">
-															<select id="select2-kecamatan" name="kecamatan" aria-label="Pilih kecamatan" data-control="select2" data-placeholder="Pilih kecamatan" class="form-select form-select-solid fs-8 form-select-lg fw-semibold">
+														<div class="col-lg-3 fv-row">
+															<select id="select2-kecamatan" name="kecamatan" aria-label="Pilih kecamatan" data-control="select2" data-placeholder="Pilih kecamatan" class="form-select  form-control form-select-solid fs-8 form-select-lg fw-semibold">
 																<option value="">Pilih Kecamatan...</option>
+															</select>
+														</div>
+														<!--end::Col-->
+														<!--begin::Label-->
+														<label class="col-lg-2 col-form-label fw-semibold fs-8">
+															<span class="required">Kelurahan</span>
+															<span class="ms-1" data-bs-toggle="tooltip" title="Kelurahan">
+																<i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+															</span>
+														</label>
+														<!--end::Label-->
+														<!--begin::Col-->
+														<div class="col-lg-3 fv-row">
+															<select id="select2-kelurahan" name="kelurahan" aria-label="Pilih kelurahan" data-control="select2" data-placeholder="Pilih Kelurahan..." class="form-select  form-control form-select-solid fs-8 form-select-lg fw-semibold">
+																<option value="">Pilih Kelurahan...</option>
 															</select>
 														</div>
 														<!--end::Col-->
@@ -371,30 +399,73 @@
 													<!--begin::Input group-->
 													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label fw-semibold fs-8">
-															<span class="required">Kelurahan</span>
-															<span class="ms-1" data-bs-toggle="tooltip" title="Kelurahan">
+														<label class="col-lg-2 col-form-label fw-semibold fs-8">
+															<span class="required">Kode Pos</span>
+															<span class="ms-1" data-bs-toggle="tooltip" title="Kode Pos alamat kantor">
+																<i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+															</span>
+														</label>
+														<!--end::Label-->
+														<!--begin::Col-->
+														<div class="col-lg-4 fv-row">
+															<input type="number" name="kodepos" class="form-control form-control-lg form-control-solid fs-8" placeholder="Kode Pos" value="" />
+														</div>
+														<!--end::Col-->
+													</div>
+													<!--end::Input group-->
+													<!--begin::Input group-->
+													<div class="row mb-6">
+														<!--begin::Label-->
+														<label class="col-lg-2 col-form-label fw-semibold fs-8">
+															<span class="">Alamat Website</span>
+															<span class="ms-1" data-bs-toggle="tooltip" title="alamat website">
 																<i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
 															</span>
 														</label>
 														<!--end::Label-->
 														<!--begin::Col-->
 														<div class="col-lg-8 fv-row">
-															<select id="select2-kelurahan" name="kelurahan" aria-label="Pilih kelurahan" data-control="select2" data-placeholder="Pilih Kelurahan..." class="form-select form-select-solid fs-8 form-select-lg fw-semibold">
-																<option value="">Pilih Kelurahan...</option>
-															</select>
+															<input type="text" name="website" class="form-control form-control-lg form-control-solid fs-8" placeholder="Website" value="" />
+														</div>
+														<!--end::Col-->
+													</div>
+													<!--end::Input group-->
+													<!--begin::Input group-->
+													<div class="row mb-6">
+														<!--begin::Label-->
+														<label class="col-lg-2 col-form-label fw-semibold fs-8">
+															<span class="required">Nama Admin</span>
+															<span class="ms-1" data-bs-toggle="tooltip" title="Nama admin pengelola ISBN harus diisi">
+																<i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+															</span>
+														</label>
+														<!--end::Label-->
+														<!--begin::Col-->
+														<div class="col-lg-4 fv-row">
+															<input type="text" name="admin" class="form-control form-control-lg form-control-solid fs-8" placeholder="Nama Admin" />
+														</div>
+														<!--end::Col-->
+													
+														<!--begin::Label-->
+														<label class="col-lg-2 col-form-label fw-semibold fs-8">Nama Admin Alternatif</label>
+														<!--end::Label-->
+														<!--begin::Col-->
+														<div class="col-lg-4 fv-row">
+															<input type="text" name="admin_alternatif" class="form-control form-control-lg form-control-solid fs-8" placeholder="Nama Admin Alternatif" />
 														</div>
 														<!--end::Col-->
 													</div>
 													<!--end::Input group-->
 													<div class="row mb-6">
 														<!--begin::Label-->
-														<label class="col-lg-4 col-form-label fs-8 fw-semibold fs-8">File Akta Notaris</label>
-														<!-- <div class="col-lg-3 col-form-label fs-8 ">
+														<label class="col-lg-2 col-form-label fs-8 fw-semibold fs-8">
+														<span class="required">File Akta Notaris</span>	
+														</label>
+														<!-- <div class="col-lg-2 col-form-label fs-8 ">
 															<a><i class="bi bi-filetype-pdf fs-1"></i> DummyBuku.pdf</a>
 														</div>-->
 														<!--end:: Label-->
-														<div class="col-lg-3 col-form-label fs-8 " id="view_file_akte_notaris"></div>
+														<div class="col-lg-2 col-form-label fs-8 " id="view_file_akte_notaris"></div>
 														<div class="col-lg-5 d-flex align-items-center">
 														<input type="hidden" name="file_akte_notaris" id="file_akte_notaris">
 															<!--begin::Dropzone-->
@@ -423,9 +494,10 @@
 													<div class="row mb-6">
 														<!--begin::Label-->
 
-														<label class="col-lg-4 col-form-label fs-8 fw-semibold fs-8">File
-															Surat Pernyataan</label>
-														<div class="col-lg-3 col-form-label fs-8 " id="view_file_surat_pernyataan"></div>
+														<label class="col-lg-2 col-form-label fs-8 fw-semibold fs-8">
+															<span class="required">File Surat Pernyataan</span>
+														</label>
+														<div class="col-lg-2 col-form-label fs-8 " id="view_file_surat_pernyataan"></div>
 														<!--end:: Label-->
 														<div class="col-lg-5 d-flex align-items-center">
 														<input type="hidden" name="file_surat_pernyataan" id="file_surat_pernyataan">
@@ -624,11 +696,18 @@
                                 }
                             }
                         },
+						admin: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Nama admin penerbit diperlukan. Tidak boleh kosong!"
+                                }
+                            }
+                        },
                     },
                     plugins: {
                         trigger: new FormValidation.plugins.Trigger,
                         bootstrap: new FormValidation.plugins.Bootstrap5({
-                            rowSelector: ".col-lg-8"
+                            columnSelector: ".form-control"
                         }),
 						submitButton: new FormValidation.plugins.SubmitButton(),
 						icon: new FormValidation.plugins.Icon({
@@ -679,12 +758,27 @@
 	})
 	var imageInputElement = document.querySelector(".image-input");
 	var imageInput = KTImageInput.getInstance(imageInputElement);
-	imageInput.on("kt.imageinput.changed", function() {
-			alert('woy!');
-	});
+	//imageInput.on("kt.imageinput.changed", function() {
+	//		alert('woy!');
+	//});
 </script>
 <script>
 	var status = "{{session('penerbit')['STATUS']}}";
+	if(status == 'valid'){
+		
+		var url = "{{ config('app.isbn_file_location') . 'files/penerbit/foto/' . session('penerbit')['ID'] . '.png' }}";
+		$.ajax({
+			url: url,
+			type: 'HEAD',
+			success: function() {
+				$('#avatar_penerbit').css('background-image', 'url("'+"{{ config('app.isbn_file_location') . 'files/penerbit/foto/' . session('penerbit')['ID'] . '.png' }}"+'")');
+				$('#imgAvatar').attr('src', "{{ config('app.isbn_file_location') . 'files/penerbit/foto/' . session('penerbit')['ID'] . '.png' }}");
+			},
+			error: function() {
+				//alert('Image does not exist');
+			}
+		});
+	}
 	function getData(){
 	$.ajax({
             url: "{{ url('penerbit/profile/detail') }}",
@@ -707,6 +801,7 @@
 				$('input[name="name"]').val(response['NAMA_PENERBIT']);
 				$('input[name="username"]').val(response['USER_NAME']);
 				$('input[name="phone"]').val(response['ADMIN_PHONE']);
+				$('input[name="phone_alternatif"]').val(response['ALTERNATE_PHONE']);
 				$('input[name="alamat_penerbit"]').val(response['ALAMAT_PENERBIT']);
 				$('input[name="nama_gedung"]').val(response['NAMA_GEDUNG']);
 				let loc_an = "{{config('app.isbn_file_location')}}"+ "files/penerbit/akte_notaris/" + response['FILE_AKTE_NOTARIS'];
@@ -716,6 +811,10 @@
 				$('#email1').text(response['ADMIN_EMAIL']);
 				$('#email2').text(response['ALTERNATE_EMAIL']);
 				$('#alternateemailaddress').val(response['ALTERNATE_EMAIL']);
+				$('input[name="admin"]').val(response['ADMIN_CONTACT_NAME']);
+				$('input[name="admin_alternatif"]').val(response['ALTERNATE_CONTACT_NAME']);
+				$('input[name="kodepos"]').val(response['KODEPOS']);
+				$('input[name="website"]').val(response['WEBSITE_URL']);
 				$.getJSON(urlProvinsi, function (res) {
 					data = [{
 						id: "",
@@ -944,9 +1043,6 @@
 				beforeSend: function(){
 					$('.loader').css('display','block');
 				},
-				complete: function(){
-					$('.loader').css('display','none');
-				},
 				statusCode: {
 						422: function(xhr) {
 								var error = '<div class="alert alert-danger d-flex align-items-center p-5 mb-10"><div class="d-flex flex-column" style="text-align: left;"><ul>';
@@ -967,6 +1063,7 @@
 										content: "swal-height"
 									}
 								});
+								$('.loader').css('display','none');
 						},
 						200: function(xhr) {
 								Swal.fire({
@@ -980,8 +1077,25 @@
 									}
 								}).then(function(isConfirm){
 									if (isConfirm){
-												//$('#new_password').val(''),$('#current_password').val(''), $('#confirm_password').val('')
+										if(xhr.file['file_akte_notaris'] != null){
+											$('#view_file_akte_notaris').find('a')[0].setAttribute('href', xhr.file['file_akte_notaris']);
+											var myDropzone = Dropzone.forElement("#dropzone_ap");
+ 											myDropzone.removeAllFiles();
 										}
+										if(xhr.file['file_surat_pernyataan'] != null){
+											$('#view_file_surat_pernyataan').find('a')[0].setAttribute('href', xhr.file['file_surat_pernyataan']);
+											var myDropzone = Dropzone.forElement("#dropzone_sp");
+ 											myDropzone.removeAllFiles();
+										}
+										if(xhr.foto != null){
+											$('#avatar_penerbit').css('background-image', 'url("'+xhr.foto+'")');
+											$('#imgAvatar').attr('src', xhr.foto);
+											$('#imgAvatar1').attr('src', xhr.foto);
+											$('#imgAvatar2').attr('src', xhr.foto);
+										}
+										refreshHistory();
+									}
+									$('.loader').css('display','none');
 								});
 						},
 						500: function(xhr) {
@@ -994,6 +1108,7 @@
 										confirmButton: "btn fw-bold btn-danger"
 									}
 								});
+								$('.loader').css('display','none');
 						},
 				}
 		});
