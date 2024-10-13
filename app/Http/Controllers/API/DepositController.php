@@ -290,19 +290,22 @@ class DepositController extends Controller
        
         $sqlFiltered = "SELECT pt.id FROM penerbit_isbn pi
                         JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
+                        LEFT JOIN penerbit p on pt.penerbit_id = p.id 
                         LEFT JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
+                        LEFT JOIN PROPINSI on propinsi.id = P.PROVINCE_ID
+                        LEFT JOIN KABUPATEN ON KABUPATEN.id = P.CITY_ID
                         WHERE 1 = 1 ";
         $sqlWhere = "";
         $query = [];
         if($request->input('provinsi')){
-            $sqlWhere .= " AND UPPER(PROPINSI.NAMAPROPINSI) LIKE '%" . strtoupper($request->input('provinsi')) . "%')";
+            $sqlWhere .= " AND UPPER(PROPINSI.NAMAPROPINSI) = '" . strtoupper($request->input('provinsi')) . "'";
             array_push($query, [
                 "field" => "provinsi",
                 "value" => $request->input('provinsi')
             ]);
         }
         if($request->input('kabkot')){
-            $sqlWhere .= " AND UPPER(KABUPATEN.NAMAKAB) LIKE '%" . strtoupper($request->input('kabkot')) . "%')";
+            $sqlWhere .= " AND UPPER(KABUPATEN.NAMAKAB) = '" . strtoupper($request->input('kabkot')) . "'";
             array_push($query, [
                 "field" => "kabkot",
                 "value" => $request->input('kabkot')
@@ -310,7 +313,7 @@ class DepositController extends Controller
         }
 
         if($request->input('title')){
-            $sqlWhere .= " AND (CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($request->input('title'))."%')";
+            $sqlWhere .= " AND (CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($request->input('title'))."%'";
             array_push($query, [
                 "field" => "title",
                 "value" => $request->input('title')
@@ -431,8 +434,10 @@ class DepositController extends Controller
                 "value" => $request->input('status_kckr')
             ]);
         }
+        \Log::info("SELECT outer.* FROM (SELECT ROWNUM nomor, inner.* FROM ($sql $sqlWhere) inner WHERE rownum <=$end) outer WHERE nomor >$start");
         $data = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM nomor, inner.* FROM ($sql $sqlWhere) inner WHERE rownum <=$end) outer WHERE nomor >$start", 'sql', '')["Data"]["Items"];  
         $totalData = kurl("get","getlistraw", "", "SELECT COUNT(*) JML FROM PENERBIT_ISBN ",'sql', '')["Data"]["Items"][0]["JML"];    
+        \Log::info("SELECT COUNT(*) JML FROM ($sqlFiltered  $sqlWhere)");
         $totalFiltered = kurl("get","getlistraw", "", "SELECT COUNT(*) JML FROM ($sqlFiltered  $sqlWhere)",'sql', '')["Data"]["Items"][0]["JML"];        
         
         return response()->json([
