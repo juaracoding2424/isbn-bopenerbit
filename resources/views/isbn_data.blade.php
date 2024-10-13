@@ -245,7 +245,7 @@
 		let link= "{{url('/penerbit/isbn/data/generate-barcode/') }}" + '/'+  id;
 		Swal.fire({
                     html: `<div><iFrame src='`+link+`' height='150px' width='350px' id='iBarcode'></iFrame> 
-							<span class='btn btn-light-info p-2 m-0 fs-8' onclick='barcodeSave(`+id+`)'>Simpan Barcode</span>
+							<span class='btn btn-info p-2 m-0 fs-8' onclick='barcodeSave(`+id+`)'>Simpan Barcode</span>
 							</div>`,
                     //showCancelButton: !0,
 					width: '500px',

@@ -140,9 +140,9 @@ class IsbnDataController extends Controller
         if ($queryData <> FALSE) {
             $nomor = $start + 1;
             foreach ($queryData as $val) {
-                $source = $val['SOURCE'] == 'web' ? "<span class='badge btn-secondary'>".$val['SOURCE']."</span>" : "<span class='badge btn-primary'>".$val['SOURCE']."</span>";
-                $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge btn-light-success'>".$val['JENIS']."</span>" : "<span class='badge btn-light-warning'>".$val['JENIS']."</span>";
-                $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="badge btn-success h-20px m-1" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : "";//'KDT Belum Ada';
+                $source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge btn-primary'>".$val['SOURCE']."</span>";
+                $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
+                $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="badge badge-success h-20px m-1" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : "";//'KDT Belum Ada';
                 $sinopsis_pendek = explode(" ", $val["SINOPSIS"]);
                 $first_part = implode(" ", array_splice($sinopsis_pendek, 0, 10));
                 $other_part = implode(" ", array_splice($sinopsis_pendek, 10));
@@ -156,7 +156,7 @@ class IsbnDataController extends Controller
                 }
                 $response['data'][] = [
                     $nomor,
-                    '<a class="btn btn-light-info fs-8 p-2 m-0" onclick="cetakBarcode('.$val['ISBN_NO'].')">Barcode</a>' .$kdt, //<a class="badge btn-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',
+                    '<a class="badge badge-light-info fs-8 p-2 m-0" onclick="cetakBarcode('.$val['ISBN_NO'].')">Barcode</a>' .$kdt, //<a class="badge btn-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',
                     $val['PREFIX_ELEMENT'] .'-' . $val['PUBLISHER_ELEMENT'] . '-' . $val['ITEM_ELEMENT'] . '-' . $val['CHECK_DIGIT']  . '<br/>' . $val['KETERANGAN_JILID'],
                     $val['TITLE'] . "<br/>$jenis $source <span class='text-success'><i>$jenis_media</i></span>",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
@@ -164,12 +164,12 @@ class IsbnDataController extends Controller
                     $val['LINK_BUKU'],
                     $val['MOHON_DATE'],
                     $val['ACCEPTDATE'],
-                    $val['RECEIVED_DATE_KCKR'] ? $val['RECEIVED_DATE_KCKR'] : '<a class="badge btn-danger wrap" href="https://edeposit.perpusnas.go.id/login" target="_blank">Serahkan ke Perpusnas</a>',
-                    $val['RECEIVED_DATE_PROV'] ? $val['RECEIVED_DATE_PROV'] : '<a class="badge btn-danger wrap" href="https://edeposit.perpusnas.go.id/login" target="_blank">Serahkan ke Provinsi</a>',
+                    $val['RECEIVED_DATE_KCKR'] ? $val['RECEIVED_DATE_KCKR'] : '<a class="badge badge-danger wrap" href="https://edeposit.perpusnas.go.id/login" target="_blank">Serahkan ke Perpusnas</a>',
+                    $val['RECEIVED_DATE_PROV'] ? $val['RECEIVED_DATE_PROV'] : '<a class="badge badge-danger wrap" href="https://edeposit.perpusnas.go.id/login" target="_blank">Serahkan ke Provinsi</a>',
                     $val['CALL_NUMBER'],
                     $val['SUBJEK'],
-                    $first_part . "<a class='btn btn-light-primary p-1 m-0 fs-8 wrap' onclick='readmore(".$val['PIID'] .")' id='btnReadMore".$val['PIID']."'>Selanjutnya..</a>
-                    <span class='d-none sinopsis".$val['PIID']."'>$other_part</span>   <a class='btn btn-light-primary p-1 m-0 fs-8 wrap d-none' onclick='less(".$val['PIID'] .")' id='btnLess".$val['PIID']."'>Tutup</a>",
+                    $first_part . "<a class='btn badge-light-primary p-1 m-0 fs-8 wrap' onclick='readmore(".$val['PIID'] .")' id='btnReadMore".$val['PIID']."'>Selanjutnya..</a>
+                    <span class='d-none sinopsis".$val['PIID']."'>$other_part</span>   <a class='btn badge-light-primary p-1 m-0 fs-8 wrap d-none' onclick='less(".$val['PIID'] .")' id='btnLess".$val['PIID']."'>Tutup</a>",
                 ];
                 $nomor++;
             }

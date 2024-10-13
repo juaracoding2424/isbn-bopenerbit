@@ -96,9 +96,9 @@ class IsbnBatalController extends Controller
                 $id = $val['ID'];
                 $noresi = $val['NORESI'] ? $val['NORESI'] : $val['ID'];
                
-                $source = $val['SOURCE'] == 'web' ? "<span class='badge btn-secondary'>".$val['SOURCE']."</span>" : "<span class='badge btn-primary'>".$val['SOURCE']."</span>";
-                $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge btn-light-success'>".$val['JENIS']."</span>" : "<span class='badge btn-light-warning'>".$val['JENIS']."</span>";
-                $action =  '<a class="badge btn-primary h-20px m-1" href="#" onclick="pulihkanPermohonan('.$id.')">Pulihkan Permohonan</a>';
+                $source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge badge-primary'>".$val['SOURCE']."</span>";
+                $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
+                $action =  '<a class="badge badge-light-primary h-20px m-1" href="#" onclick="pulihkanPermohonan('.$id.')">Pulihkan Permohonan</a>';
                 if(session('penerbit')['IS_LOCK'] == '1') {
                     $action = "";
                 }
