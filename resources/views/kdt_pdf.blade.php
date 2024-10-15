@@ -135,7 +135,18 @@
             @if($data['SERI'] != "")
             <tr><td>SERI</td><td>{{$data['SERI']}}</td></tr>
             @endif
-            <tr><td>DESKRIPSI FISIK</td><td>{{$data['JML_HLM']}}</td></tr>
+            @php
+            if(!str_contains($data['JML_HLM'], 'jil')){
+                if(str_contains($data['JML_HLM'], 'hlm') || str_contains($data['JML_HLM'], 'halaman')){
+                    $hlm = $data['JML_HLM'];
+                }else {
+                    $hlm = $data['JML_HLM'] . ' halaman';
+                }
+            } else {
+                $hlm = $data['JML_HLM'];
+            }
+            @endphp
+            <tr><td>DESKRIPSI FISIK</td><td>{{$hlm}}</td></tr>
             @if($data['DISTRIBUTOR'] != "")
             <tr><td>DISTRIBUTOR</td><td>{{$data['DISTRIBUTOR']}}</td></tr>
             @endif
@@ -150,7 +161,10 @@
                     @if($data['SUBJEK5'] !='')<br/> {{$data['SUBJEK5']}} @endif
                 </td>
             </tr>
-            <tr><td>KLASIFIKASI</td><td>{{$data['CALL_NUMBER']}}</td></tr>
+            @if($data['JEJAKAN'] != "")
+            <tr><td>KONTRIBUTOR</td><td>{{$data['JEJAKAN']}}</td></tr>
+            @endif
+            <tr><td>KLASIFIKASI</td><td>{{$data['CALL_NUMBER']}} [DDC23]</td></tr>
             <tr><td>PERPUSNAS ID</td><td><a href="{{url('penerbit/isbn/data/view-kdt/' . $data['ID'])}}">{{url('penerbit/isbn/data/view-kdt/' . $data['ID'])}}</a></td></tr>
         </table>
 	</div>
