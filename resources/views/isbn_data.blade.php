@@ -268,20 +268,9 @@
         });
 	}
 	var cetakKDT = function(id){
-		$.ajax({
-            url: "{{ url('penerbit/isbn/data/kdt/') }}" + '/' + id,
-            type: 'GET',
-            contentType: false,
-            processData: false,
-			beforeSend: function(){
-                $('.loader').css('display','block');
-            },
-            complete: function(){
-                $('.loader').css('display','none');
-            },
-            success: function(response) {
-				Swal.fire({
-					html: `<div id='kdt'><pre style="overflow-y:scroll; max-width:700px; height:300px; border:0.5px solid lightgray; padding:5px; white-space:pre-wrap;text-align:left; font-size:10pt;">`+response + `</pre></div>
+		Swal.fire({
+					html: `<div id='kdt'><iframe src='{{url("penerbit/isbn/data/view-kdt/`+id+`")}}' style="overflow-y:scroll; 
+							width:700px; height:500px; border:0.5px solid lightgray; padding:5px; white-space:pre-wrap;text-align:left; font-size:10pt;"></iframe></div>
 							<div>
 							<button class="btn btn-primary" onclick="onBtnClicked('print',`+ id + `)">Print KDT</button>
 							<button class="btn btn-danger" onclick="onBtnClicked('copy',`+ id + `)">Copy</button>
@@ -292,17 +281,6 @@
                     buttonsStyling: !1,
 					showConfirmButton: false,
   					showCloseButton: true,
-					heightAuto: false,
-                    //confirmButtonText: "Ok, got it!",
-                    height: '400px'
-                });
-            },
-            error: function() {
-                Toast.fire({
-                    icon: 'error',
-                    title: 'Server Error!'
-                });
-            }
         });
 	}
 

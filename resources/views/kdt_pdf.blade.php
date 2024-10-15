@@ -108,7 +108,7 @@
         font-family: 'Open Sans', sans-serif;
     }
     a {
-        color: #fff;
+        color: blue;
         text-decoration: none;
     }
     img {
@@ -160,10 +160,8 @@
                 </td>
             </tr>
             <tr><td>KLASIFIKASI</td><td>{{$data['CALL_NUMBER']}}</td></tr>
+            <tr><td>PERPUSNAS ID</td><td><a href="{{url('penerbit/isbn/data/view-kdt/' . $data['ID'])}}">{{url('penerbit/isbn/data/view-kdt/' . $data['ID'])}}</a></td></tr>
         </table>
-        <pre style="overflow-y:scroll; max-width:700px; height:300px; white-space:pre-wrap;text-align:left; font-size:10pt; margin-top:0px">
-        </pre>
-
 	</div>
 </body>
 </html>
