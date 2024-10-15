@@ -168,7 +168,15 @@
                 </td>
             </tr>
             @if($data['JEJAKAN'] != "")
-            <tr><td>KONTRIBUTOR</td><td>{{$data['JEJAKAN']}}</td></tr>
+            @php $k = explode(";", $data['JEJAKAN']); @endphp
+            <tr>
+                <td>KONTRIBUTOR</td>
+                <td>
+                    @foreach($k as $k_)
+                    {{$data['JEJAKAN']}}<br/>
+                    @endforeach
+                </td>
+            </tr>
             @endif
             <tr><td>KLASIFIKASI</td><td>{{$data['CALL_NUMBER']}} [DDC23]</td></tr>
             <tr><td>PERPUSNAS ID</td><td><a href="{{url('penerbit/isbn/data/view-kdt/' . $data['ID'])}}">{{url('penerbit/isbn/data/view-kdt/' . $data['ID'])}}</a></td></tr>
