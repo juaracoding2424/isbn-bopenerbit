@@ -124,6 +124,9 @@
 	<div class="main">
         <u style="margin-bottom:10px">Perpustakaan Nasional RI. Data Katalog dalam Terbitan (KDT).</u>
         <table style=" border-collapse: collapse;border: none;">
+            @if($data['AUTHOR'] != "")
+            <tr><td>KREATOR</td><td>{{$data['AUTHOR']}}</td></tr>
+            @endif
             <tr><td>JUDUL DAN PENANGGUNG JAWAB</td><td>{{$data['TITLE']}} / {{$data['KEPENG']}}</td></tr>
             <tr><td>PUBLIKASI</td><td>{{$data['TEMPAT_TERBIT']}} : {{$data['NAME']}}, {{$data['TAHUN_TERBIT']}}</td></tr>
             @if($data['EDISI'] != "")
