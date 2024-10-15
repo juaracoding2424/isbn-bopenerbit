@@ -148,7 +148,7 @@
                 if($data['KETEBALAN'] == ""){
                     $hlm .= '; ...cm';
                 } else {
-                    $hlm .= $data['KETEBALAN'] . ' cm';
+                    $hlm .= '; ' . $data['KETEBALAN'] . ' cm';
                 }
             }
             @endphp
