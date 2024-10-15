@@ -65,26 +65,14 @@
         margin: 0cm 0cm;
     }
     body {
-        margin-top: 2cm;
+        margin-top: 1cm;
         margin-left: 2cm;
-        margin-bottom: 2cm;
+        margin-bottom: 1cm;
         margin-right:2cm;
         font-family: 'Open Sans', sans-serif;
     }
     .main {
         font-size:12pt;
-    }
-    header {
-        position: fixed;
-        top: 0cm;
-        left: 1cm;
-        right: 1cm;
-        height: 2cm;
-
-        /** Extra personal styles **/
-        background-color: #fff;
-        color: #000;
-        text-align: center;
     }
     footer {
         position: fixed; 
