@@ -230,10 +230,19 @@ class IsbnDataController extends Controller
         $kdt = kurl("post","getlistraw", "", "SELECT pt.*, p.name, pi.* FROM PENERBIT_TERBITAN pt 
         JOIN penerbit p on p.id = pt.penerbit_id 
         JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
-        WHERE pt.ID = '$id'", 'sql', '')["Data"]["Items"][0];
+        WHERE pt.ID = '$id'", 'sql', '')["Data"]["Items"];
+        $isbn = "";
+        if(count($kdt) > 1) {
+            foreach($kdt as $k){
+                $isbn .= $k['PREFIX_ELEMENT'] . '-' . $k['PUBLISHER_ELEMENT'] . '-' . $k['ITEM_ELEMENT'] . '-' . $k['CHECK_DIGIT'] .' ' . $k['KETERANGAN_JILID']."<br/>";
+            }
+        } else {
+            $isbn .= $kdt[0]['PREFIX_ELEMENT'] . '-' . $kdt[0]['PUBLISHER_ELEMENT'] . '-' . $kdt[0]['ITEM_ELEMENT'] . '-' . $kdt[0]['CHECK_DIGIT'];
+        }
         $data = [
             'title' => 'domPDF in Laravel 10', 
-            'data' => $kdt,
+            'data' => $kdt[0],
+            'isbn' => $isbn,
             //'data'=> $this->getKDT($id)
         ];
         $pdf = PDF::loadView('kdt_pdf', $data);
@@ -248,10 +257,19 @@ class IsbnDataController extends Controller
         $kdt = kurl("post","getlistraw", "", "SELECT pt.*, p.name, pi.* FROM PENERBIT_TERBITAN pt  
         JOIN penerbit p on p.id = pt.penerbit_id 
         JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
-        WHERE pt.ID = '$id'", 'sql', '')["Data"]["Items"][0];
+        WHERE pt.ID = '$id'", 'sql', '')["Data"]["Items"];
+        $isbn = "";
+        if(count($kdt) > 1) {
+            foreach($kdt as $k){
+                $isbn .= $k['PREFIX_ELEMENT'] . '-' . $k['PUBLISHER_ELEMENT'] . '-' . $k['ITEM_ELEMENT'] . '-' . $k['CHECK_DIGIT'] . "<br/>";
+            }
+        } else {
+            $isbn .= $kdt[0]['PREFIX_ELEMENT'] . '-' . $kdt[0]['PUBLISHER_ELEMENT'] . '-' . $kdt[0]['ITEM_ELEMENT'] . '-' . $kdt[0]['CHECK_DIGIT'];
+        }
         $data = [
             'title' => 'domPDF in Laravel 10', 
-            'data' => $kdt,
+            'data' => $kdt[0],
+            'isbn' => $isbn,
             //'data'=> $this->getKDT($id)
         ];
         $pdf = PDF::loadView('kdt_pdf', $data);
