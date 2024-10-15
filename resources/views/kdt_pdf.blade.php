@@ -122,7 +122,6 @@
 		</table>
 	</footer>
 	<div class="main">
-        <u style="margin-bottom:10px">Perpustakaan Nasional RI. Data Katalog dalam Terbitan (KDT).</u>
         <table style=" border-collapse: collapse;border: none;">
             @if($data['AUTHOR'] != "")
             <tr><td>KREATOR</td><td>{{$data['AUTHOR']}}</td></tr>
