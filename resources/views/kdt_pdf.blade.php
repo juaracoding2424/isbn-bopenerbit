@@ -173,7 +173,7 @@
                 <td>KONTRIBUTOR</td>
                 <td>
                     @foreach($k as $k_)
-                    {{$$k_}}<br/>
+                    {{$k_}}<br/>
                     @endforeach
                 </td>
             </tr>
