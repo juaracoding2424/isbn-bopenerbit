@@ -22,8 +22,11 @@
 		top:50%;
 		left:50%;
 	}
-	.swal-height {
+	.swal-height-kdt {
 		height: 80vh;
+	}
+	.swal2-container .swal2-html-container {
+		max-height: 800px !important;
 	}
 
 </style>
@@ -276,8 +279,10 @@
 							<button class="btn btn-danger" onclick="onBtnClicked('copy',`+ id + `)">Copy</button>
 							<button class="btn btn-secondary" onclick="onBtnClicked('view',`+ id + `)">View on Web</button>
 							</div>`,
-                    icon: "success",
+                    //icon: "success",
 					width: "800px",
+					heightAuto: false,
+					customClass: 'swal-height-kdt',
                     buttonsStyling: !1,
 					showConfirmButton: false,
   					showCloseButton: true,
