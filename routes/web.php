@@ -32,7 +32,7 @@ Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
         Route::get('penerbit/isbn/data', [IsbnDataController::class, 'index']);
         Route::get('penerbit/isbn/data/datatable', [IsbnDataController::class, 'datatable']);
         Route::get('penerbit/isbn/data/detail/{id}', [IsbnDataController::class, 'detail']);
-        Route::get('penerbit/isbn/data/kdt/{id}', [IsbnDataController::class, 'getKDT']);
+        Route::get('penerbit/isbn/data/kdt/{id}', [IsbnDataController::class, 'viewPDF']);
         Route::get('penerbit/isbn/data/generate-pdf/{id}', [IsbnDataController::class, 'generatePDF']);
         Route::get('penerbit/isbn/data/generate-barcode/{id}', [IsbnDataController::class, 'generateBarcode']);
 

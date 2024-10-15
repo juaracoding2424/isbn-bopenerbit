@@ -119,21 +119,13 @@
         background: #9932CC;
         height: 0.1cm;
     }
-    th, td {
-        border-bottom: 1px solid #ddd;
+    td{
+        padding-right:10px;
+        padding-bottom:5px;
+        vertical-align:top;
     }
 </style>
 <body>
-	<header>
-		<table width="100%" style="font-size:x-small;">
-			<tr>
-				<td align="left" style="width: 40%;">
-					<h2>KATALOG DALAM TERBITAN</h2>
-				</td
-			</tr>
-
-		</table>
-	</header>
 	<footer>
 		<table style="font-size:x-small;">
 			<tr>
@@ -142,9 +134,35 @@
 		</table>
 	</footer>
 	<div class="main">
-        <u style="margin-bottom:0px">Perpustakaan Nasional RI. Data Katalog dalam Terbitan (KDT).</u>
+        <u style="margin-bottom:10px">Perpustakaan Nasional RI. Data Katalog dalam Terbitan (KDT).</u>
+        <table style=" border-collapse: collapse;border: none;">
+            <tr><td>JUDUL DAN PENANGGUNG JAWAB</td><td>{{$data['TITLE']}} / {{$data['KEPENG']}}</td></tr>
+            <tr><td>PUBLIKASI</td><td>{{$data['TEMPAT_TERBIT']}} : {{$data['NAME']}}, {{$data['TAHUN_TERBIT']}}</td></tr>
+            @if($data['EDISI'] != "")
+            <tr><td>EDISI</td><td>{{$data['EDISI']}}</td></tr>
+            @endif
+            @if($data['SERI'] != "")
+            <tr><td>SERI</td><td>{{$data['SERI']}}</td></tr>
+            @endif
+            <tr><td>DESKRIPSI FISIK</td><td>{{$data['JML_HLM']}}</td></tr>
+            @if($data['DISTRIBUTOR'] != "")
+            <tr><td>DISTRIBUTOR</td><td>{{$data['DISTRIBUTOR']}}</td></tr>
+            @endif
+            <tr><td>IDENTIFIKASI</td><td>ISBN {{$data['PREFIX_ELEMENT']}}-{{$data['PUBLISHER_ELEMENT']}}-{{$data['ITEM_ELEMENT']}}-{{$data['CHECK_DIGIT']}}</td></tr>
+            <tr>
+                <td>SUBJEK</td>
+                <td>{{$data['SUBJEK']}} 
+                    @if($data['SUBJEK1'] !='')<br/> {{$data['SUBJEK1']}} @endif
+                    @if($data['SUBJEK2'] !='')<br/> {{$data['SUBJEK2']}} @endif
+                    @if($data['SUBJEK3'] !='')<br/> {{$data['SUBJEK3']}} @endif
+                    @if($data['SUBJEK4'] !='')<br/> {{$data['SUBJEK4']}} @endif
+                    @if($data['SUBJEK5'] !='')<br/> {{$data['SUBJEK5']}} @endif
+                </td>
+            </tr>
+            <tr><td>KLASIFIKASI</td><td>{{$data['CALL_NUMBER']}}</td></tr>
+        </table>
         <pre style="overflow-y:scroll; max-width:700px; height:300px; white-space:pre-wrap;text-align:left; font-size:10pt; margin-top:0px">
-        {{$data}}</pre>
+        </pre>
 
 	</div>
 </body>

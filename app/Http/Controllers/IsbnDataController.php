@@ -227,9 +227,14 @@ class IsbnDataController extends Controller
     function generatePDF($id)
     {   
         //$data = $this->getKDT($id);
+        $kdt = kurl("post","getlistraw", "", "SELECT pt.*, p.name, pi.* FROM PENERBIT_TERBITAN pt 
+        JOIN penerbit p on p.id = pt.penerbit_id 
+        JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
+        WHERE pt.ID = '$id'", 'sql', '')["Data"]["Items"][0];
         $data = [
             'title' => 'domPDF in Laravel 10', 
-            'data'=> $this->getKDT($id)
+            'data' => $kdt,
+            //'data'=> $this->getKDT($id)
         ];
         $pdf = PDF::loadView('kdt_pdf', $data);
         return $pdf->download('kdt'.$id.now()->format('Ymd').'.pdf');
@@ -240,9 +245,14 @@ class IsbnDataController extends Controller
     {   
         date_default_timezone_set('Asia/Jakarta');
         //$data = $this->getKDT($id);
+        $kdt = kurl("post","getlistraw", "", "SELECT pt.*, p.name, pi.* FROM PENERBIT_TERBITAN pt  
+        JOIN penerbit p on p.id = pt.penerbit_id 
+        JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
+        WHERE pt.ID = '$id'", 'sql', '')["Data"]["Items"][0];
         $data = [
             'title' => 'domPDF in Laravel 10', 
-            'data'=> $this->getKDT($id)
+            'data' => $kdt,
+            //'data'=> $this->getKDT($id)
         ];
         $pdf = PDF::loadView('kdt_pdf', $data);
         return view('kdt_pdf', $data);
