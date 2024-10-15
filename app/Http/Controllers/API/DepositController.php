@@ -449,4 +449,100 @@ class DepositController extends Controller
             'query' => $query,
         ], 200);
     }
+
+    public function dataPenerbit(Request $request)
+    {
+        $token = $request->input('token');
+        if($token != config('app.token_sso')){
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Token mismatch',
+            ], 500);
+        } 
+        $page = $request->input('page') ? $request->input('page') : 1;
+        $length = $request->input('length') ? $request->input('length') : 10;
+        $start  = ($page - 1) * $length;
+        $end = $start + $length;
+
+        $sql = "SELECT 
+                PROPINSI.NAMAPROPINSI,  KABUPATEN.NAMAKAB as NAMAKABKOT,
+                P.NAME, P.EMAIL1, P.EMAIL2, P.PROVINCE_ID, P.CITY_ID, P.DISTRICT_ID, P.VILLAGE_ID,
+                P.ALAMAT, P.ID as PENERBIT_ID, P.TELP1, P.TELP2, P.NAMA_GEDUNG,
+                P.KONTAK1, P.KONTAK2, P.WEBSITE, P.KODEPOS, p.is_lock, p.is_disable, p.is_single, p.parent_id
+                FROM penerbit p
+                LEFT JOIN PROPINSI on propinsi.id = P.PROVINCE_ID
+                LEFT JOIN KABUPATEN ON KABUPATEN.id = P.CITY_ID
+                WHERE 1=1 ";
+       
+        $sqlFiltered = "SELECT p.id FROM penerbit p
+                        LEFT JOIN PROPINSI on propinsi.id = P.PROVINCE_ID
+                        LEFT JOIN KABUPATEN ON KABUPATEN.id = P.CITY_ID
+                        WHERE 1 = 1 ";
+        $sqlWhere = "";
+        $query = [];
+        if($request->input('provinsi')){
+            $sqlWhere .= " AND UPPER(PROPINSI.NAMAPROPINSI) = '" . strtoupper($request->input('provinsi')) . "'";
+            array_push($query, [
+                "field" => "provinsi",
+                "value" => $request->input('provinsi')
+            ]);
+        }
+        if($request->input('kabkot')){
+            $sqlWhere .= " AND UPPER(KABUPATEN.NAMAKAB) = '" . strtoupper($request->input('kabkot')) . "'";
+            array_push($query, [
+                "field" => "kabkot",
+                "value" => $request->input('kabkot')
+            ]);
+        }
+
+        if($request->input('name')){
+            $sqlWhere .= " AND (CONCAT('WIN',(upper(p.name))) like 'WIN%".strtoupper($request->input('name'))."%'";
+            array_push($query, [
+                "field" => "name",
+                "value" => $request->input('name')
+            ]);
+        }
+        if($request->input('is_disable')){
+            $sqlWhere .= " AND is_disable ='". $request->input('is_disable')."'";
+            array_push($query, [
+                "field" => "is_disable",
+                "value" => $request->input('is_disable')
+            ]);
+        }
+        if($request->input('is_lock')){
+            $sqlWhere .= " AND is_lock ='". $request->input('is_lock')."'";
+            array_push($query, [
+                "field" => "is_lock",
+                "value" => $request->input('is_lock')
+            ]);
+        }
+        if($request->input('is_single')){
+            $sqlWhere .= " AND is_single ='". $request->input('is_single')."'";
+            array_push($query, [
+                "field" => "is_single",
+                "value" => $request->input('is_single')
+            ]);
+        }
+        if($request->input('parent_id')){
+            $sqlWhere .= " AND parent_id ='". $request->input('parent_id')."'";
+            array_push($query, [
+                "field" => "parent_id",
+                "value" => $request->input('parent_id')
+            ]);
+        }
+        
+        $data = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM nomor, inner.* FROM ($sql $sqlWhere) inner WHERE rownum <=$end) outer WHERE nomor >$start", 'sql', '')["Data"]["Items"];  
+        $totalData = kurl("get","getlistraw", "", "SELECT COUNT(*) JML FROM PENERBIT ",'sql', '')["Data"]["Items"][0]["JML"];    
+        $totalFiltered = kurl("get","getlistraw", "", "SELECT COUNT(*) JML FROM ($sqlFiltered  $sqlWhere)",'sql', '')["Data"]["Items"][0]["JML"];        
+        
+        return response()->json([
+            'data' => $data,
+            'page' => $page,
+            'length' => $length,
+            'total' => $totalData,
+            'totalFiltered' => $totalFiltered,
+            'query' => $query,
+        ], 200);
+
+    }
 }

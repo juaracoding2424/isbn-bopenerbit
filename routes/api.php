@@ -26,5 +26,6 @@ Route::post('/isbn/detail', [DepositController::class, 'getIsbn']);
 Route::post('/isbn/tagihan', [DepositController::class, 'tagihanISBN']);
 Route::post('/isbn/terima/perpusnas', [DepositController::class, 'receivedPerpusnas']);
 Route::post('/isbn/terima/provinsi', [DepositController::class, 'receivedProvinsi']);
+Route::post('/penerbit/data', [DepositController::class, 'dataPenerbit']);
 Route::post('/penerbit/lock', [DepositController::class, 'lockPenerbit']);
 Route::post('/penerbit/unlock', [DepositController::class, 'unlockPenerbit']);
