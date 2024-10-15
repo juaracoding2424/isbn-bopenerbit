@@ -144,6 +144,13 @@
             } else {
                 $hlm = $data['JML_HLM'];
             }
+            if($data['JENIS_MEDIA'] == 1 || $data['JENIS_MEDIA'] == 2){
+                if($data['KETEBALAN'] == ""){
+                    $hlm .= '; ...cm';
+                } else {
+                    $hlm .= $data['KETEBALAN'] . ' cm';
+                }
+            }
             @endphp
             <tr><td>DESKRIPSI FISIK</td><td>{{$hlm}}</td></tr>
             @if($data['DISTRIBUTOR'] != "")
