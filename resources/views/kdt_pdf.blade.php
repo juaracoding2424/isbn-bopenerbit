@@ -161,7 +161,7 @@
             @if($data['DISTRIBUTOR'] != "")
             <tr><td>DISTRIBUTOR</td><td>{{$data['DISTRIBUTOR']}}</td></tr>
             @endif
-            <tr><td>IDENTIFIKASI</td><td>ISBN {{$data['PREFIX_ELEMENT']}}-{{$data['PUBLISHER_ELEMENT']}}-{{$data['ITEM_ELEMENT']}}-{{$data['CHECK_DIGIT']}}</td></tr>
+            <tr><td>IDENTIFIKASI</td><td>{!!$isbn!!}</td></tr>
             <tr>
                 <td>SUBJEK</td>
                 <td>{{$data['SUBJEK']}} 
