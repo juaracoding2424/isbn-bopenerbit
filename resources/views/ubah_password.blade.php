@@ -1,6 +1,10 @@
 @extends('layouts.index')
 @section('content')
-
+<style>
+.input-group{
+	width:initial;
+}
+</style>
 <!--begin::Content wrapper-->
 <div class="d-flex flex-column flex-column-fluid">
 	<!--begin::Content-->
@@ -23,10 +27,10 @@
                                 <!--begin::Input group-->
                                 <div class="row mb-6">
                                 	<!--begin::Label-->
-									<label class="col-lg-3 col-form-label fw-semibold fs-8">Password Saat Ini</label>
+									<label class="col-lg-2 col-form-label fw-semibold fs-8">Password Saat Ini</label>
 									<!--end::Label-->
                                     <!--begin::Col-->
-                                    <div class="col-lg-9">
+                                    <div class="col-lg-9 input-group">
                                         <input type="password" name="current_password" id="current_password"
                                                     class="form-control form-control-lg form-control-solid"
                                                     placeholder="Isi password lama">
@@ -37,10 +41,10 @@
 								<!--begin::Input group-->
                                 <div class="row mb-6">
                                 	<!--begin::Label-->
-									<label class="col-lg-3 col-form-label fw-semibold fs-8">Password Baru</label>
+									<label class="col-lg-2 col-form-label fw-semibold fs-8">Password Baru</label>
 									<!--end::Label-->
                                     <!--begin::Col-->
-                                    <div class="col-lg-9">
+                                    <div class="col-lg-9 input-group">
                                         <input type="password" name="new_password" id="new_password"
                                                     class="form-control form-control-lg form-control-solid"
                                                     placeholder="Isi password baru">
@@ -51,10 +55,10 @@
 								<!--begin::Input group-->
                                 <div class="row mb-6">
                                 	<!--begin::Label-->
-									<label class="col-lg-3 col-form-label fw-semibold fs-8">Konfirmasi Password Baru</label>
+									<label class="col-lg-2 col-form-label fw-semibold fs-8">Konfirmasi Password Baru</label>
 									<!--end::Label-->
                                     <!--begin::Col-->
-                                    <div class="col-lg-9">
+                                    <div class="col-lg-9 input-group">
                                         <input type="password" name="confirm_password" id="confirm_password"
                                                     class="form-control form-control-lg form-control-solid"
                                                     placeholder="Isi konfirmasi password">
@@ -84,6 +88,23 @@
 @section('script')
 
 <script>
+	var togglePasswordEye = '<span class="input-group-text" ><i class="fa fa-eye toggle-password-eye"></i></span>';
+	var togglePasswordEyeSlash = '<span class="input-group-text" ><i class="fa fa-eye-slash toggle-password-eye"></i></span>';
+
+	$(togglePasswordEyeSlash).insertAfter('input[type=password]');
+	$('input[type=password]').addClass('hidden-pass-input');
+
+	$('.toggle-password-eye').on('click', function (e) {
+			let password = $(this).parent().prev();
+
+			if (password.attr('type') === 'password') {
+				password.attr('type', 'text');
+				$(this).addClass('fa-eye').removeClass('fa-eye-slash');
+			} else {
+				password.attr('type', 'password');
+				$(this).addClass('fa-eye-slash').removeClass('fa-eye');
+			}
+	});
 	document.addEventListener('DOMContentLoaded', function(e) {
 		FormValidation.formValidation(
 			document.getElementById('form_change_password'),
