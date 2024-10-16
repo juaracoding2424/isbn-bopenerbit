@@ -79,13 +79,13 @@ License: For each use you must have a valid license purchased only from above li
 								</div>
 								<!--begin::Heading-->
 								<!--begin::Input group-->
-								<div class="fv-row mb-8" data-kt-password-meter="true">
+								<div class="position-relative fv-row mb-8" data-kt-password-meter="true">
 									<!--begin::Wrapper-->
 									<div class="mb-1">
 										<!--begin::Input wrapper-->
-										<div class="position-relative mb-3">
+										<div class="input-group position-relative mb-3">
 											<input class="form-control bg-transparent" type="password" placeholder="Password" name="password" autocomplete="off" />
-											<span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-meter-control="visibility">
+											<span class="input-group-text" data-kt-password-meter-control="visibility">
 												<i class="ki-outline ki-eye-slash fs-2"></i>
 												<i class="ki-outline ki-eye fs-2 d-none"></i>
 											</span>
@@ -107,16 +107,14 @@ License: For each use you must have a valid license purchased only from above li
 								</div>
 								<!--end::Input group=-->
 								<!--end::Input group=-->
-								<div class="fv-row mb-8">
-									<!--begin::Repeat Password-->
-									<input type="password" placeholder="Repeat Password" name="confirm-password" autocomplete="off" class="form-control bg-transparent" />
-									<!--end::Repeat Password-->
+								<div class="position-relative mb-3">
+									<input class="form-control bg-transparent" type="password" placeholder="Repeat Password" name="confirm-password" autocomplete="off" />
 								</div>
 								<!--end::Input group=-->
 								<!--begin::Input group=-->
-								<div class="fv-row mb-8">
+								<div class="position-relative fv-row mb-8">
 									<label class="form-check form-check-inline">
-										<input class="form-check-input" type="checkbox" name="toc" value="1" />
+										<input class="form-check-input form-control" type="checkbox" name="toc" value="1" />
 										<span class="form-check-label fw-semibold text-gray-700 fs-6 ms-1">I Agree & 
 										<a href="#" class="ms-1 link-primary">Terms and conditions</a>.</span>
 									</label>
@@ -188,6 +186,7 @@ License: For each use you must have a valid license purchased only from above li
 		<!--end::Global Javascript Bundle-->
 		<!--begin::Custom Javascript(used for this page only)-->
 		<script>
+		
 		var clickPress =  function(event) {
 			if (event.keyCode == 13) {
 				submitForm(document.querySelector("#kt_new_password_form"),document.querySelector("#kt_new_password_submit"))
@@ -237,11 +236,20 @@ License: For each use you must have a valid license purchased only from above li
 									notEmpty: {
 										message: "The password is required"
 									},
+									stringLength: {
+										min: 8,
+										message: 'Password must be at least 8 characters long.'
+									},
 									callback: {
 										message: "Please enter valid password",
 										callback: function(t) {
 											if (t.value.length > 0) return n()
 										}
+									},
+									regexp: {
+										//regexp: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/,
+										regexp: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,}$/,
+										message: 'Use 8 or more characters with a mix of letters, numbers & symbols.'
 									}
 								}
 							},
@@ -255,6 +263,15 @@ License: For each use you must have a valid license purchased only from above li
 											return t.querySelector('[name="password"]').value
 										},
 										message: "The password and its confirm are not the same"
+									},
+									stringLength: {
+										min: 8,
+										message: 'Password must be at least 8 characters long.'
+									},
+									regexp: {
+										//regexp: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/,
+										regexp: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,}$/,
+										message: 'Use 8 or more characters with a mix of letters, numbers & symbols.'
 									}
 								}
 							},
@@ -273,7 +290,7 @@ License: For each use you must have a valid license purchased only from above li
 								}
 							}),
 							bootstrap: new FormValidation.plugins.Bootstrap5({
-								rowSelector: ".fv-row",
+								rowSelector: ".position-relative",
 								eleInvalidClass: "",
 								eleValidClass: ""
 							})
