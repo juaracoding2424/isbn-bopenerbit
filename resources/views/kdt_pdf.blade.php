@@ -64,13 +64,7 @@
     @page {
         margin: 0cm 0cm;
     }
-    body {
-        margin-top: 1cm;
-        margin-left: 2cm;
-        margin-bottom: 1cm;
-        margin-right:2cm;
-        font-family: 'Open Sans', sans-serif;
-    }
+    
     .main {
         font-size:12pt;
     }
@@ -113,6 +107,17 @@
         vertical-align:top;
     }
 </style>
+@if($bo_penerbit != 1)
+    <style>
+    body {
+        margin-top: 1cm;
+        margin-left: 2cm;
+        margin-bottom: 1cm;
+        margin-right:2cm;
+        font-family: 'Open Sans', sans-serif;
+    }
+    </style>
+    @endif
 <body>
 	<footer>
 		<table style="font-size:x-small;">
