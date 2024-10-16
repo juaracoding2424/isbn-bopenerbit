@@ -813,7 +813,7 @@
                                                                 <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan file
                                                                     dummy buku</h3>
                                                                 <span class="fw-semibold fs-7 text-gray-500">Accepted Files: .pdf,.epub,.mp3,.mp4,.wav Max:
-                                                                    100MB</span>
+                                                                    10MB</span>
                                                             </div>
                                                             <!--end::Info-->
                                                         </div>
@@ -844,7 +844,7 @@
                                                                 <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan file
                                                                     cover buku</h3>
                                                                 <span class="fw-semibold fs-7 text-gray-500">Max:
-                                                                    100MB</span>
+                                                                    5MB</span>
                                                             </div>
                                                             <!--end::Info-->
                                                         </div>
@@ -1042,7 +1042,7 @@
                 dropzoneId = "#dummy"+jilid_ke; 
                 inputFileId = "#file_dummy"+jilid_ke; 
                 acceptedFiles = ".pdf,.epub,.mp3,.mp4,.wav";
-                maxFilesize = 100;
+                maxFilesize = 10;
                 break;
             default:break;
         }
@@ -1151,7 +1151,7 @@
                             <h3 class="fs-8 fw-bold text-gray-900 mb-1">Masukan file
                                 dummy buku</h3>
                             <span class="fw-semibold fs-7 text-gray-500">Accepted Files: .pdf,.epub,.mp3,.mp4,.wav Max:
-                                100MB</span>
+                                10MB</span>
                         </div>
                     </div>
                 </div>
