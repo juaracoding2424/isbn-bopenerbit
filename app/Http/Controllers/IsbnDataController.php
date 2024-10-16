@@ -162,7 +162,7 @@ class IsbnDataController extends Controller
                     $val['TITLE'] . "<br/>$jenis $source <span class='text-success'><i>$jenis_media</i></span>",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
                     $val['BULAN_TERBIT'] .' ' . $val['TAHUN_TERBIT'],
-                    $val['LINK_BUKU'],
+                    '<a href="'.$val['LINK_BUKU'].'">' . $val['LINK_BUKU'] . '</a>',
                     $val['MOHON_DATE'],
                     $val['ACCEPTDATE'],
                     $val['RECEIVED_DATE_KCKR'] ? $val['RECEIVED_DATE_KCKR'] : '<a class="badge badge-danger wrap" href="https://edeposit.perpusnas.go.id/login" target="_blank">Serahkan ke Perpusnas</a>',
