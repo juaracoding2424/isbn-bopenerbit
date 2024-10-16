@@ -1043,18 +1043,18 @@
                                     message: "Pilih kategori jenis pustaka ISBN! (terjemahan/non terjemahan)"
                                 },
                             }
-                        },
-                        jenis_terbitan :{
+                        },                        
+                        ketebalan :{
                             validators: {
                                 notEmpty: {
-                                    message: "Pilih golongan terbitan ISBN! (swasta/perguruan tinggi/pemerintah)"
+                                    message: "Isi tinggi buku!"
                                 },
                             }
                         },
-                        jenis_penelitian :{
+                        jml_hlm :{
                             validators: {
                                 notEmpty: {
-                                    message: "Pilih jenis penelitian! (non penelitian/penelitian)!"
+                                    message: "Isi jumlah halaman!"
                                 },
                             }
                         },
@@ -1094,7 +1094,7 @@
                     plugins: {
                         trigger: new FormValidation.plugins.Trigger,
                         bootstrap: new FormValidation.plugins.Bootstrap5({
-                            rowSelector: ".col-lg-9"
+                            columnSelector: ".form-control"
                         }),
 						submitButton: new FormValidation.plugins.SubmitButton(),
 						icon: new FormValidation.plugins.Icon({

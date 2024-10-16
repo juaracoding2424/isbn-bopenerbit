@@ -102,10 +102,10 @@
 				}
             },
             error: function() {
-                Toast.fire({
-                    icon: 'error',
-                    title: 'Server Error!'
-                });
+                //Toast.fire({
+                //    icon: 'error',
+                //    title: 'Server Error!'
+                //});
             }
         });
 	}

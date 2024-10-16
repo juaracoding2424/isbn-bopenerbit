@@ -42,7 +42,7 @@ class HistoryController extends Controller
             } else {
                 return response()->json([
                     'message' => 'Data tidak ditemukan'
-                ], 500);
+                ], 200);
             }
         } catch(\Exception $e){
             return response()->json([

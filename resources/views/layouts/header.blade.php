@@ -70,11 +70,11 @@
 					}
 					@endphp
 					<a href="{{ $href }}">
-						<img alt="Logo" src="https://www.isbn-international.org/themes/isbn8/logo.png"
+						<img alt="Logo" src="{{asset('assets/media/logos/isbn.jpg')}}"
 							class="h-35px d-sm-none d-inline theme-light-show" />
-						<img alt="Logo" src="https://www.isbn-international.org/themes/isbn8/logo.png"
+						<img alt="Logo" src="{{asset('assets/media/logos/isbn.jpg')}}"
 							class="h-35px h-lg-35px theme-light-show d-none d-sm-inline" />
-						<img alt="Logo" src="https://www.isbn-international.org/themes/isbn8/logo.png"
+						<img alt="Logo" src="{{asset('assets/media/logos/isbn.jpg')}}"
 							class="h-35px h-lg-35px theme-dark-show" />
 					</a>
 					<!--end::Logo image-->
