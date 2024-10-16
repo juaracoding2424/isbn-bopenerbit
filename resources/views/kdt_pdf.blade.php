@@ -179,8 +179,24 @@
             </tr>
             @endif
             <tr><td>KLASIFIKASI</td><td>{{$data['CALL_NUMBER']}} [DDC23]</td></tr>
-            <tr><td>PERPUSNAS ID</td><td><a href="{{url('penerbit/isbn/data/view-kdt/' . $data['ID'])}}">{{url('penerbit/isbn/data/view-kdt/' . $data['ID'])}}</a></td></tr>
+            <tr id="trPerpusnasId"><td>PERPUSNAS ID</td><td><a href="{{url('penerbit/isbn/data/view-kdt/' . $data['ID'])}}">{{url('penerbit/isbn/data/view-kdt/' . $data['ID'])}}</a></td></tr>
         </table>
 	</div>
 </body>
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+  crossorigin="anonymous"></script>
+<script
+  src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"
+  integrity="sha256-u0L8aA6Ev3bY2HI4y0CAyr9H8FRWgX4hZ9+K7C2nzdc="
+  crossorigin="anonymous"></script>
+  <script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    var bo_penerbit = urlParams.get('bo_penerbit');
+    if(bo_penerbit == '1'){
+        $('#trPerpusnasId').hide();
+    }
+    </script>
 </html>

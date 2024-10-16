@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Str;
+use Anhskohbo\NoCaptcha\NoCaptcha;
 
 class AuthController extends Controller
 {
+    public $captcha;
+    public function __construct()
+    {
+        $this->captcha = new NoCaptcha(config('captcha.secret'), config('captcha.sitekey'));
+    }
     public function login()
     {
         if (session('penerbit') == null) {
@@ -37,6 +43,7 @@ class AuthController extends Controller
                     'status' => 'Failed',
                     'message' => 'Gagal Login!',
                     'err' => $validator->errors(),
+                    'nocaptcha' => $this->captcha->renderJs() .  $this->captcha->display()
                 ], 422);
             } else {
                 $ip = $request->ip();
@@ -53,6 +60,7 @@ class AuthController extends Controller
                         return response()->json([
                             'status' => 'Failed',
                             'message' => 'Password yang Anda masukan salah! Mohon masukan password yang benar, atau lakukan forgot password.',
+                            'nocaptcha' => $this->captcha->renderJs() .  $this->captcha->display()
                         ], 500);
                     } 
                     
@@ -60,6 +68,7 @@ class AuthController extends Controller
                         return response()->json([
                             'status' => 'Failed',
                             'message' => 'Akun Anda disable. Harap menghubungi tim ISBN.',
+                            'nocaptcha' => $this->captcha->renderJs() .  $this->captcha->display()
                         ], 500);
                     } 
                     $id = $penerbit['ID']; $penerbits = [];
@@ -79,7 +88,7 @@ class AuthController extends Controller
                         }
                     }
                     array_push($penerbits, $id); 
-                    \Log::info($penerbits);
+                    //\Log::info($penerbits);
                     $semua_id_penerbit = implode(",", $penerbits);
                     session([
                             'penerbit' => [
@@ -111,12 +120,14 @@ class AuthController extends Controller
                             return response()->json([
                                 'status' => 'Failed',
                                 'message' => 'Password yang Anda masukan salah! Mohon masukan password yang benar, atau lakukan forgot password.',
+                                'nocaptcha' => $this->captcha->renderJs() .  $this->captcha->display()
                             ], 500);
                         }
                         if($penerbit_belum_verifikasi['REGISTRASI_VALID'] == ''){ //belum verifikasi OTP
                             return response()->json([
                                 'status' => 'Failed',
                                 'message' => 'Anda belum melakukan verifikasi OTP, mohon cek email Anda!',
+                                'nocaptcha' => $this->captcha->renderJs() .  $this->captcha->display()
                             ], 500);
                         }
                         // sudah verifikasi OTP
@@ -138,11 +149,13 @@ class AuthController extends Controller
                         return response()->json([
                             'penerbitstatus' => 'notvalid',
                             'status' => 'Success',
+                            'nocaptcha' => $this->captcha->renderJs() .  $this->captcha->display()
                         ], 200);
                     } else {
                         return response()->json([
                             'status' => 'Failed',
                             'message' => 'Username atau email tidak ditemukan!',
+                            'nocaptcha' => $this->captcha->renderJs() .  $this->captcha->display()
                         ], 500);
                     }
                 }

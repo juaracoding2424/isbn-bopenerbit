@@ -208,7 +208,7 @@
 	}
 	var cetakKDT = function(id){
 		Swal.fire({
-					html: `<div id='kdt'><iframe src='{{url("penerbit/isbn/data/view-kdt/`+id+`")}}' style="overflow-y:scroll; 
+					html: `<div id='kdt'><iframe src='{{url("penerbit/isbn/data/view-kdt/`+id+`?bo_penerbit=1")}}' style="overflow-y:scroll; 
 							width:700px; height:500px; border:0.5px solid lightgray; padding:5px; white-space:pre-wrap;text-align:left; font-size:10pt;"></iframe></div>
 							<div>
 							<button class="btn btn-primary" onclick="onBtnClicked('print',`+ id + `)">Print KDT</button>

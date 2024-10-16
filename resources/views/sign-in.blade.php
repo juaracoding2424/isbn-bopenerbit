@@ -135,7 +135,7 @@
 									<div class="fv-row mb-0">
 									<!--end::Input group=-->
 									<!--begin::Input group=-->
-									<div class="fv-row mb-0">
+									<div class="fv-row mb-0" id="capchaDisplay">
 									{!! NoCaptcha::renderJs() !!}
 									{!! NoCaptcha::display() !!}
 									</div>
@@ -297,6 +297,8 @@
                                     content: "swal-height"
                                 }
                             });
+							$('.g-recaptcha').remove();
+							$('#capchaDisplay').append(xhr.responseJSON.nocaptcha);
                     },
                     500: function(xhr) {
                         Swal.fire({
@@ -308,6 +310,8 @@
                                     confirmButton: "btn fw-bold btn-primary"
                                     }
                             });
+						$('.g-recaptcha').remove();
+						$('#capchaDisplay').append(xhr.responseJSON.nocaptcha);
                     },
 					200: function(response) {
 						if(response.penerbitstatus == 'valid'){
