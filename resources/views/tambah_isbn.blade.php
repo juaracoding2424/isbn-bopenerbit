@@ -1055,8 +1055,8 @@
                                     message: "Anda belum mengisi deskripsi / sinopsis buku"
                                 },
                                 stringLength: {
-									min: 200,
-									message: 'Deskripsi buku minimal terdiri dari 200 karakter'
+									min: 50,
+									message: 'Deskripsi buku minimal terdiri dari 50 karakter'
 								},
                             }
                         },

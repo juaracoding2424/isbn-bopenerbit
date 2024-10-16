@@ -989,7 +989,7 @@
                                 },
                                 stringLength: {
 									min: 200,
-									message: 'Deskripsi buku minimal terdiri dari 200 karakter'
+									message: 'Deskripsi buku minimal terdiri dari 50 karakter'
 								},
                             }
                         },
