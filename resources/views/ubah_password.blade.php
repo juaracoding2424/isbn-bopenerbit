@@ -127,8 +127,9 @@
 									message: 'Password baru minimal terdiri dari 8 karakter'
 								},
 								regexp: {
-									regexp: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/,
-									message: 'Password wajib terdiri dari huruf besar, huruf kecil, dan angka'
+									//regexp: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/,
+									regexp: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,}$/,
+									message: 'Password wajib terdiri dari huruf besar, huruf kecil, angka, dan karakter khusus'
 								}
                             }
                         },
@@ -148,8 +149,9 @@
 									message: 'Password baru minimal terdiri dari 8 karakter'
 								},
 								regexp: {
-									regexp: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/,
-									message: 'Password wajib terdiri dari huruf besar, huruf kecil, dan angka'
+									//regexp: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/,
+									regexp: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,}$/,
+									message: 'Password wajib terdiri dari huruf besar, huruf kecil, angka, dan karakter khusus'
 								}
                             }
                         }
