@@ -100,7 +100,7 @@
 					<div class="d-flex flex-column flex-center py-7 py-lg-15 px-5 px-md-15 w-100">
 						<!--begin::Logo-->
 						<a href="{{url('')}}" class="mb-0 mb-lg-12">
-							<img alt="Logo" src="https://www.isbn-international.org/themes/isbn8/logo.png" class="h-60px h-lg-75px" />
+							<img alt="Logo" src="{{asset('assets/media/logos/isbn.jpg')}}" class="h-60px h-lg-75px" />
 						</a>
 						<!--end::Logo-->
 						<!--begin::Image-->
