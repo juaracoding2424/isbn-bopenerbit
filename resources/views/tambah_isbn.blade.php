@@ -1007,6 +1007,13 @@
                                 },
                             }
                         },
+                        ketebalan :{
+                            validators: {
+                                notEmpty: {
+                                    message: "Isi tinggi buku!"
+                                },
+                            }
+                        },
                         jenis_pustaka :{
                             validators: {
                                 notEmpty: {
@@ -1489,7 +1496,7 @@
             $('#btnTambahJilid').css('display', 'none');
             $('#labelJumlahHalaman').text('Jumlah Halaman');
             $('#labelKetJumlahHalaman').text('Halaman');
-            $('#jml_hlm').attr("type", "number");
+            $('#jml_hlm').attr("type", "text");
             $('#jml_hlm').val(0);
             $('#jml_hlm').removeAttr("disabled");
             $('#row-isbnjilid').hide();
