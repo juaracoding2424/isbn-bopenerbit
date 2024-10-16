@@ -185,7 +185,7 @@
             @endif
             <tr><td>KLASIFIKASI</td><td>{{$data['CALL_NUMBER']}} [DDC23]</td></tr>
             @if($bo_penerbit == 1)
-            <tr><td>PERPUSNAS ID</td><td><a href="{{url('penerbit/isbn/data/view-kdt/' . $data['ID'])}}">{{url('penerbit/isbn/data/view-kdt/' . $data['ID'])}}</a></td></tr>
+            <tr><td>PERPUSNAS ID</td><td><a href="{{url('penerbit/isbn/data/view-kdt/' . $data['ID'])}}" target="_blank">{{url('penerbit/isbn/data/view-kdt/' . $data['ID'])}}</a></td></tr>
             @endif
         </table>
 	</div>
