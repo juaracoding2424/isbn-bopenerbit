@@ -51,19 +51,23 @@ class AuthController extends Controller
                 $encryptedPassword = getMd5Hash(trim($request->input('password')));
                 $encryptedPassword2 = rijndaelEncryptPassword(trim($request->input('password'))); 
                 $username = strtoupper($request->input('username'));
-                $penerbit = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=getlistraw&sql=" . 
-                                urlencode("SELECT * FROM PENERBIT WHERE upper(ISBN_USER_NAME)='$username' OR upper(EMAIL1)= '$username' OR upper(EMAIL2)='$username'"));
-                if (isset($penerbit["Data"]['Items'][0])) {
-                    $penerbit = $penerbit["Data"]['Items'][0];
-                    //cek password di tabel penerbit
-                    if($penerbit['ISBN_PASSWORD1'] != $encryptedPassword && $penerbit['ISBN_PASSWORD2'] != $encryptedPassword2 && $penerbit['ISBN_PASSWORD'] != $encryptedPassword){
+                $check = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=getlistraw&sql=" . 
+                                urlencode("SELECT COUNT(*) JML FROM PENERBIT WHERE upper(ISBN_USER_NAME)='$username' OR upper(EMAIL1)= '$username' OR upper(EMAIL2)='$username'"))["Data"]["Items"][0]["JML"];
+                if (intval($check) > 0) {
+                    $penerbit = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=getlistraw&sql=" . 
+                        urlencode("SELECT * FROM PENERBIT 
+                        WHERE (upper(ISBN_USER_NAME)='$username' OR upper(EMAIL1)= '$username' OR upper(EMAIL2)='$username') AND 
+                        (ISBN_PASSWORD1 = '$encryptedPassword' OR ISBN_PASSWORD = '$encryptedPassword')"));
+
+                    if(!isset($penerbit["Data"]["Items"][0])){
                         return response()->json([
                             'status' => 'Failed',
                             'message' => 'Password yang Anda masukan salah! Mohon masukan password yang benar, atau lakukan forgot password.',
                             'nocaptcha' => $this->captcha->renderJs() .  $this->captcha->display()
                         ], 500);
                     } 
-                    
+                    $penerbit = $penerbit["Data"]["Items"][0];
+
                     if($penerbit['IS_DISABLE'] == 1 && $penerbit['PARENT_ID'] == ''){
                         return response()->json([
                             'status' => 'Failed',
