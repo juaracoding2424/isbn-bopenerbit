@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Milon\Barcode\DNS1D;
-use Barryvdh\DomPDF\Facade\PDF;
+use Barryvdh\DomPDF\Facade\PDF as PDF;
+//use Barryvdh\DomPDF\PDF;
 
 class IsbnDataController extends Controller
 {
@@ -226,7 +227,7 @@ class IsbnDataController extends Controller
 
     function generatePDF($id)
     {   
-        //$data = $this->getKDT($id);
+        date_default_timezone_set('Asia/Jakarta');
         $kdt = kurl("post","getlistraw", "", "SELECT pt.*, p.name, pi.* FROM PENERBIT_TERBITAN pt 
         JOIN penerbit p on p.id = pt.penerbit_id 
         JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
@@ -239,11 +240,11 @@ class IsbnDataController extends Controller
         } else {
             $isbn .= $kdt[0]['PREFIX_ELEMENT'] . '-' . $kdt[0]['PUBLISHER_ELEMENT'] . '-' . $kdt[0]['ITEM_ELEMENT'] . '-' . $kdt[0]['CHECK_DIGIT'];
         }
+        if(!request('bo_penerbit')) {}
         $data = [
-            'title' => 'domPDF in Laravel 10', 
             'data' => $kdt[0],
             'isbn' => $isbn,
-            //'data'=> $this->getKDT($id)
+            'bo_penerbit'=> request('bo_penerbit')
         ];
         $pdf = PDF::loadView('kdt_pdf', $data);
         return $pdf->download('kdt'.$id.now()->format('Ymd').'.pdf');
@@ -253,7 +254,6 @@ class IsbnDataController extends Controller
     function viewPDF($id)
     {   
         date_default_timezone_set('Asia/Jakarta');
-        //$data = $this->getKDT($id);
         $kdt = kurl("post","getlistraw", "", "SELECT pt.*, p.name, pi.* FROM PENERBIT_TERBITAN pt  
         JOIN penerbit p on p.id = pt.penerbit_id 
         JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
@@ -267,12 +267,11 @@ class IsbnDataController extends Controller
             $isbn .= $kdt[0]['PREFIX_ELEMENT'] . '-' . $kdt[0]['PUBLISHER_ELEMENT'] . '-' . $kdt[0]['ITEM_ELEMENT'] . '-' . $kdt[0]['CHECK_DIGIT'];
         }
         $data = [
-            'title' => 'domPDF in Laravel 10', 
             'data' => $kdt[0],
             'isbn' => $isbn,
-            //'data'=> $this->getKDT($id)
+            'bo_penerbit'=> request('bo_penerbit')
         ];
-        $pdf = PDF::loadView('kdt_pdf', $data);
+        //$pdf = PDF::loadView('kdt_pdf', ['data' => $data]);
         return view('kdt_pdf', $data);
 
     }
