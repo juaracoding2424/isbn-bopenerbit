@@ -635,6 +635,7 @@
                                                     <!--begin::Col-->
                                                     <div class="col-lg-4 fv-row">
                                                         <select name="bulan_terbit" class="select2 form-select fs-8" id="bulan_terbit">
+                                                            <option value="">--Pilih Bulan Terbit--</option>
                                                             <option value="01">Januari</option>
                                                             <option value="02">Februari</option>
                                                             <option value="03">Maret</option>
