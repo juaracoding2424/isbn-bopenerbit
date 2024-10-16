@@ -148,11 +148,7 @@
                 if($data['KETEBALAN'] == ""){
                     $hlm .= '; ...cm';
                 } else {
-                    if(!str_contains($data['KETEBALAN'], 'cm')) {
-                        $hlm .= '; ' . $data['KETEBALAN'] . ' cm';
-                    } else {
-                        $hlm .= '; ' . $data['KETEBALAN'];
-                    }
+                    $hlm .= '; ' . $data['KETEBALAN'] . ' cm';
                 }
             }
             @endphp

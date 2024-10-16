@@ -642,7 +642,7 @@
                                                 <!--end::Label-->
                                                 <!--begin::Col-->
                                                 <div class="col-lg-2 fv-row">
-                                                    <input type="text" name="jml_hlm" id="jml_hlm"
+                                                    <input type="number" name="jml_hlm" id="jml_hlm"
                                                         class="form-control fs-8 form-control-lg form-control-solid"
                                                         placeholder="Jumlah Halaman" value="" />
                                                 </div>
@@ -965,13 +965,6 @@
                             validators: {
                                 notEmpty: {
                                     message: "Pilih kategori jenis pustaka ISBN! (terjemahan/non terjemahan)"
-                                },
-                            }
-                        },
-                        ketebalan :{
-                            validators: {
-                                notEmpty: {
-                                    message: "Isi tinggi buku!"
                                 },
                             }
                         },
@@ -1309,7 +1302,7 @@
     $('input[type=text][name="distributor"]').val('{{$detail['DISTRIBUTOR']}}');
     $('input[type=text][name="tempat_terbit"]').val('{{$detail['TEMPAT_TERBIT']}}');
     if(jilid_lepas == 'lepas'){
-        $('#jml_hlm').attr("type","text").val("{{$detail['JML_HLM']}}");
+        $('#jml_hlm').attr("type","number").val(parseInt("{{$detail['JML_HLM']}}"));
         $('input[type=radio][name="status"][value="'+jilid_lepas+'"]').prop('checked', true);
         $('#judul_buku_1').css('display', 'none');
         $('#btnTambahJilid').css('display', 'none');
