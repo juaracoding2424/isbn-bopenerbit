@@ -68,24 +68,6 @@
     .main {
         font-size:12pt;
     }
-    footer {
-        position: fixed; 
-        bottom: 0cm; 
-        left: 0cm; 
-        right: 0cm;
-        height: 2cm;
-
-        /** Extra personal styles **/
-        background-color: #fff;
-        color: #000;
-        text-align: center;
-    }
-
-    footer table{
-        padding-right:  1cm;
-        padding-left:   1cm;
-        width : 100%;
-    }
     * {
         font-family: 'Open Sans', sans-serif;
     }
@@ -119,13 +101,6 @@
     </style>
     @endif
 <body>
-	<footer>
-		<table style="font-size:x-small;">
-			<tr>
-				<td align="right" style="vertical-align: bottom;">Created at {{ date('d-M-Y H:m:s')}}</td>
-			</tr>
-		</table>
-	</footer>
 	<div class="main" id="kdt_to_print">
         <table style=" border-collapse: collapse;border: none;">
             @if($data['AUTHOR'] != "")
