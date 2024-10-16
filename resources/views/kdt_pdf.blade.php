@@ -126,7 +126,7 @@
 			</tr>
 		</table>
 	</footer>
-	<div class="main">
+	<div class="main" id="kdt_to_print">
         <table style=" border-collapse: collapse;border: none;">
             @if($data['AUTHOR'] != "")
             <tr><td>KREATOR</td><td>{{$data['AUTHOR']}}</td></tr>
