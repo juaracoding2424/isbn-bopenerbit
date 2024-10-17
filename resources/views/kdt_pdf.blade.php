@@ -70,6 +70,7 @@
     }
     @page {
         margin: 0cm 0cm;
+
     }
     
     .main {
@@ -106,8 +107,23 @@
         text-align: center;
         color: #fff;
     }
-</style>
-@if($bo_penerbit != 1)
+    body {
+        margin-top: 0cm;
+        margin-left: 0cm;
+        margin-bottom: 0cm;
+        margin-right:0cm;
+        font-family: 'Open Sans', sans-serif;
+        max-height:max-content;
+    }
+    .print-friendly{
+        margin-top: 1cm;
+        margin-left: 2cm;
+        margin-bottom: 1cm;
+        margin-right:2cm;
+
+    }
+    </style>
+    @if($bo_penerbit != 1)
     <style>
     body {
         margin-top: 1cm;
@@ -115,11 +131,13 @@
         margin-bottom: 1cm;
         margin-right:2cm;
         font-family: 'Open Sans', sans-serif;
+        
     }
     </style>
     @endif
-<body>
-	<div class="main" id="kdt_to_print">
+<body >
+    <div id="kdt_to_print">
+	<div class="main" >
         <table style=" border-collapse: collapse;border: none;">
             @if($data['AUTHOR'] != "")
             <tr><td>KREATOR</td><td>{{$data['AUTHOR']}}</td></tr>
@@ -182,8 +200,10 @@
             @endif
         </table>
 	</div>
+    </div>
     @if($is_button == 1) 
     <link href="{{ asset('assets/plugins/global/plugins.bundle.css ') }}" rel="stylesheet" type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <footer>
         <button class="btn btn-primary" onclick="onBtnClicked('print')">Unduh KDT</button>
 	    <button class="btn btn-warning" onclick="onBtnClicked('copy_text')">Salin Teks</button>
@@ -196,13 +216,17 @@
             var id = window.location.pathname.split("/").pop(); 
             switch(ev) {
                 case 'print' : 
-                    location.href = "{{url('/penerbit/isbn/data/generate-pdf')}}" + "/"+ id;
+                    //location.href = "{{url('/penerbit/isbn/data/generate-pdf')}}" + "/"+ id;
+                    var element = document.getElementById('kdt_to_print');
+                    $('#kdt_to_print').addClass('print-friendly');
+                    html2pdf(element);
                     Swal.fire({
                         text: "KDT berhasil diunduh!",
                         icon: "success",
                         showCancelButton: !0,
                         timer: 3000,
                     })
+                    
                     break;
                 case 'copy_text' : 
                     CopyToClipboard('iframeKdt', 'text');
