@@ -12,7 +12,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </head>
 
-<body>
+<body style="width:max-content">
 	<div class="main" id="content" >
         <span style="position: relative;width: 350px; display: flow;text-align: center; font-weight:600; font-size:16px; margin-bottom:-10px; z-index:99; background-color:#fff; color:#000">
             ISBN  {{ $data['PREFIX_ELEMENT'].'-'. $data['PUBLISHER_ELEMENT'] . '-' . $data['ITEM_ELEMENT'] . '-' . $data['CHECK_DIGIT']}}
@@ -27,7 +27,41 @@
     })
     .blank(20)
     .render();
-    
     </script>
+    @if($is_button == 1)
+    <style>
+        footer {
+        position: fixed; 
+        bottom: 0.5cm; 
+        left: 0cm; 
+        right: 0cm;
+        height: 1cm;
+
+        /** Extra personal styles **/
+        text-align: center;
+        color: #fff;
+    } 
+    .main{
+        width:max-content;
+    }
+    </style>
+    <footer>
+        <button class="btn btn-primary" onclick="barcodeSave()">Unduh KDT</button>
+    </footer>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+    var barcodeSave = function() {
+        var id = window.location.pathname.split("/").pop(); 
+		html2canvas(document.getElementById('content')).then(canvas => {
+            let link = document.createElement('a');
+            link.download = id + '.jpg';
+            link.href = canvas.toDataURL('image/jpeg');
+            link.click();
+        });
+	}
+    @endif
+    </script>
+    
 </body>
+
 </html>
