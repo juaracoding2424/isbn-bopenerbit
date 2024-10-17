@@ -244,7 +244,8 @@ class IsbnDataController extends Controller
         $data = [
             'data' => $kdt[0],
             'isbn' => $isbn,
-            'bo_penerbit'=> request('bo_penerbit')
+            'bo_penerbit'=> request('bo_penerbit'),
+            'is_button'=> request('is_button')
         ];
         $pdf = PDF::loadView('kdt_pdf', $data);
         return $pdf->download('kdt'.$id.now()->format('Ymd').'.pdf');
@@ -269,7 +270,8 @@ class IsbnDataController extends Controller
         $data = [
             'data' => $kdt[0],
             'isbn' => $isbn,
-            'bo_penerbit'=> request('bo_penerbit')
+            'bo_penerbit'=> request('bo_penerbit'),
+            'is_button'=> request('is_button')
         ];
         //$pdf = PDF::loadView('kdt_pdf', ['data' => $data]);
         return view('kdt_pdf', $data);

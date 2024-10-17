@@ -3,7 +3,14 @@
 <head>
 	<meta charset="UTF-8">
 </head>
+<link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/css/style-admin.css') }}" rel="stylesheet" type="text/css" />
 <style>
+    .btn{
+        padding:5px;
+        border-radius:4px;
+        margin:5px
+    }
     @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,800i,900|Quicksand:300,400,500,700&subset=cyrillic,cyrillic-ext,latin-ext,vietnamese');
     /*-------------General Style---------------------------------------*/
     @font-face {
@@ -88,6 +95,17 @@
         padding-bottom:5px;
         vertical-align:top;
     }
+    footer {
+        position: fixed; 
+        bottom: 0.5cm; 
+        left: 0cm; 
+        right: 0cm;
+        height: 1cm;
+
+        /** Extra personal styles **/
+        text-align: center;
+        color: #fff;
+    }
 </style>
 @if($bo_penerbit != 1)
     <style>
@@ -164,5 +182,65 @@
             @endif
         </table>
 	</div>
+    @if($is_button == 1) 
+    <link href="{{ asset('assets/plugins/global/plugins.bundle.css ') }}" rel="stylesheet" type="text/css" />
+    <footer>
+        <button class="btn btn-primary" onclick="onBtnClicked('print')">Unduh KDT</button>
+	    <button class="btn btn-warning" onclick="onBtnClicked('copy_text')">Salin Teks</button>
+		<button class="btn btn-info" onclick="onBtnClicked('copy_html')">Salin HTML</button>
+		<button class="btn btn-success" onclick="onBtnClicked('view')">View on Web</button>
+	</footer>
+    <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
+    <script>
+        var onBtnClicked = function(ev){
+            var id = window.location.pathname.split("/").pop(); 
+            switch(ev) {
+                case 'print' : 
+                    location.href = "{{url('/penerbit/isbn/data/generate-pdf')}}" + "/"+ id;
+                    Swal.fire({
+                        text: "KDT berhasil diunduh!",
+                        icon: "success",
+                        showCancelButton: !0,
+                        timer: 3000,
+                    })
+                    break;
+                case 'copy_text' : 
+                    CopyToClipboard('iframeKdt', 'text');
+                    break;
+                case 'copy_html' : 
+                    CopyToClipboard('iframeKdt', 'html');
+                    break;
+                case 'view' : 
+                    window.open("{{url('/penerbit/isbn/data/view-kdt')}}" + "/"+id);
+                    break;
+                }
+        }
+        var CopyToClipboard = function(containerid, type) {
+            if(type == 'text') {
+                var textToCopy = document.getElementById('kdt_to_print').innerText;
+            } else {
+                var textToCopy = document.getElementById('kdt_to_print').innerHTML;
+            }
+
+            var tempInput = document.createElement('textarea');
+            document.body.appendChild(tempInput);
+            tempInput.value = textToCopy;
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            if(type == 'text') {
+                var msg = 'Teks berhasil di salin!';
+            } else {
+                var msg = 'HTML berhasil di salin!';
+            }
+            Swal.fire({
+                text: msg,
+                icon: "success",
+                showCancelButton: !0,
+                timer: 3000,
+            })
+        }
+    </script>
+    @endif
 </body>
 </html>
