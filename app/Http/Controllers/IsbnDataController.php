@@ -281,7 +281,10 @@ class IsbnDataController extends Controller
     function generateBarcode($id)
     {
         $queryData = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_ISBN WHERE ISBN_NO='$id'", 'sql', '')["Data"]["Items"][0];
-        return view('barcode', ["data" => $queryData]) ;
+        return view('barcode', [
+            "data" => $queryData,
+            "is_button" => request('is_button')
+        ]) ;
     }
 
 }
