@@ -262,7 +262,11 @@ class IsbnDataController extends Controller
         $isbn = "";
         if(count($kdt) > 1) {
             foreach($kdt as $k){
-                $isbn .= 'ISBN ' . $k['PREFIX_ELEMENT'] . '-' . $k['PUBLISHER_ELEMENT'] . '-' . $k['ITEM_ELEMENT'] . '-' . $k['CHECK_DIGIT'] . " " . $k['KETERANGAN_JILID']."<br/>";
+                $isbn .= 'ISBN ' . $k['PREFIX_ELEMENT'] . '-' . $k['PUBLISHER_ELEMENT'] . '-' . $k['ITEM_ELEMENT'] . '-' . $k['CHECK_DIGIT'];
+                if($k['KETERANGAN_JILID'] != ''){
+                    $isbn .= " (" . $k['KETERANGAN_JILID'] . ")";
+                } 
+                $isbn .= "<br/>";
             }
         } else {
             $isbn .= 'ISBN ' .$kdt[0]['PREFIX_ELEMENT'] . '-' . $kdt[0]['PUBLISHER_ELEMENT'] . '-' . $kdt[0]['ITEM_ELEMENT'] . '-' . $kdt[0]['CHECK_DIGIT'];
