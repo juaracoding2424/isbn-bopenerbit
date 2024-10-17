@@ -46,7 +46,7 @@
     }
     </style>
     <footer>
-        <button class="btn btn-primary" onclick="barcodeSave()">Unduh KDT</button>
+        <button class="btn btn-primary" onclick="barcodeSave()">Unduh Barcode</button>
     </footer>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
