@@ -28,7 +28,7 @@
     .blank(20)
     .render();
     </script>
-    @if($is_button == 1)
+     @if($is_button == 1)
     <style>
         footer {
         position: fixed; 
@@ -39,7 +39,7 @@
 
         /** Extra personal styles **/
         text-align: center;
-        color: #fff;
+        color: #fff;    
     } 
     .main{
         width:max-content;
@@ -59,9 +59,8 @@
             link.click();
         });
 	}
-    @endif
     </script>
-    
+    @endif
 </body>
 
 </html>
