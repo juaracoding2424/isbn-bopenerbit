@@ -17,6 +17,7 @@ use App\Http\Controllers\ReportController;
 
 use App\Http\Middleware\ProtectLoginMiddleware;
 use App\Http\Middleware\PenerbitValidMiddleware;
+use App\Http\Middleware\CorsMiddleware;
 
 Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
     Route::group(['middleware' => PenerbitValidMiddleware::class], function () {
@@ -101,6 +102,9 @@ Route::get('reset-password-next', [AuthController::class, 'resetPasswordNext']);
 Route::post('reset-password-next', [AuthController::class, 'resetPasswordNextSubmit']);
 Route::post('auth/submit', [AuthController::class, 'submit']);
 Route::match(array('GET', 'POST'), 'page/redirect', [AuthController::class, 'redirectFromLandingPage']);
-Route::get('penerbit/isbn/data/view-kdt/{id}', [IsbnDataController::class, 'viewPDF']);
-Route::get('penerbit/isbn/data/generate-pdf/{id}', [IsbnDataController::class, 'generatePDF']);
-Route::get('penerbit/isbn/data/generate-barcode/{id}', [IsbnDataController::class, 'generateBarcode']);
+
+Route::group(['middleware' => PenerbitValidMiddleware::class], function () {
+    Route::get('penerbit/isbn/data/view-kdt/{id}', [IsbnDataController::class, 'viewPDF']);
+    Route::get('penerbit/isbn/data/generate-pdf/{id}', [IsbnDataController::class, 'generatePDF']);
+    Route::get('penerbit/isbn/data/generate-barcode/{id}', [IsbnDataController::class, 'generateBarcode']);
+});
