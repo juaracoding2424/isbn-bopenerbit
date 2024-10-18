@@ -103,7 +103,7 @@ Route::post('reset-password-next', [AuthController::class, 'resetPasswordNextSub
 Route::post('auth/submit', [AuthController::class, 'submit']);
 Route::match(array('GET', 'POST'), 'page/redirect', [AuthController::class, 'redirectFromLandingPage']);
 
-Route::group(['middleware' => PenerbitValidMiddleware::class], function () {
+Route::group(['middleware' => CorsMiddleware::class], function () {
     Route::get('penerbit/isbn/data/view-kdt/{id}', [IsbnDataController::class, 'viewPDF']);
     Route::get('penerbit/isbn/data/generate-pdf/{id}', [IsbnDataController::class, 'generatePDF']);
     Route::get('penerbit/isbn/data/generate-barcode/{id}', [IsbnDataController::class, 'generateBarcode']);
