@@ -15,6 +15,7 @@
 <style>
     body {
         font-family: 'OCR A Extended';
+        align-items: center;
     }
     .no_barcode { 
         position: relative;
@@ -34,7 +35,7 @@
       background-color:#fff
     }
 </style>
-<body style="width:max-content">
+<body >
 	<div class="main" id="content" >
         @if(isset($jil_lengkap['ISBN_NO'])) 
         <span class="no_barcode">
