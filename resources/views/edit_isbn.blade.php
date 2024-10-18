@@ -1573,5 +1573,19 @@
         $('#divIsbnLanjutan').show();
         $('#btnTambahJilid').css('display', 'none');
     }
+    var masalah = false;
+    @if(isset($masalah["Data"]["Items"][0]))
+    var masalah = true;
+    @endif
+    if((status=='lanjutan' || status == 'permohonan') && masalah == false){
+        $('input').attr("readonly", "true");
+        $('select').prop("disabled", true);
+        $('textarea').attr("readonly", "true");
+        $('input[type="radio"]').prop('disabled', true);
+        $('#btnTambahPengarang').hide();
+        $('#btnTambahJilid').hide();
+        $('#btnSave').hide();
+        $('.hapusJilid').hide();
+    }
 </script>
 @stop
