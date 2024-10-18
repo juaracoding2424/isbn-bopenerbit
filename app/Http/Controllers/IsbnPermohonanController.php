@@ -415,7 +415,11 @@ class IsbnPermohonanController extends Controller
                         array_push($IsbnResi,  [ "name" =>"JENIS", "Value" => "jilid"]);
                     }
                     if(request('status') == 'jilid'){
-                        $jilids = implode('¦', request('keterangan_jilid'));
+                        $jilids = "";
+                        if(request('isbn-jilid') != ""){
+                            $jilids = "no.jil.lengap";
+                        }
+                        $jilids .= implode('¦', request('keterangan_jilid'));
                         array_push($IsbnResi, 
                             [ "name"=> "KETERANGAN_JILID", "Value"=> $jilids ]
                         );
