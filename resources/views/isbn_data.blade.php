@@ -245,31 +245,17 @@
 <!--end::Body-->
 <script>
 	var cetakBarcode = function(id){
-		let link= "{{url('/penerbit/isbn/data/generate-barcode/') }}" + '/'+  id;
+		let link= "{{url('/penerbit/isbn/data/generate-barcode') }}" + '/'+  id + '?is_button=1';
 		Swal.fire({
-                    html: `<div><iFrame src='`+link+`' height='150px' width='350px' id='iBarcode'></iFrame> 
-							<span class='btn btn-info p-2 m-0 fs-8' onclick='barcodeSave(`+id+`)'>Simpan Barcode</span>
+                    html: `<div><iFrame src='`+link+`' height='200px' width='352px' id='iBarcode'></iFrame> 
 							</div>`,
                     //showCancelButton: !0,
 					width: '500px',
                     buttonsStyling: !1,
 					showConfirmButton: false,
   					showCloseButton: true,
-                    //customClass: {
-                    //    cancelButton: "btn fw-bold btn-active-light-danger"
-                    //}
 				})
 	};
-	var barcodeSave = function(id) {
-		var iframe = document.getElementById('iBarcode');
-		var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-		html2canvas(innerDoc.getElementById('content')).then(canvas => {
-            let link = document.createElement('a');
-            link.download = id + '.jpg';
-            link.href = canvas.toDataURL('image/jpeg');
-            link.click();
-        });
-	}
 	var cetakKDT = function(id){
 		Swal.fire({
 			html: `<div id='kdt'><iframe src='{{url("penerbit/isbn/data/view-kdt/`+id+`?bo_penerbit=1")}}' style="overflow-y:scroll; 
@@ -279,7 +265,7 @@
 							<button class="btn btn-primary" onclick="onBtnClicked('print',`+ id + `)">Unduh KDT</button>
 							<button class="btn btn-warning" onclick="onBtnClicked('copy_text',`+ id + `)">Salin Teks</button>
 							<button class="btn btn-info" onclick="onBtnClicked('copy_html',`+ id + `)">Salin HTML</button>
-							<button class="btn btn-secondary" onclick="onBtnClicked('view',`+ id + `)">View on Web</button>
+							<button class="btn btn-success" onclick="onBtnClicked('view',`+ id + `)">Lihat di Web</button>
 							</div>`,
             icon: "success",
 			width: "800px",

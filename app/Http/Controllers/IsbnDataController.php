@@ -143,7 +143,7 @@ class IsbnDataController extends Controller
             foreach ($queryData as $val) {
                 $source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge btn-primary'>".$val['SOURCE']."</span>";
                 $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
-                $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="badge badge-success h-20px m-1" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : "";//'KDT Belum Ada';
+                $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="btn btn-success m-0 fs-8 p-2" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : "";//'KDT Belum Ada';
                 $sinopsis_pendek = explode(" ", $val["SINOPSIS"]);
                 $first_part = implode(" ", array_splice($sinopsis_pendek, 0, 10));
                 $other_part = implode(" ", array_splice($sinopsis_pendek, 10));
@@ -157,7 +157,7 @@ class IsbnDataController extends Controller
                 }
                 $response['data'][] = [
                     $nomor,
-                    '<a class="badge badge-light-info fs-8 p-2 m-0" onclick="cetakBarcode('.$val['ISBN_NO'].')">Barcode</a>' .$kdt, //<a class="badge btn-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',
+                    '<a class="btn btn-info m-0 fs-8 p-2" onclick="cetakBarcode('.$val['ISBN_NO'].')">Barcode</a>' .$kdt, //<a class="badge btn-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',
                     $val['PREFIX_ELEMENT'] .'-' . $val['PUBLISHER_ELEMENT'] . '-' . $val['ITEM_ELEMENT'] . '-' . $val['CHECK_DIGIT']  . '<br/>' . $val['KETERANGAN_JILID'],
                     $val['TITLE'] . "<br/>$jenis $source <span class='text-success'><i>$jenis_media</i></span>",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
@@ -284,10 +284,20 @@ class IsbnDataController extends Controller
 
     function generateBarcode($id)
     {
-        $queryData = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_ISBN WHERE ISBN_NO='$id'", 'sql', '')["Data"]["Items"][0];
+        $queryData = kurl("get","getlistraw", "", "SELECT pi.*, pt.jml_jilid FROM PENERBIT_ISBN pi 
+                            JOIN PENERBIT_TERBITAN pt ON pi.penerbit_terbitan_id = pt.id 
+                            WHERE pi.ISBN_NO='$id' ", 'sql', '')["Data"]["Items"][0];
+        
+        $jil_lengkap = [];
+        if(intval($queryData['JML_JILID']) > 1 && ($queryData['KETERANGAN'] != 'no.jil.lengkap' && $queryData['KETERANGAN_JILID'] != 'no.jil.lengkap')){
+            $jil_lengkap = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_ISBN 
+                                                        WHERE PENERBIT_TERBITAN_ID='".$queryData['PENERBIT_TERBITAN_ID']."' 
+                                                        AND (KETERANGAN_JILID = 'no.jil.lengkap' OR KETERANGAN = 'no.jil.lengkap')", 'sql', '')["Data"]["Items"][0];
+        }
         return view('barcode', [
             "data" => $queryData,
-            "is_button" => request('is_button')
+            "is_button" => request('is_button'),
+            "jil_lengkap" => $jil_lengkap
         ]) ;
     }
 

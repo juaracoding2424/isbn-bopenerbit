@@ -6,16 +6,50 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <link href="{{ asset('assets/plugins/global/plugins.bundle.css ') }}" rel="stylesheet" type="text/css" />
 	<link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/stylesheet.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('assets/js/JsBarcode.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </head>
+<style>
+    body {
+        font-family: 'OCR A Extended';
+    }
+    .no_barcode { 
+        position: relative;
+        width: 350px; 
+        display: flow;
+        text-align: center; 
+        font-weight:500; 
+        font-size:14px; 
+        z-index:99; 
+        background-color:#fff; 
+        color:#000;
+        border-bottom:1px solid;
 
+    }
+    .main{
+      border:1px solid;  
+      background-color:#fff
+    }
+</style>
 <body style="width:max-content">
 	<div class="main" id="content" >
-        <span style="position: relative;width: 350px; display: flow;text-align: center; font-weight:600; font-size:16px; margin-bottom:-10px; z-index:99; background-color:#fff; color:#000">
-            ISBN  {{ $data['PREFIX_ELEMENT'].'-'. $data['PUBLISHER_ELEMENT'] . '-' . $data['ITEM_ELEMENT'] . '-' . $data['CHECK_DIGIT']}}
+        @if(isset($jil_lengkap['ISBN_NO'])) 
+        <span class="no_barcode">
+        ISBN  {{ $jil_lengkap['PREFIX_ELEMENT'].'-'. $jil_lengkap['PUBLISHER_ELEMENT'] . '-' . $jil_lengkap['ITEM_ELEMENT'] . '-' . $jil_lengkap['CHECK_DIGIT']}}  (no.jil.lengkap)
+        </span>
+        @endif
+        <span class="no_barcode">
+            ISBN  {{ $data['PREFIX_ELEMENT'].'-'. $data['PUBLISHER_ELEMENT'] . '-' . $data['ITEM_ELEMENT'] . '-' . $data['CHECK_DIGIT']}} 
+            @if(intval($data['JML_JILID']) > 1)
+                @if($data['KETERANGAN_JILID'])
+                    ({{$data['KETERANGAN_JILID']}})
+                @else 
+                    ({{$data['KETERANGAN']}})
+                @endif
+            @endif
         </span>
         <svg id="barcode" style="width:350px; z-index:1"></svg>
 	</div>
