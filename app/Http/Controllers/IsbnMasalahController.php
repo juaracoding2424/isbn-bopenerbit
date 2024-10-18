@@ -35,16 +35,22 @@ class IsbnMasalahController extends Controller
         
         $end = $start + $length;
 
-        $sql  = "SELECT pt.id, m.isi, m.createdate, ir.noresi, pt.title, pt.kepeng, pt.author,pt.bulan_terbit, pt.tahun_terbit, 
-                    pt.mohon_date, pt.jenis_media, m.createdate as tanggal_masalah
+        $sql  = "SELECT pt.id, ir.noresi, pt.title, pt.kepeng, pt.author,pt.bulan_terbit, pt.tahun_terbit, 
+                    pt.mohon_date, pt.jenis_media,  
+                    listagg(m.isi || '||' || m.createdate || '||' || m.is_solve || '||' || m.createby ,'¦') within group (order by m.createdate) masalah
                     FROM PENERBIT_ISBN_MASALAH m 
                     JOIN PENERBIT_TERBITAN pt ON m.PENERBIT_TERBITAN_ID = pt.ID 
                     LEFT JOIN ISBN_RESI ir on ir.id = m.isbn_resi_id
                     WHERE m.IS_SOLVE = 0 AND pt.PENERBIT_ID='$id' AND ir.status='pending'";
-        $sqlFiltered = "SELECT count(*) JUMLAH FROM PENERBIT_ISBN_MASALAH m 
+        $sqlFiltered = "SELECT count(pt.id) JUMLAH FROM PENERBIT_ISBN_MASALAH m 
                     LEFT JOIN ISBN_RESI ir ON m.isbn_resi_id = ir.ID 
                     JOIN PENERBIT_TERBITAN pt ON m.PENERBIT_TERBITAN_ID = pt.ID 
                     WHERE m.IS_SOLVE = 0 AND ir.PENERBIT_ID='$id' AND ir.status='pending'";
+        
+        $sqlGroupBy = " GROUP BY pt.id, ir.noresi, pt.title, pt.kepeng, pt.author,pt.bulan_terbit, pt.tahun_terbit, 
+                    pt.mohon_date, pt.jenis_media ";
+
+        $sqlFilGroupBy = " GROUP BY pt.id ";
 
         foreach($request->input('advSearch') as $advSearch){
             if($advSearch["value"] != '') {
@@ -74,9 +80,9 @@ class IsbnMasalahController extends Controller
             $sqlFiltered .= " AND pt.jenis_media = '".$request->input('jenisMedia')."'";
             $sql .= " AND pt.jenis_media = '".$request->input('jenisMedia')."'";  
         }
-        $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql)  inner WHERE rownum <=$end) outer WHERE rn >$start", 'sql', '')["Data"]["Items"];
+        $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql $sqlGroupBy)  inner WHERE rownum <=$end) outer WHERE rn >$start", 'sql', '')["Data"]["Items"];
         $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM ISBN_RESI WHERE PENERBIT_ID='$id' AND status='pending'", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
-        $totalFiltered = kurl("get","getlistraw", "", $sqlFiltered, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
+        $totalFiltered = kurl("get","getlistraw", "", $sqlFiltered . $sqlGroupBy, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         $response['data'] = [];
         if (count($queryData) > 0) {
             $nomor = $start + 1;
@@ -95,17 +101,26 @@ class IsbnMasalahController extends Controller
                 if(session('penerbit')['IS_LOCK'] == '1') {
                     $action = "";
                 }
+                $masalah = explode('¦',$val['MASALAH']);
+               $str_masalah = "";
+                foreach($masalah as $m){
+                    $detail = explode('||', $m);
+                    $str_masalah .= "<div style='border:1px solid #ccc; padding:2px; margin-bottom:2px; width:300px; border-radius:2px'>";     
+                    $str_masalah .= '<b>Isi:</b> ' . $detail[0] . '<br/><b>Tanggal: ' . $detail[1] . '</b><br/>';
+                    $str_masalah .= '<b>Masalah selesai</b>:' . ($detail[2] == '0'? 'Tidak' : 'Selesai') . '<br/>';
+                    $str_masalah .= '<b>Dibuat oleh</b>:' . $detail[3];
+                    
+                    $str_masalah .="</div>";
+                }
+               
                 $response['data'][] = [
                     $nomor,
                     $action,
                     $val['NORESI'],
                     $val['TITLE']  . " <span class='text-success'><i>$jenis_media</i></span>",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
-                    $val['ISI'],     
-                    $val['BULAN_TERBIT'] . ' ' . $val['TAHUN_TERBIT'],
-                    $val['MOHON_DATE'],
-                    $val['TANGGAL_MASALAH']
-                      
+                    $str_masalah,     
+                    $val['MOHON_DATE'],                      
                 ];
                 $nomor++;
             }

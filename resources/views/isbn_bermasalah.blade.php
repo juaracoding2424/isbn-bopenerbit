@@ -118,11 +118,9 @@
 										<th class="text-inline min-w-150px">Actions</th>		
 										<th class="min-w-150px">Nomor Resi</th>
 										<th class="min-w-200px">Judul</th>
-										<th class="min-w-200px">Kepengarangan</th>
-										<th class="min-w-200px bg-light-danger">Masalah</th>
-										<th class="min-w-200px">Bulan/Tahun Terbit</th>
-										<th class="min-w-200px">Tanggal Permohonan</th>	
-										<th class="min-w-200px">Tanggal Masalah</th>									
+										<th class="min-w-150px">Kepengarangan</th>
+										<th class="min-w-400px bg-light-danger">Masalah</th>
+										<th class="min-w-200px">Tanggal Permohonan</th>										
 									</tr>
 								</thead>
 
