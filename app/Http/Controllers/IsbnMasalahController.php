@@ -36,7 +36,7 @@ class IsbnMasalahController extends Controller
         $end = $start + $length;
 
         $sql  = "SELECT pt.id, ir.noresi, pt.title, pt.kepeng, pt.author,pt.bulan_terbit, pt.tahun_terbit, 
-                    pt.mohon_date, pt.jenis_media,  
+                    pt.mohon_date, pt.jenis_media,  ir.id as IRID,
                     listagg(m.isi || '||' || m.createdate || '||' || m.is_solve || '||' || m.createby ,'¦') within group (order by m.createdate) masalah
                     FROM PENERBIT_ISBN_MASALAH m 
                     JOIN PENERBIT_TERBITAN pt ON m.PENERBIT_TERBITAN_ID = pt.ID 
@@ -48,7 +48,7 @@ class IsbnMasalahController extends Controller
                     WHERE m.IS_SOLVE = 0 AND ir.PENERBIT_ID='$id' AND ir.status='pending'";
         
         $sqlGroupBy = " GROUP BY pt.id, ir.noresi, pt.title, pt.kepeng, pt.author,pt.bulan_terbit, pt.tahun_terbit, 
-                    pt.mohon_date, pt.jenis_media ";
+                    pt.mohon_date, pt.jenis_media, ir.id ";
 
         $sqlFilGroupBy = " GROUP BY pt.id ";
 
@@ -97,7 +97,7 @@ class IsbnMasalahController extends Controller
                 }
                 $id = $val['ID'];
                 $noresi = $val['NORESI'] ? $val['NORESI'] : $val['ID'];
-                $action = '<a class="badge badge-primary h-20px m-1" href="'. url('/penerbit/isbn/permohonan/detail/'.$noresi).'" target="_self">Perbaiki permohonan</a><a class="badge badge-danger h-20px m-1" onclick="batalkanPermohonan('.$id.')">Batalkan Permohonan</a>';
+                $action = '<a class="badge badge-primary h-20px m-1" href="'. url('/penerbit/isbn/permohonan/detail/'.$noresi).'" target="_self">Perbaiki permohonan</a><a class="badge badge-danger h-20px m-1" onclick="batalkanPermohonan('.$val['IRID'].')">Batalkan Permohonan</a>';
                 if(session('penerbit')['IS_LOCK'] == '1') {
                     $action = "";
                 }

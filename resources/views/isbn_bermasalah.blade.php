@@ -203,6 +203,7 @@
 											confirmButton: "btn fw-bold btn-primary"
 										}
 									})
+									loadDataTable();
 								}
 							});
 							
