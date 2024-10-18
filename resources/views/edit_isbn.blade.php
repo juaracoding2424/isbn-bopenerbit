@@ -739,9 +739,8 @@
                                                             <!--end::Radio button-->
                                                             <span class="ms-5">
                                                                 <span class="fs-8 fw-bold mb-1 d-block">Jilid</span>
-                                                                <span class="fw-semibold fs-8 text-gray-600">Anda wajib
-                                                                    memasukan minimal 2 jilid untuk permohonan ISBN
-                                                                    berjilid.</span>
+                                                                <span class="fw-semibold fs-8 text-gray-600">Untuk permohonan jilid baru, penerbit akan menerima minimal 2 ISBN : 
+                                                                    yaitu 1 ISBN jilid lengkap, serta 1 ISBN yang spesifik untuk jilidnya.</span>
                                                             </span>
                                                         </label>
                                                     </div>
