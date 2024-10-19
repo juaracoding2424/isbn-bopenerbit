@@ -751,7 +751,11 @@
                             validators: {
                                 notEmpty: {
                                     message: "Email alternatif tidak boleh kosong!"
-                                }
+                                },
+								regexp: {
+									regexp: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+									message: "Email alternatif tidak valid!"
+								}
                             }
                         },
                     },
@@ -1108,7 +1112,7 @@
 											$('#imgAvatar1').attr('src', xhr.foto);
 											$('#imgAvatar2').attr('src', xhr.foto);
 										}
-										refreshHistory();
+										location.reload();
 									}
 									$('.loader').css('display','none');
 								});
