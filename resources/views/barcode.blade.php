@@ -44,7 +44,7 @@
         @endif
         <span class="no_barcode">
             ISBN  {{ $data['PREFIX_ELEMENT'].'-'. $data['PUBLISHER_ELEMENT'] . '-' . $data['ITEM_ELEMENT'] . '-' . $data['CHECK_DIGIT']}} 
-            @if(intval($data['JML_JILID']) > 1)
+            @if(intval($jml_jilid) > 1)
                 @if($data['KETERANGAN_JILID'])
                     ({{$data['KETERANGAN_JILID']}})
                 @else 
