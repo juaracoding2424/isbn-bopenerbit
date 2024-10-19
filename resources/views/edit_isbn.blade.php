@@ -1252,7 +1252,7 @@
             htmlAppend +=
                 '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control fs-8 form-control-lg form-control-solid" placeholder="Nama orang" value="'+kepengs[i].split(',')[1]+'" /></div>';
             htmlAppend +=
-                '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger" onclick="deleteKepengarangan(' +
+                '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger delKepeng" onclick="deleteKepengarangan(' +
                 kepengarangan + ')"><i class="ki-outline ki-trash" ></i></span></div></div>';
             $('#kepengarangan').append(htmlAppend);
             $('#authorRole'+i).val(kepengs[i].split(',')[0].toLowerCase());
@@ -1266,7 +1266,7 @@
             htmlAppend +=
                 '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control fs-8 form-control-lg form-control-solid" placeholder="Nama orang" value="'+kepengs[i]+'" /></div>';
             htmlAppend +=
-                '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger" onclick="deleteKepengarangan(' +
+                '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger delKepeng" onclick="deleteKepengarangan(' +
                 kepengarangan + ')"><i class="ki-outline ki-trash" ></i></span></div></div>';
             $('#kepengarangan').append(htmlAppend);
             $('#authorRole'+i).val('penulis');
@@ -1470,7 +1470,7 @@
         htmlAppend +=
             '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control fs-8 form-control-lg form-control-solid" placeholder="Nama orang" /></div>';
         htmlAppend +=
-            '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger" onclick="deleteKepengarangan(' +
+            '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger delKepeng" onclick="deleteKepengarangan(' +
             kepengarangan + ')"><i class="ki-outline ki-trash" ></i></span></div></div>';
         $('#kepengarangan').append(htmlAppend);
         kepengarangan += 1;
@@ -1582,10 +1582,11 @@
         $('select').prop("disabled", true);
         $('textarea').attr("readonly", "true");
         $('input[type="radio"]').prop('disabled', true);
-        $('#btnTambahPengarang').hide();
-        $('#btnTambahJilid').hide();
-        $('#btnSave').hide();
-        $('.hapusJilid').hide();
+        $('#btnTambahPengarang').remove();
+        $('#btnTambahJilid').remove();
+        $('#btnSave').remove();
+        $('.hapusJilid').remove();
+        $('.delKepeng').remove();
     }
 </script>
 @stop
