@@ -50,6 +50,7 @@ class ProfilController extends Controller
                 'kelurahan' => 'required',
                 'admin' => 'required',
                 'kodepos' => 'required',
+                'website'   =>'required'
                 ],[
                 //'name.required' => 'Anda belum mengisi nama penerbit',
                 //'name.min' => 'Nama penerbit minimum terdiri dari 8 karakter',
@@ -65,6 +66,7 @@ class ProfilController extends Controller
                 'kelurahan.required' => 'Anda belum mengisi kelurahan tempat domisili kantor',
                 'admin.required' => 'Anda belum mengisi nama admin pengelola ISBN',
                 'kodepos.required' => 'Anda belum mengisi kodepos domisili kantor',
+                'website.required' => 'Anda belum mengisi alamat website. Website diperlukan untuk pengecekan buku yang akan Anda terbitkan.',
             ]);
             if($validator->fails()){
                 return response()->json([
