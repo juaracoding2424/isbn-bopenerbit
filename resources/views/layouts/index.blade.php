@@ -127,6 +127,70 @@
 			//alert('Image does not exist');
 		}
 	});
+	$.ajax({
+            url: "{{ url('penerbit/dashboard/total-isbn') }}" + '?status=diterima',
+            type: 'GET',
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                $('#totalDiterima').text(response);
+            },
+            error: function() {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Server Error!'
+                });
+            }
+        });
+	$.ajax({
+        url: "{{ url('penerbit/dashboard/total-isbn') }}" + '?status=permohonan',
+        type: 'GET',
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            $('#totalPermohonan').text(response);
+        },
+        error: function() {
+            Toast.fire({
+                icon: 'error',
+                title: 'Server Error!'
+            });
+        }
+    });
+	$.ajax({
+        url: "{{ url('penerbit/dashboard/total-isbn') }}" + '?status=pending',
+        type: 'GET',
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            $('#totalMasalah').text(response);
+        },
+        error: function() {
+            Toast.fire({
+                icon: 'error',
+                title: 'Server Error!'
+            });
+        }
+    });
+	$.ajax({
+        url: "{{ url('penerbit/dashboard/total-isbn') }}" + '?status=batal',
+        type: 'GET',
+        contentType: false,
+        processData: false,
+        success: function(response) {
+			if(response > 0) {
+            	$('#totalBatal').text(response);
+			} else {
+				$('#totalBatal').remove();
+			}
+        },
+        error: function() {
+            Toast.fire({
+                icon: 'error',
+                title: 'Server Error!'
+            });
+        }
+    });
 </script>
 <!--end::Javascript-->
 </body>
