@@ -134,7 +134,9 @@ class IsbnBatalController extends Controller
         $isbn_resi = kurl("get","getlistraw", "", "SELECT * FROM ISBN_RESI WHERE ID='$id' ", "sql", "")["Data"]["Items"][0];
         $count_masalah = kurl("get","getlistraw", "", "SELECT count(*) JML FROM PENERBIT_ISBN_MASALAH WHERE ISBN_RESI_ID='$id' AND is_solve=0 ", "sql", "")["Data"]["Items"][0]['JML'];
         //return $data['Status'];
+        $status = "";
         if(intval($count_masalah) > 0){
+            $status = "pending";
             $params = [
                 ["name" => 'status', 'Value'=> 'pending'],
             ];
@@ -142,6 +144,7 @@ class IsbnBatalController extends Controller
             $params = [
                 ["name" => 'status', 'Value'=> 'permohonan'],
             ];
+            $status = "permohonan";
         }
         $res2 =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_RESI&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($params)));
         
@@ -149,11 +152,11 @@ class IsbnBatalController extends Controller
         $history = [
             [ "name" => "TABLENAME", "Value"=> "PENERBIT_TERBITAN"],
             [ "name" => "IDREF", "Value"=> $isbn_resi['PENERBIT_TERBITAN_ID']],
-            [ "name" => "ACTION" , "Value"=> "Add"],
+            [ "name" => "ACTION" , "Value"=> "Edit"],
             //[ "name" => "ACTIONDATE", "Value"=> now()->addHours(7)->format('Y-m-d H:i:s') ],
             [ "name" => "ACTIONTERMINAL", "Value"=> \Request::ip()],
             [ "name" => "ACTIONBY", "Value"=> session('penerbit')["USERNAME"]],
-            [ "name" => "NOTE", "Value"=> "Permohonan dipulihkan " . $isbn_resi['NORESI']],
+            [ "name" => "NOTE", "Value"=> "Permohonan dipulihkan " . $isbn_resi['NORESI'] . " ke status " . $status],
         ];
         $res_his = Http::post(config('app.inlis_api_url') . "?token=" . config('app.inlis_api_token') . "&op=add&table=HISTORYDATA&ListAddItem=" . urlencode(json_encode($history)));
         return $res2;
