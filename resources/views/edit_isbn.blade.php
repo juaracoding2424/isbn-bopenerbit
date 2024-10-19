@@ -910,8 +910,9 @@
 </body>
 <!--end::Body-->
 <script>
-
-
+    @if(isset($masalah["Data"]["Items"][0]))
+    var masalah = true;
+    @endif
     function clearOptions(id) {
         //console.log("on clearOptions :" + id);
         //$('#' + id).val(null);
@@ -1219,6 +1220,9 @@
         dropZoneJilid(jumlah_buku, "lampiran");
         dropZoneJilid(jumlah_buku, "dummy");
         dropZoneJilid(jumlah_buku, "cover");
+        if((status=='lanjutan' || status == 'permohonan') && masalah == false){
+            $('.hapusJilid').remove();
+        }
     }
     $('#btnTambahJilid').on('click', function(){
         tambahJilid();
@@ -1574,9 +1578,7 @@
         $('#btnTambahJilid').css('display', 'none');
     }
     var masalah = false;
-    @if(isset($masalah["Data"]["Items"][0]))
-    var masalah = true;
-    @endif
+   
     if((status=='lanjutan' || status == 'permohonan') && masalah == false){
         $('input').attr("readonly", "true");
         $('select').prop("disabled", true);
@@ -1585,7 +1587,6 @@
         $('#btnTambahPengarang').remove();
         $('#btnTambahJilid').remove();
         $('#btnSave').remove();
-        $('.hapusJilid').remove();
         $('.delKepeng').remove();
     }
 </script>
