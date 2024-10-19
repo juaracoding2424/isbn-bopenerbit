@@ -825,9 +825,9 @@ class IsbnPermohonanController extends Controller
     }
     function getDetailJilid($id)
     {
-        $detail = kurl("get","getlistraw", "", "SELECT pt.* FROM PENERBIT_TERBITAN pt WHERE pt.ID='$id'", 'sql', '');
-       
-        if(intval($detail["Data"]["Items"][0]["JML_JILID"]) > 1){
+        $detail = kurl("get","getlistraw", "", "SELECT pt.* FROM PENERBIT_TERBITAN pt JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id WHERE pt.ID='$id' ", 'sql', '');
+        
+        if(count($detail["Data"]["Items"]) > 1){
             $status = "jilid";
         } else {
             $status = "lepas";
@@ -835,6 +835,7 @@ class IsbnPermohonanController extends Controller
         $data = [
             'status' => $status,
             'detail' => $detail["Data"]["Items"][0],
+            'jml_jilid' => count($detail["Data"]["Items"])
         ];
         return response()->json($data);
     }
@@ -851,7 +852,7 @@ class IsbnPermohonanController extends Controller
         $data = kurl("get","getlistraw", "", "SELECT pi.isbn_no, pt.title, pt.ID 
                 FROM PENERBIT_ISBN pi 
                 JOIN PENERBIT_TERBITAN pt ON pi.penerbit_terbitan_id = pt.id 
-                WHERE pi.keterangan_jilid LIKE '%lengkap%' 
+                WHERE (pi.keterangan_jilid LIKE '%lengkap' OR pi.keterangan LIKE '%lengkap') 
                 AND pi.penerbit_id = $id", 'sql', '')["Data"]["Items"];
         $arr = [];
         foreach($data as $d){

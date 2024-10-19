@@ -1522,7 +1522,7 @@
             $('input[type=text][name="distributor"]').val(res['detail']['DISTRIBUTOR']);
             $('input[type=text][name="tempat_terbit"]').val(res['detail']['TEMPAT_TERBIT']);  
             $('#jml_hlm').attr("type", "text").attr('readonly', true);
-            jml_jilid = parseInt(res['detail']['JML_JILID']);
+            jml_jilid = parseInt(res['jml_jilid']);
             $('#jml_hlm').val(jml_jilid);
             $('#labelJumlahHalaman').text('Jumlah Jilid');
             $('#labelKetJumlahHalaman').text('Jilid');
