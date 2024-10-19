@@ -65,10 +65,10 @@ class IsbnDataController extends Controller
                 pt.is_kdt_valid
                 FROM penerbit_isbn pi
                 LEFT JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
-                LEFT JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id " . $where;
-        //\Log::info($sql);
-        $sqlFiltered = "SELECT pt.id FROM penerbit_terbitan pt LEFT JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
-                        JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id " . $where;
+                LEFT JOIN isbn_resi ir on ir.id = pi.isbn_resi_id " . $where;
+
+        $sqlFiltered = "SELECT pi.id FROM penerbit_isbn pi LEFT JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
+                        LEFT JOIN isbn_resi ir on ir.id = pi.isbn_resi_id " . $where;
        
         foreach($request->input('advSearch') as $advSearch){
             if($advSearch["value"] != '') {
@@ -127,12 +127,13 @@ class IsbnDataController extends Controller
                     break;
             }
         }
+        //\Log::info("SELECT count(*) JUMLAH FROM PENERBIT_ISBN WHERE PENERBIT_ID='$id'");
         $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM PENERBIT_ISBN WHERE PENERBIT_ID='$id'  ", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         
         if($length == '-1'){
             $end = $totalData;
         }
-        
+        \Log::info("SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql )  inner WHERE rownum <=$end) outer WHERE rn >$start");
         $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql )  inner WHERE rownum <=$end) outer WHERE rn >$start", 'sql', '')["Data"]["Items"];
     
         $totalFiltered = kurl("get","getlistraw", "", "SELECT COUNT(*) JUMLAH FROM ($sqlFiltered )", 'sql', '')["Data"]["Items"][0]["JUMLAH"];

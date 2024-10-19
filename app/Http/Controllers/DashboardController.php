@@ -31,13 +31,13 @@ class DashboardController extends Controller
                     WHERE PENERBIT_ID='$id' AND (status='' OR status='permohonan' OR status is NULL OR status='lanjutan') ";
         } 
         if($status == 'pending') {
-            $sql = "SELECT count(ir.id) JUMLAH
-                FROM PENERBIT_ISBN_MASALAH m LEFT JOIN ISBN_RESI ir on ir.id = m.isbn_resi_id
-                WHERE m.IS_SOLVE = 0 AND ir.PENERBIT_ID='$id' AND ir.status='pending' GROUP BY ir.id";
+            $sql = "SELECT count(*) JUMLAH
+                        FROM ISBN_RESI WHERE
+                        status='pending' AND PENERBIT_ID='$id' ";
         }
         if($status == 'diterima'){
             $sql  = "SELECT count(*) JUMLAH FROM PENERBIT_ISBN pi 
-                    WHERE pi.PENERBIT_ID='$id'";
+                    WHERE pi.PENERBIT_ID='$id' ";
         }
         if($status == 'batal'){
             $sql = "SELECT count(*) JUMLAH FROM ISBN_RESI IR 
