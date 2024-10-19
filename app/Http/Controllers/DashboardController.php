@@ -39,7 +39,10 @@ class DashboardController extends Controller
             $sql  = "SELECT count(*) JUMLAH FROM PENERBIT_ISBN pi 
                     WHERE pi.PENERBIT_ID='$id'";
         }
-        
+        if($status == 'batal') {
+            $sql = "SELECT count(*) JUMLAH FROM ISBN_RESI IR 
+                    WHERE PENERBIT_ID='$id' AND status='batal' ";
+        }
         $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         return $data;
     }

@@ -22,22 +22,22 @@
             </div>
             <div class="menu-item">
                 <a class="menu-link {{ request()->is('penerbit/isbn/permohonan') ? 'active' : '' }}" href="{{ url('/penerbit/isbn/permohonan')}}">
-                    <span class="menu-icon"><i class="ki-outline ki-plus-circle fs-2"></i></span> Data Permohonan
+                    <span class="menu-icon"><i class="ki-outline ki-plus-circle fs-2"></i></span> Data Permohonan <span class="badge badge-light-danger badge-circle fw-bold fs-7 ms-2" id="totalPermohonan"></span>
                 </a>
             </div>
             <div class="menu-item">
                 <a class="menu-link {{ request()->is('penerbit/isbn/masalah') ? 'active' : '' }}" href="{{ url('/penerbit/isbn/masalah')}}">
-                    <span class="menu-icon"><i class="ki-outline ki-file-deleted fs-2"></i></span> Data Permohonan Bermasalah
+                    <span class="menu-icon"><i class="ki-outline ki-file-deleted fs-2"></i></span> Data Permohonan Bermasalah <span class="badge badge-light-danger badge-circle fw-bold fs-7 ms-2" id="totalMasalah"></span>
                 </a>
             </div>
             <div class="menu-item">
                 <a class="menu-link {{ request()->is('penerbit/isbn/batal') ? 'active' : '' }}" href="{{ url('/penerbit/isbn/batal')}}">
-                    <span class="menu-icon"><i class="ki-outline ki-file-deleted fs-2 text-danger"></i></span> Permohonan Batal
+                    <span class="menu-icon"><i class="ki-outline ki-file-deleted fs-2 text-danger"></i></span> Permohonan Batal <span class="badge badge-light-danger badge-circle fw-bold fs-7 ms-2" id="totalBatal"></span>
                 </a>
             </div>
             <div class="menu-item">
                 <a class="menu-link {{ request()->is('penerbit/isbn/data') ? 'active' : '' }}" href="{{ url('/penerbit/isbn/data')}}">
-                    <span class="menu-icon"><i class="ki-outline ki-questionnaire-tablet fs-2"></i></span> Data ISBN
+                    <span class="menu-icon"><i class="ki-outline ki-questionnaire-tablet fs-2"></i></span> Data ISBN <span class="badge badge-light-danger badge-circle fw-bold fs-7 ms-2" id="totalDiterima"></span>
                 </a>
             </div>
             <div class="menu-item">
