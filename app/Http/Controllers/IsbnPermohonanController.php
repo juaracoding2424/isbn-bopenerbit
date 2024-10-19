@@ -364,7 +364,21 @@ class IsbnPermohonanController extends Controller
                         $jml_hlm = request('jml_hlm');
                     }
                     
-                    //$urls = implode('¦', request('url'));               
+                    $urls = "";
+                    if(request('status') == 'jilid'){
+                        $jilids = ""; 
+                        if(request('isbn-jilid') == ""){
+                            $jilids = "no.jil.lengkap¦";
+                            $urls = "¦";
+                        }
+                        $jilids .= implode('¦', request('keterangan_jilid'));
+                        $urls .= implode('¦', request('url'));    
+                        array_push($IsbnResi, 
+                            [ "name"=> "KETERANGAN_JILID", "Value"=> $jilids ]
+                        );
+                    } else {
+                        $urls = implode('¦', request('url'));    
+                    }              
                     
                     $ListData = [
                             [ "name"=>"TITLE", "Value"=> request('title') ],
@@ -404,21 +418,7 @@ class IsbnPermohonanController extends Controller
                     } else {
                         array_push($IsbnResi,  [ "name" =>"JENIS", "Value" => "jilid"]);
                     }
-                    $urls = "";
-                    if(request('status') == 'jilid'){
-                        $jilids = ""; 
-                        if(request('isbn-jilid') == ""){
-                            $jilids = "no.jil.lengkap¦";
-                            $urls = "¦";
-                        }
-                        $jilids .= implode('¦', request('keterangan_jilid'));
-                        $urls .= implode('¦', request('url'));    
-                        array_push($IsbnResi, 
-                            [ "name"=> "KETERANGAN_JILID", "Value"=> $jilids ]
-                        );
-                    } else {
-                        $urls = implode('¦', request('url'));    
-                    }
+                    
                     if(request('penerbit_terbitan_id') != ''){
                         // EDIT DATA PERMOHONAN
                         array_push($ListData, 
