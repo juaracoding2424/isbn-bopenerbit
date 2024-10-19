@@ -130,12 +130,19 @@ class IsbnBatalController extends Controller
 
     function pulihkanPermohonan($id) 
     {
-        $params = [
-            ["name" => 'status', 'Value'=> 'permohonan'],
-        ];
-        $isbn_resi = kurl("get","getlistraw", "", "SELECT * FROM ISBN_RESI WHERE ID='$id'", "sql", "")["Data"]["Items"][0];
+        
+        $isbn_resi = kurl("get","getlistraw", "", "SELECT * FROM ISBN_RESI WHERE ID='$id' ", "sql", "")["Data"]["Items"][0];
+        $count_masalah = kurl("get","getlistraw", "", "SELECT count(*) JML FROM PENERBIT_ISBN_MASALAH WHERE ISBN_RESI_ID='$id' AND is_solve=0 ", "sql", "")["Data"]["Items"][0]['JML'];
         //return $data['Status'];
-       
+        if(intval($count_masalah) > 0){
+            $params = [
+                ["name" => 'status', 'Value'=> 'pending'],
+            ];
+        } else {
+            $params = [
+                ["name" => 'status', 'Value'=> 'permohonan'],
+            ];
+        }
         $res2 =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_RESI&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($params)));
         
         //INSERT HISTORY PENERBIT TERBITAN
