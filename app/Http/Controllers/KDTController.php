@@ -40,26 +40,25 @@ class KDTController extends Controller
         
         $end = $start + $length;
 
-        $sql = "SELECT pi.penerbit_terbitan_id, ir.mohon_date, pt.author, pt.kepeng,
+        $sql = "SELECT pi.penerbit_terbitan_id, pt.LAST_MOHON_CREATEDATE, pt.author, pt.kepeng,
                 pt.VALIDATION_DATE,
                 case 
-                    when upper(ir.jenis) = 'LEPAS' then listagg(pi.isbn_no, ', ') within group (order by pi.isbn_no)
-                    when upper(ir.jenis) = 'JILID' then listagg(pi.isbn_no || ' (' || pi.KETERANGAN_JILID || ') ', ', ') within group (order by pi.isbn_no) 
-                    else listagg(pi.isbn_no, ', ') within group (order by pi.isbn_no)
+                    when (pt.jml_jilid is null OR pt.jml_jilid = 1) then listagg(pi.prefix_element || '-' || pi.publisher_element || '-' || pi.item_element || '-' || pi.check_digit, ', ') 
+                    within group (order by pi.isbn_no)
+                    when pt.jml_jilid > 1 then listagg(pi.prefix_element || '-' || pi.publisher_element || '-' || pi.item_element || '-' || pi.check_digit || ' (' || pi.KETERANGAN_JILID || ')', ', ') within group (order by pi.isbn_no)
                 End isbn_no_gab, pt.bulan_terbit, pt.tahun_terbit, pt.call_number, pt.sinopsis, pt.subjek,
-				ir.id as isbn_resi_id, ir.source,ir.jenis,pt.title,  pt.jml_jilid, pt.jilid_volume, 
+                pt.title,  pt.jml_jilid, pt.jilid_volume, 
                 pt.validator_by, pt.is_kdt_valid, pt.id
-                FROM penerbit_isbn pi
-                JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
-                LEFT JOIN isbn_resi ir on ir.penerbit_terbitan_id = pt.id
-                WHERE pi.PENERBIT_ID =$id AND pt.is_kdt_valid=1";
-        $sqlGroupBy = " GROUP BY pi.penerbit_terbitan_id, pt.title,  pt.jml_jilid, pt.jilid_volume, pt.bulan_terbit, pt.author, pt.kepeng,
-                pt.validation_date, pt.validator_by, pt.is_kdt_valid, ir.jenis, ir.mohon_date, ir.id, pt.tahun_terbit, ir.source, 
-                pt.call_number, pt.sinopsis, pt.subjek, pt.id";
+                FROM penerbit_terbitan pt
+                JOIN penerbit_ISBN pi on pi.penerbit_terbitan_id = pt.id
+                WHERE pi.PENERBIT_ID ='$id' AND pt.is_kdt_valid=1 ";
 
-        $sqlFiltered = "SELECT pt.id FROM penerbit_isbn pi
-                        JOIN penerbit_terbitan pt on pi.penerbit_terbitan_id = pt.id
-                        LEFT JOIN ISBN_RESI ir on ir.penerbit_terbitan_id = pt.id
+        $sqlGroupBy = " GROUP BY pi.penerbit_terbitan_id, pt.title,  pt.jml_jilid, pt.jilid_volume, pt.bulan_terbit, pt.author, pt.kepeng,
+                pt.validation_date, pt.validator_by, pt.is_kdt_valid, pt.tahun_terbit,
+                pt.call_number, pt.sinopsis, pt.subjek, pt.id, pt.LAST_MOHON_CREATEDATE";
+
+        $sqlFiltered = "SELECT pt.id FROM penerbit_terbitan pt
+                        JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
                         WHERE pi.penerbit_id = $id  AND pt.is_kdt_valid = 1 ";
         $sqlFilGroupBy = "GROUP BY pt.id ";
        
@@ -115,8 +114,8 @@ class KDTController extends Controller
                 } else {
                     $jml_jilid = 1;
                 }*/
-                $source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge badge-primary'>".$val['SOURCE']."</span>";
-                $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
+                //$source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge badge-primary'>".$val['SOURCE']."</span>";
+                //$jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
                 $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="btn btn-success p-2 m-1 fs-8" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : "";//'KDT Belum Ada';
                 $sinopsis_pendek = explode(" ", $val["SINOPSIS"]);
                 $first_part = implode(" ", array_splice($sinopsis_pendek, 0, 10));
@@ -125,7 +124,7 @@ class KDTController extends Controller
                     $nomor,
                     $kdt,
                     $val['ISBN_NO_GAB'],
-                    $val['TITLE'] . "<br/>$jenis $source",
+                    $val['TITLE'], //. "<br/>$jenis $source",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
                     $val['BULAN_TERBIT'] .' ' . $val['TAHUN_TERBIT'],
                     $val['CALL_NUMBER'],
