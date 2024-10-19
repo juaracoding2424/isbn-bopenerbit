@@ -81,7 +81,7 @@
     }
     </style>
     <footer>
-        <button class="btn btn-primary" onclick="barcodeSave()">Unduh Barcode</button>
+        <button class="btn btn-primary" onclick="barcodeSave()" style="font-family:Inter, Helvetica, sans-serif;">Unduh Barcode</button>
     </footer>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>

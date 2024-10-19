@@ -208,15 +208,9 @@
 	}
 	var cetakKDT = function(id){
 		Swal.fire({
-					html: `<div id='kdt'><iframe src='{{url("penerbit/isbn/data/view-kdt/`+id+`?bo_penerbit=1")}}' style="overflow-y:scroll; 
+					html: `<div id='kdt'><iframe src='{{url("penerbit/isbn/data/view-kdt/`+id+`?bo_penerbit=1&is_button=1")}}' style="overflow-y:scroll; 
 							width:700px; height:500px; border:0.5px solid lightgray; padding:5px; white-space:pre-wrap;text-align:left; font-size:10pt;" id="iframeKdt"
-							allow="clipboard-read; clipboard-write"></iframe></div>
-							<div>
-							<button class="btn btn-primary" onclick="onBtnClicked('print',`+ id + `)">Unduh KDT</button>
-							<button class="btn btn-warning" onclick="onBtnClicked('copy_text',`+ id + `)">Salin Teks</button>
-							<button class="btn btn-info" onclick="onBtnClicked('copy_html',`+ id + `)">Salin HTML</button>
-							<button class="btn btn-secondary" onclick="onBtnClicked('view',`+ id + `)">View on Web</button>
-							</div>`,
+							allow="clipboard-read; clipboard-write"></iframe></div>`,
                     icon: "success",
 					width: "800px",
 					heightAuto: false,
@@ -225,50 +219,6 @@
 					showConfirmButton: false,
   					showCloseButton: true,
                 });
-	}
-
-	var onBtnClicked = function(ev, id){
-		switch(ev) {
-			case 'print' : 
-				location.href = "{{url('/penerbit/isbn/data/generate-pdf')}}" + "/"+ id;
-				break;
-			case 'copy_text' : 
-				CopyToClipboard('iframeKdt', 'text');
-				break;
-			case 'copy_html' : 
-				CopyToClipboard('iframeKdt', 'html');
-				break;
-			case 'view' : 
-				location.href = "{{url('/penerbit/isbn/data/view-kdt')}}" + "/"+id;
-				break;
-			}
-	}
-	var CopyToClipboard = function(containerid, type) {
-		var iframe = document.getElementById(containerid);
-        var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-		if(type == 'text') {
-        	var textToCopy = iframeDocument.getElementById('kdt_to_print').innerText;
-		} else {
-			var textToCopy = iframeDocument.getElementById('kdt_to_print').innerHTML;
-		}
-
-        var tempInput = document.createElement('textarea');
-        document.body.appendChild(tempInput);
-        tempInput.value = textToCopy;
-        tempInput.select();
-        document.execCommand('copy');
-        document.body.removeChild(tempInput);
-		if(type == 'text') {
-        	var msg = 'Teks berhasil di salin!';
-		} else {
-			var msg = 'HTML berhasil di salin!';
-		}
-		Swal.fire({
-            text: msg,
-			icon: "success",
-            showCancelButton: !0,
-			timer: 3000,
-		})
 	}
 
 	var changeStatus = function(selectId){

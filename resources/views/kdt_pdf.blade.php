@@ -7,70 +7,9 @@
 <link href="{{ asset('assets/css/style-admin.css') }}" rel="stylesheet" type="text/css" />
 <style>
     .btn{
-        padding:5px;
-        border-radius:4px;
+        padding:calc(0.775rem + 1px) calc(1.5rem + 1px);
+        border-radius:5px;
         margin:5px
-    }
-    @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,800i,900|Quicksand:300,400,500,700&subset=cyrillic,cyrillic-ext,latin-ext,vietnamese');
-    /*-------------General Style---------------------------------------*/
-    @font-face {
-        font-family: 'Open Sans';
-        font-style: normal;
-        font-weight: 400;
-        src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFWJ0bbck.woff2) format('woff2');
-        unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-    }
-    /* cyrillic */
-    @font-face {
-        font-family: 'Open Sans';
-        font-style: normal;
-        font-weight: 400;
-        src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFUZ0bbck.woff2) format('woff2');
-        unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-    }
-    /* greek-ext */
-    @font-face {
-        font-family: 'Open Sans';
-        font-style: normal;
-        font-weight: 400;
-        src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFWZ0bbck.woff2) format('woff2');
-        unicode-range: U+1F00-1FFF;
-    }
-    /* greek */
-    @font-face {
-        font-family: 'Open Sans';
-        font-style: normal;
-        font-weight: 400;
-        src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFVp0bbck.woff2) format('woff2');
-        unicode-range: U+0370-03FF;
-    }
-    /* vietnamese */
-    @font-face {
-        font-family: 'Open Sans';
-        font-style: normal;
-        font-weight: 400;
-        src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFWp0bbck.woff2) format('woff2');
-        unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
-    }
-    /* latin-ext */
-    @font-face {
-        font-family: 'Open Sans';
-        font-style: normal;
-        font-weight: 400;
-        src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFW50bbck.woff2) format('woff2');
-        unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-    }
-    /* latin */
-    @font-face {
-        font-family: 'Open Sans';
-        font-style: normal;
-        font-weight: 400;
-        src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFVZ0b.woff2) format('woff2');
-        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-    }
-    @page {
-        margin: 0cm 0cm;
-
     }
     
     .main {
@@ -205,10 +144,10 @@
     <link href="{{ asset('assets/plugins/global/plugins.bundle.css ') }}" rel="stylesheet" type="text/css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <footer>
-        <button class="btn btn-primary" onclick="onBtnClicked('print')">Unduh KDT</button>
-	    <button class="btn btn-warning" onclick="onBtnClicked('copy_text')">Salin Teks</button>
-		<button class="btn btn-info" onclick="onBtnClicked('copy_html')">Salin HTML</button>
-		<button class="btn btn-success" onclick="onBtnClicked('view')">View on Web</button>
+        <button class="btn btn-primary fs-3" onclick="onBtnClicked('print')">Unduh KDT</button>
+	    <button class="btn btn-warning fs-3" onclick="onBtnClicked('copy_text')">Salin Teks</button>
+		<button class="btn btn-info fs-3" onclick="onBtnClicked('copy_html')">Salin HTML</button>
+		<button class="btn btn-success fs-3" onclick="onBtnClicked('view')">View on Web</button>
 	</footer>
     <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
     <script>
@@ -216,10 +155,18 @@
             var id = window.location.pathname.split("/").pop(); 
             switch(ev) {
                 case 'print' : 
-                    //location.href = "{{url('/penerbit/isbn/data/generate-pdf')}}" + "/"+ id;
                     var element = document.getElementById('kdt_to_print');
                     $('#kdt_to_print').addClass('print-friendly');
-                    html2pdf(element);
+                    var opt = {
+                        margin:       0,
+                        filename:     'kdt' + id + '.pdf',
+                        image:        { type: 'jpeg', quality: 1 },
+                        html2canvas:  { scale: 3 },
+                        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                    };
+
+                    // New Promise-based usage:
+                    html2pdf().set(opt).from(element).save();
                     Swal.fire({
                         text: "KDT berhasil diunduh!",
                         icon: "success",
