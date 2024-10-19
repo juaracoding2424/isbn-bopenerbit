@@ -127,13 +127,18 @@
 			//alert('Image does not exist');
 		}
 	});
+	var getBadge = function () {
 	$.ajax({
             url: "{{ url('penerbit/dashboard/total-isbn') }}" + '?status=diterima',
             type: 'GET',
             contentType: false,
             processData: false,
             success: function(response) {
-                $('#totalDiterima').text(response);
+				if(response > 0) {
+					$('#totalDiterima').text(response);
+				} else {
+					$('#totalDiterima').remove();
+				}
             },
             error: function() {
                 Toast.fire({
@@ -148,7 +153,11 @@
         contentType: false,
         processData: false,
         success: function(response) {
-            $('#totalPermohonan').text(response);
+			if(response > 0) {
+            	$('#totalPermohonan').text(response);
+			} else {
+				$('#totalPermohonan').remove();
+			}
         },
         error: function() {
             Toast.fire({
@@ -163,7 +172,11 @@
         contentType: false,
         processData: false,
         success: function(response) {
-            $('#totalMasalah').text(response);
+            if(response > 0) {
+            	$('#totalMasalah').text(response);
+			} else {
+				$('#totalMasalah').remove();
+			}
         },
         error: function() {
             Toast.fire({
@@ -191,6 +204,8 @@
             });
         }
     });
+}
+getBadge();
 </script>
 <!--end::Javascript-->
 </body>

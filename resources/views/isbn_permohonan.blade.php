@@ -227,6 +227,7 @@
 									})
 									loadDataTable();
 									refreshHistory();
+									getBadge();
 								}
 							});
 						} else {

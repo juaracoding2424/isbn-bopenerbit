@@ -204,6 +204,8 @@
 										}
 									})
 									loadDataTable();
+									getBadge();
+									refreshHistory();
 								}
 							});
 							
