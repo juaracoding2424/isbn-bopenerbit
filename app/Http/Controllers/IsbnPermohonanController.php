@@ -102,7 +102,7 @@ class IsbnPermohonanController extends Controller
                 $id = $val['ID'];
                 $noresi = $val['NORESI'] ? $val['NORESI'] : $val['ID'];
                 if($val['STATUS'] == 'lanjutan'){
-                    $noresi .= "<span class='badge btn-secondary'>JILID-LANJUTAN</span>";
+                    $noresi .= "<span class='badge badge-dark'>JILID-LANJUTAN</span>";
                 }
                 $source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge btn-primary'>".$val['SOURCE']."</span>";
                 $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
@@ -406,7 +406,7 @@ class IsbnPermohonanController extends Controller
                     }
                     if(request('status') == 'jilid'){
                         $jilids = "";
-                        if(request('isbn-jilid') != ""){
+                        if(request('isbn-jilid') == ""){
                             $jilids = "no.jil.lengkap¦";
                         }
                         $jilids .= implode('¦', request('keterangan_jilid'));
@@ -799,7 +799,7 @@ class IsbnPermohonanController extends Controller
             $data_jilid_lengkap = kurl("get","getlistraw", "", "SELECT pi.isbn_no, pt.title, pt.ID 
                 FROM PENERBIT_ISBN pi 
                 JOIN PENERBIT_TERBITAN pt ON pi.penerbit_terbitan_id = pt.id 
-                WHERE pi.keterangan_jilid LIKE '%lengkap%' 
+                WHERE (pi.keterangan_jilid LIKE '%lengkap' OR pi.keterangan LIKE '%lengkap') 
                 AND pi.penerbit_id = " . session('penerbit')['ID'] . " AND pt.id=" .$detail["Data"]["Items"][0]["PENERBIT_TERBITAN_ID"] , 'sql', '')["Data"]["Items"][0];
             $data = array_merge($data, [
                                 'isbnjilidlanjutan' => $data_jilid_lengkap['ISBN_NO'] . ' | '.$data_jilid_lengkap['TITLE'], 
