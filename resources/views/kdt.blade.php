@@ -80,6 +80,17 @@
 								<div class="row"><!--begin::Search-->
 								<div class="col-md-6">Advance Filter:
 									<div id="advanceSearch">
+										<div class="d-flex align-items-center position-relative my-0">
+											<div class="w-200px fs-8 p-2 m-0">Jenis Media</div>
+											<select class="select2 form-select w-400px fs-8 p-2 m-0" name="selectJenisMedia" id="selectJenisMedia">
+														<option value="">--Semua--</option>
+														<option value="1">Cetak</option>
+														<option value="2">Digital (PDF)</option>
+														<option value="3">Digital (EPUB)</option>
+														<option value="4">Audio Book</option>
+														<option value="5">Audio Visual</option>
+											</select>
+										</div>
 										<div class="d-flex align-items-center position-relative my-0" id="advanceSearch_0">
 											<select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectParameter">
 												<option value="isbn">ISBN</option>
@@ -101,6 +112,7 @@
 								</div>
 
 								<div class="col-md-6">Filter
+									
 									<div class="row mb-1">
 										<div class="col-md-3 fs-8">Jenis Terbitan</div>
 										<div class="col-md-9"><select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectJenis"
@@ -110,7 +122,7 @@
 												<option value="jilid">terbitan berjilid</option>
 											</select></div>
 									</div>
-									<div class="row md-6">
+									<!--div class="row md-6">
 										<div class="col-md-3 fs-8">Sumber</div>
 										<div class="col-md-9"><select class="select2 form-select w-200px fs-8 p-2 m-0" name="selectSumber" id="selectSumber">
 												<option value="">--pilih sumber data--</option>
@@ -118,7 +130,7 @@
 												<option value="api">API</option>
 												<option value="bulk">Bulk</option>
 											</select></div>
-									</div>
+									</div-->
 								</div>
 								<!--end::Search-->
 							</div>
@@ -344,8 +356,9 @@
 					advSearch : advSearch,
 					jenisTerbitan: $('#selectJenis').val(),
 					kdtValid : $('#selectKdt').val(),
-					statusKckr : $('#selectKckr').val(),
-					sumber : $('#selectSumber').val(),
+					//statusKckr : $('#selectKckr').val(),
+					//sumber : $('#selectSumber').val(),
+					jenisMedia : $('#selectJenisMedia').val(),
 				}
 			},
 		});
@@ -376,19 +389,6 @@
 		const target = document.querySelector('#unduhExcel');
         target.click();
     }
-	var createCellPos = function( n ){
-		var ordA = 'A'.charCodeAt(0);
-		var ordZ = 'Z'.charCodeAt(0);
-		var len = ordZ - ordA + 1;
-		var s = "";
-	
-		while( n >= 0 ) {
-			s = String.fromCharCode(n % len + ordA) + s;
-			n = Math.floor(n / len) - 1;
-		}
-	
-		return s;
-	}
 	exportButtons();
 	var advSearch = 1;
 	$('#btnTambahFilter').on("click", function(){
@@ -410,15 +410,11 @@
 		loadDataTable();
 		exportButtons();
 	});
+	$('#selectJenisMedia').on("change", function(){
+		loadDataTable();
+		exportButtons();
+	});
 	$('#selectKdt').on("change", function(){
-		loadDataTable();
-		exportButtons();
-	});
-	$('#selectKckr').on("change", function(){
-		loadDataTable();
-		exportButtons();
-	});
-	$('#selectSumber').on("change", function(){
 		loadDataTable();
 		exportButtons();
 	});

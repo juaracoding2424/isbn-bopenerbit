@@ -47,57 +47,54 @@ class KDTController extends Controller
                     within group (order by pi.isbn_no)
                     when pt.jml_jilid > 1 then listagg(pi.prefix_element || '-' || pi.publisher_element || '-' || pi.item_element || '-' || pi.check_digit || ' (' || pi.KETERANGAN_JILID || ')', ', ') within group (order by pi.isbn_no)
                 End isbn_no_gab, pt.bulan_terbit, pt.tahun_terbit, pt.call_number, pt.sinopsis, pt.subjek,
-                pt.title,  pt.jml_jilid, pt.jilid_volume, 
+                pt.title,  pt.jml_jilid, pt.jilid_volume, pt.jenis_media,
                 pt.validator_by, pt.is_kdt_valid, pt.id
                 FROM penerbit_terbitan pt
                 JOIN penerbit_ISBN pi on pi.penerbit_terbitan_id = pt.id
                 WHERE pi.PENERBIT_ID ='$id' AND pt.is_kdt_valid=1 ";
 
         $sqlGroupBy = " GROUP BY pi.penerbit_terbitan_id, pt.title,  pt.jml_jilid, pt.jilid_volume, pt.bulan_terbit, pt.author, pt.kepeng,
-                pt.validation_date, pt.validator_by, pt.is_kdt_valid, pt.tahun_terbit,
+                pt.validation_date, pt.validator_by, pt.is_kdt_valid, pt.tahun_terbit, pt.jenis_media,
                 pt.call_number, pt.sinopsis, pt.subjek, pt.id, pt.LAST_MOHON_CREATEDATE";
 
         $sqlFiltered = "SELECT pt.id FROM penerbit_terbitan pt
                         JOIN penerbit_isbn pi on pi.penerbit_terbitan_id = pt.id
                         WHERE pi.penerbit_id = $id  AND pt.is_kdt_valid = 1 ";
         $sqlFilGroupBy = "GROUP BY pt.id ";
-       
+        $where = "";
         foreach($request->input('advSearch') as $advSearch){
             if($advSearch["value"] != '') {
                 if($advSearch["param"] == 'isbn'){
                     $isbn = str_replace("-","",$advSearch["value"]);
-                    $sqlFiltered .= " AND CONCAT('WIN',(upper(pi.ISBN_NO))) like 'WIN%".$isbn."%'";
-                    $sql .= " AND CONCAT('WIN',(upper(ISBN_NO))) like 'WIN%".$isbn."%'";
+                    $where .= " AND CONCAT('WIN',(upper(pi.ISBN_NO))) like 'WIN%".$isbn."%'";  
                 }
                 if($advSearch["param"] == 'title'){
-                    $sqlFiltered .= " AND CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%'";
-                    $sql .= " AND CONCAT('WIN',(upper(TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%'";
+                    $where .= " AND CONCAT('WIN',(upper(pt.TITLE))) like 'WIN%".strtoupper($advSearch["value"])."%'";
                 }
                 if($advSearch["param"] == 'tahun_terbit'){
-                    $sqlFiltered .= " AND pt.TAHUN_TERBIT like '%".$advSearch["value"]."%'";
-                    $sql .= " AND TAHUN_TERBIT like '%".$advSearch["value"]."%'";
+                    $where .= " AND pt.TAHUN_TERBIT like '%".$advSearch["value"]."%'";
                 }
                 if($advSearch["param"] == 'kepeng'){
-                    $sqlFiltered .= " AND (upper(pt.kepeng) like '%".strtoupper($advSearch["value"])."%' OR upper(pt.author) like '%".strtoupper($advSearch["value"])."%') ";
-                    $sql .= " AND (upper(kepeng) like '%".strtoupper($advSearch["value"])."%' OR upper(author) like '%".strtoupper($advSearch["value"])."%') ";
+                    $where .= " AND (upper(pt.kepeng) like '%".strtoupper($advSearch["value"])."%' OR upper(pt.author) like '%".strtoupper($advSearch["value"])."%') ";
                 }
             }
         }
         if($request->input('jenisTerbitan') !=''){
             if($request->input('jenisTerbitan') == 'lepas'){
-                $sqlFiltered .= " AND (JML_JILID IS NULL OR JML_JILID = 1) ";
-                $sql .= " AND (JML_JILID IS NULL OR JML_JILID = 1) ";
+                $where .= " AND (JML_JILID IS NULL OR JML_JILID = 1) ";
             } else {
-                $sqlFiltered .= " AND JML_JILID > 1 ";
-                $sql .= " AND JML_JILID > 1 ";
+                $where .= " AND JML_JILID > 1 ";
             }
             //$sqlFiltered .= " AND upper(ir.jenis) = '".strtoupper($request->input('jenisTerbitan'))."'";
             //$sql .= " AND upper(ir.jenis) = '".strtoupper($request->input('jenisTerbitan'))."'";  
         }
 
-        if($request->input(key: 'sumber') !=''){
+        /*if($request->input(key: 'sumber') !=''){
             $sqlFiltered .= " AND ir.source = '".$request->input('sumber')."'";
             $sql .= " AND ir.source = '".$request->input('sumber')."'";
+        }*/
+        if($request->input('jenisMedia') !=''){
+            $where .= " AND pt.jenis_media = '".$request->input('jenisMedia')."'";
         }
         $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM 
                 (SELECT pi.penerbit_terbitan_id FROM PENERBIT_ISBN pi JOIN PENERBIT_TERBITAN pt ON pi.penerbit_terbitan_id = pt.id  
@@ -107,8 +104,8 @@ class KDTController extends Controller
         if($length == '-1'){
             $end = $totalData;
         }       
-        $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql  $sqlGroupBy)  inner WHERE rownum <=$end) outer WHERE rn >$start", 'sql', '')["Data"]["Items"];
-        $totalFiltered = kurl("get","getlistraw", "", "SELECT COUNT(*) JUMLAH FROM ($sqlFiltered $sqlFilGroupBy)", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
+        $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql $where $sqlGroupBy)  inner WHERE rownum <=$end) outer WHERE rn >$start", 'sql', '')["Data"]["Items"];
+        $totalFiltered = kurl("get","getlistraw", "", "SELECT COUNT(*) JUMLAH FROM ($sqlFiltered $where $sqlFilGroupBy)", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         
         $response['data'] = [];
         if ($queryData <> FALSE) {
@@ -122,6 +119,14 @@ class KDTController extends Controller
                 }*/
                 //$source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge badge-primary'>".$val['SOURCE']."</span>";
                 //$jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
+                switch($val['JENIS_MEDIA']){
+                    case '1': $jenis_media = 'Cetak'; break;
+                    case '2': $jenis_media = 'Digital (PDF)'; break;
+                    case '3': $jenis_media = 'Digital (EPUB)'; break;
+                    case '4': $jenis_media = 'Audio Book'; break;
+                    case '5': $jenis_media = 'Audio Visual Book'; break;
+                    default: $jenis_media = ''; break;
+                }
                 $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="btn btn-success p-2 m-1 fs-8" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : "";//'KDT Belum Ada';
                 $sinopsis_pendek = explode(" ", $val["SINOPSIS"]);
                 $first_part = implode(" ", array_splice($sinopsis_pendek, 0, 10));
@@ -130,7 +135,7 @@ class KDTController extends Controller
                     $nomor,
                     $kdt,
                     $val['ISBN_NO_GAB'],
-                    $val['TITLE'], //. "<br/>$jenis $source",
+                    $val['TITLE'] . "<br/><span class='text-success'><i>$jenis_media</i></span>", //. "<br/>$jenis $source",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
                     $val['BULAN_TERBIT'] .' ' . $val['TAHUN_TERBIT'],
                     $val['CALL_NUMBER'],
