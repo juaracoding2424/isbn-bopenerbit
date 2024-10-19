@@ -84,8 +84,15 @@ class KDTController extends Controller
             }
         }
         if($request->input('jenisTerbitan') !=''){
-            $sqlFiltered .= " AND upper(ir.jenis) = '".strtoupper($request->input('jenisTerbitan'))."'";
-            $sql .= " AND upper(ir.jenis) = '".strtoupper($request->input('jenisTerbitan'))."'";  
+            if($request->input('jenisTerbitan') == 'lepas'){
+                $sqlFiltered .= " AND (JML_JILID IS NULL OR JML_JILID = 1) ";
+                $sql .= " AND (JML_JILID IS NULL OR JML_JILID = 1) ";
+            } else {
+                $sqlFiltered .= " AND JML_JILID > 1 ";
+                $sql .= " AND JML_JILID > 1 ";
+            }
+            //$sqlFiltered .= " AND upper(ir.jenis) = '".strtoupper($request->input('jenisTerbitan'))."'";
+            //$sql .= " AND upper(ir.jenis) = '".strtoupper($request->input('jenisTerbitan'))."'";  
         }
 
         if($request->input(key: 'sumber') !=''){
@@ -99,8 +106,7 @@ class KDTController extends Controller
         
         if($length == '-1'){
             $end = $totalData;
-        }
-       
+        }       
         $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql  $sqlGroupBy)  inner WHERE rownum <=$end) outer WHERE rn >$start", 'sql', '')["Data"]["Items"];
         $totalFiltered = kurl("get","getlistraw", "", "SELECT COUNT(*) JUMLAH FROM ($sqlFiltered $sqlFilGroupBy)", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         
