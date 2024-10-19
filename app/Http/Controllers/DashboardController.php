@@ -39,10 +39,7 @@ class DashboardController extends Controller
             $sql  = "SELECT count(*) JUMLAH FROM PENERBIT_ISBN pi 
                     WHERE pi.PENERBIT_ID='$id'";
         }
-        if($status == 'batal') {
-            $sql = "SELECT count(*) JUMLAH FROM ISBN_RESI IR 
-                    WHERE PENERBIT_ID='$id' AND status='batal' ";
-        }
+        
         $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
         return $data;
     }
@@ -80,7 +77,7 @@ class DashboardController extends Controller
 
     public function getBerita()
     {   
-        $sql = "SELECT * FROM ISBN_MST_BERITA WHERE ROWNUM <= 10 ORDER BY TANGGAL DESC";
+        $sql = "SELECT * FROM ISBN_MST_BERITA WHERE IS_VISIBLE=1 AND ROWNUM <= 10 ORDER BY TANGGAL DESC";
         $data = kurl("get","getlistraw", "", $sql, 'sql', '')["Data"]["Items"];
         return $data;
     }
