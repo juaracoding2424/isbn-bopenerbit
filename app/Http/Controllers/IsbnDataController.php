@@ -298,7 +298,10 @@ class IsbnDataController extends Controller
         if(intval($count) > 1 && ($queryData['KETERANGAN'] != 'no.jil.lengkap' && $queryData['KETERANGAN_JILID'] != 'no.jil.lengkap')){
             $jil_lengkap = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT_ISBN 
                                                         WHERE PENERBIT_TERBITAN_ID='".$queryData['PENERBIT_TERBITAN_ID']."' 
-                                                        AND (KETERANGAN_JILID = 'no.jil.lengkap' OR KETERANGAN = 'no.jil.lengkap')", 'sql', '')["Data"]["Items"][0];
+                                                        AND (KETERANGAN_JILID = 'no.jil.lengkap' OR KETERANGAN = 'no.jil.lengkap')", 'sql', '')["Data"]["Items"];
+            if(isset($jil_lengkap[0])){
+                $jil_lengkap = $jil_lengkap[0];
+            }
         }
         return view('barcode', [
             "data" => $queryData,
