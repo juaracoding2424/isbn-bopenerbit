@@ -659,25 +659,39 @@
                                             </div>
                                         </div>
                                         <!--end::Input group-->
-
+                                        <!--begin::Input group-->
+                                        <div class="row mb-2">
+                                            <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
+                                                <span class="required">Provinsi Tempat Terbit Buku</span>
+												<span class="ms-1" data-bs-toggle="tooltip" title="Provinsi tempat terbit akan mengikuti domisili kantor penerbit">
+													<i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+												</span>
+                                            </label>
+                                            <div class="col-lg-9 fv-row">
+                                                <input type="hidden" name="tempat_terbit">
+                                                <select id="select2-provinsi" aria-label="Pilih provinsi tempat terbit buku" name="publication_prov_id"
+                                                data-control="select2" data-placeholder="Pilih provinsi.." class="form-select  form-control form-select-solid fs-8 form-select-lg fw-semibold">
+													<option value="">Pilih Provinsi Tempat Terbit<option>
+												</select>
+                                            </div>
+                                        </div>
+                                        <!--end::Input group-->
 
                                         <!--begin::Input group-->
                                         <div class="row mb-2">
-                                            <!--begin::Label-->
                                             <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
-                                                <span class="required">Tempat Terbit</span>
-                                                <span class="ms-1" data-bs-toggle="tooltip" title="tempat_terbit">
-                                                    <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
-                                                </span>
+                                                <span class="required">Kota/Kabupaten Tempat Terbit</span>
+												<span class="ms-1" data-bs-toggle="tooltip" title="Kota/Kabupaten tempat terbit akan mengikuti domisili kantor penerbit">
+													<i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
+												</span>
                                             </label>
-                                            <!--end::Label-->
-                                            <!--begin::Col-->
                                             <div class="col-lg-9 fv-row">
-                                                <input type="text" name="tempat_terbit"
-                                                        class="form-control fs-8 form-control-lg form-control-solid"
-                                                        placeholder="Tempat terbit buku" />
+                                                <input type="hidden" name="tempat_terbit">
+                                                <select id="select2-kabupaten" aria-label="Pilih tempat terbit buku" 
+                                                data-control="select2" data-placeholder="Pilih kabupaten/kota..." class="form-select  form-control form-select-solid fs-8 form-select-lg fw-semibold" name="publication_city_id">
+													<option value="">Pilih Tempat Terbit<option>
+												</select>
                                             </div>
-                                            <!--end::Col-->
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
@@ -937,10 +951,10 @@
 <!--end::Body-->
 <script>
     var urlJilid = "{{ url('penerbit/isbn/permohonan/jilid-lengkap') }}";
+    var urlProvinsi = "{{url('location/province')}}" + "/";
+    var urlKabupaten = "{{url('location/kabupaten')}}" + "/";
 
     function clearOptions(id) {
-        //console.log("on clearOptions :" + id);
-        //$('#' + id).val(null);
         $('#' + id).empty().trigger('change');
     }
     FormValidation.formValidation(
@@ -1119,6 +1133,53 @@
             width: '100%',
             data: data
         })
+    });
+    var province_id = "{{session('penerbit')['PROVINCE_ID']}}";
+    $.getJSON(urlProvinsi, function (res) {
+			data = [{
+				id: "",
+				nama: "- Pilih Provinsi Tempat Terbit -",
+				text: "- Pilih Provinsi Tempat Terbit -"
+			}].concat(res);
+
+					//implemen data ke select provinsi
+		$("#select2-provinsi").select2({
+			dropdownAutoWidth: true,
+			width: '100%',
+			data: data
+		}) ;
+		$('#select2-provinsi').val(province_id).trigger('change'); 
+	});
+    var city_id = "{{session('penerbit')['CITY_ID']}}";
+	var selectProv = $('#select2-provinsi');
+	$(selectProv).change(function () {
+		var value = $(selectProv).val();
+		clearOptions('select2-kabupaten');
+		if (value) {
+			var text = $('#select2-provinsi :selected').text();
+			$.getJSON(urlKabupaten + value, function(res) {
+				data = [{
+					id: "",
+					nama: "- Pilih Kab/Kota tempat terbit -",
+					text: "- Pilih Kab/Kota tempat terbit -"
+				}].concat(res);
+
+				//implemen data ke select provinsi
+				$("#select2-kabupaten").select2({
+					dropdownAutoWidth: true,
+					width: '100%',
+					data: data,
+					async : false,
+				});
+				$('#select2-kabupaten').val(city_id).trigger('change');
+							
+			})
+		}
+	});   
+    $('#select2-kabupaten').change(function () {
+        if($(this).select2('data').length > 0){
+            $('input[name="tempat_terbit"]').val($(this).select2('data')[0]['text']);
+        }
     });
 
     var dropZoneJilid = function(jilid_ke, file_type){

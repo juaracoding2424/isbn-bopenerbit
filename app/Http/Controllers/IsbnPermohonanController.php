@@ -386,6 +386,8 @@ class IsbnPermohonanController extends Controller
                             [ "name"=>"KETEBALAN", "Value"=> request('ketebalan')],
                             [ "name"=>"PENGAJUAN_KDT", "Value"=> request('pengajuan_kdt') ],
                             //[ "name"=>"JML_JILID", "Value" => request('jumlah_jilid_total')  ]
+                            [ "name"=>"PUBLICATION_PROV_ID", "Value"=> request('publication_prov_id') ],
+                            [ "name"=>"PUBLICATION_CITY_ID", "Value"=> request('publication_city_id') ],
                     ];
                     $IsbnResi = [
                         [ "name" => "NORESI", "Value" => $noresi ],
@@ -766,6 +768,7 @@ class IsbnPermohonanController extends Controller
             return view('akun_lock', $data);
         }
         $detail = kurl("get","getlistraw", "", "SELECT ir.id, ir.penerbit_terbitan_id, pt.title, pt.author, pt.distributor, pt.kepeng, 
+        pt.publication_prov_id, pt.publication_city_id,
         case when pt.jml_jilid is null then 1
         when pt.jml_jilid = 0 then 1
         else pt.jml_jilid end jml_jilid,
