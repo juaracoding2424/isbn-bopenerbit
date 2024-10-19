@@ -373,7 +373,6 @@ class IsbnPermohonanController extends Controller
                         }
                         $jilids .= implode('¦', request('keterangan_jilid'));
                         $urls .= implode('¦', request('url'));    
-                        
                     } else {
                         $urls = implode('¦', request('url'));    
                     }              

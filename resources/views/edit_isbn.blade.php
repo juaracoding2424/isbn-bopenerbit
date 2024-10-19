@@ -769,6 +769,7 @@
                                         <!--end::Input group-->
                                         <div id="isbn_detail">
                                             <span id="judul_buku_1"><h4>Data Buku 1 </h4><hr/></span>
+                                            <input type='hidden' name='keterangan_jilid[]' value='' id="keterangan_jilid_1">
                                             <input type="hidden" name="file_lampiran[]" id="file_lampiran1">
                                             <input type="hidden" name="file_dummy[]" id="file_dummy1">
                                             <input type="hidden" name="file_cover[]" id="file_cover1">
@@ -1139,7 +1140,8 @@
         
         <input type='hidden' id='file_dummy`+jumlah_buku+`' name='file_dummy[]'>
         <input type='hidden' id='file_lampiran`+jumlah_buku+`' name='file_lampiran[]'>
-        <input type='hidden' id='file_cover`+jumlah_buku+`' name='file_cover[]'>  
+        <input type='hidden' id='file_cover`+jumlah_buku+`' name='file_cover[]'> 
+        <input type='hidden' name='keterangan_jilid[]' value='jilid `+jumlah_buku+`' id='keterangan_jilid_'`+jumlah_buku+`> 
         <div class="row mb-2">
             <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">File
                 Attachment</label>
@@ -1468,14 +1470,17 @@
                         }
                     }
                     let urls = "{{$detail['LINK_BUKU']}}";
+                    let jilids = "{{$detail['KETERANGAN_JILID']}}";
                     let link_buku = urls.split('¦');
                     if(link_buku[0] == 'no.jil.lengkap'){
                         for(var k=1; k<= jumlah_jilid; k++){
                             $('#url'+k).val(link_buku[k]);
+                            $('#keterangan_jilid_'+k).val(link_buku[k]);
                         } 
                     } else {
                         for(var k=1; k<= jumlah_jilid; k++){
                             $('#url'+k).val(link_buku[k-1]);
+                            $('#keterangan_jilid_'+k).val(link_buku[k-1]);
                         }
                     }
                     
