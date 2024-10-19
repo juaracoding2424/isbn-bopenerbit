@@ -209,7 +209,7 @@
 	var cetakKDT = function(id){
 		Swal.fire({
 					html: `<div id='kdt'><iframe src='{{url("penerbit/isbn/data/view-kdt/`+id+`?bo_penerbit=1&is_button=1")}}' style="overflow-y:scroll; 
-							width:700px; height:500px; border:0.5px solid lightgray; padding:5px; white-space:pre-wrap;text-align:left; font-size:10pt;" id="iframeKdt"
+							width:700px; height:600px; border:0.5px solid lightgray; padding:5px; white-space:pre-wrap;text-align:left; font-size:10pt;" id="iframeKdt"
 							allow="clipboard-read; clipboard-write"></iframe></div>`,
                     icon: "success",
 					width: "800px",
