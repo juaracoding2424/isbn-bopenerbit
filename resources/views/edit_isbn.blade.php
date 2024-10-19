@@ -1324,7 +1324,7 @@
     $('select[name="bulan_terbit"]').val('{{$detail['BULAN_TERBIT']}}');
     $('select[name="tahun_terbit"]').val('{{$detail['TAHUN_TERBIT']}}');
     $('input[type=text][name="distributor"]').val('{{$detail['DISTRIBUTOR']}}');
-    $('input[type=text][name="tempat_terbit"]').val('{{$detail['TEMPAT_TERBIT']}}');
+    $('input[type=hidden][name="tempat_terbit"]').val('{{$detail['TEMPAT_TERBIT']}}');
     if(jilid_lepas == 'lepas'){
         $('#jml_hlm').attr("type","number").val(parseInt("{{$detail['JML_HLM']}}"));
         $('input[type=radio][name="status"][value="'+jilid_lepas+'"]').prop('checked', true);
