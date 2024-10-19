@@ -81,8 +81,11 @@ class IsbnMasalahController extends Controller
             $sql .= " AND pt.jenis_media = '".$request->input('jenisMedia')."'";  
         }
         $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql $sqlGroupBy)  inner WHERE rownum <=$end) outer WHERE rn >$start", 'sql', '')["Data"]["Items"];
-        $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM ISBN_RESI WHERE PENERBIT_ID='$id' AND status='pending'", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
-        $totalFiltered = kurl("get","getlistraw", "", $sqlFiltered . $sqlGroupBy, 'sql', '')["Data"]["Items"][0]["JUMLAH"];
+        $totalData = kurl("get","getlistraw", "", "SELECT count(*) JUMLAH FROM ISBN_RESI WHERE PENERBIT_ID='$id' AND status='pending' ", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
+
+        $totalFiltered = isset(kurl("get","getlistraw", "",  $sqlFiltered . $sqlFilGroupBy, 'sql', '')["Data"]["Items"][0]["JUMLAH"]) ? 
+                            kurl("get","getlistraw", "",  $sqlFiltered . $sqlFilGroupBy, 'sql', '')["Data"]["Items"][0]["JUMLAH"] : 0;
+
         $response['data'] = [];
         if (count($queryData) > 0) {
             $nomor = $start + 1;
