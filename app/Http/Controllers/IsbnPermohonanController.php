@@ -898,16 +898,22 @@ class IsbnPermohonanController extends Controller
     {
         $bulan_terbit = $request->input('bulan_terbit');
         $tahun_terbit = $request->input('tahun_terbit');
-
-        if(strtotime(date('Y-m')) <= strtotime($tahun_terbit .'-'. str($bulan_terbit))){
+        if($request->input('bulan_terbit')) {
+            if(strtotime(date('Y-m')) <= strtotime($tahun_terbit .'-'. str($bulan_terbit))){
+                return response()->json([
+                    'valid' => true,
+                    'message' => 'ok!'
+                ]);
+            } else {
+                return response()->json([
+                    'valid' => false,
+                    'message' => 'Bulan terbit yang Anda masukan tidak boleh kurang dari bulan ' . date('F Y'),
+                ]);
+            }
+        } else {
             return response()->json([
                 'valid' => true,
                 'message' => 'ok!'
-            ]);
-        } else {
-            return response()->json([
-                'valid' => false,
-                'message' => 'Bulan terbit yang Anda masukan tidak boleh kurang dari bulan ' . date('F Y'),
             ]);
         }
     }
