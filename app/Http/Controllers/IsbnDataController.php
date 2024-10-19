@@ -58,7 +58,7 @@ class IsbnDataController extends Controller
         $end = $start + $length;
 
         $sql = "SELECT pi.penerbit_terbitan_id, ir.mohon_date, pt.author, pt.kepeng, pi.prefix_element, pi.publisher_element,pi.item_element, pi.check_digit,
-                pi.RECEIVED_DATE_KCKR, pi.RECEIVED_DATE_PROV,pt.VALIDATION_DATE, pi.keterangan_jilid, pi.id as piid, pi.link_buku,
+                pi.RECEIVED_DATE_KCKR, pi.RECEIVED_DATE_PROV,pt.VALIDATION_DATE, pi.keterangan_jilid, pi.keterangan, pi.id as piid, pi.link_buku,
                 pi.isbn_no, pt.bulan_terbit, pt.tahun_terbit, pt.jenis_media,
 				ir.id as isbn_resi_id, ir.source, ir.jenis,
                 pt.title,  pt.jml_jilid, pt.jilid_volume, pi.ACCEPTDATE, pt.call_number, pt.sinopsis, pt.subjek,
@@ -144,6 +144,7 @@ class IsbnDataController extends Controller
                 $source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge btn-primary'>".$val['SOURCE']."</span>";
                 $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
                 $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="btn btn-success m-0 fs-8 p-2" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : "";//'KDT Belum Ada';
+                
                 $sinopsis_pendek = explode(" ", $val["SINOPSIS"]);
                 $first_part = implode(" ", array_splice($sinopsis_pendek, 0, 10));
                 $other_part = implode(" ", array_splice($sinopsis_pendek, 10));
@@ -158,7 +159,7 @@ class IsbnDataController extends Controller
                 $response['data'][] = [
                     $nomor,
                     '<a class="btn btn-info m-0 fs-8 p-2" onclick="cetakBarcode('.$val['ISBN_NO'].')">Barcode</a>' .$kdt, //<a class="badge btn-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',
-                    $val['PREFIX_ELEMENT'] .'-' . $val['PUBLISHER_ELEMENT'] . '-' . $val['ITEM_ELEMENT'] . '-' . $val['CHECK_DIGIT']  . '<br/>' . $val['KETERANGAN_JILID'],
+                    $val['PREFIX_ELEMENT'] .'-' . $val['PUBLISHER_ELEMENT'] . '-' . $val['ITEM_ELEMENT'] . '-' . $val['CHECK_DIGIT']  . '<br/>' . $val['KETERANGAN_JILID'] .' ' .$val['KETERANGAN'],
                     $val['TITLE'] . "<br/>$jenis $source <span class='text-success'><i>$jenis_media</i></span>",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
                     $val['BULAN_TERBIT'] .' ' . $val['TAHUN_TERBIT'],

@@ -289,12 +289,12 @@ class IsbnPermohonanController extends Controller
                     ];
                     if(request('penerbit_isbn_masalah_id') != ''){
                         $rules = array_merge($rules, [
-                                'file_lampiran' => 'required|array|min:1',
-                                'file_lampiran.*' => 'required',
+                        //        'file_lampiran' => 'required|array|min:1',
+                        //        'file_lampiran.*' => 'required',
                         ]);
                         $messages = array_merge($messages ,[
-                                'file_lampiran.required' => 'Anda belum mengunggah file lampiran buku yang sudah diperbaiki',
-                                'file_lampiran.*.required' => 'Anda belum mengunggah file lampiran buku yang sudah diperbaiki',
+                        //        'file_lampiran.required' => 'Anda belum mengunggah file lampiran buku yang sudah diperbaiki',
+                        //        'file_lampiran.*.required' => 'Anda belum mengunggah file lampiran buku yang sudah diperbaiki',
                         ]);
                     }
                     if(request('status') == 'lepas') {
@@ -364,19 +364,7 @@ class IsbnPermohonanController extends Controller
                         $jml_hlm = request('jml_hlm');
                     }
                     
-                    $urls = implode('¦', request('url'));
-                    //if(request('isbn-jilid') != ""){
-                        //    $start = ($jumlah_jilid - count(request('file_lampiran')));
-                        //} else {
-                        //    $start = 0;
-                    // }
-                        //for($i = $start; $i < count(request('file_lampiran')); $i++) {
-                        //    $jilids .= "jilid " . $i+1;
-                        //    if(isset(request('file_lampiran')[$i+1])){
-                        //        $jilids .= "¦";
-                        //    }
-                    // }
-                
+                    $urls = implode('¦', request('url'));               
                     
                     $ListData = [
                             [ "name"=>"TITLE", "Value"=> request('title') ],
@@ -417,7 +405,7 @@ class IsbnPermohonanController extends Controller
                     if(request('status') == 'jilid'){
                         $jilids = "";
                         if(request('isbn-jilid') != ""){
-                            $jilids = "no.jil.lengap";
+                            $jilids = "no.jil.lengkap¦";
                         }
                         $jilids .= implode('¦', request('keterangan_jilid'));
                         array_push($IsbnResi, 
@@ -551,12 +539,13 @@ class IsbnPermohonanController extends Controller
                                 kurl("post", "deletefilelampiran",'', '', $params);
                             }
                         }
-                        if(request('penerbit_isbn_masalah_id' != '')) {
+                        //if(request('penerbit_isbn_masalah_id' != '')) {
                             //kalau bermasalah, lampirannya ga usah dihapus
-                            $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), '', $id_resi, true);    
-                        } else {
+                        //    $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), '', $id_resi, true);    
+                        //} else {
                             //kalau mau ganti lampiran permohonan 
-                            if(request('penerbit_isbn_masalah_id') == '' && isset($request->input('file_lampiran')[0])) {
+                            if(request('penerbit_terbitan_id') != '' && isset($request->input('file_lampiran')[0])) {
+                            //if(request('penerbit_isbn_masalah_id') == '' && isset($request->input('file_lampiran')[0])) {
                                 if(isset($request->input('file_lampiran_id')[0])) {
                                     $params = [
                                         'penerbitisbnfileid' => $request->input('file_lampiran_id')[0],
@@ -567,7 +556,7 @@ class IsbnPermohonanController extends Controller
                                 }
                             }
                             $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), '', $id_resi);    
-                        }
+                        //}
                     } else {     
                         if(request('isbn-jilid') != ""){
                             $start = ($jumlah_jilid - count(request('file_lampiran')));
@@ -603,13 +592,13 @@ class IsbnPermohonanController extends Controller
                                     kurl("post", "deletefilelampiran",'', '', $params);
                                 }
                             }
-                            if(request('penerbit_isbn_masalah_id' != '')) {
+                            //if(request('penerbit_isbn_masalah_id' != '')) {
                                 //kalau bermasalah, lampirannya ga usah dihapus
-                                $keterangan = "perbaikan jilid " . $i + 1;   
-                                $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), $keterangan, $id_resi, true);    
-                            } else {
+                            //    $keterangan = "perbaikan jilid " . $i + 1;   
+                            //    $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), $keterangan, $id_resi, true);    
+                            //} else {
                                 //kalau mau ganti lampiran permohonan 
-                                if(request('penerbit_isbn_masalah_id') == '' && isset($request->input('file_lampiran')[$i - $start])) {
+                                if(request('penerbit_terbitan_id') == '' && isset($request->input('file_lampiran')[$i - $start])) {
                                     if(isset($request->input('file_lampiran_id')[$i - $start])) {
                                         $params = [
                                             'penerbitisbnfileid' => $request->input('file_lampiran_id')[$i - $start],
@@ -621,7 +610,7 @@ class IsbnPermohonanController extends Controller
                                 }
                                 $keterangan = "jilid " . $i + 1;   
                                 $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), $keterangan, $id_resi);     
-                            }                   
+                            //}                   
                         }
                         
                     }
