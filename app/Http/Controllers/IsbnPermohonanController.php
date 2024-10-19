@@ -373,9 +373,7 @@ class IsbnPermohonanController extends Controller
                         }
                         $jilids .= implode('¦', request('keterangan_jilid'));
                         $urls .= implode('¦', request('url'));    
-                        array_push($IsbnResi, 
-                            [ "name"=> "KETERANGAN_JILID", "Value"=> $jilids ]
-                        );
+                        
                     } else {
                         $urls = implode('¦', request('url'));    
                     }              
@@ -408,8 +406,12 @@ class IsbnPermohonanController extends Controller
                         [ "name" => "LINK_BUKU", "Value" => $urls ],
                         [ "name" => "SOURCE", "Value" => "web" ],
                     ];
+                    
                     if(request('status') == 'jilid'){
                         array_push($IsbnResi, [ "name" => "JML_JILID_REQ", "Value" => count(request('keterangan_jilid'))]);
+                        array_push($IsbnResi, 
+                            [ "name"=> "KETERANGAN_JILID", "Value"=> $jilids ]
+                        );
                     } else {
                         array_push($IsbnResi, [ "name" => "JML_JILID_REQ", "Value" => 1]);
                     }
