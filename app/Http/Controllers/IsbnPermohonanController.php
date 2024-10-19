@@ -106,7 +106,7 @@ class IsbnPermohonanController extends Controller
                 }
                 $source = $val['SOURCE'] == 'web' ? "<span class='badge badge-secondary'>".$val['SOURCE']."</span>" : "<span class='badge btn-primary'>".$val['SOURCE']."</span>";
                 $jenis = $val['JENIS'] == 'lepas' ? "<span class='badge badge-light-success'>".$val['JENIS']."</span>" : "<span class='badge badge-light-warning'>".$val['JENIS']."</span>";
-                $action =  '<a class="badge badge-light-info h-20px m-1" href="'.url('/penerbit/isbn/permohonan/detail/'.$val['NORESI']) . '">Ubah Data</a><a class="badge badge-light-danger h-20px m-1" href="#" onclick="batalkanPermohonan('.$id.')">Batalkan Permohonan</a>';
+                $action =  '<a class="badge badge-light-info h-20px m-1" href="'.url('/penerbit/isbn/permohonan/detail/'.$val['NORESI']) . '">Lihat Data</a><a class="badge badge-light-danger h-20px m-1" href="#" onclick="batalkanPermohonan('.$id.')">Batalkan Permohonan</a>';
                 if(session('penerbit')['IS_LOCK'] == '1') {
                     $action = "";
                 }
