@@ -220,6 +220,7 @@ class ProfilController extends Controller
                             true
                         );
                         $response = kurl_upload_file_penerbit('post','uploadfileaktenotaris', session('penerbit'), 'isbn_registrasi_penerbit_id', $file_an, \Request::ip());
+                        \Log::info($response);
                         if($response["Status"] == "Success"){
                             $file['file_akte_notaris'] = config('app.isbn_file_location') .$response["Data"];
                         }
