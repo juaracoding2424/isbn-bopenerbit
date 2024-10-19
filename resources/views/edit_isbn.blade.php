@@ -1304,6 +1304,9 @@
         $('#divIsbnLanjutan').hide();
     }
     var keterangan_jilid = "{{$detail['KETERANGAN_JILID']}}".split('¦');
+    if(keterangan_jilid[0] == 'no.jil.lengkap'){
+        keterangan_jilid.shift();
+    }
     if(jenis_media != ''){
         $('input[type=radio][name="jenis_media"][value="'+jenis_media+'"]').prop('checked', true);
     }
@@ -1466,9 +1469,16 @@
                     }
                     let urls = "{{$detail['LINK_BUKU']}}";
                     let link_buku = urls.split('¦');
-                    for(var k=1; k<= jumlah_jilid; k++){
-                        $('#url'+k).val(link_buku[k-1]);
+                    if(link_buku[0] == 'no.jil.lengkap'){
+                        for(var k=1; k<= jumlah_jilid; k++){
+                            $('#url'+k).val(link_buku[k]);
+                        } 
+                    } else {
+                        for(var k=1; k<= jumlah_jilid; k++){
+                            $('#url'+k).val(link_buku[k-1]);
+                        }
                     }
+                    
                 },
                 error: function() {
                     Toast.fire({
@@ -1523,7 +1533,7 @@
             $('#btnTambahJilid').css('display', 'block');
         }
     });
-    $('#judul_buku_1').css('display', 'none');
+    //$('#judul_buku_1').css('display', 'none');
     //$('#btnTambahJilid').css('display', 'none');
 
     
