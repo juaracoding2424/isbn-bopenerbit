@@ -114,19 +114,20 @@
 		$('#log_aktifitas').html('');
 		getHistory();
 	}
-
+	@if(session('penerbit')['STATUS'] == 'valid')
 	var url = "{{ config('app.isbn_file_location') . 'files/penerbit/foto/' . session('penerbit')['ID'] . '.png' }}";
 	$.ajax({
 		url: url,
 		type: 'HEAD',
 		success: function() {
-			$('#imgAvatar1').attr('src', "{{ config('app.isbn_file_location') . 'files/penerbit/foto/' . session('penerbit')['ID'] . '.png' }}");
-			$('#imgAvatar2').attr('src', "{{ config('app.isbn_file_location') . 'files/penerbit/foto/' . session('penerbit')['ID'] . '.png' }}");
+			$('#imgAvatar1').attr('src', url);
+			$('#imgAvatar2').attr('src', url);
 		},
 		error: function() {
 			//alert('Image does not exist');
 		}
 	});
+	@endif
 	var getBadge = function () {
 	$.ajax({
             url: "{{ url('penerbit/dashboard/total-isbn') }}" + '?status=diterima',

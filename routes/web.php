@@ -20,6 +20,7 @@ use App\Http\Middleware\PenerbitValidMiddleware;
 
 Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
     Route::group(['middleware' => PenerbitValidMiddleware::class], function () {
+        // UNTUK PENERBIT VALID //
         Route::get('/', [DashboardController::class, 'index']);
         Route::get('penerbit/dashboard', [DashboardController::class, 'index']);
         Route::get('penerbit/dashboard/year', [DashboardController::class, 'getYear']);
@@ -66,9 +67,11 @@ Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
         Route::get('penerbit/report/isbn/show-data', [ReportController::class, 'showData']);
         Route::get('penerbit/report/isbn/show-frequency', [ReportController::class, 'showFrequency']);
     });
+        // UNTUK PENERBIT VALID DAN NOT VALID //
+
         Route::post('penerbit/dropzone/store', [DropZoneController::class, 'store']);
         Route::post('penerbit/dropzone/delete', [DropZoneController::class, 'delete']);
-        
+
         Route::get('penerbit/dashboard/notvalid', [DashboardController::class, 'notValid']);
         Route::get('penerbit/profile', [ProfilController::class, 'index']);
         Route::get('penerbit/profile/detail', [ProfilController::class, 'getDetail']);
@@ -90,6 +93,8 @@ Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
         Route::get('penerbit/history/datatable', [HistoryController::class, 'datatable']);
 
 });
+
+// AKSES PUBLIC  //
 Route::get('/', [AuthController::class, 'login']);
 Route::get('login', [AuthController::class, 'login']);
 Route::get('reset-password', [AuthController::class, 'resetPassword']);

@@ -784,7 +784,6 @@
 <script>
 	var status = "{{session('penerbit')['STATUS']}}";
 	if(status == 'valid'){
-		
 		var url = "{{ config('app.isbn_file_location') . 'files/penerbit/foto/' . session('penerbit')['ID'] . '.png' }}";
 		$.ajax({
 			url: url,
@@ -1019,7 +1018,7 @@
 		$('#kt_signin_email_button').removeClass('d-none');
 	});
 	var profilSubmit = function(){
-		//event.preventDefault();
+		$('.loader').css('display', 'block');
 		Swal.fire({
                     html: `<h2>Anda yakin menyimpan perubahan data akun Anda?</h2>`,
 					icon: "warning",
@@ -1112,7 +1111,11 @@
 											$('#imgAvatar1').attr('src', xhr.foto);
 											$('#imgAvatar2').attr('src', xhr.foto);
 										}
-										location.reload();
+										if(xhr.perbaikan){
+											window.open("{{ url('penerbit/dashboard/notvalid')}}", "_blank");
+										} else {
+											location.reload();
+										}
 									}
 									$('.loader').css('display','none');
 								});
@@ -1253,15 +1256,15 @@
                 this.on("success", function (file, response) {
                     $(inputFileId).val(response[0]['name']);
                     // Handle the response from the server after the file is uploaded
-                    //console.log('File uploaded successfully', response);
+                    console.log('File uploaded successfully', response);
                 });
                 this.on("error", function (file, response) {
                     // Handle the errors
-                    //console.error('Upload error', response);
+                    console.error('Upload error', response);
                 });
                 this.on("queuecomplete", function () {
                     // Called when all files in the queue have been processed
-                    //console.log('All files have been uploaded');
+                    console.log('All files have been uploaded');
                 });
                 this.on("removedfile", function (file) {
                     //console.log(file, 'delete file', file.serverFileName)

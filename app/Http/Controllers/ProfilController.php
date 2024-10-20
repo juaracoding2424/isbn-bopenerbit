@@ -39,8 +39,6 @@ class ProfilController extends Controller
         try {
             $id = session('penerbit')['ID'];
             $validator = \Validator::make(request()->all(),[
-                //'name' => 'required:min:8',
-                //'username' => 'required|min:6',
                 'phone' => 'required',
                 'alamat_penerbit' => 'required',
                 //'nama_gedung' => 'required',
@@ -52,10 +50,6 @@ class ProfilController extends Controller
                 'kodepos' => 'required',
                 'website'   =>'required'
                 ],[
-                //'name.required' => 'Anda belum mengisi nama penerbit',
-                //'name.min' => 'Nama penerbit minimum terdiri dari 8 karakter',
-                //'username.required' => 'Anda belum mengisi username',
-                //'username.min' => 'Username minimal terdiri dari 6 karakter',
                 'phone.required' => 'Anda belum mengisi nomor telp/hp kantor yang bisa dihubungi',
                 //'phone.numeric' => 'Nomor telp/hp kantor hanya boleh diisi oleh angka!',
                 'alamat_penerbit.required' => 'Anda belum mengisi alamat kantor',
@@ -75,6 +69,7 @@ class ProfilController extends Controller
                     'err' => $validator->errors(),
                 ], 422);
             } else {  
+                $perbaikan = false;
                 $file = [
                     'file_surat_pernyataan' => $request->input('file_surat_pernyataan') ?? null,
                     'file_akte_notaris' => $request->input('file_akte_notaris') ?? null,
@@ -160,6 +155,21 @@ class ProfilController extends Controller
                             $file['file_surat_pernyataan'] = config('app.isbn_file_location') . $response["Data"];
                         }
                     }
+                    $penerbit = kurl("get","getlistraw", "", "SELECT * FROM PENERBIT WHERE ID = ".session('penerbit')['ID'], 'sql', '')["Data"]["Items"][0];
+                    session([
+                        'penerbit' => [
+                            'STATUS' => 'valid',
+                            'ID' => $penerbit['ID'],
+                            'USERNAME' => $penerbit['ISBN_USER_NAME'],
+                            'EMAIL' => $penerbit['EMAIL1'],
+                            'NAME' => $penerbit['NAME'],
+                            'PROVINCE_ID' => $penerbit['PROVINCE_ID'],
+                            'CITY_ID' => $penerbit['CITY_ID'],
+                            'DISTRICT_ID' => $penerbit['DISTRICT_ID'],
+                            'VILLAGE_ID' => $penerbit['VILLAGE_ID'],
+                            'GROUP' => $semua_id_penerbit,
+                            'IS_LOCK' => $penerbit['IS_LOCK']
+                    ]]);
                 } else {
                     $ListData = [
                         //[ "name"=>"NAMA_PENERBIT", "Value"=> request('name') ],
@@ -180,11 +190,15 @@ class ProfilController extends Controller
                         [ "name"=>"UPDATETERMINAL", "Value"=> \Request::ip()]
                     ];
                     if(session('penerbit')['VALIDASI'] == 'P'){
-                        array_push($ListData,  [ "name"=>"VALIDASI", "Value"=> '']);
+                        array_push($ListData, 
+                                ["name"=>"VALIDASI", "Value"=> ''],
+                                ["name"=>"KETERANGAN", "Value"=> '']
+                        );
                         $params = [
                             ["name" => "NamaPenerbit", "Value" => session('penerbit')['NAME']],
                         ];
                         sendMail(18, $params, session('penerbit')['EMAIL'], 'Perbaikan pendaftaran akun penerbit ' . session('penerbit')['NAME']);
+                        $perbaikan = true;
                     }
                     $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=ISBN_REGISTRASI_PENERBIT&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
                     //ganti file avatar kalau ada
@@ -220,7 +234,6 @@ class ProfilController extends Controller
                             true
                         );
                         $response = kurl_upload_file_penerbit('post','uploadfileaktenotaris', session('penerbit'), 'isbn_registrasi_penerbit_id', $file_an, \Request::ip());
-                        \Log::info($response);
                         if($response["Status"] == "Success"){
                             $file['file_akte_notaris'] = config('app.isbn_file_location') .$response["Data"];
                         }
@@ -246,13 +259,33 @@ class ProfilController extends Controller
                         if($response["Status"] == "Success"){
                             $file['file_surat_pernyataan'] = config('app.isbn_file_location') . $response["Data"];
                         }
+                        
                     }
+                   
+                    $penerbit_belum_verifikasi = kurl("get","getlistraw", "", "SELECT * FROM ISBN_REGISTRASI_PENERBIT WHERE ID = ".session('penerbit')['ID'], 'sql', '')["Data"]["Items"][0];
+                    session([
+                            'penerbit' => [
+                                'STATUS' => 'notvalid',
+                                'ID' => $penerbit_belum_verifikasi['ID'],
+                                'USERNAME' => $penerbit_belum_verifikasi['USER_NAME'],
+                                'EMAIL' => $penerbit_belum_verifikasi['ADMIN_EMAIL'],
+                                'NAME' => $penerbit_belum_verifikasi['NAMA_PENERBIT'],
+                                'PROVINCE_ID' => $penerbit_belum_verifikasi['PROVINCE_ID'],
+                                'CITY_ID' => $penerbit_belum_verifikasi['CITY_ID'],
+                                'DISTRICT_ID' => $penerbit_belum_verifikasi['DISTRICT_ID'],
+                                'VILLAGE_ID' => $penerbit_belum_verifikasi['VILLAGE_ID'],
+                                'KETERANGAN' => $penerbit_belum_verifikasi['KETERANGAN'],
+                                'VALIDASI' => $penerbit_belum_verifikasi['VALIDASI']
+                            ]
+                    ]);
+                    session()->flash('message','Terima kasih atas pembaruan data Anda. Registrasi Anda sedang diproses kembali, harap menunggu verifikasi dari admin.');
                 }
                 return response()->json([
                     'status' => 'Success',
                     'message' => 'Perubahan data akun Anda berhasil disimpan.',
                     'file' => $file,
                     'foto' => $foto,
+                    'perbaikan' => $perbaikan
                 ], 200);
             }
         } catch(\Exception $e){
