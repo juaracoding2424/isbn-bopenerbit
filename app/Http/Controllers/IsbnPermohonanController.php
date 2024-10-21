@@ -178,7 +178,7 @@ class IsbnPermohonanController extends Controller
                             'file_lampiran' => 'required|array|min:1',
                             'file_dummy.*' => 'required',
                             'file_lampiran.*' => 'required',
-                            'pengajuan_kdt' => 'required'
+                            //'pengajuan_kdt' => 'required'
                             ],[
                             'title.required' => 'Anda belum mengisi judul buku',
                             'title.title_exists' => 'Judul buku sudah ada, Anda tidak dapat memohon ISBN baru dengan judul yang sama.',
@@ -204,7 +204,7 @@ class IsbnPermohonanController extends Controller
                             'file_lampiran.*.required' => 'Anda belum mengunggah file lampiran buku',
                             'tahun_terbit.tahun_terbit_min' => 'Tahun terbit yang Anda masukan tidak boleh kurang dari tahun ' . date('Y'),
                             'bulan_terbit.bulan_terbit_min' => 'Bulan terbit yang Anda masukan tidak boleh kurang dari bulan ' . date('m-Y'),
-                            'pengajuan_kdt.required' => 'Anda belum memilih apakah akan mengajukan KDT atau tidak',
+                            //'pengajuan_kdt.required' => 'Anda belum memilih apakah akan mengajukan KDT atau tidak',
                         ]);
                     } else { //permohonan jilid lanjutan
                         $validator = \Validator::make(request()->all(),[
@@ -229,7 +229,7 @@ class IsbnPermohonanController extends Controller
                             'file_lampiran' => 'required|array|min:1',
                             'file_dummy.*' => 'required',
                             'file_lampiran.*' => 'required',
-                            'pengajuan_kdt'=>'required'
+                            //'pengajuan_kdt'=>'required'
                             ],[
                             'title.required' => 'Anda belum mengisi judul buku',
                             'title.title_exists' => 'Judul buku sudah ada, Anda tidak dapat memohon ISBN baru dengan judul yang sama.',
@@ -252,7 +252,7 @@ class IsbnPermohonanController extends Controller
                             'file_lampiran.required' => 'Anda belum mengunggah file lampiran buku',
                             'file_dummy.*.required' => 'Anda belum mengunggah file dummy buku',
                             'file_lampiran.*.required' => 'Anda belum mengunggah file lampiran buku',
-                            'pengajuan_kdt.required' => 'Anda belum memilih apakah akan mengajukan KDT atau tidak',
+                            //'pengajuan_kdt.required' => 'Anda belum memilih apakah akan mengajukan KDT atau tidak',
                         ]);
                     }
                 } else { //form perbaikan
@@ -269,7 +269,7 @@ class IsbnPermohonanController extends Controller
                         'jenis_pustaka' => 'required',
                         'deskripsi' => 'required|min:50',
                         'url.*' => 'required',
-                        'pengajuan_kdt'=>'required'
+                        //'pengajuan_kdt'=>'required'
                         ];
                     $messages = [
                         'title.required' => 'Anda belum mengisi judul buku',
@@ -285,7 +285,7 @@ class IsbnPermohonanController extends Controller
                         'deskripsi.required' => 'Anda belum mengisi abstrak/deskripsi buku',
                         'deskripsi.min' => 'Abstrak/deskripsi buku minimal terdiri dari 100 karakter',
                         'url.*.required' => 'Anda belum mengisi URL/Link publikasi buku',
-                        'pengajuan_kdt.required' => 'Anda belum memilih apakah akan mengajukan KDT atau tidak',
+                        //'pengajuan_kdt.required' => 'Anda belum memilih apakah akan mengajukan KDT atau tidak',
                     ];
                     if(request('penerbit_isbn_masalah_id') != ''){
                         $rules = array_merge($rules, [
@@ -395,7 +395,7 @@ class IsbnPermohonanController extends Controller
                             [ "name"=>"JENIS_PUSTAKA", "Value"=> request('jenis_pustaka') ],
                             [ "name"=>"JENIS_KATEGORI", "Value"=> request('jenis_kategori') ],
                             [ "name"=>"KETEBALAN", "Value"=> request('ketebalan')],
-                            [ "name"=>"PENGAJUAN_KDT", "Value"=> request('pengajuan_kdt') ],
+                            [ "name"=>"PENGAJUAN_KDT", "Value"=> request('pengajuan_kdt') ? request('pengajuan_kdt') : 0 ],
                             //[ "name"=>"JML_JILID", "Value" => request('jumlah_jilid_total')  ]
                             [ "name"=>"PUBLICATION_PROV_ID", "Value"=> request('publication_prov_id') ],
                             [ "name"=>"PUBLICATION_CITY_ID", "Value"=> request('publication_city_id') ],
@@ -774,13 +774,14 @@ class IsbnPermohonanController extends Controller
             return view('akun_lock', $data);
         }
         $detail = kurl("get","getlistraw", "", "SELECT ir.id, ir.penerbit_terbitan_id, pt.title, pt.author, pt.distributor, pt.kepeng, 
-        pt.publication_prov_id, pt.publication_city_id,
+        pt.publication_prov_id, pt.publication_city_id, pt.pengajuan_kdt, 
         case when pt.jml_jilid is null then 1
         when pt.jml_jilid = 0 then 1
         else pt.jml_jilid end jml_jilid,
-            pt.bulan_terbit, pt.tahun_terbit, pt.tempat_terbit, ir.noresi, ir.createdate, ir.mohon_date,   ir.jml_jilid_req, ir.jenis, ir.status, 
-            ir.link_buku, ir.keterangan_jilid, pt.jenis_media, pt.jenis_kategori, pt.jenis_kelompok, pt.jenis_pustaka,  pt.jenis_terbitan,
-            pt.sinopsis, pt.jml_hlm, pt.ketebalan, pt.edisi, pt.seri, pt.is_kdt_valid, pt.jenis_penelitian, pt.jenis_kelompok, ir.createdate, ir.createterminal, ir.createby         
+            pt.bulan_terbit, pt.tahun_terbit, pt.tempat_terbit, ir.noresi, ir.createdate, ir.mohon_date,   ir.jml_jilid_req, ir.jenis, 
+            ir.status, ir.link_buku, ir.keterangan_jilid, pt.jenis_media, pt.jenis_kategori, pt.jenis_kelompok, pt.jenis_pustaka,  
+            pt.sinopsis, pt.jml_hlm, pt.ketebalan, pt.edisi, pt.seri, pt.is_kdt_valid, pt.jenis_penelitian, pt.jenis_terbitan,
+            pt.jenis_kelompok, ir.createdate, ir.createterminal, ir.createby         
           FROM  ISBN_RESI ir JOIN PENERBIT_TERBITAN pt ON ir.penerbit_terbitan_id = pt.id WHERE NORESI='$noresi'", 'sql', '');
 
 

@@ -462,56 +462,23 @@
                                         <div class="row mb-2">
                                             <!--begin::Col-->
                                             <div class="col-lg-3">
-                                                <div class="fs-8 fw-semibold mt-2 mb-3"><span class="required">Permohonan KDT?</span>
-                                                    <span class="ms-1" data-bs-toggle="tooltip"
-                                                        title="Apakah Anda membutuhkan KDT?">
-                                                        <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
-                                                    </span>
+                                                <div class="fs-8 fw-semibold mt-2 mb-3">
+                                                    <span>Apakah Anda memerlukan Katalog Dalam Terbitan (KDT)?</span>                                                   
                                                 </div>
                                             </div>
                                             <!--end::Col-->
                                             <!--begin::Col-->
                                             <div class="col-lg-9">
-                                                <!--begin::Row-->
-                                                <div class="row g-9" data-kt-buttons="true"
-                                                    data-kt-buttons-target="[data-kt-button]" data-kt-initialized="1">
-                                                    <!--begin::Col-->
-                                                    <div class="col-md-6 col-lg-12 col-xxl-4">
-                                                        <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-2"
-                                                            data-kt-button="true">
-                                                            <!--begin::Radio button-->
-                                                            <span
-                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-                                                                <input class="form-check-input" type="radio"
-                                                                    name="pengajuan_kdt" value="1">
-                                                            </span>
-                                                            <!--end::Radio button-->
-                                                            <span class="ms-5">
-                                                                <span
-                                                                    class="fs-8 fw-bold mb-1 d-block">Ya</span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                    <!--end::Col-->
-                                                    <!--begin::Col-->
-                                                    <div class="col-md-4 col-lg-12 col-xxl-4">
-                                                        <label
-                                                            class="btn btn-outline btn-outline-dashed btn-active-light-success d-flex text-start p-2"
-                                                            data-kt-button="true">
-                                                            <!--begin::Radio button-->
-                                                            <span
-                                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-                                                                <input class="form-check-input" type="radio"
-                                                                    name="pengajuan_kdt" value="0">
-                                                            </span>
-                                                            <!--end::Radio button-->
-                                                            <span class="ms-5">
-                                                                <span class="fs-8 fw-bold mb-1 d-block">Tidak</span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                    <!--end::Col-->
+                                                <div class="position-relative fv-row mb-8">
+                                                    <label class="form-check form-check-inline">
+                                                        <input class="form-check-input form-control" type="checkbox" name="pengajuan_kdt" value="1" 
+                                                        @if(!isset($masalah["Data"]["Items"][0]))
+                                                        onclick="return false;" 
+                                                        onkeydown="e = e || window.event; if(e.keyCode !== 9) return false;"
+                                                        @endif
+                                                        />
+                                                        <span class="form-check-label fw-semibold text-gray-700 fs-6 ms-1">Ya, prioritaskan pengajuan KDT kami.</span>
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -987,13 +954,13 @@
                                 },
                             }
                         },
-                        pengajuan_kdt :{
+                        /*pengajuan_kdt :{
                             validators: {
                                 notEmpty: {
                                     message: "Pilih apakah Anda memerlukan KDT atau tidak"
                                 },
                             }
-                        },
+                        },*/
                         tempat_terbit :{
                             validators: {
                                 notEmpty: {
@@ -1301,6 +1268,7 @@
     var jenis_kategori = "{{$detail['JENIS_KATEGORI']}}";
     var jenis_pustaka = "{{$detail['JENIS_PUSTAKA']}}";
     var jenis_kelompok = "{{$detail['JENIS_KELOMPOK']}}";
+    var pengajuan_kdt = "{{$detail['PENGAJUAN_KDT']}}";
     $('#isbn-jilid-lanjutan').val('{{$isbnjilidlanjutan}}').attr("readonly", true);
     if('{{$isbnjilidlanjutan}}' == ''){
         $('#divIsbnLanjutan').hide();
@@ -1326,6 +1294,9 @@
     $('select[name="bulan_terbit"]').val('{{$detail['BULAN_TERBIT']}}');
     $('select[name="tahun_terbit"]').val('{{$detail['TAHUN_TERBIT']}}');
     $('input[type=text][name="distributor"]').val('{{$detail['DISTRIBUTOR']}}');
+    if(pengajuan_kdt == '1'){
+        $('input[type=checkbox][name="pengajuan_kdt"]').prop('checked', true);
+    }
     $('input[type=hidden][name="tempat_terbit"]').val('{{$detail['TEMPAT_TERBIT']}}');
     if(jilid_lepas == 'lepas'){
         $('#jml_hlm').attr("type","text").val(parseInt("{{$detail['JML_HLM']}}"));
