@@ -984,6 +984,9 @@
                                 notEmpty: {
                                     message: "Anda belum mengisi URL buku"
                                 },
+                                uri: {
+                                    message: "Link buku tidak valid!"
+                                }
                             }
                         },
                         'namaPengarang[]' :{

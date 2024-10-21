@@ -1075,6 +1075,9 @@
                                 notEmpty: {
                                     message: "Anda belum mengisi URL buku"
                                 },
+                                uri: {
+                                    message: "Link buku tidak valid!"
+                                }
                             }
                         },
                         'namaPengarang[]' :{
@@ -1430,6 +1433,9 @@
                             notEmpty: {
                                 message: "Anda belum mengisi link buku jilid " + idJilid
                             },
+                            uri : {
+                                message: "Link buku tidak valid!"
+                            }
                         }
                     }
                 },
