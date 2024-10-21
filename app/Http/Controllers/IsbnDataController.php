@@ -147,7 +147,8 @@ class IsbnDataController extends Controller
                 $kdt = $val['IS_KDT_VALID'] == 1 ? '<a class="btn btn-success m-0 fs-8 p-2" onClick="cetakKDT('.$val['PENERBIT_TERBITAN_ID'].')">Cetak KDT</a>' : "";//'KDT Belum Ada';
                 $keterangan = "";
                 if($val['KETERANGAN_JILID'] || $val['KETERANGAN']){
-                    $keterangan = "<span class='badge badge-light-info'>" . $val['KETERANGAN_JILID'] .' ' .$val['KETERANGAN'] . "</span>";
+                    $k_ = $val['KETERANGAN_JILID'] ? $val['KETERANGAN_JILID']  : $val['KETERANGAN']  ;
+                    $keterangan = "<span class='badge badge-light-info'>" . $k_ . "</span>";
                 }
                 $sinopsis_pendek = explode(" ", $val["SINOPSIS"]);
                 $first_part = implode(" ", array_splice($sinopsis_pendek, 0, 10));
