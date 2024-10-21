@@ -161,6 +161,7 @@ class IsbnDataController extends Controller
                     case '5': $jenis_media = 'Audio Visual Book'; break;
                     default: $jenis_media = ''; break;
                 }
+                $link = (str_contains($val['LINK_BUKU'], 'https://') || str_contains($val['LINK_BUKU'], 'http://')) ? $val['LINK_BUKU'] : ($val['LINK_BUKU'] ? "https://" . $val['LINK_BUKU'] : "");
                 $response['data'][] = [
                     $nomor,
                     '<a class="btn btn-info m-0 fs-8 p-2" onclick="cetakBarcode('.$val['ISBN_NO'].')">Barcode</a>' .$kdt, //<a class="badge btn-primary h-30px m-1" onClick="cetakKDT()">KDT</a>',
@@ -168,7 +169,7 @@ class IsbnDataController extends Controller
                     $val['TITLE'] . "<br/>$jenis $source <span class='text-success'><i>$jenis_media</i></span>",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
                     $val['BULAN_TERBIT'] .' ' . $val['TAHUN_TERBIT'],
-                    '<a href="'.$val['LINK_BUKU'].'">' . $val['LINK_BUKU'] . '</a>',
+                    '<a href="'.$link.'">' . $link . '</a>',
                     $val['MOHON_DATE'],
                     $val['ACCEPTDATE'],
                     $val['RECEIVED_DATE_KCKR'] ? $val['RECEIVED_DATE_KCKR'] : '<a class="badge badge-danger wrap" href="https://edeposit.perpusnas.go.id/login" target="_blank">Serahkan ke Perpusnas</a>',
