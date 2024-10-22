@@ -1456,6 +1456,11 @@
                     }
         });
     });
+    var resetAllField = function(){
+        $('textarea').val('');
+        $('input[type=radio]').prop('checked', false);
+        $('input[type=text]').val('');
+    }
     var kepengarangan = 1;
     $('#isbn-jilid').on("change", function(){
         $.getJSON("{{url('/penerbit/isbn/permohonan/detail-jilid') }}" + "/" +$(this).val(), function (res) {
@@ -1504,20 +1509,20 @@
                 kepengarangan += 1;
             }
             var jenis_media = res['detail']['JENIS_MEDIA'];
-            var jenis_terbitan = res['detail']['JENIS_TERBITAN'];
-            var jenis_penelitian = res['detail']['JENIS_PENELITIAN'];
+            //var jenis_terbitan = res['detail']['JENIS_TERBITAN'];
+            //var jenis_penelitian = res['detail']['JENIS_PENELITIAN'];
             var jenis_kategori = res['detail']['JENIS_KATEGORI'];
             var jenis_pustaka = res['detail']['JENIS_PUSTAKA'];
             var jenis_kelompok = res['detail']['JENIS_KELOMPOK'];
             if(jenis_media != ''){
                 $('input[type=radio][name="jenis_media"][value="'+jenis_media+'"]').prop('checked', true);
             }
-            if(jenis_terbitan != ''){
-                $('input[type=radio][name="jenis_terbitan"][value="'+jenis_terbitan+'"]').prop('checked', true);
-            }
-            if(jenis_penelitian != ''){
-                $('input[type=radio][name="jenis_penelitian"][value="'+jenis_penelitian+'"]').prop('checked', true);
-            }
+            //if(jenis_terbitan != ''){
+            //    $('input[type=radio][name="jenis_terbitan"][value="'+jenis_terbitan+'"]').prop('checked', true);
+            //}
+            //if(jenis_penelitian != ''){
+            //    $('input[type=radio][name="jenis_penelitian"][value="'+jenis_penelitian+'"]').prop('checked', true);
+           // }
             if(jenis_kategori != ''){
                 $('input[type=radio][name="jenis_kategori"][value="'+jenis_kategori+'"]').prop('checked', true);
             }
@@ -1578,6 +1583,7 @@
             $('#jml_hlm').removeAttr("disabled");
             $('#row-isbnjilid').hide();
             $('#isbn-jilid').val('').trigger('change');
+            resetAllField();
         } else {
             $('#judul_buku_1').css('display', 'block');
             $('#btnTambahJilid').css('display', 'block');
