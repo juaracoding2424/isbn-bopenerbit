@@ -185,7 +185,7 @@
                                                     <!--begin::Col-->
                                                     <div id="kepengarangan_0" class="row">
                                                         <div class="col-lg-4 fv-row mb-1">
-                                                            <select name="authorRole[]" class="select2 form-select fs-8">
+                                                            <select name="authorRole[]" class="select2 form-select fs-8" id="authorRole0">
                                                                 <option selected="selected">penulis</option>
                                                                 <option>alih aksara</option>
                                                                 <option>alih bahasa</option>
@@ -1468,7 +1468,7 @@
             var kepeng  = res['detail']['KEPENG'].replace(/(\r\n|\n|\r)/gm, "");;
             var kepengs = kepeng.split(";");
             if(kepengs[0].includes(',')){
-                $('#authorRole0').val(kepengs[0].split(',')[0]);
+                $('#authorRole0').val(kepengs[0].split(',')[0].toLowerCase().trim());
                 $('#namaPengarang0').val((kepengs[0].split(',').slice(1)).join(', '));
             }else {
                 $('#authorRole0').val('penulis');
