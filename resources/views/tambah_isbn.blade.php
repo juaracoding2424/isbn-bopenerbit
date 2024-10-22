@@ -196,7 +196,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-lg-6 fv-row mb-1">
-                                                            <input type="text" name="namaPengarang[]"
+                                                            <input type="text" name="namaPengarang[]" id="namaPengarang0"
                                                                 class="form-control fs-8 form-control-lg"
                                                                 placeholder="Nama orang" value="" />
                                                         </div>
