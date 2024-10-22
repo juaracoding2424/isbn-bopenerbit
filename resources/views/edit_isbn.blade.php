@@ -1304,7 +1304,7 @@
     }
     $('input[type=hidden][name="tempat_terbit"]').val('{{$detail['TEMPAT_TERBIT']}}');
     if(jilid_lepas == 'lepas'){
-        $('#jml_hlm').attr("type","text").val(parseInt("{{$detail['JML_HLM']}}"));
+        $('#jml_hlm').attr("type","text").val("{{$detail['JML_HLM']}}");
         $('input[type=radio][name="status"][value="'+jilid_lepas+'"]').prop('checked', true);
         $('#judul_buku_1').css('display', 'none');
         $('#btnTambahJilid').css('display', 'none');

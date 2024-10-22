@@ -1348,7 +1348,7 @@
                 </label>
                 <div class="col-lg-9 fv-row">
                     <input type="text" name="url[]" class="form-control fs-8 form-control-lg form-control-solid link_buku`+ idJilid + `"
-                        placeholder="url/link buku" />
+                        placeholder="url/link buku, contoh: http://example.com" />
                 </div>
                 <div class="col-lg-3 fv-row hapusJilid">
                     <span class="btn btn-danger active p-2 fs-8">Hapus Jilid</span>
