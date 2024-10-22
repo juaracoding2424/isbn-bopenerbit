@@ -156,6 +156,7 @@ class IsbnPermohonanController extends Controller
 
     function submit(Request $request)
     {
+        \Log::info($request->all());
         $penerbit = session('penerbit');
         try{   
             if(session('penerbit')['IS_LOCK'] != '1') {
@@ -534,7 +535,7 @@ class IsbnPermohonanController extends Controller
                                     'actionby' => session('penerbit')['USERNAME'],
                                     'terminal' => \Request::ip()
                                 ];
-                                kurl("post", "deletefilelampiran",'', '', $params);
+                                kurl("post", "deletefilelampiran",'', '', '',$params);
                             }
                         }
                         if(request('penerbit_terbitan_id') != '' && isset($request->input('file_cover')[0])){
@@ -545,7 +546,7 @@ class IsbnPermohonanController extends Controller
                                     'actionby' => session('penerbit')['USERNAME'],
                                     'terminal' => \Request::ip()
                                 ];
-                                kurl("post", "deletefilelampiran",'', '', $params);
+                                kurl("post", "deletefilelampiran",'', '','', $params);
                             }
                         }
                         //if(request('penerbit_isbn_masalah_id' != '')) {
@@ -561,7 +562,7 @@ class IsbnPermohonanController extends Controller
                                         'actionby' => session('penerbit')['USERNAME'],
                                         'terminal' => \Request::ip()
                                     ];
-                                    kurl("post", "deletefilelampiran",'', '', $params);
+                                    kurl("post", "deletefilelampiran",'', '','', $params);
                                 }
                             }
                             $call_func = $this->upload_file($file, $penerbit, $id, \Request::ip(), '', $id_resi);    
@@ -587,7 +588,7 @@ class IsbnPermohonanController extends Controller
                                         'actionby' => session('penerbit')['USERNAME'],
                                         'terminal' => \Request::ip()
                                     ];
-                                    kurl("post", "deletefilelampiran",'', '', $params);
+                                    kurl("post", "deletefilelampiran",'', '','', $params);
                                 }
                             }
                             if(request('penerbit_terbitan_id') != '' && isset($request->input('file_cover')[$i - $start])){
@@ -598,7 +599,7 @@ class IsbnPermohonanController extends Controller
                                         'actionby' => session('penerbit')['USERNAME'],
                                         'terminal' => \Request::ip()
                                     ];
-                                    kurl("post", "deletefilelampiran",'', '', $params);
+                                    kurl("post", "deletefilelampiran",'', '','', $params);
                                 }
                             }
                             //if(request('penerbit_isbn_masalah_id' != '')) {
@@ -614,7 +615,7 @@ class IsbnPermohonanController extends Controller
                                             'actionby' => session('penerbit')['USERNAME'],
                                             'terminal' => \Request::ip()
                                         ];
-                                        kurl("post", "deletefilelampiran",'', '', $params);
+                                        kurl("post", "deletefilelampiran",'', '', '', $params);
                                     }
                                 }
                                 $keterangan = "jilid " . $i + 1;   
