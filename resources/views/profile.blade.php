@@ -433,14 +433,14 @@
 														<!--begin::Label-->
 														<label class="col-lg-2 col-form-label fw-semibold fs-8">
 															<span class="">Alamat Website</span>
-															<span class="ms-1" data-bs-toggle="tooltip" title="alamat website">
+															<span class="ms-1" data-bs-toggle="tooltip" title="alamat website" >
 																<i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
 															</span>
 														</label>
 														<!--end::Label-->
 														<!--begin::Col-->
 														<div class="col-lg-8 fv-row">
-															<input type="text" name="website" class="form-control form-control-lg form-control-solid fs-8" placeholder="Website" value="" />
+															<input type="text" name="website" class="form-control form-control-lg form-control-solid fs-8" placeholder="Website perusahaan/kantor, contoh: http://example.com" value="" />
 														</div>
 														<!--end::Col-->
 													</div>
