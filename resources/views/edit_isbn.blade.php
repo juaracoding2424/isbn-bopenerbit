@@ -63,10 +63,12 @@
                                     <i class="ki-solid ki-shield-cross fs-4hx text-danger me-4"><span
                                             class="path1"></span><span class="path2"></span></i>
                                     <div class="rounded border p-10  d-flex flex-column">
+                                        @foreach($masalah["Data"]["Items"] as $m)
                                         <div class="d-flex flex-column">
-                                            <h2 class="mb-1 text-danger">Detail masalah</h2><small>{!! $masalah["Data"]["Items"][0]["CREATEDATE"] !!}</small>
-                                                <p>{!! $masalah["Data"]["Items"][0]["ISI"] !!}</p>
+                                            <h2 class="mb-1 text-danger">Detail masalah</h2><small>{!! $m["CREATEDATE"] !!}</small>
+                                                <p>{!! $m["ISI"] !!}</p>
                                         </div>
+                                        @endforeach
                                     </div>
                                 </div>
                                 @endif
