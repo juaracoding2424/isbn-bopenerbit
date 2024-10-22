@@ -37,7 +37,7 @@ class IsbnPermohonanController extends Controller
         $end = $start + $length;
 
         $sql  = "SELECT ir.id, pt.title, pt.author, pt.kepeng,pt.bulan_terbit, pt.tahun_terbit, ir.noresi, ir.createdate, 
-                        ir.mohon_date, ir.jml_jilid_req, ir.jenis, ir.status, ir.source , pt.jenis_media 
+                        ir.mohon_date, ir.jml_jilid_req, ir.jenis, ir.status, ir.source , pt.jenis_media, pt.pengajuan_kdt
                     FROM ISBN_RESI ir 
                     JOIN PENERBIT_TERBITAN pt  ON ir.penerbit_terbitan_id = pt.id  
                     WHERE pt.PENERBIT_ID='$id' AND (ir.status='' OR ir.status='permohonan' OR ir.status is NULL OR ir.status='lanjutan') ";
@@ -116,6 +116,7 @@ class IsbnPermohonanController extends Controller
                     $noresi ."<br/>" .$source,
                     $val['TITLE'] . "<br/>$jenis <span class='text-success'><i>$jenis_media</i></span>",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
+                    $val['PENGAJUAN_KDT'] == '1'? 'YA' : 'TIDAK',
                     $val['BULAN_TERBIT'] . ' ' .$val['TAHUN_TERBIT'],
                     $val['MOHON_DATE']  
                 ];

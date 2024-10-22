@@ -141,8 +141,9 @@
 										<th class="text-start min-w-60px pe-2">No</th>
 										<th class="min-w-100px">Actions</th>	
 										<th class="min-w-150px">NORESI</th>
-										<th class="min-w-200px">Judul</th>
-										<th class="min-w-200px">Kepengarangan</th>
+										<th class="min-w-175px">Judul</th>
+										<th class="min-w-175px">Kepengarangan</th>
+										<th class="min-w-50px">KDT?</th>
 										<th class="min-w-175px">Bulan/Tahun Terbit</th>
 										<th class="min-w-175px">Tanggal Permohonan</th>
 									</tr>
