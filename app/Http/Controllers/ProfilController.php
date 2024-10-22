@@ -167,7 +167,7 @@ class ProfilController extends Controller
                             'CITY_ID' => $penerbit['CITY_ID'],
                             'DISTRICT_ID' => $penerbit['DISTRICT_ID'],
                             'VILLAGE_ID' => $penerbit['VILLAGE_ID'],
-                            'GROUP' => $semua_id_penerbit,
+                            'GROUP' => session('penerbit')['GROUP'],
                             'IS_LOCK' => $penerbit['IS_LOCK']
                     ]]);
                 } else {
