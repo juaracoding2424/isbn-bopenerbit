@@ -742,7 +742,7 @@
                                                 <!--end::Label-->
                                                 <!--begin::Col-->
                                                 <div class="col-xl-2 col-lg-9 fv-row">
-                                                    <input type="number" name="jml_hlm" id="jml_hlm"
+                                                    <input type="text" name="jml_hlm" id="jml_hlm"
                                                         class="form-control fs-8 form-control-lg form-control-solid"
                                                         placeholder="Jumlah Halaman" value="" />
                                                 </div>
