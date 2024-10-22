@@ -718,6 +718,13 @@
                                 }
                             }
                         },
+						website: {
+                            validators: {
+                                uri: {
+                                    message: "Alamat website tidak valid!"
+                                }
+                            }
+                        },
                     },
                     plugins: {
                         trigger: new FormValidation.plugins.Trigger,
