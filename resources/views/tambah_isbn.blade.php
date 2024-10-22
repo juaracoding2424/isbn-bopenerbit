@@ -622,7 +622,7 @@
                                         <div class="row mb-2">
                                             <!--begin::Label-->
                                             <label class="col-lg-3 col-form-label fs-8 fw-semibold fs-8">
-                                                <span class="required">Perkiraan bulan dan tahun terbit</span>
+                                                <span >Perkiraan bulan dan tahun terbit</span>
                                                 <span class="ms-1" data-bs-toggle="tooltip"
                                                     title="Isi perkiraan tanggal terbit">
                                                     <i class="ki-outline ki-information-5 text-gray-500 fs-8"></i>
@@ -908,7 +908,7 @@
                                                 <div class="col-lg-9 fv-row">
                                                     <input type="text" name="url[]"
                                                         class="form-control fs-8 form-control-lg form-control-solid"
-                                                        placeholder="url/link buku" />
+                                                        placeholder="contoh: http://" />
                                                 </div>
                                                 <div class="col-lg-3 fv-row" id="btnTambahJilid">
                                                     <span class="btn btn-success p-2 fs-8">Tambah Jilid</span>
@@ -1555,6 +1555,7 @@
             $('#btnTambahJilid').css('display', 'block');
             $('#labelJumlahHalaman').text('Jumlah Jilid');
             $('#labelKetJumlahHalaman').text('Jilid');
+            $('#keterangan_jilid_1').val('jilid '+jumlah_buku);
 	    });
     });
 
