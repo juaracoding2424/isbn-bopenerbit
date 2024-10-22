@@ -199,7 +199,7 @@
 										<th class="min-w-200px">Judul</th>
 										<th class="min-w-200px">Kepengarangan</th>
 										<th class="min-w-200px">Bulan/Tahun Terbit</th>
-										<th class="min-w-100px">Link Buku</th>
+										<th class="min-w-150px">Link Buku</th>
 										<th class="min-w-200px">Tanggal Permohonan</th>
 										<th class="min-w-200px">Tanggal Verifikasi</th>
 										<th class="min-w-200px">Penyerahan Perpusnas</th>
@@ -364,6 +364,66 @@
 	var t;
 	var group = "{{session('penerbit')['GROUP']}}";
 	var p_id = "{{session('penerbit')['ID']}}";
+	var editLink = function(id){
+		console.log( $('#txtLink_'+id).val());
+		$.ajax({
+					url :'{{ url('/penerbit/isbn/data/change-link') }}' + '/' + id,
+					//dataType: 'json',
+					//contentType:  'application/json',
+					async:false,
+					method: 'POST',
+					data: {
+						link_buku: $('#txtLink_'+id).val()
+					},
+					beforeSend: function(){
+						$('.loader').css('display','block');
+					},
+					complete: function(){
+						$('.loader').css('display','none');
+					},
+					statusCode: {
+								422: function(xhr) {
+									var error = '<div class="alert alert-danger d-flex align-items-center p-5 mb-10"><div class="d-flex flex-column" style="text-align: left;"><ul>';
+									$.each(xhr.responseJSON.err, function(key, value){
+										error+='<li>'+value[0]+'</li>';
+									}); 
+									error+='</ul></div></div>';
+									Swal.fire({
+											title: "Validation Error!",
+											html: error,
+											buttonsStyling: !1,
+											confirmButtonText: "Ok!",
+											width: '800px',
+											heightAuto:false,
+											height: '800px',
+											customClass: { 
+												confirmButton: "btn fw-bold btn-primary",
+												content: "swal-height"
+											}
+										});
+								},
+								200: function(xhr) {
+									$('#txtLink_'+id).css('color', 'red').css('italic', 'true');
+									setTimeout(function(){
+										$('#txtLink_'+id).css("color", "");
+										refreshHistory();
+									}, 1000);
+									
+								},
+								500: function(xhr) {
+									Swal.fire({
+											text: xhr.responseJSON.message,
+											icon: "failed",
+											buttonsStyling: !1,
+											confirmButtonText: "Ok!",
+											customClass: {
+												confirmButton: "btn fw-bold btn-danger"
+												}
+										});
+								},
+					}
+			});
+	}
 	var loadDataTable = function(){
 		let selectParameter = $('select[name="selectParameter"] option:selected').map(function() {
 											return $(this).val();

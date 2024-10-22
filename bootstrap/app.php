@@ -33,7 +33,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'page/redirect',
             'penerbit/isbn/permohonan/check/title',
             'penerbit/isbn/permohonan/check/bulan-terbit-min',
-            'penerbit/isbn/permohonan/check/tahun-terbit-min' // <-- exclude this route
+            'penerbit/isbn/permohonan/check/tahun-terbit-min',
+            'penerbit/isbn/data/change-link/*', // <-- exclude this route
         ]);
 
         $middleware->append(\App\Http\Middleware\RedirectIfAuthenticated::class);

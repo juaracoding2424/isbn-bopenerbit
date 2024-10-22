@@ -133,7 +133,7 @@ class IsbnDataController extends Controller
         if($length == '-1'){
             $end = $totalData;
         }
-        \Log::info("SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql )  inner WHERE rownum <=$end) outer WHERE rn >$start");
+        //\Log::info("SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql )  inner WHERE rownum <=$end) outer WHERE rn >$start");
         $queryData = kurl("get","getlistraw", "", "SELECT outer.* FROM (SELECT ROWNUM rn, inner.* FROM ($sql )  inner WHERE rownum <=$end) outer WHERE rn >$start", 'sql', '')["Data"]["Items"];
     
         $totalFiltered = kurl("get","getlistraw", "", "SELECT COUNT(*) JUMLAH FROM ($sqlFiltered )", 'sql', '')["Data"]["Items"][0]["JUMLAH"];
@@ -169,7 +169,7 @@ class IsbnDataController extends Controller
                     $val['TITLE'] . "<br/>$jenis $source <span class='text-success'><i>$jenis_media</i></span>",
                     $val['AUTHOR'] ? $val['AUTHOR'] . ', pengarang; ' . $val['KEPENG'] : $val['KEPENG'],
                     $val['BULAN_TERBIT'] .' ' . $val['TAHUN_TERBIT'],
-                    '<a href="'.$link.'">' . $link . '</a>',
+                    '<input type="text" class="txtLink p-2" id="txtLink_'.$val['PIID'].'" value="'.$val['LINK_BUKU'].'" onChange="editLink('.$val['PIID'].')" style="border:none"/>',
                     $val['MOHON_DATE'],
                     $val['ACCEPTDATE'],
                     $val['RECEIVED_DATE_KCKR'] ? $val['RECEIVED_DATE_KCKR'] : '<a class="badge badge-danger wrap" href="https://edeposit.perpusnas.go.id/login" target="_blank">Serahkan ke Perpusnas</a>',
@@ -290,8 +290,7 @@ class IsbnDataController extends Controller
     }
 
     function generateBarcode($id)
-    {
-        
+    {  
         $queryData = kurl("get","getlistraw", "", "SELECT pi.*, pt.jml_jilid FROM PENERBIT_ISBN pi 
                             JOIN PENERBIT_TERBITAN pt ON pi.penerbit_terbitan_id = pt.id 
                             WHERE pi.ISBN_NO='$id' ", 'sql', '')["Data"]["Items"][0];
@@ -313,5 +312,17 @@ class IsbnDataController extends Controller
             "jml_jilid" => $count,
         ]) ;
     }
+    function changeLink(Request $request, $id )
+    {
+    
+        $ListData = [
+            [ "name"    =>"LINK_BUKU", "Value"=> request('link_buku') ],
+            [ "name"    =>"UPDATEBY", "Value" => session('penerbit')["USERNAME"]]
+        ];
 
+        $res =  Http::post(config('app.inlis_api_url') ."?token=" . config('app.inlis_api_token')."&op=update&table=PENERBIT_ISBN&id=$id&issavehistory=1&ListUpdateItem=" . urlencode(json_encode($ListData)));
+        return response()->json([
+            'message' => 'Success'
+        ]) ;
+    }
 }

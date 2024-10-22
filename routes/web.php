@@ -36,6 +36,7 @@ Route::group(['middleware' => ProtectLoginMiddleware::class], function () {
         Route::get('penerbit/isbn/data/kdt/{id}', [IsbnDataController::class, 'viewPDF']);
         
         Route::get('penerbit/isbn/data/generate-barcode/{id}', [IsbnDataController::class, 'generateBarcode']);
+        Route::post('penerbit/isbn/data/change-link/{id}', [IsbnDataController::class, 'changeLink']);
 
         Route::get('penerbit/kdt/data', [KDTController::class, 'index']);
         Route::get('penerbit/kdt/data/datatable', [KDTController::class, 'datatable']);
