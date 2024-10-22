@@ -67,10 +67,14 @@ class AppServiceProvider extends ServiceProvider
             }
         });
         \Validator::extend('bulan_terbit_min', function ($attribute, $value, $parameters, $validator) {
-            if(strtotime(date('Y-m')) <= strtotime(str($parameters[0]) .'-'. str($value))){
-                return true;
+            if($value != ""){
+                if(strtotime(date('Y-m')) <= strtotime(str($parameters[0]) .'-'. str($value))){
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
-                return false;
+                return true;
             }
         });
     }
