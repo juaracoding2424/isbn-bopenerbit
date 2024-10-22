@@ -1456,6 +1456,7 @@
                     }
         });
     });
+    var kepengarangan = 1;
     $('#isbn-jilid').on("change", function(){
         $.getJSON("{{url('/penerbit/isbn/permohonan/detail-jilid') }}" + "/" +$(this).val(), function (res) {
             $('textarea[name=title]').val(res['detail']['TITLE']);
@@ -1500,6 +1501,7 @@
                     $('#kepengarangan').append(htmlAppend);
                     $('#authorRole'+i).val('penulis');
                 } 
+                kepengarangan += 1;
             }
             var jenis_media = res['detail']['JENIS_MEDIA'];
             var jenis_terbitan = res['detail']['JENIS_TERBITAN'];
@@ -1590,7 +1592,7 @@
     $('#row-isbnjilid').hide();
     $('#judul_buku_1').css('display', 'none');
     $('#btnTambahJilid').css('display', 'none');
-    var kepengarangan = 1;
+
     var jumlah_buku = 1;
     $('#btnTambahPengarang').on("click", function () {
         let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
