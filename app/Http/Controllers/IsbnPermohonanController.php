@@ -156,7 +156,7 @@ class IsbnPermohonanController extends Controller
 
     function submit(Request $request)
     {
-        \Log::info($request->all());
+        //\Log::info($request->all());
         $penerbit = session('penerbit');
         try{   
             if(session('penerbit')['IS_LOCK'] != '1') {

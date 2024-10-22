@@ -123,9 +123,9 @@ function kurl_upload_file_penerbit($method, $op, $penerbit, $jenis, $file, $ip_u
             'filename' => $file->getClientOriginalName(),
         ],
     ];
-    \Log::info($params);
+    //\Log::info($params);
     $response = Http::asMultipart()->$method(config('app.inlis_api_url'), $params );
-    \Log::info($response);
+    //\Log::info($response);
     if ($response->successful()) {
         $data = $response->json();
         return $data;
