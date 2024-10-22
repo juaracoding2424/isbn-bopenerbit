@@ -187,12 +187,15 @@
                                                         <div class="col-lg-4 fv-row mb-1">
                                                             <select name="authorRole[]" class="select2 form-select fs-8">
                                                                 <option selected="selected">penulis</option>
+                                                                <option>alih aksara</option>
+                                                                <option>alih bahasa</option>
+                                                                <option>desain sampul</option>
+                                                                <option>editor</option>
+                                                                <option>ilustrator</option>
+                                                                <option>pemeriksa akhir</option>
+                                                                <option>penerjemah</option>
                                                                 <option>penyunting</option>
                                                                 <option>penyusun</option>
-                                                                <option>editor</option>
-                                                                <option>alih bahasa</option>
-                                                                <option>ilustrator</option>
-                                                                <option>desain sampul</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-lg-6 fv-row mb-1">
@@ -1456,7 +1459,7 @@
     $('#isbn-jilid').on("change", function(){
         $.getJSON("{{url('/penerbit/isbn/permohonan/detail-jilid') }}" + "/" +$(this).val(), function (res) {
             $('textarea[name=title]').val(res['detail']['TITLE']);
-            var kepeng =res['detail']['KEPENG'];
+            var kepeng  = res['detail']['KEPENG'].replace(/(\r\n|\n|\r)/gm, "");;
             var kepengs = kepeng.split(";");
             if(kepengs[0].includes(',')){
                 $('#authorRole0').val(kepengs[0].split(',')[0]);
@@ -1468,32 +1471,33 @@
             for(var i = 1; i < kepengs.length; i++){
                 if(kepengs[i].includes(',')){
                     let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
-                        '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select fs-8 id="authorRole'+i+'">';
+                        '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select fs-8" id="authorRole'+i+'">';
                     htmlAppend +=
-                        '<option selected="">penulis</option><option>penyunting</option><option>penyusun</option><option>editor</option>';
+                        '<option>penulis</option><option>penyunting</option><option>penyusun</option><option>editor</option>';
                     htmlAppend +=
-                        '<option>alih bahasa</option><option>ilustrator</option><option>desain sampul</option></select></div>';
+                        '<option>alih aksara</option><option>alih bahasa</option><option>ilustrator</option><option>desain sampul</option></select></div>';
                     htmlAppend +=
                         '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control fs-8 form-control-lg form-control-solid" placeholder="Nama orang" value="'+kepengs[i].split(',')[1]+'" /></div>';
                     htmlAppend +=
                         '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger" onclick="deleteKepengarangan(' +
                         kepengarangan + ')"><i class="ki-outline ki-trash" ></i></span></div></div>';
                     $('#kepengarangan').append(htmlAppend);
-                    $('#authorRole'+i).val('penulis');
+                    $('#authorRole'+i).val(kepengs[i].split(',')[0].toLowerCase().trim());
+                    
                 }else {
                     let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
-                        '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select fs-8 id="authorRole'+i+'">';
+                        '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select fs-8" id="authorRole'+i+'">';
                     htmlAppend +=
                         '<option selected="">penulis</option><option>penyunting</option><option>penyusun</option><option>editor</option>';
                     htmlAppend +=
-                        '<option>alih bahasa</option><option>ilustrator</option><option>desain sampul</option></select></div>';
+                        '<option>alih aksara</option><option>alih bahasa</option><option>ilustrator</option><option>desain sampul</option></select></div>';
                     htmlAppend +=
                         '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control fs-8 form-control-lg form-control-solid" placeholder="Nama orang" value="'+kepengs[i]+'" /></div>';
                     htmlAppend +=
                         '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger" onclick="deleteKepengarangan(' +
                         kepengarangan + ')"><i class="ki-outline ki-trash" ></i></span></div></div>';
                     $('#kepengarangan').append(htmlAppend);
-                    $('#authorRole'+i).val(kepengs[i].split(',')[0]);
+                    $('#authorRole'+i).val('penulis');
                 } 
             }
             var jenis_media = res['detail']['JENIS_MEDIA'];

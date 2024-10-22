@@ -117,6 +117,7 @@
                                                         <div class="col-lg-4 fv-row mb-1">
                                                             <select name="authorRole[]" class="select2 form-select fs-8" id="authorRole0">
                                                                 <option selected="selected">penulis</option>
+                                                                <option>alih aksara</option>
                                                                 <option>alih bahasa</option>
                                                                 <option>desain sampul</option>
                                                                 <option>editor</option>
@@ -1238,7 +1239,7 @@
     for(var i = 1; i < kepengs.length; i++){
         if(kepengs[i].includes(',')){
             let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
-                '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select fs-8" id="authorRole'+i+'">';
+                '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select fs-8" id="authorRole'+i+'"><option>alih aksara</option>';
             htmlAppend +=
                 '<option>alih bahasa</option><option>desain sampul</option><option>editor</option><option>ilustrator</option><option>pemeriksa akhir</option>';
             htmlAppend +=
@@ -1249,12 +1250,12 @@
                 '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger delKepeng" onclick="deleteKepengarangan(' +
                 kepengarangan + ')"><i class="ki-outline ki-trash" ></i></span></div></div>';
             $('#kepengarangan').append(htmlAppend);
-            $('#authorRole'+i).val(kepengs[i].split(',')[0].toLowerCase());
+            $('#authorRole'+i).val(kepengs[i].split(',')[0].toLowerCase().trim());
         }else {
             let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
                 '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select fs-8" id="authorRole'+i+'">';
             htmlAppend +=
-                '<option>alih bahasa</option><option>desain sampul</option><option>editor</option><option>ilustrator</option><option>pemeriksa akhir</option>';
+                '<option>alih aksara</option><option>alih bahasa</option><option>desain sampul</option><option>editor</option><option>ilustrator</option><option>pemeriksa akhir</option>';
             htmlAppend +=
                 '<option selected="">penulis</option><option>penerjemah</option><option>penyunting</option><option>penyusun</option></select></div>';
             htmlAppend +=
