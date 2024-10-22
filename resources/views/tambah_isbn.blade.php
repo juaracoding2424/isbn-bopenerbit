@@ -1463,13 +1463,14 @@
             var kepengs = kepeng.split(";");
             if(kepengs[0].includes(',')){
                 $('#authorRole0').val(kepengs[0].split(',')[0]);
-                $('#namaPengarang0').val(kepengs[0].split(',')[1]);
+                $('#namaPengarang0').val((kepengs[0].split(',').slice(1)).join(', '));
             }else {
                 $('#authorRole0').val('penulis');
                 $('#namaPengarang0').val(kepengs[0]);
             }
             for(var i = 1; i < kepengs.length; i++){
                 if(kepengs[i].includes(',')){
+                    let nama_orang =(kepengs[i].split(',').slice(1)).join(', ');
                     let htmlAppend = '<div id="kepengarangan_' + kepengarangan +
                         '" class="row"><div class="col-lg-4 fv-row mb-1"><select name="authorRole[]" class="select2 form-select fs-8" id="authorRole'+i+'">';
                     htmlAppend +=
@@ -1477,7 +1478,7 @@
                     htmlAppend +=
                         '<option>alih aksara</option><option>alih bahasa</option><option>ilustrator</option><option>desain sampul</option></select></div>';
                     htmlAppend +=
-                        '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control fs-8 form-control-lg form-control-solid" placeholder="Nama orang" value="'+kepengs[i].split(',')[1]+'" /></div>';
+                        '<div class="col-lg-6 fv-row mb-1"><input type="text" name="namaPengarang[]" class="form-control fs-8 form-control-lg form-control-solid" placeholder="Nama orang" value="'+nama_orang+'" /></div>';
                     htmlAppend +=
                         '<div class="col-lg-2 fv-row mb-1"><span class="btn btn-light-danger" onclick="deleteKepengarangan(' +
                         kepengarangan + ')"><i class="ki-outline ki-trash" ></i></span></div></div>';
