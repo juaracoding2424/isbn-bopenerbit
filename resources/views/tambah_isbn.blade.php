@@ -1458,7 +1458,7 @@
     });
     var resetAllField = function(){
         $('textarea').val('');
-        $('input[type=radio]').prop('checked', false);
+        //$('input[type=radio]').prop('checked', false);
         $('input[type=text]').val('');
     }
     var kepengarangan = 1;
